@@ -8,15 +8,12 @@ public class UserInfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String userName;
-	private String password;
-	private LocalDateTime lastLoginTime;
+	private String userPwd;
 	private boolean isActive;
 	private boolean isDelete;
-	private LocalDateTime createDateTime;
+	private LocalDateTime lastLoginDateTime;
 	private int createUserId;
-	private LocalDateTime modifyDateTime;
-	private int modifyUserId;
-	
+	private LocalDateTime createDateTime;
 	public int getId() {
 		return id;
 	}
@@ -29,17 +26,11 @@ public class UserInfoEntity implements Serializable {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getPassword() {
-		return password;
+	public String getUserPwd() {
+		return userPwd;
 	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public LocalDateTime getLastLoginTime() {
-		return lastLoginTime;
-	}
-	public void setLastLoginTime(LocalDateTime lastLoginTime) {
-		this.lastLoginTime = lastLoginTime;
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
 	}
 	public boolean isActive() {
 		return isActive;
@@ -53,6 +44,12 @@ public class UserInfoEntity implements Serializable {
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
 	}
+	public LocalDateTime getLastLoginDateTime() {
+		return lastLoginDateTime;
+	}
+	public void setLastLoginDateTime(LocalDateTime lastLoginDateTime) {
+		this.lastLoginDateTime = lastLoginDateTime;
+	}
 	public LocalDateTime getCreateDateTime() {
 		return createDateTime;
 	}
@@ -65,24 +62,10 @@ public class UserInfoEntity implements Serializable {
 	public void setCreateUserId(int createUserId) {
 		this.createUserId = createUserId;
 	}
-	public LocalDateTime getModifyDateTime() {
-		return modifyDateTime;
-	}
-	public void setModifyDateTime(LocalDateTime modifyDateTime) {
-		this.modifyDateTime = modifyDateTime;
-	}
-	public int getModifyUserId() {
-		return modifyUserId;
-	}
-	public void setModifyUserId(int modifyUserId) {
-		this.modifyUserId = modifyUserId;
-	}
-	
 	@Override
 	public String toString() {
 		return String.format(
-				"UserInfo [id=%s, userName=%s, password=%s, lastLoginTime=%s, isActive=%s, isDelete=%s, createDateTime=%s, createUserId=%s, modifyDateTime=%s, modifyUserId=%s]",
-				id, userName, password, lastLoginTime, isActive, isDelete, createDateTime, createUserId, modifyDateTime,
-				modifyUserId);
+				"UserInfoEntity [id=%s, userName=%s, userPwd=%s, isActive=%s, isDelete=%s, lastLoginDateTime=%s, createDateTime=%s, createUserId=%s]",
+				id, userName, userPwd, isActive, isDelete, lastLoginDateTime, createDateTime, createUserId);
 	}
 }
