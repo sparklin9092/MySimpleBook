@@ -3,8 +3,8 @@
 <html>
 <head>
 	<jsp:include page="include/header.jsp"></jsp:include>
-	<link rel="stylesheet" href="./css/account.css">
-	<script type="text/javascript" src="./js/account.js"></script>
+	<link rel="stylesheet" href="css/account.css">
+	<script type="text/javascript" src="js/account.js"></script>
 </head>
 <body>
 	<jsp:include page="include/menuBar.jsp"></jsp:include>
