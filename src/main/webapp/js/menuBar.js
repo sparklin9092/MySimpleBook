@@ -5,5 +5,5 @@ $(function() {
 
 function logoutAct() {
 	
-	location.href = 'logout';
+	location.href = '/logout';
 }
