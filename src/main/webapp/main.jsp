@@ -10,9 +10,9 @@
 	<jsp:include page="include/menuBar.jsp"></jsp:include>
 	<div class="container-fluid">
 		<div class="container-xl">
-			<div class="text-center">
+			<h3 class="text-center">
 				首頁通知
-			</div>
+			</h3>
 		</div>
 	</div>
 </body>
