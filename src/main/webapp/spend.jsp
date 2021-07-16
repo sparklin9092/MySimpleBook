@@ -14,25 +14,15 @@
 				<h3>新增一筆支出</h3>
 				<div class="input-group mb-3">
 					<span class="input-group-text">日期</span>
-					<input type="date" class="form-control">
+					<input type="text" class="form-control" id="spendDatePicker" name="spendDate">
 				</div>
 				<div class="input-group mb-3">
 					<label class="input-group-text" for="spendItemSelect">項目</label>
-					<select class="form-select" id="spendItemSelect">
-						<option selected>Choose...</option>
-						<option value="1">One</option>
-						<option value="2">Two</option>
-						<option value="3">Three</option>
-					</select>
+					<select class="form-select" id="spendItemSelect"></select>
 				</div>
 				<div class="input-group mb-3">
 					<label class="input-group-text" for="spendItemSelect">帳戶</label>
-					<select class="form-select" id="spendItemSelect">
-						<option selected>Choose...</option>
-						<option value="1">One</option>
-						<option value="2">Two</option>
-						<option value="3">Three</option>
-					</select>
+					<select class="form-select" id="accountItemSelect"></select>
 				</div>
 				<div class="input-group mb-3">
 					<span class="input-group-text">金額</span>
