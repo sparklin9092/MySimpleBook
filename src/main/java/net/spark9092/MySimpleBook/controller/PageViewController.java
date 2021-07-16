@@ -48,4 +48,18 @@ public class PageViewController {
 
 		return mv;
 	}
+
+	/**
+	 * 帳戶管理
+	 * @return
+	 */
+	@GetMapping("account")
+	public ModelAndView account() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "account";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
 }
