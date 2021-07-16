@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark menu-color">
 	<div class="container-xl py-3">
 		<a class="navbar-brand menu-title" href="main">我的記帳本</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuList" aria-controls="menuList" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,7 @@
 					</ul>
 				</li>
 			</ul>
-			<button type="botton" class="btn btn-outline-danger btn-lg" id="logout" name="logout">登出</button>
+			<button type="botton" class="btn btn-danger btn-lg" id="logout" name="logout">登出</button>
 		</div>
 	</div>
 </nav>
