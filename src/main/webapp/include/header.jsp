@@ -10,4 +10,6 @@
 <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="./js/datepicker-zh-TW.js"></script>
 <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/moment-with-locales.js"></script>
+
 <title>我的記帳本</title>
