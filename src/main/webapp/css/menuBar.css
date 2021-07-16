@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.menu-title {
+	font-size: 2rem;
+}
+
+.menu-item {
+	font-size: 1.5rem;
+}
+
+.menu-sub-item {
+	font-size: 1rem;
+}
