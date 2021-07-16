@@ -26,4 +26,14 @@ public class PageViewController {
 
 		return mv;
 	}
+
+	@GetMapping("spend")
+	public ModelAndView spend() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "spend";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
 }
