@@ -7,6 +7,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PageViewController {
 
+	/**
+	 * 登入頁
+	 * @return
+	 */
 	@GetMapping({"", "/"})
 	public ModelAndView index() {
 
@@ -17,6 +21,10 @@ public class PageViewController {
 		return mv;
 	}
 
+	/**
+	 * 首頁
+	 * @return
+	 */
 	@GetMapping("main")
 	public ModelAndView main() {
 
@@ -27,6 +35,10 @@ public class PageViewController {
 		return mv;
 	}
 
+	/**
+	 * 新增一筆支出
+	 * @return
+	 */
 	@GetMapping("spend")
 	public ModelAndView spend() {
 
