@@ -28,6 +28,7 @@
 					</ul>
 				</li>
 			</ul>
+			<button type="botton" class="btn btn-outline-danger btn-lg" id="logout" name="logout">登出</button>
 		</div>
 	</div>
 </nav>
