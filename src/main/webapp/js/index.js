@@ -14,8 +14,6 @@ function loginAct() {
 	data.userName = $('#userName').val();
 	data.userPwd = $('#userPwd').val();
 	
-	console.log(data);
-	
 	$.ajax({
 		url: '/login',
 		method: 'POST',
@@ -26,23 +24,13 @@ function loginAct() {
 			if(res.status) {
 				location.href = 'main';
 			} else {
-				loginDialog(res.msg);
+				alert(res.msg);
 				$('#userPwd').val('');
 			}
 		},
 		error: function(err) {
-			loginDialog('無法連接伺服器');
 			console.log(err);
+			alert('無法連接伺服器');
 		}
-	});
-}
-
-function loginDialog(msg) {
-	var loginDialog = new bootstrap.Modal($('#loginMsgDialog'));
-	$('#loginMsg').text(msg);
-	loginDialog.show();
-
-	$('#loginMsgDialog').on('hidden.bs.modal', function() {
-		$('#loginMsg').text('');
 	});
 }
