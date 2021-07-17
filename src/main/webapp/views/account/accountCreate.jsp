@@ -2,14 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="include/header.jsp"></jsp:include>
+	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/accountCreate.css">
 	<script type="text/javascript" src="/js/accountCreditCardLimitYearMonth.js"></script>
 	<script type="text/javascript" src="/js/accountCreate.js"></script>
 	<script type="text/javascript" src="/js/userCheck.js"></script>
 </head>
 <body>
-	<jsp:include page="include/menuBar.jsp"></jsp:include>
+	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
 	<div class="container-fluid">
 		<div class="container-xl">
 			<h3 class="text-center">新增帳戶</h3>

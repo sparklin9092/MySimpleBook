@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="include/header.jsp"></jsp:include>
+	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/index.css">
 	<script type="text/javascript" src="/js/index.js"></script>
 </head>

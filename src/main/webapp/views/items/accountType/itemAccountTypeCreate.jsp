@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="include/header.jsp"></jsp:include>
+	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/itemAccountTypeCreate.css">
 	<script type="text/javascript" src="/js/itemAccountTypeCreate.js"></script>
 	<script type="text/javascript" src="/js/userCheck.js"></script>
 </head>
 <body>
-	<jsp:include page="include/menuBar.jsp"></jsp:include>
+	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
 	<div class="container-fluid">
 		<div class="container-xl">
 			<h3 class="text-center">

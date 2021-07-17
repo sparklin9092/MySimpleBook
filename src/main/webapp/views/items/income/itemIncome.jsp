@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="include/header.jsp"></jsp:include>
+	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/itemIncome.css">
 	<script type="text/javascript" src="/js/itemIncome.js"></script>
 	<script type="text/javascript" src="/js/userCheck.js"></script>
 </head>
 <body>
-	<jsp:include page="include/menuBar.jsp"></jsp:include>
+	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
 	<div class="container-fluid pb-5 mb-5">
 		<div class="container-xl">
 			<h3 class="text-center">收入項目管理</h3>
