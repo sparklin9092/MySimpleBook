@@ -5,7 +5,6 @@
 	<jsp:include page="include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/index.css">
 	<script type="text/javascript" src="/js/index.js"></script>
-	<script type="text/javascript" src="/js/userCheck.js"></script>
 </head>
 <body>
 	<div class="login-box">
