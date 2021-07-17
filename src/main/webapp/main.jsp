@@ -5,6 +5,7 @@
 	<jsp:include page="include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/main.css">
 	<script type="text/javascript" src="/js/main.js"></script>
+	<script type="text/javascript" src="/js/userCheck.js"></script>
 </head>
 <body>
 	<jsp:include page="include/menuBar.jsp"></jsp:include>

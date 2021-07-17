@@ -20,10 +20,6 @@ public class UserInfoController {
 	@Autowired
 	private IUserInfoMapper userInfoMapper;
 	
-	public UserInfoController(IUserInfoMapper userInfoMapper) {
-		this.userInfoMapper = userInfoMapper;
-	}
-	
 	@GetMapping("{id}")
 	public UserInfoEntity getUserById(@PathVariable int id) {
 		
