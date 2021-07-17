@@ -13,6 +13,9 @@ $(function() {
 			if(!res.status) {
 				
 				alert("使用者未登入");
+			} else {
+				
+				$('#menuUserTitle').text(res.userName + '的記帳本');
 			}
 		},
 		error: function(err) {

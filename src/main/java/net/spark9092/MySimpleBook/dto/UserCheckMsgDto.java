@@ -2,9 +2,19 @@ package net.spark9092.MySimpleBook.dto;
 
 public class UserCheckMsgDto {
 
+	private String userName;
+	
 	private boolean status;
 	
 	private String msg;
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public boolean isStatus() {
 		return status;
@@ -24,6 +34,6 @@ public class UserCheckMsgDto {
 
 	@Override
 	public String toString() {
-		return String.format("UserCheckMsgDto [status=%s, msg=%s]", status, msg);
+		return String.format("UserCheckMsgDto [userName=%s, status=%s, msg=%s]", userName, status, msg);
 	}
 }

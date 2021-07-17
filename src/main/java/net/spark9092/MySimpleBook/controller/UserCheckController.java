@@ -28,6 +28,7 @@ public class UserCheckController {
 			
 			userCheckMsgDto.setStatus(false);
 			userCheckMsgDto.setMsg("使用者未登入");
+			userCheckMsgDto.setUserName("");
 			
 		} else {
 
@@ -35,6 +36,7 @@ public class UserCheckController {
 			
 			userCheckMsgDto.setStatus(true);
 			userCheckMsgDto.setMsg("");
+			userCheckMsgDto.setUserName(userInfoEntity.getUserName());
 		}
 		
 		return userCheckMsgDto;
