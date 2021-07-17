@@ -97,7 +97,7 @@ public class PageViewController {
 	 * @return
 	 */
 	@GetMapping("itemSpend/modify/{itemId}")
-	public ModelAndView spendItemCreate(@PathVariable("itemId") int itemId) {
+	public ModelAndView spendItemModify(@PathVariable("itemId") int itemId) {
 
 		ModelAndView mv = new ModelAndView();
 		String pageName = "itemSpendModify";
