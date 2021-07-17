@@ -140,7 +140,7 @@ public class PageViewController {
 	 * @return
 	 */
 	@GetMapping("itemIncome/modify/{itemId}")
-	public ModelAndView itemIncomeCreate(@PathVariable("itemId") int itemId) {
+	public ModelAndView itemIncomeModify(@PathVariable("itemId") int itemId) {
 
 		ModelAndView mv = new ModelAndView();
 		String pageName = "itemIncomeModify";
