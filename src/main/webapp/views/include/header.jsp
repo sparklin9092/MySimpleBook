@@ -13,6 +13,6 @@
 <script type="text/javascript" src="/js/plugins/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/js/plugins/moment-with-locales.js"></script>
-<script type="text/javascript" src="/js/menuBar.js"></script>
+<script type="text/javascript" src="/js/common/menuBar.js"></script>
 
 <title>我的記帳本</title>
