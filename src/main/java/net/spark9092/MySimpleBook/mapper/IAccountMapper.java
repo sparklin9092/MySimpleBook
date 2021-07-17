@@ -10,9 +10,9 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import net.spark9092.MySimpleBook.dto.AccountListDto;
-import net.spark9092.MySimpleBook.dto.AccountOneDto;
-import net.spark9092.MySimpleBook.dto.AccountTypeListDto;
+import net.spark9092.MySimpleBook.dto.account.TypeListDto;
+import net.spark9092.MySimpleBook.dto.account.ListDto;
+import net.spark9092.MySimpleBook.dto.account.OneDto;
 
 @Mapper
 public interface IAccountMapper {
@@ -32,7 +32,7 @@ public interface IAccountMapper {
 		@Result(column="name", property="accountName"),
 		@Result(column="is_active", property="itemActive")
 	})
-	List<AccountListDto> selectListByUserId(@Param("userId") int userId);
+	List<ListDto> selectListByUserId(@Param("userId") int userId);
 
 	/**
 	 * 根據 User ID，查詢帳戶類型的清單
@@ -47,7 +47,7 @@ public interface IAccountMapper {
 		@Result(column="id", property="typeId"),
 		@Result(column="name", property="typeName")
 	})
-	List<AccountTypeListDto> selectTypeListByUserId(@Param("userId") int userId);
+	List<TypeListDto> selectTypeListByUserId(@Param("userId") int userId);
 
 	@Select("select a.type_id, a.name, a.is_default, a.is_active, "
 			+ " if(a.limit_date regexp '[0-9]{4}-[0-9]{2}-[0-9]{2}', true, false) as enableLimitDate, "
@@ -67,7 +67,7 @@ public interface IAccountMapper {
 		@Result(column="user_name", property="createUserName"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
-	AccountOneDto selectOneByIds(@Param("accountId") int accountId, @Param("userId") int userId);
+	OneDto selectOneByIds(@Param("accountId") int accountId, @Param("userId") int userId);
 
 	/**
 	 * 根據 User ID，新增一個帳戶

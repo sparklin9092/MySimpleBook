@@ -10,8 +10,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import net.spark9092.MySimpleBook.dto.ItemAccountTypeListDto;
-import net.spark9092.MySimpleBook.dto.ItemAccountTypeOneDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.ListDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.OneDto;
 
 @Mapper
 public interface IItemsAccountTypeMapper {
@@ -30,7 +30,7 @@ public interface IItemsAccountTypeMapper {
 		@Result(column="is_default", property="itemDefault"),
 		@Result(column="is_active", property="itemActive")
 	})
-	List<ItemAccountTypeListDto> selectItemListByUserId(@Param("userId") int userId);
+	List<ListDto> selectItemListByUserId(@Param("userId") int userId);
 
 	/**
 	 * 根據 User ID、Item ID，查詢某一筆帳戶類型項目
@@ -49,7 +49,7 @@ public interface IItemsAccountTypeMapper {
 		@Result(column="user_name", property="createUserName"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
-	ItemAccountTypeOneDto selectOneByIds(@Param("itemId") int itemId, @Param("userId") int userId);
+	OneDto selectOneByIds(@Param("itemId") int itemId, @Param("userId") int userId);
 
 	/**
 	 * 根據 User ID，新增一筆帳戶類型項目

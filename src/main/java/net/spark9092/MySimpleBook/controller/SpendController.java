@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.spark9092.MySimpleBook.dto.SpendItemListDto;
-import net.spark9092.MySimpleBook.dto.SpendItemMsgDto;
+import net.spark9092.MySimpleBook.dto.spend.SelectItemListDto;
+import net.spark9092.MySimpleBook.dto.spend.SelectItemMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.service.SpendService;
@@ -30,28 +30,28 @@ public class SpendController {
 
 	@PostMapping("/itemList")
     @ResponseBody
-	public SpendItemMsgDto spendItemList(HttpSession session) {
+	public SelectItemMsgDto spendItemList(HttpSession session) {
 
-		SpendItemMsgDto spendItemMsgDto = new SpendItemMsgDto();
+		SelectItemMsgDto selectItemMsgDto = new SelectItemMsgDto();
 		
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 		
 		if(null == userInfoEntity) {
 			
-			spendItemMsgDto.setStatus(false);
-			spendItemMsgDto.setMsg("使用者未登入");
+			selectItemMsgDto.setStatus(false);
+			selectItemMsgDto.setMsg("使用者未登入");
 			
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 			
-			List<SpendItemListDto> spendItemListDto = spendService.getSpendListByUserId(userInfoEntity.getId());
+			List<SelectItemListDto> spendItemListDto = spendService.getSpendListByUserId(userInfoEntity.getId());
 			
-			spendItemMsgDto.setSpendItemListDto(spendItemListDto);
-			spendItemMsgDto.setStatus(true);
+			selectItemMsgDto.setSpendItemListDto(spendItemListDto);
+			selectItemMsgDto.setStatus(true);
 		}
 
-		return spendItemMsgDto;
+		return selectItemMsgDto;
 	}
 
 }

@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.spark9092.MySimpleBook.dto.ItemAccountTypeListDto;
-import net.spark9092.MySimpleBook.dto.ItemAccountTypeOneDto;
-import net.spark9092.MySimpleBook.dto.ItemAccountTypeOneMsgDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.ListDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.OneDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.OneMsgDto;
 import net.spark9092.MySimpleBook.mapper.IItemsAccountTypeMapper;
-import net.spark9092.MySimpleBook.pojo.ItemAccountTypeCreatePojo;
-import net.spark9092.MySimpleBook.pojo.ItemAccountTypeDeletePojo;
-import net.spark9092.MySimpleBook.pojo.ItemAccountTypeModifyPojo;
+import net.spark9092.MySimpleBook.pojo.items.accountType.CreatePojo;
+import net.spark9092.MySimpleBook.pojo.items.accountType.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.items.accountType.ModifyPojo;
 
 @Service
 public class ItemAccountTypeService {
@@ -30,11 +30,11 @@ public class ItemAccountTypeService {
 
 		List<List<String>> dataList = new ArrayList<>();
 
-		List<ItemAccountTypeListDto> itemAccountTypeListDto = iItemsAccountTypeMapper.selectItemListByUserId(userId);
+		List<ListDto> listDtos = iItemsAccountTypeMapper.selectItemListByUserId(userId);
 
-		if(itemAccountTypeListDto.size() != 0) {
+		if(listDtos.size() != 0) {
 
-			itemAccountTypeListDto.stream().forEach(dto -> {
+			listDtos.stream().forEach(dto -> {
 
 				String itemDefault = "否";
 				if(dto.isItemDefault()) {
@@ -59,69 +59,69 @@ public class ItemAccountTypeService {
 		return dataList;
 	}
 
-	public ItemAccountTypeOneMsgDto getOneByIds(int userId, int itemId) {
+	public OneMsgDto getOneByIds(int userId, int itemId) {
 
-		ItemAccountTypeOneMsgDto itemAccountTypeOneMsgDto = new ItemAccountTypeOneMsgDto();
+		OneMsgDto oneMsgDto = new OneMsgDto();
 
-		ItemAccountTypeOneDto itemAccountTypeOneDto = iItemsAccountTypeMapper.selectOneByIds(itemId, userId);
+		OneDto oneDto = iItemsAccountTypeMapper.selectOneByIds(itemId, userId);
 
-		if(null == itemAccountTypeOneDto) {
+		if(null == oneDto) {
 
-			itemAccountTypeOneMsgDto.setStatus(false);
-			itemAccountTypeOneMsgDto.setMsg("找不到資料");
+			oneMsgDto.setStatus(false);
+			oneMsgDto.setMsg("找不到資料");
 
 			logger.error(String.format("查詢某一筆支出項目時，找不到資料。User ID: %d、Item ID: %d",
 					userId, itemId));
 
 		} else {
 
-			itemAccountTypeOneMsgDto.setStatus(true);
-			itemAccountTypeOneMsgDto.setMsg("");
-			itemAccountTypeOneMsgDto.setItemAccountTypeOneDto(itemAccountTypeOneDto);
+			oneMsgDto.setStatus(true);
+			oneMsgDto.setMsg("");
+			oneMsgDto.setItemAccountTypeOneDto(oneDto);
 
 		}
 
-		return itemAccountTypeOneMsgDto;
+		return oneMsgDto;
 	}
 
-	public boolean createByPojo(ItemAccountTypeCreatePojo itemAccountTypeCreatePojo) {
+	public boolean createByPojo(CreatePojo createPojo) {
 
-		if(null == itemAccountTypeCreatePojo) {
+		if(null == createPojo) {
 
 			return false;
 
 		} else {
 
-			int userId = itemAccountTypeCreatePojo.getUserId();
-			String itemName = itemAccountTypeCreatePojo.getItemName();
-			String itemDefaultStr = itemAccountTypeCreatePojo.getItemDefault();
+			int userId = createPojo.getUserId();
+			String itemName = createPojo.getItemName();
+			String itemDefaultStr = createPojo.getItemDefault();
 
 			boolean itemDefault = false;
 			if(itemDefaultStr.equals("1")) {
 				itemDefault = true;
 			}
 
-			logger.debug(itemAccountTypeCreatePojo.toString());
+			logger.debug(createPojo.toString());
 
 			return iItemsAccountTypeMapper.createByValues(userId, itemName, itemDefault);
 		}
 	}
 
-	public boolean modifyByPojo(ItemAccountTypeModifyPojo itemAccountTypeModifyPojo) {
+	public boolean modifyByPojo(ModifyPojo modifyPojo) {
 
-		if(null == itemAccountTypeModifyPojo) {
+		if(null == modifyPojo) {
 
 			return false;
 
 		} else {
 
-			int userId = itemAccountTypeModifyPojo.getUserId();
-			int itemId = itemAccountTypeModifyPojo.getItemId();
-			String itemName = itemAccountTypeModifyPojo.getItemName();
-			String itemActiveStr = itemAccountTypeModifyPojo.getItemActive();
-			String itemDefaultStr = itemAccountTypeModifyPojo.getItemDefault();
+			int userId = modifyPojo.getUserId();
+			int itemId = modifyPojo.getItemId();
+			String itemName = modifyPojo.getItemName();
+			String itemActiveStr = modifyPojo.getItemActive();
+			String itemDefaultStr = modifyPojo.getItemDefault();
 
-			logger.debug(itemAccountTypeModifyPojo.toString());
+			logger.debug(modifyPojo.toString());
 
 			boolean itemActive = false;
 			if(itemActiveStr.equals("1")) {
@@ -138,18 +138,18 @@ public class ItemAccountTypeService {
 		}
 	}
 
-	public boolean deleteByPojo(ItemAccountTypeDeletePojo itemAccountTypeDeletePojo) {
+	public boolean deleteByPojo(DeletePojo deletePojo) {
 
-		if(null == itemAccountTypeDeletePojo) {
+		if(null == deletePojo) {
 
 			return false;
 
 		} else {
 
-			int userId = itemAccountTypeDeletePojo.getUserId();
-			int itemId = itemAccountTypeDeletePojo.getItemId();
+			int userId = deletePojo.getUserId();
+			int itemId = deletePojo.getItemId();
 
-			logger.debug(itemAccountTypeDeletePojo.toString());
+			logger.debug(deletePojo.toString());
 
 			return iItemsAccountTypeMapper.deleteByIds(userId, itemId);
 		}

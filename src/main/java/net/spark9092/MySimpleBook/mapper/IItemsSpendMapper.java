@@ -10,9 +10,9 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import net.spark9092.MySimpleBook.dto.ItemSpendListDto;
-import net.spark9092.MySimpleBook.dto.ItemSpendOneDto;
-import net.spark9092.MySimpleBook.dto.SpendItemListDto;
+import net.spark9092.MySimpleBook.dto.items.spend.ListDto;
+import net.spark9092.MySimpleBook.dto.items.spend.OneDto;
+import net.spark9092.MySimpleBook.dto.spend.SelectItemListDto;
 
 @Mapper
 public interface IItemsSpendMapper {
@@ -22,7 +22,7 @@ public interface IItemsSpendMapper {
 		@Result(column="id", property="itemId"),
 		@Result(column="name", property="itemName")
 	})
-	List<SpendItemListDto> selectListByUserId(@Param("userId") int userId);
+	List<SelectItemListDto> selectListByUserId(@Param("userId") int userId);
 
 	/**
 	 * 根據 User ID，查詢支出項目管理的清單
@@ -38,7 +38,7 @@ public interface IItemsSpendMapper {
 		@Result(column="is_default", property="itemDefault"),
 		@Result(column="is_active", property="itemActive")
 	})
-	List<ItemSpendListDto> selectItemListByUserId(@Param("userId") int userId);
+	List<ListDto> selectItemListByUserId(@Param("userId") int userId);
 
 	/**
 	 * 根據 User ID、Item ID，查詢某一筆支出項目
@@ -57,7 +57,7 @@ public interface IItemsSpendMapper {
 		@Result(column="user_name", property="createUserName"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
-	ItemSpendOneDto selectOneByIds(@Param("itemId") int itemId, @Param("userId") int userId);
+	OneDto selectOneByIds(@Param("itemId") int itemId, @Param("userId") int userId);
 
 	/**
 	 * 根據 User ID，新增一筆支出項目

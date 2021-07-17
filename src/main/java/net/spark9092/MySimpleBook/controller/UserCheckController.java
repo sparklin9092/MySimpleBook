@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.spark9092.MySimpleBook.dto.UserCheckMsgDto;
+import net.spark9092.MySimpleBook.dto.user.LoginCheckMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 
@@ -17,28 +17,28 @@ public class UserCheckController {
 	private static final Logger logger = LoggerFactory.getLogger(UserInfoController.class);
 
 	@GetMapping("/userCheck")
-	public UserCheckMsgDto userCheck(HttpSession session) {
+	public LoginCheckMsgDto userCheck(HttpSession session) {
 
-		UserCheckMsgDto userCheckMsgDto = new UserCheckMsgDto();
+		LoginCheckMsgDto loginCheckMsgDto = new LoginCheckMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			userCheckMsgDto.setStatus(false);
-			userCheckMsgDto.setMsg("使用者未登入");
-			userCheckMsgDto.setUserName("");
+			loginCheckMsgDto.setStatus(false);
+			loginCheckMsgDto.setMsg("使用者未登入");
+			loginCheckMsgDto.setUserName("");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			userCheckMsgDto.setStatus(true);
-			userCheckMsgDto.setMsg("");
-			userCheckMsgDto.setUserName(userInfoEntity.getUserName());
+			loginCheckMsgDto.setStatus(true);
+			loginCheckMsgDto.setMsg("");
+			loginCheckMsgDto.setUserName(userInfoEntity.getUserName());
 		}
 
-		return userCheckMsgDto;
+		return loginCheckMsgDto;
 	}
 
 }

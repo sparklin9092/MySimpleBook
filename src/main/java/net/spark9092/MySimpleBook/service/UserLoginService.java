@@ -7,10 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.spark9092.MySimpleBook.dto.UserLoginResultDto;
+import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
-import net.spark9092.MySimpleBook.pojo.UserLoginPojo;
+import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 
 @Service
 public class UserLoginService {
@@ -20,12 +20,12 @@ public class UserLoginService {
 	@Autowired
 	private IUserInfoMapper iUserInfoMapper;
 
-	public UserLoginResultDto userLogin(UserLoginPojo userLoginPojo) {
+	public LoginResultDto userLogin(LoginPojo userLoginPojo) {
 
-		UserLoginResultDto loginResultDto = new UserLoginResultDto();
+		LoginResultDto loginResultDto = new LoginResultDto();
+		UserInfoEntity userInfoEntity = new UserInfoEntity();
 
 		String userName = userLoginPojo.getUserName();
-		UserInfoEntity userInfoEntity = new UserInfoEntity();
 		userInfoEntity = iUserInfoMapper.selectByUserName(userName);
 
 		if(userInfoEntity == null) {

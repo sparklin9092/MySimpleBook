@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.spark9092.MySimpleBook.dto.ItemSpendListDto;
-import net.spark9092.MySimpleBook.dto.ItemSpendOneDto;
-import net.spark9092.MySimpleBook.dto.ItemSpendOneMsgDto;
+import net.spark9092.MySimpleBook.dto.items.spend.ListDto;
+import net.spark9092.MySimpleBook.dto.items.spend.OneDto;
+import net.spark9092.MySimpleBook.dto.items.spend.OneMsgDto;
 import net.spark9092.MySimpleBook.mapper.IItemsSpendMapper;
-import net.spark9092.MySimpleBook.pojo.ItemSpendCreatePojo;
-import net.spark9092.MySimpleBook.pojo.ItemSpendDeletePojo;
-import net.spark9092.MySimpleBook.pojo.ItemSpendModifyPojo;
+import net.spark9092.MySimpleBook.pojo.items.spend.CreatePojo;
+import net.spark9092.MySimpleBook.pojo.items.spend.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.items.spend.ModifyPojo;
 
 @Service
 public class ItemSpendService {
@@ -30,11 +30,11 @@ public class ItemSpendService {
 
 		List<List<String>> dataList = new ArrayList<>();
 
-		List<ItemSpendListDto> itemSpendListDto = iItemsSpendMapper.selectItemListByUserId(userId);
+		List<ListDto> listDtos = iItemsSpendMapper.selectItemListByUserId(userId);
 
-		if(itemSpendListDto.size() != 0) {
+		if(listDtos.size() != 0) {
 
-			itemSpendListDto.stream().forEach(dto -> {
+			listDtos.stream().forEach(dto -> {
 
 				String itemDefault = "否";
 				if(dto.isItemDefault()) {
@@ -59,69 +59,69 @@ public class ItemSpendService {
 		return dataList;
 	}
 
-	public ItemSpendOneMsgDto getOneByIds(int userId, int itemId) {
+	public OneMsgDto getOneByIds(int userId, int itemId) {
 
-		ItemSpendOneMsgDto itemSpendOneMsgDto = new ItemSpendOneMsgDto();
+		OneMsgDto oneMsgDto = new OneMsgDto();
 
-		ItemSpendOneDto itemSpendOneDto = iItemsSpendMapper.selectOneByIds(itemId, userId);
+		OneDto oneDto = iItemsSpendMapper.selectOneByIds(itemId, userId);
 
-		if(null == itemSpendOneDto) {
+		if(null == oneDto) {
 
-			itemSpendOneMsgDto.setStatus(false);
-			itemSpendOneMsgDto.setMsg("找不到資料");
+			oneMsgDto.setStatus(false);
+			oneMsgDto.setMsg("找不到資料");
 
 			logger.error(String.format("查詢某一筆支出項目時，找不到資料。User ID: %d、Item ID: %d",
 					userId, itemId));
 
 		} else {
 
-			itemSpendOneMsgDto.setStatus(true);
-			itemSpendOneMsgDto.setMsg("");
-			itemSpendOneMsgDto.setItemSpendOneDto(itemSpendOneDto);
+			oneMsgDto.setStatus(true);
+			oneMsgDto.setMsg("");
+			oneMsgDto.setItemSpendOneDto(oneDto);
 
 		}
 
-		return itemSpendOneMsgDto;
+		return oneMsgDto;
 	}
 
-	public boolean createByPojo(ItemSpendCreatePojo itemSpendCreatePojo) {
+	public boolean createByPojo(CreatePojo createPojo) {
 
-		if(null == itemSpendCreatePojo) {
+		if(null == createPojo) {
 
 			return false;
 
 		} else {
 
-			int userId = itemSpendCreatePojo.getUserId();
-			String itemName = itemSpendCreatePojo.getItemName();
-			String itemDefaultStr = itemSpendCreatePojo.getItemDefault();
+			int userId = createPojo.getUserId();
+			String itemName = createPojo.getItemName();
+			String itemDefaultStr = createPojo.getItemDefault();
 
 			boolean itemDefault = false;
 			if(itemDefaultStr.equals("1")) {
 				itemDefault = true;
 			}
 
-			logger.debug(itemSpendCreatePojo.toString());
+			logger.debug(createPojo.toString());
 
 			return iItemsSpendMapper.createByValues(userId, itemName, itemDefault);
 		}
 	}
 
-	public boolean modifyByPojo(ItemSpendModifyPojo itemSpendModifyPojo) {
+	public boolean modifyByPojo(ModifyPojo modifyPojo) {
 
-		if(null == itemSpendModifyPojo) {
+		if(null == modifyPojo) {
 
 			return false;
 
 		} else {
 
-			int userId = itemSpendModifyPojo.getUserId();
-			int itemId = itemSpendModifyPojo.getItemId();
-			String itemName = itemSpendModifyPojo.getItemName();
-			String itemActiveStr = itemSpendModifyPojo.getItemActive();
-			String itemDefaultStr = itemSpendModifyPojo.getItemDefault();
+			int userId = modifyPojo.getUserId();
+			int itemId = modifyPojo.getItemId();
+			String itemName = modifyPojo.getItemName();
+			String itemActiveStr = modifyPojo.getItemActive();
+			String itemDefaultStr = modifyPojo.getItemDefault();
 
-			logger.debug(itemSpendModifyPojo.toString());
+			logger.debug(modifyPojo.toString());
 
 			boolean itemActive = false;
 			if(itemActiveStr.equals("1")) {
@@ -137,18 +137,18 @@ public class ItemSpendService {
 		}
 	}
 
-	public boolean deleteByPojo(ItemSpendDeletePojo itemSpendDeletePojo) {
+	public boolean deleteByPojo(DeletePojo deletePojo) {
 
-		if(null == itemSpendDeletePojo) {
+		if(null == deletePojo) {
 
 			return false;
 
 		} else {
 
-			int userId = itemSpendDeletePojo.getUserId();
-			int itemId = itemSpendDeletePojo.getItemId();
+			int userId = deletePojo.getUserId();
+			int itemId = deletePojo.getItemId();
 
-			logger.debug(itemSpendDeletePojo.toString());
+			logger.debug(deletePojo.toString());
 
 			return iItemsSpendMapper.deleteByIds(userId, itemId);
 		}

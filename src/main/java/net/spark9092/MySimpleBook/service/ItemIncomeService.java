@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.spark9092.MySimpleBook.dto.ItemIncomeListDto;
-import net.spark9092.MySimpleBook.dto.ItemIncomeOneDto;
-import net.spark9092.MySimpleBook.dto.ItemIncomeOneMsgDto;
+import net.spark9092.MySimpleBook.dto.items.income.ListDto;
+import net.spark9092.MySimpleBook.dto.items.income.OneDto;
+import net.spark9092.MySimpleBook.dto.items.income.OneMsgDto;
 import net.spark9092.MySimpleBook.mapper.IItemsIncomeMapper;
-import net.spark9092.MySimpleBook.pojo.ItemIncomeCreatePojo;
-import net.spark9092.MySimpleBook.pojo.ItemIncomeDeletePojo;
-import net.spark9092.MySimpleBook.pojo.ItemIncomeModifyPojo;
+import net.spark9092.MySimpleBook.pojo.items.income.CreatePojo;
+import net.spark9092.MySimpleBook.pojo.items.income.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.items.income.ModifyPojo;
 
 @Service
 public class ItemIncomeService {
@@ -30,11 +30,11 @@ public class ItemIncomeService {
 
 		List<List<String>> dataList = new ArrayList<>();
 
-		List<ItemIncomeListDto> itemIncomeListDto = iItemsIncomeMapper.selectItemListByUserId(userId);
+		List<ListDto> listDtos = iItemsIncomeMapper.selectItemListByUserId(userId);
 
-		if(itemIncomeListDto.size() != 0) {
+		if(listDtos.size() != 0) {
 
-			itemIncomeListDto.stream().forEach(dto -> {
+			listDtos.stream().forEach(dto -> {
 
 				String itemDefault = "否";
 				if(dto.isItemDefault()) {
@@ -59,69 +59,69 @@ public class ItemIncomeService {
 		return dataList;
 	}
 
-	public ItemIncomeOneMsgDto getOneByIds(int userId, int itemId) {
+	public OneMsgDto getOneByIds(int userId, int itemId) {
 
-		ItemIncomeOneMsgDto itemIncomeOneMsgDto = new ItemIncomeOneMsgDto();
+		OneMsgDto oneMsgDto = new OneMsgDto();
 
-		ItemIncomeOneDto itemIncomeOneDto = iItemsIncomeMapper.selectOneByIds(itemId, userId);
+		OneDto oneDto = iItemsIncomeMapper.selectOneByIds(itemId, userId);
 
-		if(null == itemIncomeOneDto) {
+		if(null == oneDto) {
 
-			itemIncomeOneMsgDto.setStatus(false);
-			itemIncomeOneMsgDto.setMsg("找不到資料");
+			oneMsgDto.setStatus(false);
+			oneMsgDto.setMsg("找不到資料");
 
 			logger.error(String.format("查詢某一筆收入項目時，找不到資料。User ID: %d、Item ID: %d",
 					userId, itemId));
 
 		} else {
 
-			itemIncomeOneMsgDto.setStatus(true);
-			itemIncomeOneMsgDto.setMsg("");
-			itemIncomeOneMsgDto.setItemIncomeOneDto(itemIncomeOneDto);
+			oneMsgDto.setStatus(true);
+			oneMsgDto.setMsg("");
+			oneMsgDto.setItemIncomeOneDto(oneDto);
 
 		}
 
-		return itemIncomeOneMsgDto;
+		return oneMsgDto;
 	}
 
-	public boolean createByPojo(ItemIncomeCreatePojo itemIncomeCreatePojo) {
+	public boolean createByPojo(CreatePojo createPojo) {
 
-		if(null == itemIncomeCreatePojo) {
+		if(null == createPojo) {
 
 			return false;
 
 		} else {
 
-			int userId = itemIncomeCreatePojo.getUserId();
-			String itemName = itemIncomeCreatePojo.getItemName();
-			String itemDefaultStr = itemIncomeCreatePojo.getItemDefault();
+			int userId = createPojo.getUserId();
+			String itemName = createPojo.getItemName();
+			String itemDefaultStr = createPojo.getItemDefault();
 
 			boolean itemDefault = false;
 			if(itemDefaultStr.equals("1")) {
 				itemDefault = true;
 			}
 
-			logger.debug(itemIncomeCreatePojo.toString());
+			logger.debug(createPojo.toString());
 
 			return iItemsIncomeMapper.createByValues(userId, itemName, itemDefault);
 		}
 	}
 
-	public boolean modifyByPojo(ItemIncomeModifyPojo itemIncomeModifyPojo) {
+	public boolean modifyByPojo(ModifyPojo modifyPojo) {
 
-		if(null == itemIncomeModifyPojo) {
+		if(null == modifyPojo) {
 
 			return false;
 
 		} else {
 
-			int userId = itemIncomeModifyPojo.getUserId();
-			int itemId = itemIncomeModifyPojo.getItemId();
-			String itemName = itemIncomeModifyPojo.getItemName();
-			String itemActiveStr = itemIncomeModifyPojo.getItemActive();
-			String itemDefaultStr = itemIncomeModifyPojo.getItemDefault();
+			int userId = modifyPojo.getUserId();
+			int itemId = modifyPojo.getItemId();
+			String itemName = modifyPojo.getItemName();
+			String itemActiveStr = modifyPojo.getItemActive();
+			String itemDefaultStr = modifyPojo.getItemDefault();
 
-			logger.debug(itemIncomeModifyPojo.toString());
+			logger.debug(modifyPojo.toString());
 
 			boolean itemActive = false;
 			if(itemActiveStr.equals("1")) {
@@ -137,18 +137,18 @@ public class ItemIncomeService {
 		}
 	}
 
-	public boolean deleteByPojo(ItemIncomeDeletePojo itemIncomeDeletePojo) {
+	public boolean deleteByPojo(DeletePojo deletePojo) {
 
-		if(null == itemIncomeDeletePojo) {
+		if(null == deletePojo) {
 
 			return false;
 
 		} else {
 
-			int userId = itemIncomeDeletePojo.getUserId();
-			int itemId = itemIncomeDeletePojo.getItemId();
+			int userId = deletePojo.getUserId();
+			int itemId = deletePojo.getItemId();
 
-			logger.debug(itemIncomeDeletePojo.toString());
+			logger.debug(deletePojo.toString());
 
 			return iItemsIncomeMapper.deleteByIds(userId, itemId);
 		}

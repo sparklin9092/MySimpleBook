@@ -8,14 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.spark9092.MySimpleBook.dto.AccountListDto;
-import net.spark9092.MySimpleBook.dto.AccountOneDto;
-import net.spark9092.MySimpleBook.dto.AccountOneMsgDto;
-import net.spark9092.MySimpleBook.dto.AccountTypeListDto;
+import net.spark9092.MySimpleBook.dto.account.TypeListDto;
+import net.spark9092.MySimpleBook.dto.account.ListDto;
+import net.spark9092.MySimpleBook.dto.account.OneDto;
+import net.spark9092.MySimpleBook.dto.account.OneMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
-import net.spark9092.MySimpleBook.pojo.AccountCreatePojo;
-import net.spark9092.MySimpleBook.pojo.AccountDeletePojo;
-import net.spark9092.MySimpleBook.pojo.AccountModifyPojo;
+import net.spark9092.MySimpleBook.pojo.account.CreatePojo;
+import net.spark9092.MySimpleBook.pojo.account.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.account.ModifyPojo;
 
 @Service
 public class AccountService {
@@ -33,11 +33,11 @@ public class AccountService {
 
 		List<List<String>> dataList = new ArrayList<>();
 
-		List<AccountListDto> accountListDto = iAccountMapper.selectListByUserId(userId);
+		List<ListDto> listDtos = iAccountMapper.selectListByUserId(userId);
 
-		if(accountListDto.size() != 0) {
+		if(listDtos.size() != 0) {
 
-			accountListDto.stream().forEach(dto -> {
+			listDtos.stream().forEach(dto -> {
 
 				String itemActive = "停用";
 				if(dto.isItemActive()) {
@@ -57,36 +57,36 @@ public class AccountService {
 		return dataList;
 	}
 
-	public List<AccountTypeListDto> getTypeListByUserId(int userId) {
+	public List<TypeListDto> getTypeListByUserId(int userId) {
 
 		logger.debug("使用者ID: {}", userId);
 
 		return iAccountMapper.selectTypeListByUserId(userId);
 	}
 
-	public AccountOneMsgDto getOneByIds(int userId, int accountId) {
+	public OneMsgDto getOneByIds(int userId, int accountId) {
 
-		AccountOneMsgDto accountOneMsgDto = new AccountOneMsgDto();
+		OneMsgDto oneMsgDto = new OneMsgDto();
 
-		AccountOneDto accountOneDto = iAccountMapper.selectOneByIds(accountId, userId);
+		OneDto oneDto = iAccountMapper.selectOneByIds(accountId, userId);
 
-		if(null == accountOneDto) {
+		if(null == oneDto) {
 
-			accountOneMsgDto.setStatus(false);
-			accountOneMsgDto.setMsg("找不到資料");
+			oneMsgDto.setStatus(false);
+			oneMsgDto.setMsg("找不到資料");
 
 			logger.error(String.format("查詢某一筆帳戶時，找不到資料。User ID: %d、Account ID: %d",
 					userId, accountId));
 
 		} else {
 
-			accountOneMsgDto.setStatus(true);
-			accountOneMsgDto.setMsg("");
-			accountOneMsgDto.setAccountOneDto(accountOneDto);
+			oneMsgDto.setStatus(true);
+			oneMsgDto.setMsg("");
+			oneMsgDto.setAccountOneDto(oneDto);
 
 		}
 
-		return accountOneMsgDto;
+		return oneMsgDto;
 	}
 	
 	private String formatLimitDate(boolean enableLimitDate, String limitMonth, String limitYear) {
@@ -129,21 +129,21 @@ public class AccountService {
 		return limitDate;
 	}
 
-	public boolean createByPojo(AccountCreatePojo accountCreatePojo) {
+	public boolean createByPojo(CreatePojo createPojo) {
 
-		if(null == accountCreatePojo) {
+		if(null == createPojo) {
 
 			return false;
 
 		} else {
 
-			int userId = accountCreatePojo.getUserId();
-			int accountType = accountCreatePojo.getAccountType();
-			String accountName = accountCreatePojo.getAccountName();
-			String accountDefaultStr = accountCreatePojo.getAccountDefault();
-			boolean enableLimitDate = accountCreatePojo.isEnableLimitDate();
-			String limitYear = accountCreatePojo.getLimitYear();
-			String limitMonth = accountCreatePojo.getLimitMonth();
+			int userId = createPojo.getUserId();
+			int accountType = createPojo.getAccountType();
+			String accountName = createPojo.getAccountName();
+			String accountDefaultStr = createPojo.getAccountDefault();
+			boolean enableLimitDate = createPojo.isEnableLimitDate();
+			String limitYear = createPojo.getLimitYear();
+			String limitMonth = createPojo.getLimitMonth();
 			String limitDate = null;
 
 			boolean accountDefault = false;
@@ -158,23 +158,23 @@ public class AccountService {
 		}
 	}
 
-	public boolean modifyByPojo(AccountModifyPojo accountModifyPojo) {
+	public boolean modifyByPojo(ModifyPojo modifyPojo) {
 
-		if(null == accountModifyPojo) {
+		if(null == modifyPojo) {
 
 			return false;
 
 		} else {
 
-			int userId = accountModifyPojo.getUserId();
-			int accountId = accountModifyPojo.getAccountId();
-			int accountType = accountModifyPojo.getAccountType();
-			String accountName = accountModifyPojo.getAccountName();
-			String accountDefaultStr = accountModifyPojo.getAccountDefault();
-			String accountActiveStr = accountModifyPojo.getAccountActive();
-			boolean enableLimitDate = accountModifyPojo.isEnableLimitDate();
-			String limitYear = accountModifyPojo.getLimitYear();
-			String limitMonth = accountModifyPojo.getLimitMonth();
+			int userId = modifyPojo.getUserId();
+			int accountId = modifyPojo.getAccountId();
+			int accountType = modifyPojo.getAccountType();
+			String accountName = modifyPojo.getAccountName();
+			String accountDefaultStr = modifyPojo.getAccountDefault();
+			String accountActiveStr = modifyPojo.getAccountActive();
+			boolean enableLimitDate = modifyPojo.isEnableLimitDate();
+			String limitYear = modifyPojo.getLimitYear();
+			String limitMonth = modifyPojo.getLimitMonth();
 			String limitDate = null;
 
 			boolean accountDefault = false;
@@ -195,16 +195,16 @@ public class AccountService {
 		}
 	}
 
-	public boolean deleteByPojo(AccountDeletePojo accountDeletePojo) {
+	public boolean deleteByPojo(DeletePojo deletePojo) {
 
-		if(null == accountDeletePojo) {
+		if(null == deletePojo) {
 
 			return false;
 
 		} else {
 
-			int userId = accountDeletePojo.getUserId();
-			int accountId = accountDeletePojo.getAccountId();
+			int userId = deletePojo.getUserId();
+			int accountId = deletePojo.getAccountId();
 
 			return iAccountMapper.deleteByIds(userId, accountId);
 		}

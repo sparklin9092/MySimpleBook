@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.spark9092.MySimpleBook.dto.AccountCreateMsgDto;
-import net.spark9092.MySimpleBook.dto.AccountDeleteMsgDto;
-import net.spark9092.MySimpleBook.dto.AccountModifyMsgDto;
-import net.spark9092.MySimpleBook.dto.AccountOneMsgDto;
-import net.spark9092.MySimpleBook.dto.AccountTypeListDto;
-import net.spark9092.MySimpleBook.dto.AccountTypeListMsgDto;
+import net.spark9092.MySimpleBook.dto.account.TypeListDto;
+import net.spark9092.MySimpleBook.dto.account.TypeListMsgDto;
+import net.spark9092.MySimpleBook.dto.account.CreateMsgDto;
+import net.spark9092.MySimpleBook.dto.account.DeleteMsgDto;
+import net.spark9092.MySimpleBook.dto.account.ModifyMsgDto;
+import net.spark9092.MySimpleBook.dto.account.OneMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
-import net.spark9092.MySimpleBook.pojo.AccountCreatePojo;
-import net.spark9092.MySimpleBook.pojo.AccountDeletePojo;
-import net.spark9092.MySimpleBook.pojo.AccountModifyPojo;
+import net.spark9092.MySimpleBook.pojo.account.CreatePojo;
+import net.spark9092.MySimpleBook.pojo.account.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.account.ModifyPojo;
 import net.spark9092.MySimpleBook.service.AccountService;
 
 @RequestMapping("/account")
@@ -57,44 +57,44 @@ public class AccountController {
 
 	@PostMapping("/typeList")
     @ResponseBody
-	public AccountTypeListMsgDto typeList(HttpSession session) {
+	public TypeListMsgDto typeList(HttpSession session) {
 
-		AccountTypeListMsgDto accountTypeListMsgDto = new AccountTypeListMsgDto();
+		TypeListMsgDto typeListMsgDto = new TypeListMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			accountTypeListMsgDto.setStatus(false);
-			accountTypeListMsgDto.setMsg("使用者未登入");
+			typeListMsgDto.setStatus(false);
+			typeListMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			List<AccountTypeListDto> accountTypeListDto = accountService.getTypeListByUserId(userInfoEntity.getId());
+			List<TypeListDto> accountTypeListDto = accountService.getTypeListByUserId(userInfoEntity.getId());
 
 			if(accountTypeListDto.size() == 0) {
 
-				accountTypeListMsgDto.setStatus(false);
-				accountTypeListMsgDto.setMsg("沒有找到帳戶類型，請先新增帳戶類型。");
+				typeListMsgDto.setStatus(false);
+				typeListMsgDto.setMsg("沒有找到帳戶類型，請先新增帳戶類型。");
 
 			} else {
 
-				accountTypeListMsgDto.setStatus(true);
-				accountTypeListMsgDto.setMsg("");
-				accountTypeListMsgDto.setAccountTypeListDto(accountTypeListDto);
+				typeListMsgDto.setStatus(true);
+				typeListMsgDto.setMsg("");
+				typeListMsgDto.setAccountTypeListDto(accountTypeListDto);
 			}
 		}
 
-		return accountTypeListMsgDto;
+		return typeListMsgDto;
 	}
 
 	@PostMapping("/one/{accountId}")
     @ResponseBody
-	public AccountOneMsgDto one(HttpSession session, @PathVariable("accountId") int accountId) {
+	public OneMsgDto one(HttpSession session, @PathVariable("accountId") int accountId) {
 
-		AccountOneMsgDto accountOneMsgDto = new AccountOneMsgDto();
+		OneMsgDto accountOneMsgDto = new OneMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
@@ -117,113 +117,113 @@ public class AccountController {
 
 	@PostMapping("/create/act")
     @ResponseBody
-	public AccountCreateMsgDto createAct(HttpSession session, @RequestBody AccountCreatePojo accountCreatePojo) {
+	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
 
-		AccountCreateMsgDto accountCreateMsgDto = new AccountCreateMsgDto();
+		CreateMsgDto createMsgDto = new CreateMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			accountCreateMsgDto.setStatus(false);
-			accountCreateMsgDto.setMsg("使用者未登入");
+			createMsgDto.setStatus(false);
+			createMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			accountCreatePojo.setUserId(userInfoEntity.getId());
+			createPojo.setUserId(userInfoEntity.getId());
 
-			boolean createStatus = accountService.createByPojo(accountCreatePojo);
+			boolean createStatus = accountService.createByPojo(createPojo);
 
 			if(createStatus) {
 
-				accountCreateMsgDto.setStatus(true);
-				accountCreateMsgDto.setMsg("");
+				createMsgDto.setStatus(true);
+				createMsgDto.setMsg("");
 
 			} else {
 
-				accountCreateMsgDto.setStatus(false);
-				accountCreateMsgDto.setMsg("新增未成功");
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("新增未成功");
 
 			}
 		}
 
-		return accountCreateMsgDto;
+		return createMsgDto;
 	}
 
 	@PostMapping("/modify/act")
     @ResponseBody
-	public AccountModifyMsgDto modifyAct(HttpSession session, @RequestBody AccountModifyPojo accountModifyPojo) {
+	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
 
-		AccountModifyMsgDto accountModifyMsgDto = new AccountModifyMsgDto();
+		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			accountModifyMsgDto.setStatus(false);
-			accountModifyMsgDto.setMsg("使用者未登入");
+			modifyMsgDto.setStatus(false);
+			modifyMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			accountModifyPojo.setUserId(userInfoEntity.getId());
+			modifyPojo.setUserId(userInfoEntity.getId());
 
-			boolean modifyStatus = accountService.modifyByPojo(accountModifyPojo);
+			boolean modifyStatus = accountService.modifyByPojo(modifyPojo);
 
 			if(modifyStatus) {
 
-				accountModifyMsgDto.setStatus(true);
-				accountModifyMsgDto.setMsg("");
+				modifyMsgDto.setStatus(true);
+				modifyMsgDto.setMsg("");
 
 			} else {
 
-				accountModifyMsgDto.setStatus(false);
-				accountModifyMsgDto.setMsg("修改未成功");
+				modifyMsgDto.setStatus(false);
+				modifyMsgDto.setMsg("修改未成功");
 
 			}
 		}
 
-		return accountModifyMsgDto;
+		return modifyMsgDto;
 	}
 
 	@PostMapping("/delete/act")
     @ResponseBody
-	public AccountDeleteMsgDto deleteAct(HttpSession session, @RequestBody AccountDeletePojo accountDeletePojo) {
+	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
 
-		AccountDeleteMsgDto accountDeleteMsgDto = new AccountDeleteMsgDto();
+		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			accountDeleteMsgDto.setStatus(false);
-			accountDeleteMsgDto.setMsg("使用者未登入");
+			deleteMsgDto.setStatus(false);
+			deleteMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			accountDeletePojo.setUserId(userInfoEntity.getId());
+			deletePojo.setUserId(userInfoEntity.getId());
 
-			boolean modifyStatus = accountService.deleteByPojo(accountDeletePojo);
+			boolean modifyStatus = accountService.deleteByPojo(deletePojo);
 
 			if(modifyStatus) {
 
-				accountDeleteMsgDto.setStatus(true);
-				accountDeleteMsgDto.setMsg("");
+				deleteMsgDto.setStatus(true);
+				deleteMsgDto.setMsg("");
 
 			} else {
 
-				accountDeleteMsgDto.setStatus(false);
-				accountDeleteMsgDto.setMsg("刪除未成功");
+				deleteMsgDto.setStatus(false);
+				deleteMsgDto.setMsg("刪除未成功");
 
 			}
 		}
 
-		return accountDeleteMsgDto;
+		return deleteMsgDto;
 	}
 
 }

@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.spark9092.MySimpleBook.dto.ItemAccountTypeCreateMsgDto;
-import net.spark9092.MySimpleBook.dto.ItemAccountTypeDeleteMsgDto;
-import net.spark9092.MySimpleBook.dto.ItemAccountTypeModifyMsgDto;
-import net.spark9092.MySimpleBook.dto.ItemAccountTypeOneMsgDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.CreateMsgDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.DeleteMsgDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.ModifyMsgDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.OneMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
-import net.spark9092.MySimpleBook.pojo.ItemAccountTypeCreatePojo;
-import net.spark9092.MySimpleBook.pojo.ItemAccountTypeDeletePojo;
-import net.spark9092.MySimpleBook.pojo.ItemAccountTypeModifyPojo;
+import net.spark9092.MySimpleBook.pojo.items.accountType.CreatePojo;
+import net.spark9092.MySimpleBook.pojo.items.accountType.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.items.accountType.ModifyPojo;
 import net.spark9092.MySimpleBook.service.ItemAccountTypeService;
 import net.spark9092.MySimpleBook.service.UserLoginService;
 
@@ -56,16 +56,16 @@ public class ItemAccountTypeController {
 
 	@PostMapping("/one/{itemId}")
     @ResponseBody
-	public ItemAccountTypeOneMsgDto one(HttpSession session, @PathVariable("itemId") int itemId) {
+	public OneMsgDto one(HttpSession session, @PathVariable("itemId") int itemId) {
 
-		ItemAccountTypeOneMsgDto itemAccountTypeOneMsgDto = new ItemAccountTypeOneMsgDto();
+		OneMsgDto oneMsgDto = new OneMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			itemAccountTypeOneMsgDto.setStatus(false);
-			itemAccountTypeOneMsgDto.setMsg("使用者未登入");
+			oneMsgDto.setStatus(false);
+			oneMsgDto.setMsg("使用者未登入");
 
 		} else {
 
@@ -73,121 +73,121 @@ public class ItemAccountTypeController {
 
 			int userId = userInfoEntity.getId();
 
-			itemAccountTypeOneMsgDto = itemAccountTypeService.getOneByIds(userId, itemId);
+			oneMsgDto = itemAccountTypeService.getOneByIds(userId, itemId);
 		}
 
-		return itemAccountTypeOneMsgDto;
+		return oneMsgDto;
 	}
 
 	@PostMapping("/create/act")
     @ResponseBody
-	public ItemAccountTypeCreateMsgDto createAct(HttpSession session, @RequestBody ItemAccountTypeCreatePojo itemAccountTypeCreatePojo) {
+	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
 
-		ItemAccountTypeCreateMsgDto itemAccountTypeCreateMsgDto = new ItemAccountTypeCreateMsgDto();
+		CreateMsgDto createMsgDto = new CreateMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			itemAccountTypeCreateMsgDto.setStatus(false);
-			itemAccountTypeCreateMsgDto.setMsg("使用者未登入");
+			createMsgDto.setStatus(false);
+			createMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			itemAccountTypeCreatePojo.setUserId(userInfoEntity.getId());
+			createPojo.setUserId(userInfoEntity.getId());
 
-			boolean createStatus = itemAccountTypeService.createByPojo(itemAccountTypeCreatePojo);
+			boolean createStatus = itemAccountTypeService.createByPojo(createPojo);
 
 			if(createStatus) {
 
-				itemAccountTypeCreateMsgDto.setStatus(true);
-				itemAccountTypeCreateMsgDto.setMsg("");
+				createMsgDto.setStatus(true);
+				createMsgDto.setMsg("");
 
 			} else {
 
-				itemAccountTypeCreateMsgDto.setStatus(false);
-				itemAccountTypeCreateMsgDto.setMsg("新增未成功");
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("新增未成功");
 
 			}
 		}
 
-		return itemAccountTypeCreateMsgDto;
+		return createMsgDto;
 	}
 
 	@PostMapping("/modify/act")
     @ResponseBody
-	public ItemAccountTypeModifyMsgDto modifyAct(HttpSession session, @RequestBody ItemAccountTypeModifyPojo itemAccountTypeModifyPojo) {
+	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
 
-		ItemAccountTypeModifyMsgDto itemAccountTypeModifyMsgDto = new ItemAccountTypeModifyMsgDto();
+		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			itemAccountTypeModifyMsgDto.setStatus(false);
-			itemAccountTypeModifyMsgDto.setMsg("使用者未登入");
+			modifyMsgDto.setStatus(false);
+			modifyMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			itemAccountTypeModifyPojo.setUserId(userInfoEntity.getId());
+			modifyPojo.setUserId(userInfoEntity.getId());
 
-			boolean modifyStatus = itemAccountTypeService.modifyByPojo(itemAccountTypeModifyPojo);
+			boolean modifyStatus = itemAccountTypeService.modifyByPojo(modifyPojo);
 
 			if(modifyStatus) {
 
-				itemAccountTypeModifyMsgDto.setStatus(true);
-				itemAccountTypeModifyMsgDto.setMsg("");
+				modifyMsgDto.setStatus(true);
+				modifyMsgDto.setMsg("");
 
 			} else {
 
-				itemAccountTypeModifyMsgDto.setStatus(false);
-				itemAccountTypeModifyMsgDto.setMsg("修改未成功");
+				modifyMsgDto.setStatus(false);
+				modifyMsgDto.setMsg("修改未成功");
 
 			}
 		}
 
-		return itemAccountTypeModifyMsgDto;
+		return modifyMsgDto;
 	}
 
 	@PostMapping("/delete/act")
     @ResponseBody
-	public ItemAccountTypeDeleteMsgDto deleteAct(HttpSession session, @RequestBody ItemAccountTypeDeletePojo itemAccountTypeDeletePojo) {
+	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
 
-		ItemAccountTypeDeleteMsgDto itemAccountTypeDeleteMsgDto = new ItemAccountTypeDeleteMsgDto();
+		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			itemAccountTypeDeleteMsgDto.setStatus(false);
-			itemAccountTypeDeleteMsgDto.setMsg("使用者未登入");
+			deleteMsgDto.setStatus(false);
+			deleteMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			itemAccountTypeDeletePojo.setUserId(userInfoEntity.getId());
+			deletePojo.setUserId(userInfoEntity.getId());
 
-			boolean modifyStatus = itemAccountTypeService.deleteByPojo(itemAccountTypeDeletePojo);
+			boolean modifyStatus = itemAccountTypeService.deleteByPojo(deletePojo);
 
 			if(modifyStatus) {
 
-				itemAccountTypeDeleteMsgDto.setStatus(true);
-				itemAccountTypeDeleteMsgDto.setMsg("");
+				deleteMsgDto.setStatus(true);
+				deleteMsgDto.setMsg("");
 
 			} else {
 
-				itemAccountTypeDeleteMsgDto.setStatus(false);
-				itemAccountTypeDeleteMsgDto.setMsg("刪除未成功");
+				deleteMsgDto.setStatus(false);
+				deleteMsgDto.setMsg("刪除未成功");
 
 			}
 		}
 
-		return itemAccountTypeDeleteMsgDto;
+		return deleteMsgDto;
 	}
 
 }

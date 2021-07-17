@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.spark9092.MySimpleBook.dto.ItemSpendCreateMsgDto;
-import net.spark9092.MySimpleBook.dto.ItemSpendDeleteMsgDto;
-import net.spark9092.MySimpleBook.dto.ItemSpendModifyMsgDto;
-import net.spark9092.MySimpleBook.dto.ItemSpendOneMsgDto;
+import net.spark9092.MySimpleBook.dto.items.spend.CreateMsgDto;
+import net.spark9092.MySimpleBook.dto.items.spend.DeleteMsgDto;
+import net.spark9092.MySimpleBook.dto.items.spend.ModifyMsgDto;
+import net.spark9092.MySimpleBook.dto.items.spend.OneMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
-import net.spark9092.MySimpleBook.pojo.ItemSpendCreatePojo;
-import net.spark9092.MySimpleBook.pojo.ItemSpendDeletePojo;
-import net.spark9092.MySimpleBook.pojo.ItemSpendModifyPojo;
+import net.spark9092.MySimpleBook.pojo.items.spend.CreatePojo;
+import net.spark9092.MySimpleBook.pojo.items.spend.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.items.spend.ModifyPojo;
 import net.spark9092.MySimpleBook.service.ItemSpendService;
 import net.spark9092.MySimpleBook.service.UserLoginService;
 
@@ -56,16 +56,16 @@ public class ItemSpendController {
 
 	@PostMapping("/one/{itemId}")
     @ResponseBody
-	public ItemSpendOneMsgDto one(HttpSession session, @PathVariable("itemId") int itemId) {
+	public OneMsgDto one(HttpSession session, @PathVariable("itemId") int itemId) {
 
-		ItemSpendOneMsgDto itemSpendOneMsgDto = new ItemSpendOneMsgDto();
+		OneMsgDto oneMsgDto = new OneMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 			
-			itemSpendOneMsgDto.setStatus(false);
-			itemSpendOneMsgDto.setMsg("使用者未登入");
+			oneMsgDto.setStatus(false);
+			oneMsgDto.setMsg("使用者未登入");
 			
 		} else {
 
@@ -73,121 +73,121 @@ public class ItemSpendController {
 
 			int userId = userInfoEntity.getId();
 
-			itemSpendOneMsgDto = itemSpendService.getOneByIds(userId, itemId);
+			oneMsgDto = itemSpendService.getOneByIds(userId, itemId);
 		}
 
-		return itemSpendOneMsgDto;
+		return oneMsgDto;
 	}
 
 	@PostMapping("/create/act")
     @ResponseBody
-	public ItemSpendCreateMsgDto createAct(HttpSession session, @RequestBody ItemSpendCreatePojo itemSpendCreatePojo) {
+	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
 
-		ItemSpendCreateMsgDto itemSpendCreateMsgDto = new ItemSpendCreateMsgDto();
+		CreateMsgDto createMsgDto = new CreateMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			itemSpendCreateMsgDto.setStatus(false);
-			itemSpendCreateMsgDto.setMsg("使用者未登入");
+			createMsgDto.setStatus(false);
+			createMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			itemSpendCreatePojo.setUserId(userInfoEntity.getId());
+			createPojo.setUserId(userInfoEntity.getId());
 
-			boolean createStatus = itemSpendService.createByPojo(itemSpendCreatePojo);
+			boolean createStatus = itemSpendService.createByPojo(createPojo);
 
 			if(createStatus) {
 
-				itemSpendCreateMsgDto.setStatus(true);
-				itemSpendCreateMsgDto.setMsg("");
+				createMsgDto.setStatus(true);
+				createMsgDto.setMsg("");
 
 			} else {
 
-				itemSpendCreateMsgDto.setStatus(false);
-				itemSpendCreateMsgDto.setMsg("新增未成功");
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("新增未成功");
 
 			}
 		}
 
-		return itemSpendCreateMsgDto;
+		return createMsgDto;
 	}
 	
 	@PostMapping("/modify/act")
     @ResponseBody
-	public ItemSpendModifyMsgDto modifyAct(HttpSession session, @RequestBody ItemSpendModifyPojo itemSpendModifyPojo) {
+	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
 		
-		ItemSpendModifyMsgDto itemSpendModifyMsgDto = new ItemSpendModifyMsgDto();
+		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			itemSpendModifyMsgDto.setStatus(false);
-			itemSpendModifyMsgDto.setMsg("使用者未登入");
+			modifyMsgDto.setStatus(false);
+			modifyMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			itemSpendModifyPojo.setUserId(userInfoEntity.getId());
+			modifyPojo.setUserId(userInfoEntity.getId());
 
-			boolean modifyStatus = itemSpendService.modifyByPojo(itemSpendModifyPojo);
+			boolean modifyStatus = itemSpendService.modifyByPojo(modifyPojo);
 
 			if(modifyStatus) {
 
-				itemSpendModifyMsgDto.setStatus(true);
-				itemSpendModifyMsgDto.setMsg("");
+				modifyMsgDto.setStatus(true);
+				modifyMsgDto.setMsg("");
 
 			} else {
 
-				itemSpendModifyMsgDto.setStatus(false);
-				itemSpendModifyMsgDto.setMsg("修改未成功");
+				modifyMsgDto.setStatus(false);
+				modifyMsgDto.setMsg("修改未成功");
 
 			}
 		}
 		
-		return itemSpendModifyMsgDto;
+		return modifyMsgDto;
 	}
 	
 	@PostMapping("/delete/act")
     @ResponseBody
-	public ItemSpendDeleteMsgDto deleteAct(HttpSession session, @RequestBody ItemSpendDeletePojo itemSpendDeletePojo) {
+	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
 		
-		ItemSpendDeleteMsgDto itemSpendDeleteMsgDto = new ItemSpendDeleteMsgDto();
+		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			itemSpendDeleteMsgDto.setStatus(false);
-			itemSpendDeleteMsgDto.setMsg("使用者未登入");
+			deleteMsgDto.setStatus(false);
+			deleteMsgDto.setMsg("使用者未登入");
 
 		} else {
 
 			logger.debug(userInfoEntity.toString());
 
-			itemSpendDeletePojo.setUserId(userInfoEntity.getId());
+			deletePojo.setUserId(userInfoEntity.getId());
 
-			boolean modifyStatus = itemSpendService.deleteByPojo(itemSpendDeletePojo);
+			boolean modifyStatus = itemSpendService.deleteByPojo(deletePojo);
 
 			if(modifyStatus) {
 
-				itemSpendDeleteMsgDto.setStatus(true);
-				itemSpendDeleteMsgDto.setMsg("");
+				deleteMsgDto.setStatus(true);
+				deleteMsgDto.setMsg("");
 
 			} else {
 
-				itemSpendDeleteMsgDto.setStatus(false);
-				itemSpendDeleteMsgDto.setMsg("刪除未成功");
+				deleteMsgDto.setStatus(false);
+				deleteMsgDto.setMsg("刪除未成功");
 
 			}
 		}
 		
-		return itemSpendDeleteMsgDto;
+		return deleteMsgDto;
 	}
 
 }
