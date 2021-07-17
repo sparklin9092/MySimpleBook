@@ -106,4 +106,47 @@ public class PageViewController {
 
 		return mv;
 	}
+
+	/**
+	 * 收入項目管理-列表
+	 * @return
+	 */
+	@GetMapping("itemIncome")
+	public ModelAndView itemIncome() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "itemIncome";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
+	 * 收入項目管理-新增
+	 * @return
+	 */
+	@GetMapping("itemIncome/create")
+	public ModelAndView itemIncomeCreate() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "itemIncomeCreate";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
+	 * 收入項目管理-修改
+	 * @return
+	 */
+	@GetMapping("itemIncome/modify/{itemId}")
+	public ModelAndView itemIncomeCreate(@PathVariable("itemId") int itemId) {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "itemIncomeModify";
+		mv.setViewName(pageName);
+		mv.addObject("itemId", itemId);
+
+		return mv;
+	}
 }
