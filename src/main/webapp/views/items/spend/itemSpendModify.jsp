@@ -4,8 +4,8 @@
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/itemSpendModify.css">
-	<script type="text/javascript" src="/js/itemSpendModify.js"></script>
-	<script type="text/javascript" src="/js/userCheck.js"></script>
+	<script type="text/javascript" src="/js/items/spend/itemSpendModify.js"></script>
+	<script type="text/javascript" src="/js/common/userCheck.js"></script>
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
