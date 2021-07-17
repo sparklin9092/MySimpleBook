@@ -23,7 +23,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">預設</div>
+				<div class="col">預設類型</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col">
