@@ -3,7 +3,7 @@
 <html>
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
-	<link rel="stylesheet" href="/css/accountModify.css">
+	<link rel="stylesheet" href="/css/account/accountModify.css">
 	<script type="text/javascript" src="/js/account/accountCreditCardLimitYearMonth.js"></script>
 	<script type="text/javascript" src="/js/account/accountModify.js"></script>
 	<script type="text/javascript" src="/js/common/userCheck.js"></script>

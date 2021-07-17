@@ -3,7 +3,7 @@
 <html>
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
-	<link rel="stylesheet" href="/css/itemSpend.css">
+	<link rel="stylesheet" href="/css/items/spend/itemSpend.css">
 	<script type="text/javascript" src="/js/items/spend/itemSpend.js"></script>
 	<script type="text/javascript" src="/js/common/userCheck.js"></script>
 </head>

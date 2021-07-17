@@ -2,10 +2,10 @@
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1" name="viewport">
 
-<link rel="stylesheet" href="/css/jquery-ui.min.css">
-<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/plugins/jquery-ui.min.css">
+<link rel="stylesheet" href="/css/plugins/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
-<link rel="stylesheet" href="/css/menuBar.css">
+<link rel="stylesheet" href="/css/common/menuBar.css">
 
 <script type="text/javascript" src="/js/plugins/jquery.min.js"></script>
 <script type="text/javascript" src="/js/plugins/jquery-ui.min.js"></script>
