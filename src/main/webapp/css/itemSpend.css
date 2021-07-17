@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.create-btn {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 80px;
+	height: 80px;
+	font-size: 20px;
+	border-radius: 50%;
+    text-align: center;
+    line-height: 80px;
+	box-shadow: rgb(108, 117, 125) 5px 5px 10px 5px;
+	z-index: 999;
+}

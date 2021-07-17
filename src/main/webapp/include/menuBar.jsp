@@ -22,7 +22,7 @@
 					<a class="nav-link menu-item dropdown-toggle" href="#" id="itemMenage" role="button" data-bs-toggle="dropdown" aria-expanded="false">項目管理</a>
 					<ul class="dropdown-menu" aria-labelledby="itemMenage">
 						<li>
-							<a class="dropdown-item menu-sub-item" href="/spendItem">支出項目管理</a>
+							<a class="dropdown-item menu-sub-item" href="/itemSpend">支出項目管理</a>
 						</li>
 						<li>
 							<a class="dropdown-item menu-sub-item" href="/incomeItem">收入項目管理</a>
