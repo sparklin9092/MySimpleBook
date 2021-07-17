@@ -149,4 +149,47 @@ public class PageViewController {
 
 		return mv;
 	}
+
+	/**
+	 * 帳戶類型項目管理-列表
+	 * @return
+	 */
+	@GetMapping("itemAccountType")
+	public ModelAndView itemAccountType() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "itemAccountType";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
+	 * 帳戶類型項目管理-新增
+	 * @return
+	 */
+	@GetMapping("itemAccountType/create")
+	public ModelAndView itemAccountTypeCreate() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "itemAccountTypeCreate";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
+	 * 帳戶類型項目管理-修改
+	 * @return
+	 */
+	@GetMapping("itemAccountType/modify/{itemId}")
+	public ModelAndView itemAccountTypeModify(@PathVariable("itemId") int itemId) {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "itemAccountTypeModify";
+		mv.setViewName(pageName);
+		mv.addObject("itemId", itemId);
+
+		return mv;
+	}
 }

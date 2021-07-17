@@ -27,6 +27,9 @@
 						<li>
 							<a class="dropdown-item menu-sub-item" href="/itemIncome">收入項目管理</a>
 						</li>
+						<li>
+							<a class="dropdown-item menu-sub-item" href="/itemAccountType">帳戶類型管理</a>
+						</li>
 					</ul>
 				</li>
 			</ul>
