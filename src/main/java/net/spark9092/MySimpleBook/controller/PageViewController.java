@@ -51,7 +51,7 @@ public class PageViewController {
 	}
 
 	/**
-	 * 帳戶管理
+	 * 帳戶管理-列表
 	 * @return
 	 */
 	@GetMapping("account")
@@ -60,6 +60,35 @@ public class PageViewController {
 		ModelAndView mv = new ModelAndView();
 		String pageName = "account";
 		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
+	 * 帳戶管理-新增
+	 * @return
+	 */
+	@GetMapping("account/create")
+	public ModelAndView accountCreate() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "accountCreate";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
+	 * 帳戶管理-修改
+	 * @return
+	 */
+	@GetMapping("account/modify/{accountId}")
+	public ModelAndView accountModify(@PathVariable("accountId") int accountId) {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "accountModify";
+		mv.setViewName(pageName);
+		mv.addObject("accountId", accountId);
 
 		return mv;
 	}
