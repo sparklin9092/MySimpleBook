@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import net.spark9092.MySimpleBook.dto.ItemSpendListDto;
 import net.spark9092.MySimpleBook.dto.ItemSpendOneDto;
 import net.spark9092.MySimpleBook.dto.ItemSpendOneMsgDto;
-import net.spark9092.MySimpleBook.dto.SpendItemListDto;
 import net.spark9092.MySimpleBook.mapper.IItemsSpendMapper;
 import net.spark9092.MySimpleBook.pojo.ItemSpendCreatePojo;
 import net.spark9092.MySimpleBook.pojo.ItemSpendDeletePojo;
@@ -61,27 +60,27 @@ public class ItemSpendService {
 	}
 
 	public ItemSpendOneMsgDto getOneByIds(int userId, int itemId) {
-		
+
 		ItemSpendOneMsgDto itemSpendOneMsgDto = new ItemSpendOneMsgDto();
-		
+
 		ItemSpendOneDto itemSpendOneDto = iItemsSpendMapper.selectOneByIds(itemId, userId);
-		
+
 		if(null == itemSpendOneDto) {
-			
+
 			itemSpendOneMsgDto.setStatus(false);
 			itemSpendOneMsgDto.setMsg("找不到資料");
-			
-			logger.error(String.format("查詢某一筆支出項目時，找不到資料。User ID: %d、Item ID: %d", 
+
+			logger.error(String.format("查詢某一筆支出項目時，找不到資料。User ID: %d、Item ID: %d",
 					userId, itemId));
-			
+
 		} else {
-			
+
 			itemSpendOneMsgDto.setStatus(true);
 			itemSpendOneMsgDto.setMsg("");
 			itemSpendOneMsgDto.setItemSpendOneDto(itemSpendOneDto);
-			
+
 		}
-		
+
 		return itemSpendOneMsgDto;
 	}
 
@@ -96,7 +95,7 @@ public class ItemSpendService {
 			int userId = itemSpendCreatePojo.getUserId();
 			String itemName = itemSpendCreatePojo.getItemName();
 			String itemDefaultStr = itemSpendCreatePojo.getItemDefault();
-			
+
 			boolean itemDefault = false;
 			if(itemDefaultStr.equals("1")) {
 				itemDefault = true;
@@ -123,12 +122,12 @@ public class ItemSpendService {
 			String itemDefaultStr = itemSpendModifyPojo.getItemDefault();
 
 			logger.debug(itemSpendModifyPojo.toString());
-			
+
 			boolean itemActive = false;
 			if(itemActiveStr.equals("1")) {
 				itemActive = true;
 			}
-			
+
 			boolean itemDefault = false;
 			if(itemDefaultStr.equals("1")) {
 				itemDefault = true;

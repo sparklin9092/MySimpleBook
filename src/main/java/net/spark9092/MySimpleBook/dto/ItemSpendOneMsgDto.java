@@ -34,8 +34,7 @@ public class ItemSpendOneMsgDto {
 
 	@Override
 	public String toString() {
-		return String.format("ItemSpendOneMsgDto [itemSpendOneDto=%s, status=%s, msg=%s]", itemSpendOneDto, status,
-				msg);
+		return String.format("ItemSpendOneMsgDto [status=%s, msg=%s]", status, msg);
 	}
 
 }
