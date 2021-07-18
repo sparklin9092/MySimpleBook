@@ -9,7 +9,7 @@
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
-	<div class="container-fluid">
+	<div class="container-fluid pb-5 mb-5">
 		<div class="container-xl">
 			<h3 class="text-center">
 				修改支出項目
