@@ -1,5 +1,7 @@
 package net.spark9092.MySimpleBook.pojo.account;
 
+import java.math.BigDecimal;
+
 public class CreatePojo {
 
 	private int userId;
@@ -7,6 +9,8 @@ public class CreatePojo {
 	private int accountType;
 	
 	private String accountName;
+	
+	private BigDecimal initAmnt;
 	
 	private String accountDefault;
 	
@@ -38,6 +42,14 @@ public class CreatePojo {
 
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
+	}
+
+	public BigDecimal getInitAmnt() {
+		return initAmnt;
+	}
+
+	public void setInitAmnt(BigDecimal initAmnt) {
+		this.initAmnt = initAmnt;
 	}
 
 	public String getAccountDefault() {

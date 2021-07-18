@@ -1,12 +1,17 @@
 package net.spark9092.MySimpleBook.dto.account;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class OneDto {
 
-	private int accountTypeId;
+	private String accountTypeName;
 
 	private String accountName;
+
+	private BigDecimal initAmnt;
+
+	private BigDecimal accountAmnt;
 
 	private boolean accountDefault;
 
@@ -18,16 +23,14 @@ public class OneDto {
 
 	private String limitMonth;
 
-	private String createUserName;
-
 	private LocalDateTime createDateTime;
 
-	public int getAccountTypeId() {
-		return accountTypeId;
+	public String getAccountTypeName() {
+		return accountTypeName;
 	}
 
-	public void setAccountTypeId(int accountTypeId) {
-		this.accountTypeId = accountTypeId;
+	public void setAccountTypeName(String accountTypeName) {
+		this.accountTypeName = accountTypeName;
 	}
 
 	public String getAccountName() {
@@ -36,6 +39,22 @@ public class OneDto {
 
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
+	}
+
+	public BigDecimal getInitAmnt() {
+		return initAmnt;
+	}
+
+	public void setInitAmnt(BigDecimal initAmnt) {
+		this.initAmnt = initAmnt;
+	}
+
+	public BigDecimal getAccountAmnt() {
+		return accountAmnt;
+	}
+
+	public void setAccountAmnt(BigDecimal accountAmnt) {
+		this.accountAmnt = accountAmnt;
 	}
 
 	public boolean isAccountDefault() {
@@ -76,14 +95,6 @@ public class OneDto {
 
 	public void setLimitMonth(String limitMonth) {
 		this.limitMonth = limitMonth;
-	}
-
-	public String getCreateUserName() {
-		return createUserName;
-	}
-
-	public void setCreateUserName(String createUserName) {
-		this.createUserName = createUserName;
 	}
 
 	public LocalDateTime getCreateDateTime() {

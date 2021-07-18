@@ -71,6 +71,7 @@ function confirmAct() {
 	
 	var accountType = $('#accountTypeSelect').val();
 	var accountName = $('#accountName').val();
+	var initAmnt = $('#initAmnt').val();
 	var accountDefault = $('input[name=accountDefault]:checked').val();
 	var enableLimitDate = $('#enableLimitDate').prop('checked');
 	var limitYear = "";
@@ -84,6 +85,7 @@ function confirmAct() {
 	var data = {};
 	data.accountType = accountType;
 	data.accountName = accountName;
+	data.initAmnt = initAmnt;
 	data.accountDefault = accountDefault;
 	data.enableLimitDate = enableLimitDate;
 	data.limitYear = limitYear;

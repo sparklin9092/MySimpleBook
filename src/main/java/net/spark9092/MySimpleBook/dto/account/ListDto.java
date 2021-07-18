@@ -1,14 +1,14 @@
 package net.spark9092.MySimpleBook.dto.account;
 
+import java.math.BigDecimal;
+
 public class ListDto {
 
 	private int accountId;
 	
-	private String typeName;
-	
 	private String accountName;
 	
-	private boolean itemActive;
+	private BigDecimal accountAmnt;
 
 	public int getAccountId() {
 		return accountId;
@@ -16,14 +16,6 @@ public class ListDto {
 
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
-	}
-
-	public String getTypeName() {
-		return typeName;
-	}
-
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
 	}
 
 	public String getAccountName() {
@@ -34,11 +26,11 @@ public class ListDto {
 		this.accountName = accountName;
 	}
 
-	public boolean isItemActive() {
-		return itemActive;
+	public BigDecimal getAccountAmnt() {
+		return accountAmnt;
 	}
 
-	public void setItemActive(boolean itemActive) {
-		this.itemActive = itemActive;
+	public void setAccountAmnt(BigDecimal accountAmnt) {
+		this.accountAmnt = accountAmnt;
 	}
 }

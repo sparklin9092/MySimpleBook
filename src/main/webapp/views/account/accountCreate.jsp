@@ -10,7 +10,7 @@
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
-	<div class="container-fluid">
+	<div class="container-fluid pb-5 mb-5">
 		<div class="container-xl">
 			<h3 class="text-center">新增帳戶</h3>
 			<div class="row">
@@ -26,7 +26,15 @@
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="text" class="form-control" id="accountName" name="accountName">
+					<input type="text" class="form-control" id="accountName" name="accountName" placeholder="請輸入帳戶名稱">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">初始額度</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col">
+					<input type="number" class="form-control" id="initAmnt" name="initAmnt" placeholder="請輸入初始額度">
 				</div>
 			</div>
 			<div class="row">

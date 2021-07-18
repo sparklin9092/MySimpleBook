@@ -24,9 +24,8 @@ function initAccountDataTable() {
 				data: res,
 				columns: [
 					{title: 'id'},
-					{title: '類型'},
 					{title: '名稱'},
-					{title: '狀態'},
+					{title: '額度'},
 					{title: '功能'}
 				],
 				order: [[0, 'desc']],
@@ -37,7 +36,7 @@ function initAccountDataTable() {
 						searchable: false
 					},
 					{
-						targets: 4,
+						targets: 3,
 						render: function(data, type, row) {
 							return '<button type="button" class="btn btn-outline-warning" onclick="modifyView('+row[0]+')">修改</button>';
 						}

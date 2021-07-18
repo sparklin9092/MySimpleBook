@@ -6,13 +6,9 @@ public class ModifyPojo {
 
 	private int accountId;
 	
-	private int accountType;
-	
-	private String accountName;
+	private String accountActive;
 	
 	private String accountDefault;
-	
-	private String accountActive;
 	
 	private boolean enableLimitDate;
 	
@@ -36,20 +32,12 @@ public class ModifyPojo {
 		this.accountId = accountId;
 	}
 
-	public int getAccountType() {
-		return accountType;
+	public String getAccountActive() {
+		return accountActive;
 	}
 
-	public void setAccountType(int accountType) {
-		this.accountType = accountType;
-	}
-
-	public String getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
+	public void setAccountActive(String accountActive) {
+		this.accountActive = accountActive;
 	}
 
 	public String getAccountDefault() {
@@ -58,14 +46,6 @@ public class ModifyPojo {
 
 	public void setAccountDefault(String accountDefault) {
 		this.accountDefault = accountDefault;
-	}
-
-	public String getAccountActive() {
-		return accountActive;
-	}
-
-	public void setAccountActive(String accountActive) {
-		this.accountActive = accountActive;
 	}
 
 	public boolean isEnableLimitDate() {

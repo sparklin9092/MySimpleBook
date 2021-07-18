@@ -1,6 +1,5 @@
 $(function() {
 
-	initAccountTypeSelect();
 	initLimitYearMonth();
 	initData();
 	
@@ -10,39 +9,6 @@ $(function() {
 	$('#deleteBtn').on('click', deleteAct);
 	$('#confirmBtn').on('click', confirmAct);
 });
-
-function initAccountTypeSelect() {
-	
-	$.ajax({
-		url: '/account/typeList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			if(res.status) {
-				
-				var typeList = res.accountTypeListDto;
-				var selectOptions = "";
-				
-				$.each(typeList, function(index, value){
-					selectOptions += '<option value="' + value.typeId + '">' + value.typeName + '</option>';
-				})
-				
-				$('#accountTypeSelect').html(selectOptions);
-				
-			} else {
-				
-				alert(res.msg);
-			}
-		},
-		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
-		}
-	});
-}
 
 function initLimitYearMonth() {
 	
@@ -67,18 +33,21 @@ function initData() {
 			
 			if(res.status) {
 				
-				var accountTypeId = res.accountOneDto.accountTypeId;
+				var accountTypeName = res.accountOneDto.accountTypeName;
 				var accountName = res.accountOneDto.accountName;
+				var initAmnt = res.accountOneDto.initAmnt;
+				var accountAmnt = res.accountOneDto.accountAmnt;
 				var accountDefault = res.accountOneDto.accountDefault;
 				var accountActive = res.accountOneDto.accountActive;
 				var enableLimitDate = res.accountOneDto.enableLimitDate;
 				var limitYear = res.accountOneDto.limitYear;
 				var limitMonth = res.accountOneDto.limitMonth;
-				var createUserName = res.accountOneDto.createUserName;
 				var createDateTime = res.accountOneDto.createDateTime;
 				
-				$('#accountTypeSelect').val(accountTypeId.toString()).change();
+				$('#accountTypeName').val(accountTypeName);
 				$('#accountName').val(accountName);
+				$('#initAmnt').val(initAmnt);
+				$('#accountAmnt').val(accountAmnt);
 				
 				if(accountDefault) {
 					$('#defaultTrue').prop('checked', true);
@@ -99,8 +68,7 @@ function initData() {
 					$('#limitMonth').val(limitMonth).change();
 				}
 				
-				$('#createUserName').val(createUserName);
-				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日 hh:mm:ss'));
+				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
 				
 			} else {
 				
@@ -165,10 +133,8 @@ function deleteAct() {
 function confirmAct() {
 	
 	var accountId = $('#accountId').val();
-	var accountType = $('#accountTypeSelect').val();
-	var accountName = $('#accountName').val();
-	var accountDefault = $('input[name=accountDefault]:checked').val();
 	var accountActive = $('input[name=accountActive]:checked').val();
+	var accountDefault = $('input[name=accountDefault]:checked').val();
 	var enableLimitDate = $('#enableLimitDate').prop('checked');
 	var limitYear = "";
 	var limitMonth = "";
@@ -180,10 +146,8 @@ function confirmAct() {
 	
 	var data = {};
 	data.accountId = accountId;
-	data.accountType = accountType;
-	data.accountName = accountName;
-	data.accountDefault = accountDefault;
 	data.accountActive = accountActive;
+	data.accountDefault = accountDefault;
 	data.enableLimitDate = enableLimitDate;
 	data.limitYear = limitYear;
 	data.limitMonth = limitMonth;

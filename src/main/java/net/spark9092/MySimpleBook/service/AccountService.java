@@ -1,5 +1,6 @@
 package net.spark9092.MySimpleBook.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,16 +40,10 @@ public class AccountService {
 
 			listDtos.stream().forEach(dto -> {
 
-				String itemActive = "停用";
-				if(dto.isItemActive()) {
-					itemActive = "啟用";
-				}
-
 				List<String> itemList = new ArrayList<>();
 				itemList.add(String.valueOf(dto.getAccountId()));
-				itemList.add(dto.getTypeName());
 				itemList.add(dto.getAccountName());
-				itemList.add(itemActive);
+				itemList.add(dto.getAccountAmnt().toString());
 				itemList.add("");
 
 				dataList.add(itemList);
@@ -88,12 +83,12 @@ public class AccountService {
 
 		return oneMsgDto;
 	}
-	
+
 	private String formatLimitDate(boolean enableLimitDate, String limitMonth, String limitYear) {
-		
+
 		String limitDateEndDay = "";
 		String limitDate = null;
-		
+
 		if(enableLimitDate) {
 
 			switch (limitMonth) {
@@ -125,7 +120,7 @@ public class AccountService {
 			//最後組合完日期，進行正規化驗證，如果不合格，那就不要寫入資料庫
 			if(!limitDate.matches(limitDateRegex)) limitDate = null;
 		}
-		
+
 		return limitDate;
 	}
 
@@ -140,6 +135,7 @@ public class AccountService {
 			int userId = createPojo.getUserId();
 			int accountType = createPojo.getAccountType();
 			String accountName = createPojo.getAccountName();
+			BigDecimal initAmnt = createPojo.getInitAmnt();
 			String accountDefaultStr = createPojo.getAccountDefault();
 			boolean enableLimitDate = createPojo.isEnableLimitDate();
 			String limitYear = createPojo.getLimitYear();
@@ -154,7 +150,7 @@ public class AccountService {
 			limitDate = this.formatLimitDate(enableLimitDate, limitMonth, limitYear);
 
 			return iAccountMapper.createByValues(userId, accountType, accountName,
-					accountDefault, limitDate);
+					initAmnt, accountDefault, limitDate);
 		}
 	}
 
@@ -168,8 +164,6 @@ public class AccountService {
 
 			int userId = modifyPojo.getUserId();
 			int accountId = modifyPojo.getAccountId();
-			int accountType = modifyPojo.getAccountType();
-			String accountName = modifyPojo.getAccountName();
 			String accountDefaultStr = modifyPojo.getAccountDefault();
 			String accountActiveStr = modifyPojo.getAccountActive();
 			boolean enableLimitDate = modifyPojo.isEnableLimitDate();
@@ -190,8 +184,7 @@ public class AccountService {
 			limitDate = this.formatLimitDate(enableLimitDate, limitMonth, limitYear);
 
 			return iAccountMapper.modifyByValues(
-					userId, accountId, accountType, accountName, limitDate, 
-					accountDefault, accountActive);
+					userId, accountId, limitDate, accountDefault, accountActive);
 		}
 	}
 
