@@ -14,13 +14,13 @@
 			<h3 class="text-center bg-light py-3 rounded-pill" id="richCode" name="richCode">來記帳吧！</h3>
 			<div class="row my-3">
 				<div class="col d-grid gap-2">
-					<button type="button" class="btn btn-outline-info btn-lg" id="transferBtn" name="transferBtn">轉帳</button>
+					<button type="button" class="btn btn-outline-info btn-lg btn-height" id="transferBtn" name="transferBtn">轉帳</button>
 				</div>
 				<div class="col d-grid gap-2">
-					<button type="button" class="btn btn-outline-success btn-lg" id="incomeBtn" name="incomeBtn">收入</button>
+					<button type="button" class="btn btn-outline-success btn-lg btn-height" id="incomeBtn" name="incomeBtn">收入</button>
 				</div>
 				<div class="col d-grid gap-2">
-					<button type="button" class="btn btn-outline-danger btn-lg" id="spendBtn" name="spendBtn">支出</button>
+					<button type="button" class="btn btn-outline-danger btn-lg btn-height" id="spendBtn" name="spendBtn">支出</button>
 				</div>
 			</div>
 		</div>
