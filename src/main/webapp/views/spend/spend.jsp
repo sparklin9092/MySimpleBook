@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="/css/spend/spend.css">
 	<script type="text/javascript" src="/js/spend/spend.js"></script>
 	<script type="text/javascript" src="/js/common/userCheck.js"></script>
+	<script type="text/javascript" src="/js/common/checkAmnt.js"></script>
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
@@ -41,7 +42,7 @@
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="number" class="form-control" id="amount" name="amount" placeholder="0">
+					<input type="text" class="form-control" id="amount" name="amount" placeholder="0">
 				</div>
 			</div>
 			<div class="row">

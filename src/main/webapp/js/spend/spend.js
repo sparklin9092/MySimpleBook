@@ -105,6 +105,8 @@ function confirmAct() {
 	var amount = $('#amount').val();
 	var remark = $('#remark').val();
 	
+	if(!checkAmnt(amount)) return;
+	
 	var data = {};
 	data.spendDate = spendDate;
 	data.spendItemId = spendItemId;
