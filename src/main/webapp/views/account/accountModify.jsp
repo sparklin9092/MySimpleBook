@@ -78,19 +78,19 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">類型建立人員</div>
+				<div class="col">帳戶建立人員</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="text" class="form-control" id="createUserName" name="createUserName" disabled="disabled">
+					<input type="text" class="form-control" id="createUserName" name="createUserName" readonly>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">類型建立時間</div>
+				<div class="col">帳戶建立時間</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="text" class="form-control" id="createDateTime" name="createDateTime" disabled="disabled">
+					<input type="text" class="form-control" id="createDateTime" name="createDateTime" readonly>
 				</div>
 			</div>
 			<input type="hidden" id="accountId" name="accountId" value="${accountId}">

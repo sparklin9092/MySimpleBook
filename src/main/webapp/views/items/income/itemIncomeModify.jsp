@@ -61,7 +61,7 @@
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="text" class="form-control" id="createUserName" name="createUserName" disabled="disabled">
+					<input type="text" class="form-control" id="createUserName" name="createUserName" readonly>
 				</div>
 			</div>
 			<div class="row">
@@ -69,7 +69,7 @@
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="text" class="form-control" id="createDateTime" name="createDateTime" disabled="disabled">
+					<input type="text" class="form-control" id="createDateTime" name="createDateTime" readonly>
 				</div>
 			</div>
 			<input type="hidden" id="itemId" name="itemId" value="${itemId}">
