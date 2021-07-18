@@ -122,18 +122,26 @@ public class SpendController {
 
 			createPojo.setUserId(userInfoEntity.getId());
 
-			boolean createStatus = spendService.createByPojo(createPojo);
+			try {
+				boolean createStatus = spendService.createByPojo(createPojo);
 
-			if(createStatus) {
+				if(createStatus) {
 
-				createMsgDto.setStatus(true);
-				createMsgDto.setMsg("");
+					createMsgDto.setStatus(true);
+					createMsgDto.setMsg("");
 
-			} else {
+				} else {
+
+					createMsgDto.setStatus(false);
+					createMsgDto.setMsg("新增未成功");
+
+				}
+			} catch (Exception ex) {
+				
+				ex.printStackTrace();
 
 				createMsgDto.setStatus(false);
-				createMsgDto.setMsg("新增未成功");
-
+				createMsgDto.setMsg("新增一筆支出發生錯誤，請重新在操作一次。");
 			}
 		}
 

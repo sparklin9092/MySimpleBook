@@ -110,4 +110,9 @@ public interface IAccountMapper {
 			+ " is_delete=1 "
 			+ " where id=#{accountId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("accountId") int accountId);
+	
+	@Update("update account set "
+			+ " amount = amount - #{amount} "
+			+ " where id=#{accountId} and user_id=#{userId}")
+	boolean decreaseAmnt(@Param("userId") int userId, @Param("accountId") int accountId, @Param("amount") BigDecimal amount);
 }

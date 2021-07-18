@@ -137,7 +137,7 @@ function confirmAct() {
 				}
 			} else {
 				
-				alert(msg);
+				alert(res.msg);
 			}
 		},
 		error: function(err) {
