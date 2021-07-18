@@ -115,4 +115,9 @@ public interface IAccountMapper {
 			+ " amount = amount - #{amount} "
 			+ " where id=#{accountId} and user_id=#{userId}")
 	boolean decreaseAmnt(@Param("userId") int userId, @Param("accountId") int accountId, @Param("amount") BigDecimal amount);
+
+	@Update("update account set "
+			+ " amount = amount + #{amount} "
+			+ " where id=#{accountId} and user_id=#{userId}")
+	boolean increaseAmnt(@Param("userId") int userId, @Param("accountId") int accountId, @Param("amount") BigDecimal amount);
 }

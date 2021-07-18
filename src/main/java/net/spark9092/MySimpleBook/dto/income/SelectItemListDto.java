@@ -21,11 +21,4 @@ public class SelectItemListDto {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-
-	@Override
-	public String toString() {
-		return String.format("SpendItemListDto [itemId=%s, itemName=%s]", itemId, itemName);
-	}
-	
-	
 }

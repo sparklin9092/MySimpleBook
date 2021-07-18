@@ -51,6 +51,20 @@ public class PageViewController {
 	}
 
 	/**
+	 * 新增一筆收入
+	 * @return
+	 */
+	@GetMapping("income")
+	public ModelAndView income() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/income/income";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
 	 * 帳戶管理-列表
 	 * @return
 	 */

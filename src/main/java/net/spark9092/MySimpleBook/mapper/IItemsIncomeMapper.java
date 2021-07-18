@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import net.spark9092.MySimpleBook.dto.income.SelectItemListDto;
 import net.spark9092.MySimpleBook.dto.items.income.ListDto;
 import net.spark9092.MySimpleBook.dto.items.income.OneDto;
 
@@ -27,7 +26,7 @@ public interface IItemsIncomeMapper {
 		@Result(column="id", property="itemId"),
 		@Result(column="name", property="itemName")
 	})
-	List<SelectItemListDto> selectListByUserId(@Param("userId") int userId);
+	List<ListDto> selectListByUserId(@Param("userId") int userId);
 
 	/**
 	 * 根據 User ID，查詢收入項目管理的清單
