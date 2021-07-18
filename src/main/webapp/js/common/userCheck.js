@@ -13,6 +13,8 @@ $(function() {
 			if(!res.status) {
 				
 				alert("使用者未登入");
+
+				location.href = '/';
 			} else {
 				
 				$('#menuUserTitle').text(res.userName + '的記帳本');
