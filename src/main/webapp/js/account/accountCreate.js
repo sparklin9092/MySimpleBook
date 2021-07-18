@@ -99,8 +99,6 @@ function confirmAct() {
 		data: JSON.stringify(data),
 		success: function(res) {
 			
-			console.log(res);
-			
 			if(res.status) {
 				
 				alert('新增成功');
@@ -108,7 +106,7 @@ function confirmAct() {
 				
 			} else {
 				
-				alert(msg);
+				alert(res.msg);
 			}
 		},
 		error: function(err) {
