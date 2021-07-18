@@ -77,6 +77,8 @@ function confirmAct() {
 	var limitYear = "";
 	var limitMonth = "";
 	
+	if(!checkAmnt(initAmnt)) return;
+	
 	if(enableLimitDate) {
 		limitYear = $('#limitYear').val();
 		limitMonth = $('#limitMonth').val();

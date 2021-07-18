@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="/js/account/accountCreditCardLimitYearMonth.js"></script>
 	<script type="text/javascript" src="/js/account/accountCreate.js"></script>
 	<script type="text/javascript" src="/js/common/userCheck.js"></script>
+	<script type="text/javascript" src="/js/common/checkAmnt.js"></script>
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>

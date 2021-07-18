@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.spark9092.MySimpleBook.dto.account.TypeListDto;
+import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.dto.account.ListDto;
 import net.spark9092.MySimpleBook.dto.account.OneDto;
 import net.spark9092.MySimpleBook.dto.account.OneMsgDto;
@@ -24,6 +25,9 @@ public class AccountService {
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
 
 	private static final String limitDateRegex = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+
+	@Autowired
+	private CheckCommon checkCommon;
 
 	@Autowired
 	private IAccountMapper iAccountMapper;
@@ -141,6 +145,8 @@ public class AccountService {
 			String limitYear = createPojo.getLimitYear();
 			String limitMonth = createPojo.getLimitMonth();
 			String limitDate = null;
+			
+			if(!checkCommon.checkAmnt(initAmnt)) return false;
 
 			boolean accountDefault = false;
 			if(accountDefaultStr.equals("1")) {
