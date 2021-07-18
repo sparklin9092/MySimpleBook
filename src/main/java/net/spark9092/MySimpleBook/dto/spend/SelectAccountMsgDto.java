@@ -2,20 +2,20 @@ package net.spark9092.MySimpleBook.dto.spend;
 
 import java.util.List;
 
-public class SelectItemMsgDto {
+public class SelectAccountMsgDto {
 
-	private List<SelectItemListDto> itemList;
+	private List<SelectAccountListDto> accountList;
 	
 	private boolean status;
 	
 	private String msg;
 
-	public List<SelectItemListDto> getItemList() {
-		return itemList;
+	public List<SelectAccountListDto> getAccountList() {
+		return accountList;
 	}
 
-	public void setItemList(List<SelectItemListDto> itemList) {
-		this.itemList = itemList;
+	public void setAccountList(List<SelectAccountListDto> accountList) {
+		this.accountList = accountList;
 	}
 
 	public boolean isStatus() {
@@ -33,4 +33,5 @@ public class SelectItemMsgDto {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+
 }

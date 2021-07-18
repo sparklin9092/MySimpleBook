@@ -9,27 +9,57 @@
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
-	<div class="container-fluid">
+	<div class="container-fluid pb-5 mb-5">
 		<div class="container-xl">
 			<h3 class="text-center">新增一筆支出</h3>
-			<div class="input-group mb-3">
-				<span class="input-group-text">日期</span>
-				<input type="text" class="form-control" id="spendDatePicker" name="spendDate">
+			<div class="row">
+				<div class="col">日期</div>
 			</div>
-			<div class="input-group mb-3">
-				<label class="input-group-text" for="spendItemSelect">項目</label>
-				<select class="form-select" id="spendItemSelect"></select>
+			<div class="row mb-2">
+				<div class="col">
+					<input type="text" class="form-control" id="spendDatePicker" name="spendDate" readonly>
+				</div>
 			</div>
-			<div class="input-group mb-3">
-				<label class="input-group-text" for="spendItemSelect">帳戶</label>
-				<select class="form-select" id="accountItemSelect"></select>
+			<div class="row">
+				<div class="col">項目</div>
 			</div>
-			<div class="input-group mb-3">
-				<span class="input-group-text">金額</span>
-				<input type="number" class="form-control">
+			<div class="row mb-2">
+				<div class="col">
+					<select class="form-select" id="spendItemSelect" name="spendItemSelect"></select>
+				</div>
 			</div>
-			<div>
-				<button type="button" class="btn btn-primary" id="spendBtn" name="spendBtn">確定</button>
+			<div class="row">
+				<div class="col">帳戶</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col">
+					<select class="form-select" id="accountItemSelect" name="accountItemSelect"></select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">金額</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col">
+					<input type="number" class="form-control" id="amount" name="amount" placeholder="0">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">備註</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col">
+					<input type="text" class="form-control remark-height" id="remark" name="remark" placeholder="（最多可以輸入200個字）">
+				</div>
+			</div>
+			<input type="hidden" id="spendDate" name="spendDate">
+			<div class="row border-top py-3">
+				<div class="col text-start">
+					<button type="button" class="btn btn-outline-danger btn-lg mx-2" id="cancelBtn" name="cancelBtn">取消</button>
+				</div>
+				<div class="col text-end">
+					<button type="button" class="btn btn-outline-success btn-lg mx-2" id="confirmBtn" name="confirmBtn">確定</button>
+				</div>
 			</div>
 		</div>
 	</div>

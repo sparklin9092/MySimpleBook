@@ -12,17 +12,9 @@ import org.apache.ibatis.annotations.Update;
 
 import net.spark9092.MySimpleBook.dto.items.spend.ListDto;
 import net.spark9092.MySimpleBook.dto.items.spend.OneDto;
-import net.spark9092.MySimpleBook.dto.spend.SelectItemListDto;
 
 @Mapper
 public interface IItemsSpendMapper {
-
-	@Select("select id, name from items_spend where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
-	@Results({
-		@Result(column="id", property="itemId"),
-		@Result(column="name", property="itemName")
-	})
-	List<SelectItemListDto> selectListByUserId(@Param("userId") int userId);
 
 	/**
 	 * 根據 User ID，查詢支出項目管理的清單
