@@ -137,11 +137,9 @@ public class SpendController {
 
 				}
 			} catch (Exception ex) {
-				
-				ex.printStackTrace();
 
 				createMsgDto.setStatus(false);
-				createMsgDto.setMsg("新增一筆支出發生錯誤，請重新在操作一次。");
+				createMsgDto.setMsg("新增一筆支出發生錯誤，請再重新操作一次。");
 			}
 		}
 
