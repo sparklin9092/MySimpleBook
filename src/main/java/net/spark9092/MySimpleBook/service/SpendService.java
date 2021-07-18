@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.dto.spend.SelectAccountListDto;
 import net.spark9092.MySimpleBook.dto.spend.SelectItemListDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
@@ -20,6 +21,9 @@ import net.spark9092.MySimpleBook.pojo.spend.CreatePojo;
 public class SpendService {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+
+	@Autowired
+	private CheckCommon checkCommon;
 
 	@Autowired
 	private ISpendMapper iSpendMapper;
@@ -57,6 +61,8 @@ public class SpendService {
 			BigDecimal amount = createPojo.getAmount();
 			String remark = createPojo.getRemark();
 
+			if(!checkCommon.checkAmnt(amount)) return false;
+			
 			boolean createSpendStatus =  iSpendMapper.createByValues(
 					userId, spendItemId, accountItemId, spendDate, amount, remark);
 			
