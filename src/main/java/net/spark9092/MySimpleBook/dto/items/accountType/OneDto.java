@@ -10,8 +10,6 @@ public class OneDto {
 
 	private boolean itemActive;
 
-	private String createUserName;
-
 	private LocalDateTime createDateTime;
 
 	public String getItemName() {
@@ -36,14 +34,6 @@ public class OneDto {
 
 	public void setItemActive(boolean itemActive) {
 		this.itemActive = itemActive;
-	}
-
-	public String getCreateUserName() {
-		return createUserName;
-	}
-
-	public void setCreateUserName(String createUserName) {
-		this.createUserName = createUserName;
 	}
 
 	public LocalDateTime getCreateDateTime() {

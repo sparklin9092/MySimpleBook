@@ -57,14 +57,6 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">類型建立人員</div>
-			</div>
-			<div class="row mb-2">
-				<div class="col">
-					<input type="text" class="form-control" id="createUserName" name="createUserName" readonly>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col">類型建立時間</div>
 			</div>
 			<div class="row mb-2">

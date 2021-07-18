@@ -25,7 +25,6 @@ function initData() {
 				var itemName = res.itemAccountTypeOneDto.itemName;
 				var itemActive = res.itemAccountTypeOneDto.itemActive;
 				var itemDefault = res.itemAccountTypeOneDto.itemDefault;
-				var createUserName = res.itemAccountTypeOneDto.createUserName;
 				var createDateTime = res.itemAccountTypeOneDto.createDateTime;
 				
 				$('#itemAccountTypeName').val(itemName);
@@ -42,8 +41,7 @@ function initData() {
 					$('#defaultFalse').prop('checked', true);
 				}
 				
-				$('#createUserName').val(createUserName);
-				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日 hh:mm:ss'));
+				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
 				
 			} else {
 				

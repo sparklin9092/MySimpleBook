@@ -38,15 +38,13 @@ public interface IItemsAccountTypeMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select a.name, a.is_default, a.is_active, b.user_name, a.create_datetime "
-			+ " from items_account_type a"
-			+ " left join user_info b on b.id=a.create_user_id "
-			+ " where a.is_delete=0 and a.id=#{itemId} and a.user_id=#{userId}")
+	@Select("select name, is_default, is_active, create_datetime "
+			+ " from items_account_type "
+			+ " where is_delete=0 and id=#{itemId} and user_id=#{userId}")
 	@Results({
 		@Result(column="name", property="itemName"),
 		@Result(column="is_default", property="itemDefault"),
 		@Result(column="is_active", property="itemActive"),
-		@Result(column="user_name", property="createUserName"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
 	OneDto selectOneByIds(@Param("itemId") int itemId, @Param("userId") int userId);
