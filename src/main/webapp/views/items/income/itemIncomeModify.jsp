@@ -19,7 +19,7 @@
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="text" class="form-control" id="itemIncomeName" name="itemIncomeName">
+					<input type="text" class="form-control" id="itemIncomeName" name="itemIncomeName" placeholder="請輸入項目名稱">
 				</div>
 			</div>
 			<div class="row">

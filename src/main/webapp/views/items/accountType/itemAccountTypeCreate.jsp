@@ -19,7 +19,7 @@
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="text" class="form-control" id="itemAccountTypeName" name="itemAccountTypeName">
+					<input type="text" class="form-control" id="itemAccountTypeName" name="itemAccountTypeName" placeholder="請輸入類型名稱">
 				</div>
 			</div>
 			<div class="row">
