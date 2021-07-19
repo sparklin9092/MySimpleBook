@@ -2,12 +2,10 @@
 <footer class="footer-area vertical-center fixed-bottom">
 	<div class="container-xl">
 		<div class="row text-center text-white my-3 footer-contact">
-			<div class="col">
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-start">
 				聯絡資訊：sparklin9092@gmail.com
 			</div>
-		</div>
-		<div class="row text-center text-white footer-contact">
-			<div class="col">
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-end">
 				版權所有© 2021 林家瑋 Copyright © 2021 LIN-JIA-WEI. All rights reserved.
 			</div>
 		</div>
