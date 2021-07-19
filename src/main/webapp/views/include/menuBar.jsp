@@ -16,6 +16,9 @@
 					<a class="nav-link menu-item" href="/income">新增收入</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link menu-item" href="/transfer">新增轉帳</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link menu-item" href="/account">帳戶管理</a>
 				</li>
 				<li class="nav-item dropdown">
