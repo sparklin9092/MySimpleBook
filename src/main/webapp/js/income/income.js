@@ -19,7 +19,7 @@ function initIncomeDate() {
 	$('#incomeDatePicker').datepicker({
 		dateFormat: 'yy年mm月dd日',
 		showWeek: true,
-		altField: '#spendDate',
+		altField: '#incomeDate',
 		altFormat: 'yy-mm-dd'
 	});
 	
