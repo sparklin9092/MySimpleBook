@@ -18,5 +18,6 @@
 			<table id="accountTable" class="cell-border" style="width: 100%"></table>
 		</div>
 	</div>
+	<jsp:include page="/views/include/footer.jsp"></jsp:include>
 </body>
 </html>

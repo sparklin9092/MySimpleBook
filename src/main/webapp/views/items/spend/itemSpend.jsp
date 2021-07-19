@@ -19,5 +19,6 @@
 			<!-- <div class="create-btn" id="createBtn" name="createBtn">新增</div> -->
 		</div>
 	</div>
+	<jsp:include page="/views/include/footer.jsp"></jsp:include>
 </body>
 </html>
