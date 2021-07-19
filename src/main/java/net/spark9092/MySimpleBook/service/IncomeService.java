@@ -55,7 +55,7 @@ public class IncomeService {
 		} else {
 
 			int userId = createPojo.getUserId();
-			int incomeItemId = createPojo.getAccountItemId();
+			int incomeItemId = createPojo.getIncomeItemId();
 			int accountItemId = createPojo.getAccountItemId();
 			String incomeDate = createPojo.getIncomeDate();
 			BigDecimal amount = createPojo.getAmount();
