@@ -26,7 +26,7 @@ function initRichCodeList() {
 	
 	var defaultRichCode = '時間就是金錢！';
 	var richCodeItems = "";
-	richCodeItems += '<div class="carousel-item active">' + defaultRichCode + '</div>';
+	richCodeItems += '<div class="carousel-item p-2 active">' + defaultRichCode + '</div>';
 	
 	$.ajax({
 		url: '/main/richCodeList',
@@ -46,7 +46,7 @@ function initRichCodeList() {
 					if(key == 1) activeSign = ' active';
 					else activeSign = '';
 					
-					richCodeItems += '<div class="carousel-item' + activeSign + '">' + val.richCode + '</div>';
+					richCodeItems += '<div class="carousel-item p-2 ' + activeSign + '">' + val.richCode + '</div>';
 				});
 				
 				$('#richCodeBox').empty().html(richCodeItems);
