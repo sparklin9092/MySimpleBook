@@ -65,6 +65,20 @@ public class PageViewController {
 	}
 
 	/**
+	 * 新增一筆轉帳
+	 * @return
+	 */
+	@GetMapping("transfer")
+	public ModelAndView transfer() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/transfer/transfer";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
 	 * 帳戶管理-列表
 	 * @return
 	 */
