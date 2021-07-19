@@ -41,10 +41,12 @@ public class MainController {
 			if(null == dtos || dtos.size() == 0) {
 				
 				listMsgDto = richCodeService.getRichCodeList();
+				
+			} else {
+				
+				listMsgDto.setListDtos(dtos);
+				listMsgDto.setStatus(true);
 			}
-			
-			listMsgDto.setListDtos(dtos);
-			listMsgDto.setStatus(true);
 			
 		} else {
 			
