@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,10 +15,14 @@ import net.spark9092.MySimpleBook.dto.richCode.ListDto;
 import net.spark9092.MySimpleBook.dto.richCode.ListMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
+import net.spark9092.MySimpleBook.service.RichCodeService;
 
 @RequestMapping("/main")
 @RestController
 public class MainController {
+
+	@Autowired
+	private RichCodeService richCodeService;
 
 	@SuppressWarnings("unchecked")
 	@PostMapping("/richCodeList")
@@ -33,6 +38,11 @@ public class MainController {
 
 			dtos = (List<ListDto>) session.getAttribute(SessinNameEnum.RICH_CODE.getName());
 
+			if(null == dtos || dtos.size() == 0) {
+				
+				listMsgDto = richCodeService.getRichCodeList();
+			}
+			
 			listMsgDto.setListDtos(dtos);
 			listMsgDto.setStatus(true);
 			
