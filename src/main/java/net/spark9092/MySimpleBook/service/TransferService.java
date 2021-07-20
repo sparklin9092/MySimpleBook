@@ -50,45 +50,42 @@ public class TransferService {
 
 			int userId = createPojo.getUserId();
 			String transferDate = createPojo.getTransferDate();
+			BigDecimal amnt = createPojo.getAmount();
 			int tOutAccId = createPojo.gettOutAccId();
-			BigDecimal tOutAmnt = createPojo.gettOutAmnt();
-			boolean outSideAccCheck = createPojo.isOutSideAccCheck();
 			int tInAccId = createPojo.gettInAccId();
-			BigDecimal tInAmnt = tOutAmnt;
+			boolean outSideCheck = createPojo.isOutSideCheck();
 			String tOutsideAccName = createPojo.gettOutsideAccName();
 			String remark = createPojo.getRemark();
 
-			if(!outSideAccCheck && tOutAccId == tInAccId) return false;
+			if(!outSideCheck && tOutAccId == tInAccId) return false;
 			
-			if(!checkCommon.checkAmnt(tOutAmnt)) return false;
+			if(!checkCommon.checkAmnt(amnt)) return false;
 			
 			boolean createTransferStatus = false;
 			
 			//檢查是否為外部帳戶轉帳
-			if(outSideAccCheck) {
+			if(outSideCheck) {
 				
 				//當轉帳是外部帳戶時
 				createTransferStatus =  iTransferMapper.createOutsideByValues(
-					userId, transferDate, tOutAccId, tOutAmnt,
-					tInAmnt, outSideAccCheck, tOutsideAccName, remark);
+						userId, transferDate, amnt, tOutAccId, tOutsideAccName, remark);
 			} else {
 				
 				//是一般轉帳
 				createTransferStatus = iTransferMapper.createByValues(
-					userId, transferDate, tOutAccId, tOutAmnt,
-					tInAccId, tInAmnt, remark);
+						userId, transferDate, amnt, tOutAccId, tInAccId, remark);
 			}
 			
 			if(createTransferStatus) {
 				
-				boolean decreaseAmntStatus = iAccountMapper.decreaseAmnt(userId, tOutAccId, tOutAmnt);
+				boolean decreaseAmntStatus = iAccountMapper.decreaseAmnt(userId, tOutAccId, amnt);
 				
 				if(decreaseAmntStatus) {
 					
 					//如果是一般轉帳才會餘額才會增加，外部轉帳不會
-					if(!outSideAccCheck) {
+					if(!outSideCheck) {
 						
-						boolean increaseAmntStatus = iAccountMapper.increaseAmnt(userId, tInAccId, tInAmnt);
+						boolean increaseAmntStatus = iAccountMapper.increaseAmnt(userId, tInAccId, amnt);
 						
 						if(increaseAmntStatus) {
 							

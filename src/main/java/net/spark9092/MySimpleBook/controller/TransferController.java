@@ -98,6 +98,8 @@ public class TransferController {
 
 				}
 			} catch (Exception ex) {
+				
+				ex.printStackTrace();
 
 				createMsgDto.setStatus(false);
 				createMsgDto.setMsg("新增一筆轉帳發生錯誤，請再重新操作一次。");

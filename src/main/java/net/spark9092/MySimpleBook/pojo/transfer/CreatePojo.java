@@ -8,13 +8,13 @@ public class CreatePojo {
 
 	private String transferDate;
 	
+	private BigDecimal amount;
+	
 	private int tOutAccId;
 	
-	private BigDecimal tOutAmnt;
-	
-	private boolean outSideAccCheck;
-	
 	private int tInAccId;
+	
+	private boolean outSideCheck;
 
 	private String tOutsideAccName;
 	
@@ -36,6 +36,14 @@ public class CreatePojo {
 		this.transferDate = transferDate;
 	}
 
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
 	public int gettOutAccId() {
 		return tOutAccId;
 	}
@@ -44,28 +52,20 @@ public class CreatePojo {
 		this.tOutAccId = tOutAccId;
 	}
 
-	public BigDecimal gettOutAmnt() {
-		return tOutAmnt;
-	}
-
-	public void settOutAmnt(BigDecimal tOutAmnt) {
-		this.tOutAmnt = tOutAmnt;
-	}
-
-	public boolean isOutSideAccCheck() {
-		return outSideAccCheck;
-	}
-
-	public void setOutSideAccCheck(boolean outSideAccCheck) {
-		this.outSideAccCheck = outSideAccCheck;
-	}
-
 	public int gettInAccId() {
 		return tInAccId;
 	}
 
 	public void settInAccId(int tInAccId) {
 		this.tInAccId = tInAccId;
+	}
+
+	public boolean isOutSideCheck() {
+		return outSideCheck;
+	}
+
+	public void setOutSideCheck(boolean outSideCheck) {
+		this.outSideCheck = outSideCheck;
 	}
 
 	public String gettOutsideAccName() {
@@ -82,12 +82,5 @@ public class CreatePojo {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	@Override
-	public String toString() {
-		return String.format(
-				"CreatePojo [userId=%s, transferDate=%s, tOutAccId=%s, tOutAmnt=%s, outSideAccCheck=%s, tInAccId=%s, tOutsideAccName=%s, remark=%s]",
-				userId, transferDate, tOutAccId, tOutAmnt, outSideAccCheck, tInAccId, tOutsideAccName, remark);
 	}
 }

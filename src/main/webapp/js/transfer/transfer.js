@@ -87,26 +87,26 @@ function cancelAct() {
 function confirmAct() {
 	
 	var transferDate = $('#transferDate').val();
+	var amount = $('#tOutAmnt').val();
 	var tOutAccId = $('#tOutAccItemSelect').val();
-	var tOutAmnt = $('#tOutAmnt').val();
-	var outSideAccCheck = $('#outSideAccCheck').prop('checked');
 	var tInAccId = $('#tInAccItemSelect').val();
+	var outSideCheck = $('#outSideAccCheck').prop('checked');
 	var tOutsideAccName = $('#tOutsideAccName').val();
 	var remark = $('#remark').val();
 	
-	if(!outSideAccCheck && tInAccId == tOutAccId) {
+	if(!outSideCheck && tInAccId == tOutAccId) {
 		alert("無法在相同帳戶之間進行轉帳。");
 		return;
 	}
 	
-	if(!checkAmnt(tOutAmnt)) return;
+	if(!checkAmnt(amount)) return;
 	
 	var data = {};
 	data.transferDate = transferDate;
+	data.amount = amount;
 	data.tOutAccId = tOutAccId;
-	data.tOutAmnt = tOutAmnt;
-	data.outSideAccCheck = outSideAccCheck;
 	data.tInAccId = tInAccId;
+	data.outSideCheck = outSideCheck;
 	data.tOutsideAccName = tOutsideAccName;
 	data.remark = remark;
 	
