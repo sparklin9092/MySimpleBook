@@ -2,7 +2,11 @@ $(function() {
 	
 	initTransferDate();
 	initAccountItemSelect();
-
+	
+	$('#outsideAcc').hide();
+	
+	$('#outSideAccCheck').on('click', showOutside);
+	
 	$('#cancelBtn').on('click', cancelAct);
 	$('#confirmBtn').on('click', confirmAct);
 });
@@ -58,6 +62,23 @@ function initAccountItemSelect() {
 	});
 }
 
+function showOutside() {
+	
+	var status = $('#outSideAccCheck').prop('checked');
+	
+	if(status) {
+		
+		$('#insideAcc').hide();
+		$('#outsideAcc').show();
+		
+	} else {
+		
+		$('#insideAcc').show();
+		$('#outsideAcc').hide();
+		
+	}
+}
+
 function cancelAct() {
 	
 	location.href = '/main';
@@ -68,10 +89,12 @@ function confirmAct() {
 	var transferDate = $('#transferDate').val();
 	var tOutAccId = $('#tOutAccItemSelect').val();
 	var tOutAmnt = $('#tOutAmnt').val();
+	var outSideAccCheck = $('#outSideAccCheck').prop('checked');
 	var tInAccId = $('#tInAccItemSelect').val();
+	var tOutsideAccName = $('#tOutsideAccName').val();
 	var remark = $('#remark').val();
 	
-	if(tInAccId == tOutAccId) {
+	if(!outSideAccCheck && tInAccId == tOutAccId) {
 		alert("無法在相同帳戶之間進行轉帳。");
 		return;
 	}
@@ -82,7 +105,9 @@ function confirmAct() {
 	data.transferDate = transferDate;
 	data.tOutAccId = tOutAccId;
 	data.tOutAmnt = tOutAmnt;
+	data.outSideAccCheck = outSideAccCheck;
 	data.tInAccId = tInAccId;
+	data.tOutsideAccName = tOutsideAccName;
 	data.remark = remark;
 	
 	$.ajax({

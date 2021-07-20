@@ -42,7 +42,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="row mx-1 my-3 border border-info rounded">
+			<div class="row">
+				<div class="col">
+					<input type="checkbox" class="form-check-input" id="outSideAccCheck" name="outSideAccCheck">
+					<label for="outSideAccCheck">是否為外部帳號（不是自己的帳號，或是還沒紀錄在系統裡）</label>
+				</div>
+			</div>
+			<div class="row mx-1 my-3 border border-info rounded" id="insideAcc" name="insideAcc">
 				<div class="col-2 vertical-center in-out-title">轉入帳戶</div>
 				<div class="col-10 py-3">
 					<div class="row">
@@ -51,6 +57,19 @@
 					<div class="row mb-2">
 						<div class="col">
 							<select class="form-select" id="tInAccItemSelect" name="tInAccItemSelect"></select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row mx-1 my-3 border border-info rounded" id="outsideAcc" name="outsideAcc">
+				<div class="col-2 vertical-center in-out-title">轉入外部帳戶</div>
+				<div class="col-10 py-3">
+					<div class="row">
+						<div class="col">帳戶名稱</div>
+					</div>
+					<div class="row mb-2">
+						<div class="col">
+							<input type="text" class="form-control" id="tOutsideAccName" name="tOutsideAccName" placeholder="選填">
 						</div>
 					</div>
 				</div>

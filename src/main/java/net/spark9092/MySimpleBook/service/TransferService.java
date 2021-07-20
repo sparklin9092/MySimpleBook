@@ -50,16 +50,32 @@ public class TransferService {
 			String transferDate = createPojo.getTransferDate();
 			int tOutAccId = createPojo.gettOutAccId();
 			BigDecimal tOutAmnt = createPojo.gettOutAmnt();
+			boolean outSideAccCheck = createPojo.isOutSideAccCheck();
 			int tInAccId = createPojo.gettInAccId();
 			BigDecimal tInAmnt = tOutAmnt;
+			String tOutsideAccName = createPojo.gettOutsideAccName();
 			String remark = createPojo.getRemark();
 
-			if(tOutAccId == tInAccId) return false;
+			if(!outSideAccCheck && tOutAccId == tInAccId) return false;
 			
 			if(!checkCommon.checkAmnt(tOutAmnt)) return false;
 			
-			boolean createTransferStatus =  iTransferMapper.createByValues(
-					userId, transferDate, tInAccId, tInAmnt, tOutAccId, tOutAmnt, remark);
+			boolean createTransferStatus = false;
+			
+			//檢查是否為外部帳戶轉帳
+			if(outSideAccCheck) {
+				
+				//當轉帳是外部帳戶時
+				createTransferStatus =  iTransferMapper.createOutsideByValues(
+					userId, transferDate, tOutAccId, tOutAmnt,
+					tInAmnt, outSideAccCheck, tOutsideAccName, remark);
+			} else {
+				
+				//是一般轉帳
+				createTransferStatus = iTransferMapper.createByValues(
+					userId, transferDate, tOutAccId, tOutAmnt,
+					tInAccId, tInAmnt, remark);
+			}
 			
 			if(createTransferStatus) {
 				
@@ -67,17 +83,24 @@ public class TransferService {
 				
 				if(decreaseAmntStatus) {
 					
-					boolean increaseAmntStatus = iAccountMapper.increaseAmnt(userId, tInAccId, tInAmnt);
-					
-					if(increaseAmntStatus) {
+					//如果是一般轉帳才會餘額才會增加，外部轉帳不會
+					if(!outSideAccCheck) {
 						
-						return true;
+						boolean increaseAmntStatus = iAccountMapper.increaseAmnt(userId, tInAccId, tInAmnt);
 						
-					} else {
-						
-						//當  [增加]  帳戶餘額發生錯誤時，rollback 全部交易
-						throw new Exception("增加帳戶餘額發生錯誤");
+						if(increaseAmntStatus) {
+							
+							return true;
+							
+						} else {
+							
+							//當  [增加]  帳戶餘額發生錯誤時，rollback 全部交易
+							throw new Exception("增加帳戶餘額發生錯誤");
+						}
 					}
+					
+					return true;
+					
 				} else {
 					
 					//當  [減少]  帳戶餘額發生錯誤時，rollback 全部交易
@@ -85,7 +108,7 @@ public class TransferService {
 				}
 			} else {
 				
-				//新增一筆轉帳發生錯誤，rollback 全部交易
+				//當新增一筆轉帳發生錯誤時，rollback 全部交易
 				throw new Exception("新增一筆轉帳發生錯誤");
 			}
 		}
