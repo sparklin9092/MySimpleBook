@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
+import net.spark9092.MySimpleBook.dto.main.TransferListDto;
+import net.spark9092.MySimpleBook.dto.main.TransferListMsgDto;
 import net.spark9092.MySimpleBook.dto.transfer.SelectAccountListDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.mapper.ITransferMapper;
@@ -112,6 +114,28 @@ public class TransferService {
 				throw new Exception("新增一筆轉帳發生錯誤");
 			}
 		}
+	}
+	
+	public TransferListMsgDto getTodayListForMain(int userId) {
+		
+		TransferListMsgDto transferListMsgDto = new TransferListMsgDto();
+		
+		List<TransferListDto> listDtos = iTransferMapper.getTodayListForMain(userId);
+		
+		if(listDtos.size() == 0) {
+			
+			transferListMsgDto.setStatus(false);
+			transferListMsgDto.setMsg("今天沒有轉帳");
+			
+		} else {
+			
+			transferListMsgDto.setListDtos(listDtos);
+			transferListMsgDto.setStatus(true);
+			transferListMsgDto.setMsg("");
+			
+		}
+		
+		return transferListMsgDto;
 	}
 
 }
