@@ -3,8 +3,8 @@
 <html>
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
-	<link rel="stylesheet" href="/css/items/spend/itemSpendModify.css">
-	<script type="text/javascript" src="/js/items/spend/itemSpendModify.js"></script>
+	<link rel="stylesheet" href="/css/spend/items/modify.css">
+	<script type="text/javascript" src="/js/spend/items/modify.js"></script>
 	<script type="text/javascript" src="/js/common/userCheck.js"></script>
 </head>
 <body>
