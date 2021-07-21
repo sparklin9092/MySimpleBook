@@ -3,9 +3,9 @@
 <html>
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
-	<link rel="stylesheet" href="/css/account/accountModify.css">
-	<script type="text/javascript" src="/js/account/accountCreditCardLimitYearMonth.js"></script>
-	<script type="text/javascript" src="/js/account/accountModify.js"></script>
+	<link rel="stylesheet" href="/css/account/modify.css">
+	<script type="text/javascript" src="/js/account/creditCard.js"></script>
+	<script type="text/javascript" src="/js/account/modify.js"></script>
 	<script type="text/javascript" src="/js/common/userCheck.js"></script>
 </head>
 <body>

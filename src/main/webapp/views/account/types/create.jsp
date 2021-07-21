@@ -3,8 +3,8 @@
 <html>
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
-	<link rel="stylesheet" href="/css/items/accountType/itemAccountTypeCreate.css">
-	<script type="text/javascript" src="/js/items/accountType/itemAccountTypeCreate.js"></script>
+	<link rel="stylesheet" href="/css/account/types/create.css">
+	<script type="text/javascript" src="/js/account/types/create.js"></script>
 	<script type="text/javascript" src="/js/common/userCheck.js"></script>
 </head>
 <body>
