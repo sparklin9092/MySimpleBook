@@ -14,14 +14,14 @@ import net.spark9092.MySimpleBook.dto.items.income.ListDto;
 import net.spark9092.MySimpleBook.dto.items.income.OneDto;
 
 @Mapper
-public interface IItemsIncomeMapper {
+public interface IIncomeItemsMapper {
 
 	/**
 	 * 根據 User ID，查詢「新增一筆收入」功能的下拉選單
 	 * @param userId
 	 * @return
 	 */
-	@Select("select id, name from items_income where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
+	@Select("select id, name from income_items where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
 	@Results({
 		@Result(column="id", property="itemId"),
 		@Result(column="name", property="itemName")
@@ -34,7 +34,7 @@ public interface IItemsIncomeMapper {
 	 * @return
 	 */
 	@Select("select id, name, is_default, is_active "
-			+ " from items_income "
+			+ " from income_items "
 			+ " where user_id=#{userId} and is_delete=0")
 	@Results({
 		@Result(column="id", property="itemId"),
@@ -51,7 +51,7 @@ public interface IItemsIncomeMapper {
 	 * @return
 	 */
 	@Select("select name, is_default, is_active, create_datetime "
-			+ " from items_income "
+			+ " from income_items "
 			+ " where is_delete=0 and id=#{itemId} and user_id=#{userId}")
 	@Results({
 		@Result(column="name", property="itemName"),
@@ -68,7 +68,7 @@ public interface IItemsIncomeMapper {
 	 * @param itemDefault
 	 * @return
 	 */
-	@Insert("insert into items_income(user_id, name, is_default, create_user_id) "
+	@Insert("insert into income_items(user_id, name, is_default, create_user_id) "
 			+ " values(#{userId}, #{itemName}, #{itemDefault}, #{userId})")
 	boolean createByValues(@Param("userId") int userId, @Param("itemName") String itemName, @Param("itemDefault") boolean itemDefault);
 
@@ -81,7 +81,7 @@ public interface IItemsIncomeMapper {
 	 * @param itemDefault
 	 * @return
 	 */
-	@Update("update items_income set "
+	@Update("update income_items set "
 			+ " name=#{itemName}, is_active=#{itemActive}, is_default=#{itemDefault} "
 			+ " where id=#{itemId} and user_id=#{userId}")
 	boolean modifyByValues(@Param("userId") int userId, @Param("itemId") int itemId,
@@ -94,7 +94,7 @@ public interface IItemsIncomeMapper {
 	 * @param itemId
 	 * @return
 	 */
-	@Update("update items_income set "
+	@Update("update income_items set "
 			+ " is_delete=1 "
 			+ " where id=#{itemId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("itemId") int itemId);

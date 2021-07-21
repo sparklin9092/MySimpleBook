@@ -24,17 +24,17 @@ import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.items.income.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.items.income.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.income.ModifyPojo;
-import net.spark9092.MySimpleBook.service.ItemIncomeService;
+import net.spark9092.MySimpleBook.service.IncomeItemsService;
 import net.spark9092.MySimpleBook.service.UserLoginService;
 
-@RequestMapping("/itemIncome")
+@RequestMapping("/income/items")
 @RestController
-public class ItemIncomeController {
+public class IncomeItemsController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
 
 	@Autowired
-	private ItemIncomeService itemIncomeService;
+	private IncomeItemsService itemIncomeService;
 
 	@PostMapping("/list")
     @ResponseBody

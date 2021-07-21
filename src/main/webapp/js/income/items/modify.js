@@ -11,7 +11,7 @@ function initData() {
 	var itemId = $('#itemId').val();
 	
 	$.ajax({
-		url: '/itemIncome/one/' + itemId,
+		url: '/income/items/one/' + itemId,
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -66,7 +66,7 @@ function deleteAct() {
 	data.itemId = $('#itemId').val();
 	
 	$.ajax({
-		url: '/itemIncome/delete/act',
+		url: '/income/items/delete/act',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -101,7 +101,7 @@ function confirmAct() {
 	data.itemDefault = $('input[name=itemIncomeDefault]:checked').val();
 	
 	$.ajax({
-		url: '/itemIncome/modify/act',
+		url: '/income/items/modify/act',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',

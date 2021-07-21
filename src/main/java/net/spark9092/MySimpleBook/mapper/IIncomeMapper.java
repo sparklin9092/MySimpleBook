@@ -17,7 +17,7 @@ import net.spark9092.MySimpleBook.dto.main.IncomeListDto;
 @Mapper
 public interface IIncomeMapper {
 
-	@Select("select id, name from items_income where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
+	@Select("select id, name from income_items where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
 	@Results({
 		@Result(column="id", property="itemId"),
 		@Result(column="name", property="itemName")
@@ -43,7 +43,7 @@ public interface IIncomeMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select (select name from items_income where id = item_id) as itemName,	amount as amnt "
+	@Select("select (select name from income_items where id = item_id) as itemName,	amount as amnt "
 			+ " from income "
 			+ " where user_id = #{userId} and income_date = date_sub(curdate(), interval 0 day) "
 			+ " order by id desc limit 5")

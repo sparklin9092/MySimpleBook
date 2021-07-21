@@ -13,7 +13,7 @@ function createView() {
 function initIncomeItemDataTable() {
 	
 	$.ajax({
-		url: '/itemIncome/list',
+		url: '/income/items/list',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
