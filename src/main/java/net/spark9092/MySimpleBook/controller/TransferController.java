@@ -1,7 +1,5 @@
 package net.spark9092.MySimpleBook.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.transfer.CreateMsgDto;
-import net.spark9092.MySimpleBook.dto.transfer.SelectAccountListDto;
 import net.spark9092.MySimpleBook.dto.transfer.SelectAccountMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
@@ -34,7 +31,7 @@ public class TransferController {
 	@PostMapping("/accountList")
     @ResponseBody
 	public SelectAccountMsgDto accountList(HttpSession session) {
-		
+
 		logger.debug("取得帳戶的下拉選單");
 
 		SelectAccountMsgDto selectAccountMsgDto = new SelectAccountMsgDto();
@@ -48,19 +45,7 @@ public class TransferController {
 
 		} else {
 
-			List<SelectAccountListDto> selectAccountListDtos = transferService.getAccountListByUserId(userInfoEntity.getId());
-
-			if(selectAccountListDtos.size() == 0) {
-
-				selectAccountMsgDto.setStatus(false);
-				selectAccountMsgDto.setMsg("沒有可以使用的帳戶，請先新增或啟用帳戶。");
-
-			} else {
-
-				selectAccountMsgDto.setStatus(true);
-				selectAccountMsgDto.setMsg("");
-				selectAccountMsgDto.setAccountList(selectAccountListDtos);
-			}
+			selectAccountMsgDto = transferService.getAccountListByUserId(userInfoEntity.getId());
 		}
 
 		return selectAccountMsgDto;
@@ -69,6 +54,8 @@ public class TransferController {
 	@PostMapping("/create/act")
     @ResponseBody
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
+
+		logger.debug("新增一筆轉帳");
 
 		CreateMsgDto createMsgDto = new CreateMsgDto();
 
@@ -84,21 +71,11 @@ public class TransferController {
 			createPojo.setUserId(userInfoEntity.getId());
 
 			try {
-				boolean createStatus = transferService.createByPojo(createPojo);
 
-				if(createStatus) {
+				createMsgDto = transferService.createByPojo(createPojo);
 
-					createMsgDto.setStatus(true);
-					createMsgDto.setMsg("");
-
-				} else {
-
-					createMsgDto.setStatus(false);
-					createMsgDto.setMsg("新增未成功");
-
-				}
 			} catch (Exception ex) {
-				
+
 				ex.printStackTrace();
 
 				createMsgDto.setStatus(false);

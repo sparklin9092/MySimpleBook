@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.dto.main.TransferListDto;
 import net.spark9092.MySimpleBook.dto.main.TransferListMsgDto;
+import net.spark9092.MySimpleBook.dto.transfer.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.transfer.SelectAccountListDto;
+import net.spark9092.MySimpleBook.dto.transfer.SelectAccountMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.mapper.ITransferMapper;
 import net.spark9092.MySimpleBook.pojo.transfer.CreatePojo;
@@ -32,19 +34,38 @@ public class TransferService {
 	@Autowired
 	private IAccountMapper iAccountMapper;
 
-	public List<SelectAccountListDto> getAccountListByUserId(int userId) {
+	public SelectAccountMsgDto getAccountListByUserId(int userId) {
 
 		logger.debug("使用者ID: {}", userId);
 
-		return iTransferMapper.selectAccountListByUserId(userId);
+		SelectAccountMsgDto selectAccountMsgDto = new SelectAccountMsgDto();
+
+		List<SelectAccountListDto> selectAccountListDtos = iTransferMapper.selectAccountListByUserId(userId);
+
+		if(selectAccountListDtos.size() == 0) {
+
+			selectAccountMsgDto.setStatus(false);
+			selectAccountMsgDto.setMsg("沒有可以使用的帳戶，請先新增或啟用帳戶。");
+
+		} else {
+
+			selectAccountMsgDto.setStatus(true);
+			selectAccountMsgDto.setMsg("");
+			selectAccountMsgDto.setAccountList(selectAccountListDtos);
+		}
+		
+		return selectAccountMsgDto;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public boolean createByPojo(CreatePojo createPojo) throws Exception {
+	public CreateMsgDto createByPojo(CreatePojo createPojo) throws Exception {
+
+		CreateMsgDto createMsgDto = new CreateMsgDto();
 		
 		if(null == createPojo) {
 
-			return false;
+			createMsgDto.setStatus(false);
+			createMsgDto.setMsg("沒有可以新增的資料");
 
 		} else {
 
@@ -57,9 +78,21 @@ public class TransferService {
 			String tOutsideAccName = createPojo.gettOutsideAccName();
 			String remark = createPojo.getRemark();
 
-			if(!outSideCheck && tOutAccId == tInAccId) return false;
+			if(!outSideCheck && tOutAccId == tInAccId) {
+
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("無法在相同帳戶轉帳");
+				return createMsgDto;
+				
+			}
 			
-			if(!checkCommon.checkAmnt(amnt)) return false;
+			if(!checkCommon.checkAmnt(amnt)) {
+
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("輸入的金額格式不正確");
+				return createMsgDto;
+				
+			}
 			
 			boolean createTransferStatus = false;
 			
@@ -88,8 +121,9 @@ public class TransferService {
 						boolean increaseAmntStatus = iAccountMapper.increaseAmnt(userId, tInAccId, amnt);
 						
 						if(increaseAmntStatus) {
-							
-							return true;
+
+							createMsgDto.setStatus(true);
+							createMsgDto.setMsg("");
 							
 						} else {
 							
@@ -97,8 +131,9 @@ public class TransferService {
 							throw new Exception("增加帳戶餘額發生錯誤");
 						}
 					}
-					
-					return true;
+
+					createMsgDto.setStatus(true);
+					createMsgDto.setMsg("");
 					
 				} else {
 					
@@ -111,6 +146,8 @@ public class TransferService {
 				throw new Exception("新增一筆轉帳發生錯誤");
 			}
 		}
+		
+		return createMsgDto;
 	}
 	
 	public TransferListMsgDto getTodayListForMain(int userId) {

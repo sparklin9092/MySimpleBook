@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.spark9092.MySimpleBook.dto.items.accountType.CreateMsgDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.DeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.ListDto;
+import net.spark9092.MySimpleBook.dto.items.accountType.ModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.OneDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.OneMsgDto;
 import net.spark9092.MySimpleBook.mapper.IItemsAccountTypeMapper;
@@ -70,9 +73,6 @@ public class ItemAccountTypeService {
 			oneMsgDto.setStatus(false);
 			oneMsgDto.setMsg("找不到資料");
 
-			logger.error(String.format("查詢某一筆支出項目時，找不到資料。User ID: %d、Item ID: %d",
-					userId, itemId));
-
 		} else {
 
 			oneMsgDto.setStatus(true);
@@ -84,11 +84,14 @@ public class ItemAccountTypeService {
 		return oneMsgDto;
 	}
 
-	public boolean createByPojo(CreatePojo createPojo) {
+	public CreateMsgDto createByPojo(CreatePojo createPojo) {
+		
+		CreateMsgDto createMsgDto = new CreateMsgDto();
 
 		if(null == createPojo) {
 
-			return false;
+			createMsgDto.setStatus(false);
+			createMsgDto.setMsg("沒有可以新增的資料");
 
 		} else {
 
@@ -101,17 +104,32 @@ public class ItemAccountTypeService {
 				itemDefault = true;
 			}
 
-			logger.debug(createPojo.toString());
+			boolean createStatus = iItemsAccountTypeMapper.createByValues(userId, itemName, itemDefault);
 
-			return iItemsAccountTypeMapper.createByValues(userId, itemName, itemDefault);
+			if(createStatus) {
+
+				createMsgDto.setStatus(true);
+				createMsgDto.setMsg("");
+
+			} else {
+
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("新增未成功");
+
+			}
 		}
+		
+		return createMsgDto;
 	}
 
-	public boolean modifyByPojo(ModifyPojo modifyPojo) {
+	public ModifyMsgDto modifyByPojo(ModifyPojo modifyPojo) {
+		
+		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
 		if(null == modifyPojo) {
 
-			return false;
+			modifyMsgDto.setStatus(false);
+			modifyMsgDto.setMsg("沒有可以修改的資料");
 
 		} else {
 
@@ -120,8 +138,6 @@ public class ItemAccountTypeService {
 			String itemName = modifyPojo.getItemName();
 			String itemActiveStr = modifyPojo.getItemActive();
 			String itemDefaultStr = modifyPojo.getItemDefault();
-
-			logger.debug(modifyPojo.toString());
 
 			boolean itemActive = false;
 			if(itemActiveStr.equals("1")) {
@@ -133,26 +149,55 @@ public class ItemAccountTypeService {
 				itemDefault = true;
 			}
 
-			return iItemsAccountTypeMapper.modifyByValues(
+			boolean modifyStatus = iItemsAccountTypeMapper.modifyByValues(
 					userId, itemId, itemName, itemActive, itemDefault);
+
+			if(modifyStatus) {
+
+				modifyMsgDto.setStatus(true);
+				modifyMsgDto.setMsg("");
+
+			} else {
+
+				modifyMsgDto.setStatus(false);
+				modifyMsgDto.setMsg("修改未成功");
+
+			}
 		}
+		
+		return modifyMsgDto;
 	}
 
-	public boolean deleteByPojo(DeletePojo deletePojo) {
+	public DeleteMsgDto deleteByPojo(DeletePojo deletePojo) {
+		
+		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 
 		if(null == deletePojo) {
 
-			return false;
+			deleteMsgDto.setStatus(false);
+			deleteMsgDto.setMsg("沒有可以刪除的資料");
 
 		} else {
 
 			int userId = deletePojo.getUserId();
 			int itemId = deletePojo.getItemId();
 
-			logger.debug(deletePojo.toString());
+			boolean modifyStatus = iItemsAccountTypeMapper.deleteByIds(userId, itemId);
 
-			return iItemsAccountTypeMapper.deleteByIds(userId, itemId);
+			if(modifyStatus) {
+
+				deleteMsgDto.setStatus(true);
+				deleteMsgDto.setMsg("");
+
+			} else {
+
+				deleteMsgDto.setStatus(false);
+				deleteMsgDto.setMsg("刪除未成功");
+
+			}
 		}
+		
+		return deleteMsgDto;
 	}
 
 }

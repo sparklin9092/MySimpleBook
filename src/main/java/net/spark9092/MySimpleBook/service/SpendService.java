@@ -11,8 +11,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
+import net.spark9092.MySimpleBook.dto.spend.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.SelectAccountListDto;
+import net.spark9092.MySimpleBook.dto.spend.SelectAccountMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.SelectItemListDto;
+import net.spark9092.MySimpleBook.dto.spend.SelectItemMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.mapper.ISpendMapper;
 import net.spark9092.MySimpleBook.pojo.spend.CreatePojo;
@@ -31,26 +34,61 @@ public class SpendService {
 	@Autowired
 	private IAccountMapper iAccountMapper;
 
-	public List<SelectItemListDto> getSpendListByUserId(int userId) {
+	public SelectItemMsgDto getSpendListByUserId(int userId) {
 
 		logger.debug("使用者ID: {}", userId);
 
-		return iSpendMapper.selectItemListByUserId(userId);
+		SelectItemMsgDto selectItemMsgDto = new SelectItemMsgDto();
+
+		List<SelectItemListDto> spendItemListDtos = iSpendMapper.selectItemListByUserId(userId);
+
+		if(spendItemListDtos.size() == 0) {
+
+			selectItemMsgDto.setStatus(false);
+			selectItemMsgDto.setMsg("沒有可以使用的支出項目，請先新增或啟用支出項目。");
+
+		} else {
+
+			selectItemMsgDto.setStatus(true);
+			selectItemMsgDto.setMsg("");
+			selectItemMsgDto.setItemList(spendItemListDtos);
+		}
+		
+		return selectItemMsgDto;
 	}
 
-	public List<SelectAccountListDto> getAccountListByUserId(int userId) {
+	public SelectAccountMsgDto getAccountListByUserId(int userId) {
 
 		logger.debug("使用者ID: {}", userId);
 
-		return iSpendMapper.selectAccountListByUserId(userId);
+		SelectAccountMsgDto selectAccountMsgDto = new SelectAccountMsgDto();
+
+		List<SelectAccountListDto> selectAccountListDtos = iSpendMapper.selectAccountListByUserId(userId);
+
+		if(selectAccountListDtos.size() == 0) {
+
+			selectAccountMsgDto.setStatus(false);
+			selectAccountMsgDto.setMsg("沒有可以使用的帳戶，請先新增或啟用帳戶。");
+
+		} else {
+
+			selectAccountMsgDto.setStatus(true);
+			selectAccountMsgDto.setMsg("");
+			selectAccountMsgDto.setAccountList(selectAccountListDtos);
+		}
+		
+		return selectAccountMsgDto;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public boolean createByPojo(CreatePojo createPojo) throws Exception {
+	public CreateMsgDto createByPojo(CreatePojo createPojo) throws Exception {
+
+		CreateMsgDto createMsgDto = new CreateMsgDto();
 		
 		if(null == createPojo) {
 
-			return false;
+			createMsgDto.setStatus(false);
+			createMsgDto.setMsg("沒有可以新增的資料");
 
 		} else {
 
@@ -61,7 +99,13 @@ public class SpendService {
 			BigDecimal amount = createPojo.getAmount();
 			String remark = createPojo.getRemark();
 
-			if(!checkCommon.checkAmnt(amount)) return false;
+			if(!checkCommon.checkAmnt(amount)) {
+
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("輸入的金額格式不正確");
+				return createMsgDto;
+				
+			}
 			
 			boolean createSpendStatus =  iSpendMapper.createByValues(
 					userId, spendItemId, accountItemId, spendDate, amount, remark);
@@ -71,8 +115,9 @@ public class SpendService {
 				boolean decreaseAmntStatus = iAccountMapper.decreaseAmnt(userId, accountItemId, amount);
 				
 				if(decreaseAmntStatus) {
-					
-					return true;
+
+					createMsgDto.setStatus(true);
+					createMsgDto.setMsg("");
 					
 				} else {
 					
@@ -86,6 +131,8 @@ public class SpendService {
 				throw new Exception("新增一筆支出發生錯誤");
 			}
 		}
+		
+		return createMsgDto;
 	}
 
 }

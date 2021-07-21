@@ -39,14 +39,14 @@ public class ItemSpendController {
 	@PostMapping("/list")
     @ResponseBody
 	public List<List<String>> list(HttpSession session) {
+		
+		logger.debug("取得支出項目清單");
 
 		List<List<String>> dataMap = new ArrayList<>();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null != userInfoEntity) {
-
-			logger.debug(userInfoEntity.toString());
 
 			dataMap = itemSpendService.getListByUserId(userInfoEntity.getId());
 		}
@@ -57,6 +57,8 @@ public class ItemSpendController {
 	@PostMapping("/one/{itemId}")
     @ResponseBody
 	public OneMsgDto one(HttpSession session, @PathVariable("itemId") int itemId) {
+		
+		logger.debug("取得某一筆支出項目資料");
 
 		OneMsgDto oneMsgDto = new OneMsgDto();
 
@@ -69,8 +71,6 @@ public class ItemSpendController {
 			
 		} else {
 
-			logger.debug(userInfoEntity.toString());
-
 			int userId = userInfoEntity.getId();
 
 			oneMsgDto = itemSpendService.getOneByIds(userId, itemId);
@@ -82,6 +82,8 @@ public class ItemSpendController {
 	@PostMapping("/create/act")
     @ResponseBody
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
+		
+		logger.debug("新增一筆收入項目");
 
 		CreateMsgDto createMsgDto = new CreateMsgDto();
 
@@ -94,23 +96,9 @@ public class ItemSpendController {
 
 		} else {
 
-			logger.debug(userInfoEntity.toString());
-
 			createPojo.setUserId(userInfoEntity.getId());
 
-			boolean createStatus = itemSpendService.createByPojo(createPojo);
-
-			if(createStatus) {
-
-				createMsgDto.setStatus(true);
-				createMsgDto.setMsg("");
-
-			} else {
-
-				createMsgDto.setStatus(false);
-				createMsgDto.setMsg("新增未成功");
-
-			}
+			createMsgDto = itemSpendService.createByPojo(createPojo);
 		}
 
 		return createMsgDto;
@@ -119,6 +107,8 @@ public class ItemSpendController {
 	@PostMapping("/modify/act")
     @ResponseBody
 	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
+		
+		logger.debug("修改一筆帳戶類型");
 		
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
@@ -131,23 +121,9 @@ public class ItemSpendController {
 
 		} else {
 
-			logger.debug(userInfoEntity.toString());
-
 			modifyPojo.setUserId(userInfoEntity.getId());
 
-			boolean modifyStatus = itemSpendService.modifyByPojo(modifyPojo);
-
-			if(modifyStatus) {
-
-				modifyMsgDto.setStatus(true);
-				modifyMsgDto.setMsg("");
-
-			} else {
-
-				modifyMsgDto.setStatus(false);
-				modifyMsgDto.setMsg("修改未成功");
-
-			}
+			modifyMsgDto = itemSpendService.modifyByPojo(modifyPojo);
 		}
 		
 		return modifyMsgDto;
@@ -156,6 +132,8 @@ public class ItemSpendController {
 	@PostMapping("/delete/act")
     @ResponseBody
 	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
+		
+		logger.debug("刪除一筆帳戶類型");
 		
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 
@@ -168,23 +146,9 @@ public class ItemSpendController {
 
 		} else {
 
-			logger.debug(userInfoEntity.toString());
-
 			deletePojo.setUserId(userInfoEntity.getId());
 
-			boolean modifyStatus = itemSpendService.deleteByPojo(deletePojo);
-
-			if(modifyStatus) {
-
-				deleteMsgDto.setStatus(true);
-				deleteMsgDto.setMsg("");
-
-			} else {
-
-				deleteMsgDto.setStatus(false);
-				deleteMsgDto.setMsg("刪除未成功");
-
-			}
+			deleteMsgDto = itemSpendService.deleteByPojo(deletePojo);
 		}
 		
 		return deleteMsgDto;

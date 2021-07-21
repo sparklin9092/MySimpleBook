@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.spark9092.MySimpleBook.dto.items.income.CreateMsgDto;
+import net.spark9092.MySimpleBook.dto.items.income.DeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.items.income.ListDto;
+import net.spark9092.MySimpleBook.dto.items.income.ModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.items.income.OneDto;
 import net.spark9092.MySimpleBook.dto.items.income.OneMsgDto;
 import net.spark9092.MySimpleBook.mapper.IItemsIncomeMapper;
@@ -84,11 +87,14 @@ public class ItemIncomeService {
 		return oneMsgDto;
 	}
 
-	public boolean createByPojo(CreatePojo createPojo) {
+	public CreateMsgDto createByPojo(CreatePojo createPojo) {
+		
+		CreateMsgDto createMsgDto = new CreateMsgDto();
 
 		if(null == createPojo) {
 
-			return false;
+			createMsgDto.setStatus(false);
+			createMsgDto.setMsg("沒有可以新增的資料");
 
 		} else {
 
@@ -101,17 +107,32 @@ public class ItemIncomeService {
 				itemDefault = true;
 			}
 
-			logger.debug(createPojo.toString());
+			boolean createStatus = iItemsIncomeMapper.createByValues(userId, itemName, itemDefault);
 
-			return iItemsIncomeMapper.createByValues(userId, itemName, itemDefault);
+			if(createStatus) {
+
+				createMsgDto.setStatus(true);
+				createMsgDto.setMsg("");
+
+			} else {
+
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("新增未成功");
+
+			}
 		}
+		
+		return createMsgDto;
 	}
 
-	public boolean modifyByPojo(ModifyPojo modifyPojo) {
+	public ModifyMsgDto modifyByPojo(ModifyPojo modifyPojo) {
 
+		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
+		
 		if(null == modifyPojo) {
 
-			return false;
+			modifyMsgDto.setStatus(false);
+			modifyMsgDto.setMsg("沒有可以修改的資料");
 
 		} else {
 
@@ -133,25 +154,54 @@ public class ItemIncomeService {
 				itemDefault = true;
 			}
 
-			return iItemsIncomeMapper.modifyByValues(userId, itemId, itemName, itemActive, itemDefault);
+			boolean modifyStatus = iItemsIncomeMapper.modifyByValues(userId, itemId, itemName, itemActive, itemDefault);
+
+			if(modifyStatus) {
+
+				modifyMsgDto.setStatus(true);
+				modifyMsgDto.setMsg("");
+
+			} else {
+
+				modifyMsgDto.setStatus(false);
+				modifyMsgDto.setMsg("修改未成功");
+
+			}
 		}
+		
+		return modifyMsgDto;
 	}
 
-	public boolean deleteByPojo(DeletePojo deletePojo) {
+	public DeleteMsgDto deleteByPojo(DeletePojo deletePojo) {
+		
+		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 
 		if(null == deletePojo) {
 
-			return false;
+			deleteMsgDto.setStatus(false);
+			deleteMsgDto.setMsg("沒有可以刪除的資料");
 
 		} else {
 
 			int userId = deletePojo.getUserId();
 			int itemId = deletePojo.getItemId();
 
-			logger.debug(deletePojo.toString());
+			boolean modifyStatus = iItemsIncomeMapper.deleteByIds(userId, itemId);
 
-			return iItemsIncomeMapper.deleteByIds(userId, itemId);
+			if(modifyStatus) {
+
+				deleteMsgDto.setStatus(true);
+				deleteMsgDto.setMsg("");
+
+			} else {
+
+				deleteMsgDto.setStatus(false);
+				deleteMsgDto.setMsg("刪除未成功");
+
+			}
 		}
+		
+		return deleteMsgDto;
 	}
 
 }

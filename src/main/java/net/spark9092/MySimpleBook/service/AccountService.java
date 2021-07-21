@@ -10,8 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.spark9092.MySimpleBook.dto.account.TypeListDto;
+import net.spark9092.MySimpleBook.dto.account.TypeListMsgDto;
 import net.spark9092.MySimpleBook.common.CheckCommon;
+import net.spark9092.MySimpleBook.dto.account.CreateMsgDto;
+import net.spark9092.MySimpleBook.dto.account.DeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.account.ListDto;
+import net.spark9092.MySimpleBook.dto.account.ModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.account.OneDto;
 import net.spark9092.MySimpleBook.dto.account.OneMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
@@ -56,11 +60,27 @@ public class AccountService {
 		return dataList;
 	}
 
-	public List<TypeListDto> getTypeListByUserId(int userId) {
+	public TypeListMsgDto getTypeListByUserId(int userId) {
 
 		logger.debug("使用者ID: {}", userId);
+		
+		TypeListMsgDto typeListMsgDto = new TypeListMsgDto();
+		
+		List<TypeListDto> typeListDtos = iAccountMapper.selectTypeListByUserId(userId);
 
-		return iAccountMapper.selectTypeListByUserId(userId);
+		if(typeListDtos.size() == 0) {
+
+			typeListMsgDto.setStatus(false);
+			typeListMsgDto.setMsg("沒有找到帳戶類型，請先新增帳戶類型。");
+
+		} else {
+
+			typeListMsgDto.setStatus(true);
+			typeListMsgDto.setMsg("");
+			typeListMsgDto.setAccountTypeListDto(typeListDtos);
+		}
+
+		return typeListMsgDto;
 	}
 
 	public OneMsgDto getOneByIds(int userId, int accountId) {
@@ -128,11 +148,14 @@ public class AccountService {
 		return limitDate;
 	}
 
-	public boolean createByPojo(CreatePojo createPojo) {
+	public CreateMsgDto createByPojo(CreatePojo createPojo) {
+		
+		CreateMsgDto createMsgDto = new CreateMsgDto();
 
 		if(null == createPojo) {
 
-			return false;
+			createMsgDto.setStatus(false);
+			createMsgDto.setMsg("沒有可以新增的資料");
 
 		} else {
 
@@ -146,7 +169,13 @@ public class AccountService {
 			String limitMonth = createPojo.getLimitMonth();
 			String limitDate = null;
 			
-			if(!checkCommon.checkAmnt(initAmnt)) return false;
+			if(!checkCommon.checkAmnt(initAmnt)) {
+
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("輸入的金額格式不正確");
+				return createMsgDto;
+				
+			}
 
 			boolean accountDefault = false;
 			if(accountDefaultStr.equals("1")) {
@@ -155,16 +184,34 @@ public class AccountService {
 
 			limitDate = this.formatLimitDate(enableLimitDate, limitMonth, limitYear);
 
-			return iAccountMapper.createByValues(userId, accountType, accountName,
+			boolean createStatus = iAccountMapper.createByValues(userId, accountType, accountName,
 					initAmnt, accountDefault, limitDate);
+
+
+			if(createStatus) {
+
+				createMsgDto.setStatus(true);
+				createMsgDto.setMsg("");
+
+			} else {
+
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("新增未成功");
+
+			}
 		}
+		
+		return createMsgDto;
 	}
 
-	public boolean modifyByPojo(ModifyPojo modifyPojo) {
+	public ModifyMsgDto modifyByPojo(ModifyPojo modifyPojo) {
 
+		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
+		
 		if(null == modifyPojo) {
 
-			return false;
+			modifyMsgDto.setStatus(false);
+			modifyMsgDto.setMsg("沒有可以修改的資料");
 
 		} else {
 
@@ -189,24 +236,55 @@ public class AccountService {
 
 			limitDate = this.formatLimitDate(enableLimitDate, limitMonth, limitYear);
 
-			return iAccountMapper.modifyByValues(
+			boolean modifyStatus = iAccountMapper.modifyByValues(
 					userId, accountId, limitDate, accountDefault, accountActive);
+
+			if(modifyStatus) {
+
+				modifyMsgDto.setStatus(true);
+				modifyMsgDto.setMsg("");
+
+			} else {
+
+				modifyMsgDto.setStatus(false);
+				modifyMsgDto.setMsg("修改未成功");
+
+			}
 		}
+		
+		return modifyMsgDto;
 	}
 
-	public boolean deleteByPojo(DeletePojo deletePojo) {
+	public DeleteMsgDto deleteByPojo(DeletePojo deletePojo) {
 
+		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
+		
 		if(null == deletePojo) {
 
-			return false;
+			deleteMsgDto.setStatus(false);
+			deleteMsgDto.setMsg("沒有可以刪除的資料");
 
 		} else {
 
 			int userId = deletePojo.getUserId();
 			int accountId = deletePojo.getAccountId();
 
-			return iAccountMapper.deleteByIds(userId, accountId);
+			boolean modifyStatus = iAccountMapper.deleteByIds(userId, accountId);
+
+			if(modifyStatus) {
+
+				deleteMsgDto.setStatus(true);
+				deleteMsgDto.setMsg("");
+
+			} else {
+
+				deleteMsgDto.setStatus(false);
+				deleteMsgDto.setMsg("刪除未成功");
+
+			}
 		}
+		
+		return deleteMsgDto;
 	}
 
 }

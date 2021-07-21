@@ -11,8 +11,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
+import net.spark9092.MySimpleBook.dto.income.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.income.SelectAccountListDto;
+import net.spark9092.MySimpleBook.dto.income.SelectAccountMsgDto;
 import net.spark9092.MySimpleBook.dto.income.SelectItemListDto;
+import net.spark9092.MySimpleBook.dto.income.SelectItemMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.mapper.IIncomeMapper;
 import net.spark9092.MySimpleBook.pojo.income.CreatePojo;
@@ -31,26 +34,61 @@ public class IncomeService {
 	@Autowired
 	private IAccountMapper iAccountMapper;
 
-	public List<SelectItemListDto> getIncomeListByUserId(int userId) {
+	public SelectItemMsgDto getIncomeListByUserId(int userId) {
 
 		logger.debug("使用者ID: {}", userId);
+		
+		SelectItemMsgDto selectItemMsgDto = new SelectItemMsgDto();
+		
+		List<SelectItemListDto> selectItemListDtos = iIncomeMapper.selectItemListByUserId(userId);
 
-		return iIncomeMapper.selectItemListByUserId(userId);
+		if(selectItemListDtos.size() == 0) {
+
+			selectItemMsgDto.setStatus(false);
+			selectItemMsgDto.setMsg("沒有可以使用的收入項目，請先新增或啟用收入項目。");
+
+		} else {
+
+			selectItemMsgDto.setStatus(true);
+			selectItemMsgDto.setMsg("");
+			selectItemMsgDto.setItemList(selectItemListDtos);
+		}
+		
+		return selectItemMsgDto;
 	}
 
-	public List<SelectAccountListDto> getAccountListByUserId(int userId) {
+	public SelectAccountMsgDto getAccountListByUserId(int userId) {
 
 		logger.debug("使用者ID: {}", userId);
+		
+		SelectAccountMsgDto selectAccountMsgDto = new SelectAccountMsgDto();
 
-		return iIncomeMapper.selectAccountListByUserId(userId);
+		List<SelectAccountListDto> selectAccountListDtos = iIncomeMapper.selectAccountListByUserId(userId);
+
+		if(selectAccountListDtos.size() == 0) {
+
+			selectAccountMsgDto.setStatus(false);
+			selectAccountMsgDto.setMsg("沒有可以使用的帳戶，請先新增或啟用帳戶。");
+
+		} else {
+
+			selectAccountMsgDto.setStatus(true);
+			selectAccountMsgDto.setMsg("");
+			selectAccountMsgDto.setAccountList(selectAccountListDtos);
+		}
+		
+		return selectAccountMsgDto;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public boolean createByPojo(CreatePojo createPojo) throws Exception {
+	public CreateMsgDto createByPojo(CreatePojo createPojo) throws Exception {
+		
+		CreateMsgDto createMsgDto = new CreateMsgDto();
 		
 		if(null == createPojo) {
 
-			return false;
+			createMsgDto.setStatus(false);
+			createMsgDto.setMsg("沒有可以新增的資料");
 
 		} else {
 
@@ -61,7 +99,13 @@ public class IncomeService {
 			BigDecimal amount = createPojo.getAmount();
 			String remark = createPojo.getRemark();
 
-			if(!checkCommon.checkAmnt(amount)) return false;
+			if(!checkCommon.checkAmnt(amount)) {
+
+				createMsgDto.setStatus(false);
+				createMsgDto.setMsg("輸入的金額格式不正確");
+				return createMsgDto;
+				
+			}
 			
 			boolean createIncomeStatus =  iIncomeMapper.createByValues(
 					userId, incomeItemId, accountItemId, incomeDate, amount, remark);
@@ -71,8 +115,9 @@ public class IncomeService {
 				boolean increaseAmntStatus = iAccountMapper.increaseAmnt(userId, accountItemId, amount);
 				
 				if(increaseAmntStatus) {
-					
-					return true;
+
+					createMsgDto.setStatus(true);
+					createMsgDto.setMsg("");
 					
 				} else {
 					
@@ -86,6 +131,8 @@ public class IncomeService {
 				throw new Exception("新增一筆收入發生錯誤");
 			}
 		}
+		
+		return createMsgDto;
 	}
 
 }

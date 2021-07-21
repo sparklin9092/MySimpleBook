@@ -1,7 +1,5 @@
 package net.spark9092.MySimpleBook.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,9 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.income.CreateMsgDto;
-import net.spark9092.MySimpleBook.dto.income.SelectAccountListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectAccountMsgDto;
-import net.spark9092.MySimpleBook.dto.income.SelectItemListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectItemMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
@@ -36,7 +32,7 @@ public class IncomeController {
 	@PostMapping("/itemList")
     @ResponseBody
 	public SelectItemMsgDto incomeItemList(HttpSession session) {
-		
+
 		logger.debug("取得支出項目的下拉選單");
 
 		SelectItemMsgDto selectItemMsgDto = new SelectItemMsgDto();
@@ -50,19 +46,7 @@ public class IncomeController {
 
 		} else {
 
-			List<SelectItemListDto> incomeItemListDto = incomeService.getIncomeListByUserId(userInfoEntity.getId());
-
-			if(incomeItemListDto.size() == 0) {
-
-				selectItemMsgDto.setStatus(false);
-				selectItemMsgDto.setMsg("沒有可以使用的收入項目，請先新增或啟用收入項目。");
-
-			} else {
-
-				selectItemMsgDto.setStatus(true);
-				selectItemMsgDto.setMsg("");
-				selectItemMsgDto.setItemList(incomeItemListDto);
-			}
+			selectItemMsgDto = incomeService.getIncomeListByUserId(userInfoEntity.getId());
 		}
 
 		return selectItemMsgDto;
@@ -71,7 +55,7 @@ public class IncomeController {
 	@PostMapping("/accountList")
     @ResponseBody
 	public SelectAccountMsgDto accountList(HttpSession session) {
-		
+
 		logger.debug("取得帳戶的下拉選單");
 
 		SelectAccountMsgDto selectAccountMsgDto = new SelectAccountMsgDto();
@@ -85,19 +69,7 @@ public class IncomeController {
 
 		} else {
 
-			List<SelectAccountListDto> selectAccountListDtos = incomeService.getAccountListByUserId(userInfoEntity.getId());
-
-			if(selectAccountListDtos.size() == 0) {
-
-				selectAccountMsgDto.setStatus(false);
-				selectAccountMsgDto.setMsg("沒有可以使用的帳戶，請先新增或啟用帳戶。");
-
-			} else {
-
-				selectAccountMsgDto.setStatus(true);
-				selectAccountMsgDto.setMsg("");
-				selectAccountMsgDto.setAccountList(selectAccountListDtos);
-			}
+			selectAccountMsgDto = incomeService.getAccountListByUserId(userInfoEntity.getId());
 		}
 
 		return selectAccountMsgDto;
@@ -106,6 +78,8 @@ public class IncomeController {
 	@PostMapping("/create/act")
     @ResponseBody
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
+
+		logger.debug("新增一筆收入");
 
 		CreateMsgDto createMsgDto = new CreateMsgDto();
 
@@ -121,19 +95,9 @@ public class IncomeController {
 			createPojo.setUserId(userInfoEntity.getId());
 
 			try {
-				boolean createStatus = incomeService.createByPojo(createPojo);
 
-				if(createStatus) {
+				createMsgDto = incomeService.createByPojo(createPojo);
 
-					createMsgDto.setStatus(true);
-					createMsgDto.setMsg("");
-
-				} else {
-
-					createMsgDto.setStatus(false);
-					createMsgDto.setMsg("新增未成功");
-
-				}
 			} catch (Exception ex) {
 
 				createMsgDto.setStatus(false);
