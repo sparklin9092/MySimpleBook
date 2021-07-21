@@ -21,6 +21,7 @@ function initIncomeItemDataTable() {
 		success: function(res) {
 			
 			$('#incomeItemTable').DataTable({
+				dom: '<"float-start"f>tp',
 				data: res,
 				columns: [
 					{title: 'id'},
@@ -44,12 +45,8 @@ function initIncomeItemDataTable() {
 					}
 				],
 				language: {
-					lengthMenu: '每頁顯示 _MENU_ 筆',
 					search: '搜尋：',
-					info: '目前顯示 _PAGE_ 頁，總共 _PAGES_ 頁',
 					zeroRecords: '找不到資料',
-					infoEmpty: '沒有資料',
-					infoFiltered: '(已過濾總共 _MAX_ 筆資料)',
 					paginate: {
 						first: '第一頁',
 						last: '最後一頁',
