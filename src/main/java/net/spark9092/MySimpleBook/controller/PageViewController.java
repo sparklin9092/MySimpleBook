@@ -45,7 +45,7 @@ public class PageViewController {
 	public ModelAndView spend() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/spend/spend";
+		String pageName = "views/spend/create";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -58,7 +58,7 @@ public class PageViewController {
 	public ModelAndView spendItems() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/items/spend/itemSpend";
+		String pageName = "views/spend/items/list";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -71,7 +71,7 @@ public class PageViewController {
 	public ModelAndView spendItemsCreate() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/items/spend/itemSpendCreate";
+		String pageName = "views/spend/items/create";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -85,7 +85,7 @@ public class PageViewController {
 	public ModelAndView spendItemsModify(@PathVariable("itemId") int itemId) {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/items/spend/itemSpendModify";
+		String pageName = "views/spend/items/modify";
 		mv.setViewName(pageName);
 		mv.addObject("itemId", itemId);
 
@@ -99,7 +99,7 @@ public class PageViewController {
 	public ModelAndView income() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/income/income";
+		String pageName = "views/income/create";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -112,7 +112,7 @@ public class PageViewController {
 	public ModelAndView incomeItems() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/items/income/itemIncome";
+		String pageName = "views/income/items/list";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -126,7 +126,7 @@ public class PageViewController {
 	public ModelAndView incomeItemsCreate() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/items/income/itemIncomeCreate";
+		String pageName = "views/income/items/create";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -140,7 +140,7 @@ public class PageViewController {
 	public ModelAndView incomeItemsModify(@PathVariable("itemId") int itemId) {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/items/income/itemIncomeModify";
+		String pageName = "views/income/items/modify";
 		mv.setViewName(pageName);
 		mv.addObject("itemId", itemId);
 
@@ -154,7 +154,7 @@ public class PageViewController {
 	public ModelAndView transfer() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/transfer/transfer";
+		String pageName = "views/transfer/create";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -167,7 +167,7 @@ public class PageViewController {
 	public ModelAndView account() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/account/account";
+		String pageName = "views/account/list";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -180,7 +180,7 @@ public class PageViewController {
 	public ModelAndView accountCreate() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/account/accountCreate";
+		String pageName = "views/account/create";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -193,7 +193,7 @@ public class PageViewController {
 	public ModelAndView accountModify(@PathVariable("accountId") int accountId) {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/account/accountModify";
+		String pageName = "views/account/modify";
 		mv.setViewName(pageName);
 		mv.addObject("accountId", accountId);
 
@@ -207,7 +207,7 @@ public class PageViewController {
 	public ModelAndView accountTypes() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/items/accountType/itemAccountType";
+		String pageName = "views/account/types/list";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -221,7 +221,7 @@ public class PageViewController {
 	public ModelAndView accountTypesCreate() {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/items/accountType/itemAccountTypeCreate";
+		String pageName = "views/account/types/create";
 		mv.setViewName(pageName);
 
 		return mv;
@@ -235,7 +235,7 @@ public class PageViewController {
 	public ModelAndView accountTypesModify(@PathVariable("itemId") int itemId) {
 
 		ModelAndView mv = new ModelAndView();
-		String pageName = "views/items/accountType/itemAccountTypeModify";
+		String pageName = "views/account/types/modify";
 		mv.setViewName(pageName);
 		mv.addObject("itemId", itemId);
 
