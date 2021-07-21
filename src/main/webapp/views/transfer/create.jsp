@@ -3,8 +3,8 @@
 <html>
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
-	<link rel="stylesheet" href="/css/transfer/transfer.css">
-	<script type="text/javascript" src="/js/transfer/transfer.js"></script>
+	<link rel="stylesheet" href="/css/transfer/create.css">
+	<script type="text/javascript" src="/js/transfer/create.js"></script>
 	<script type="text/javascript" src="/js/common/userCheck.js"></script>
 	<script type="text/javascript" src="/js/common/checkAmnt.js"></script>
 </head>
