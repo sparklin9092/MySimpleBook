@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Select;
 
 import net.spark9092.MySimpleBook.dto.income.SelectAccountListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectItemListDto;
+import net.spark9092.MySimpleBook.dto.main.IncomeListDto;
 
 @Mapper
 public interface IIncomeMapper {
@@ -36,4 +37,19 @@ public interface IIncomeMapper {
 	boolean createByValues(@Param("userId") int userId, @Param("incomeItemId") int incomeItemId, 
 			@Param("accountItemId") int accountItemId, @Param("incomeDate") String incomeDate, 
 			@Param("amount") BigDecimal amount, @Param("remark") String remark);
+
+	/**
+	 * 首頁查詢當日最新5筆收入紀錄
+	 * @param userId
+	 * @return
+	 */
+	@Select("select (select name from items_income where id = item_id) as itemName,	amount as amnt "
+			+ " from income "
+			+ " where user_id = #{userId} and income_date = date_sub(curdate(), interval 0 day) "
+			+ " order by id desc limit 5")
+	@Results({
+		@Result(column="itemName", property="itemName"),
+		@Result(column="amnt", property="amnt")
+	})
+	List<IncomeListDto> getTodayListForMain(@Param("userId") int userId);
 }

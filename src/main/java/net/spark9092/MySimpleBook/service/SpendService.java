@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
+import net.spark9092.MySimpleBook.dto.main.SpendListDto;
+import net.spark9092.MySimpleBook.dto.main.SpendListMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.SelectAccountListDto;
 import net.spark9092.MySimpleBook.dto.spend.SelectAccountMsgDto;
@@ -133,6 +135,28 @@ public class SpendService {
 		}
 		
 		return createMsgDto;
+	}
+
+	public SpendListMsgDto getTodayListForMain(int userId) {
+
+		SpendListMsgDto spendListMsgDto = new SpendListMsgDto();
+
+		List<SpendListDto> listDtos = iSpendMapper.getTodayListForMain(userId);
+
+		if(listDtos.size() == 0) {
+
+			spendListMsgDto.setStatus(false);
+			spendListMsgDto.setMsg("很棒！今天還沒有支出！繼續保持！");
+
+		} else {
+
+			spendListMsgDto.setListDtos(listDtos);
+			spendListMsgDto.setStatus(true);
+			spendListMsgDto.setMsg("");
+
+		}
+
+		return spendListMsgDto;
 	}
 
 }

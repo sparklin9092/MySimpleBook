@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import net.spark9092.MySimpleBook.dto.account.TypeListDto;
+import net.spark9092.MySimpleBook.dto.main.AccountListDto;
 import net.spark9092.MySimpleBook.dto.account.ListDto;
 import net.spark9092.MySimpleBook.dto.account.OneDto;
 
@@ -120,4 +121,16 @@ public interface IAccountMapper {
 			+ " amount = amount + #{amount} "
 			+ " where id=#{accountId} and user_id=#{userId}")
 	boolean increaseAmnt(@Param("userId") int userId, @Param("accountId") int accountId, @Param("amount") BigDecimal amount);
+	
+	/**
+	 * 首頁查詢餘額最高的前5筆帳戶與餘額
+	 * @param userId
+	 * @return
+	 */
+	@Select("select name, amount from account where user_id = #{userId} order by amount desc limit 5")
+	@Results({
+		@Result(column="name", property="accName"),
+		@Result(column="amount", property="amnt")
+	})
+	List<AccountListDto> getTodayListForMain(@Param("userId") int userId);
 }

@@ -74,26 +74,35 @@ function queryTransferRecord() {
 		contentType: 'application/json',
 		data: {},
 		success: function(res) {
-			console.log(res);
+			
+			var records = "";
 			
 			if(res.status) {
-			
-				var transRecords = "";
 				
 				$.each(res.listDtos, function(key, val) {
-					transRecords += '<div class="row">';
-					transRecords += '<div class="col">' + val.accOutName + '</div>';
-					transRecords += '<div class="col">' + val.accoInName + '</div>';
-					transRecords += '<div class="col text-info">' + val.transAmnt + '</div>';
-					transRecords += '</div>';
-				});
+					records += '<div class="row">';
+					records += '<div class="col">' + val.accOutName + '</div>';
+					records += '<div class="col">' + val.accoInName + '</div>';
+					records += '<div class="col text-info">' + val.transAmnt + '</div>';
+					records += '</div>';
+					
+					if(key+1 == 5) {
 				
-				$('#transRecords').empty().html(transRecords);
+						records += '<div class="row">';
+						records += '<div class="col">(這裡只顯示最近的5個轉帳紀錄喔～)</div>';
+						records += '</div>';
+						
+					}
+				});
 				
 			} else {
 				
-				alert(res.msg);
+				records += '<div class="row">';
+				records += '<div class="col">' + res.msg + '</div>';
+				records += '</div>';
 			}
+				
+			$('#transRecords').empty().html(records);
 		},
 		error: function(err) {
 			console.log(err);
@@ -104,12 +113,137 @@ function queryTransferRecord() {
 
 function queryIncomeRecord() {
 	
+	$.ajax({
+		url: '/main/income/list',
+		method: 'POST',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: {},
+		success: function(res) {
+			
+			var records = "";
+			
+			if(res.status) {
+				
+				$.each(res.listDtos, function(key, val) {
+					records += '<div class="row">';
+					records += '<div class="col">' + val.itemName + '</div>';
+					records += '<div class="col text-success">' + val.amnt + '</div>';
+					records += '</div>';
+					
+					if(key+1 == 5) {
+				
+						records += '<div class="row">';
+						records += '<div class="col">(這裡只顯示最新的5個收入紀錄喔～)</div>';
+						records += '</div>';
+						
+					}
+				});
+				
+			} else {
+				
+				records += '<div class="row">';
+				records += '<div class="col">' + res.msg + '</div>';
+				records += '</div>';
+			}
+				
+			$('#incomeRecords').empty().html(records);
+		},
+		error: function(err) {
+			console.log(err);
+			alert('無法連接伺服器');
+		}
+	});
 }
 
 function querySpendRecord() {
 	
+	$.ajax({
+		url: '/main/spend/list',
+		method: 'POST',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: {},
+		success: function(res) {
+			
+			var records = "";
+			
+			if(res.status) {
+				
+				$.each(res.listDtos, function(key, val) {
+					records += '<div class="row">';
+					records += '<div class="col">' + val.itemName + '</div>';
+					records += '<div class="col text-danger">' + val.amnt + '</div>';
+					records += '</div>';
+					
+					if(key+1 == 5) {
+				
+						records += '<div class="row">';
+						records += '<div class="col">(這裡只顯示最新的5個支出紀錄喔～)</div>';
+						records += '</div>';
+						
+					}
+				});
+				
+			} else {
+				
+				records += '<div class="row">';
+				records += '<div class="col">' + res.msg + '</div>';
+				records += '</div>';
+			}
+				
+			$('#spendRecords').empty().html(records);
+		},
+		error: function(err) {
+			console.log(err);
+			alert('無法連接伺服器');
+		}
+	});
 }
 
 function queryAccoundRecord() {
 	
+	$.ajax({
+		url: '/main/account/list',
+		method: 'POST',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: {},
+		success: function(res) {
+			
+			var records = "";
+			
+			if(res.status) {
+				
+				$.each(res.listDtos, function(key, val) {
+					records += '<div class="row">';
+					records += '<div class="col">' + val.accName + '</div>';
+					records += '<div class="col text-primary">' + val.amnt + '</div>';
+					records += '</div>';
+					
+					if(key+1 == 5) {
+				
+						records += '<div class="row">';
+						records += '<div class="col">(這裡只顯示餘額最高的5個帳戶喔～)</div>';
+						records += '</div>';
+						
+					}
+				});
+				
+			} else {
+				
+				records += '<div class="row">';
+				records += '<div class="col">' + res.msg + '</div>';
+				records += '</div>';
+			}
+				
+			$('#accRecords').empty().html(records);
+		},
+		error: function(err) {
+			console.log(err);
+			alert('無法連接伺服器');
+		}
+	});
 }
+
+

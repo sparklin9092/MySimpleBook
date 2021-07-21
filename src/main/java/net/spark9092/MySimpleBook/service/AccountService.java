@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import net.spark9092.MySimpleBook.dto.account.TypeListDto;
-import net.spark9092.MySimpleBook.dto.account.TypeListMsgDto;
 import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.dto.account.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.account.DeleteMsgDto;
@@ -18,6 +16,10 @@ import net.spark9092.MySimpleBook.dto.account.ListDto;
 import net.spark9092.MySimpleBook.dto.account.ModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.account.OneDto;
 import net.spark9092.MySimpleBook.dto.account.OneMsgDto;
+import net.spark9092.MySimpleBook.dto.account.TypeListDto;
+import net.spark9092.MySimpleBook.dto.account.TypeListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.AccountListDto;
+import net.spark9092.MySimpleBook.dto.main.AccountListMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.pojo.account.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.account.DeletePojo;
@@ -285,6 +287,28 @@ public class AccountService {
 		}
 		
 		return deleteMsgDto;
+	}
+
+	public AccountListMsgDto getTodayListForMain(int userId) {
+
+		AccountListMsgDto accountListMsgDto = new AccountListMsgDto();
+
+		List<AccountListDto> listDtos = iAccountMapper.getTodayListForMain(userId);
+
+		if(listDtos.size() == 0) {
+
+			accountListMsgDto.setStatus(false);
+			accountListMsgDto.setMsg("還沒有帳戶嗎？去新增一個吧！");
+
+		} else {
+
+			accountListMsgDto.setListDtos(listDtos);
+			accountListMsgDto.setStatus(true);
+			accountListMsgDto.setMsg("");
+
+		}
+
+		return accountListMsgDto;
 	}
 
 }

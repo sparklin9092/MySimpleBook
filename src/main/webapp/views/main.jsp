@@ -27,7 +27,6 @@
 			</div>
 		</div>
 	</div>
-	<% // #################### 轉帳紀錄 #################### // %>
 	<div class="container-fluid pb-4 mb-4">
 		<div class="container-xl">
 			<div class="row border border-info rounded-top">
@@ -38,7 +37,7 @@
 			<div class="row py-2 text-center border-start border-end border-bottom border-info">
 				<div class="col">轉出帳戶</div>
 				<div class="col">轉入帳戶</div>
-				<div class="col">金額</div>
+				<div class="col">轉帳金額</div>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-info">
 				<div class="col" id="transRecords" name="transRecords"></div>
@@ -50,7 +49,6 @@
 			</div>
 		</div>
 	</div>
-	<% // #################### 收入紀錄 #################### // %>
 	<div class="container-fluid pb-4 mb-4">
 		<div class="container-xl">
 			<div class="row border border-success rounded-top">
@@ -59,14 +57,11 @@
 				</h4>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-bottom border-success">
-				<div class="col">日期</div>
-				<div class="col">項目</div>
-				<div class="col">金額</div>
+				<div class="col">收入項目</div>
+				<div class="col">收入金額</div>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-success">
-				<div class="col">7月5日</div>
-				<div class="col">薪資</div>
-				<div class="col text-success">35,000</div>
+				<div class="col" id="incomeRecords" name="incomeRecords"></div>
 			</div>
 			<div class="row pb-2 border-start border-end border-bottom border-success rounded-bottom">
 				<div class="col d-grid gap-2">
@@ -75,7 +70,6 @@
 			</div>
 		</div>
 	</div>
-	<% // #################### 支出紀錄 #################### // %>
 	<div class="container-fluid pb-4 mb-4">
 		<div class="container-xl">
 			<div class="row border border-danger rounded-top">
@@ -84,14 +78,11 @@
 				</h4>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-bottom border-danger">
-				<div class="col">日期</div>
-				<div class="col">項目</div>
-				<div class="col">金額</div>
+				<div class="col">支出項目</div>
+				<div class="col">支出金額</div>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-danger">
-				<div class="col">7月10日</div>
-				<div class="col">午餐</div>
-				<div class="col text-danger">100</div>
+				<div class="col" id="spendRecords" name="spendRecords"></div>
 			</div>
 			<div class="row pb-2 border-start border-end border-bottom border-success rounded-bottom">
 				<div class="col d-grid gap-2">
@@ -100,7 +91,6 @@
 			</div>
 		</div>
 	</div>
-	<% // #################### 帳戶餘額紀錄 #################### // %>
 	<div class="container-fluid pb-5 mb-5">
 		<div class="container-xl">
 			<div class="row border border-primary rounded-top">
@@ -109,20 +99,11 @@
 				</h4>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-bottom border-primary">
-				<div class="col">帳戶</div>
-				<div class="col">餘額</div>
+				<div class="col">帳戶名稱</div>
+				<div class="col">帳戶餘額</div>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-primary">
-				<div class="col">台北富邦</div>
-				<div class="col text-primary">123,456</div>
-			</div>
-			<div class="row py-2 text-center border-start border-end border-primary">
-				<div class="col">台灣銀行</div>
-				<div class="col text-primary">992</div>
-			</div>
-			<div class="row py-2 text-center border-start border-end border-primary">
-				<div class="col">中國信託</div>
-				<div class="col text-primary">1,111</div>
+				<div class="col" id="accRecords" name="accRecords"></div>
 			</div>
 			<div class="row pb-2 border-start border-end border-bottom border-primary rounded-bottom">
 				<div class="col d-grid gap-2">

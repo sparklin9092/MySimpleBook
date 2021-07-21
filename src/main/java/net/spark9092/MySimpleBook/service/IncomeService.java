@@ -16,6 +16,8 @@ import net.spark9092.MySimpleBook.dto.income.SelectAccountListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectAccountMsgDto;
 import net.spark9092.MySimpleBook.dto.income.SelectItemListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectItemMsgDto;
+import net.spark9092.MySimpleBook.dto.main.IncomeListDto;
+import net.spark9092.MySimpleBook.dto.main.IncomeListMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.mapper.IIncomeMapper;
 import net.spark9092.MySimpleBook.pojo.income.CreatePojo;
@@ -133,6 +135,28 @@ public class IncomeService {
 		}
 		
 		return createMsgDto;
+	}
+
+	public IncomeListMsgDto getTodayListForMain(int userId) {
+
+		IncomeListMsgDto incomeListMsgDto = new IncomeListMsgDto();
+
+		List<IncomeListDto> listDtos = iIncomeMapper.getTodayListForMain(userId);
+
+		if(listDtos.size() == 0) {
+
+			incomeListMsgDto.setStatus(false);
+			incomeListMsgDto.setMsg("今天還沒有收入，再加把勁！");
+
+		} else {
+
+			incomeListMsgDto.setListDtos(listDtos);
+			incomeListMsgDto.setStatus(true);
+			incomeListMsgDto.setMsg("");
+
+		}
+
+		return incomeListMsgDto;
 	}
 
 }

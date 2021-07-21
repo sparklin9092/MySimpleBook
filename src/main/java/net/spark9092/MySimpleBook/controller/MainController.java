@@ -11,12 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.spark9092.MySimpleBook.dto.main.AccountListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.IncomeListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.SpendListMsgDto;
 import net.spark9092.MySimpleBook.dto.main.TransferListMsgDto;
 import net.spark9092.MySimpleBook.dto.richCode.ListDto;
 import net.spark9092.MySimpleBook.dto.richCode.ListMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
+import net.spark9092.MySimpleBook.service.AccountService;
+import net.spark9092.MySimpleBook.service.IncomeService;
 import net.spark9092.MySimpleBook.service.RichCodeService;
+import net.spark9092.MySimpleBook.service.SpendService;
 import net.spark9092.MySimpleBook.service.TransferService;
 
 @RequestMapping("/main")
@@ -28,6 +34,15 @@ public class MainController {
 
 	@Autowired
 	private TransferService transferService;
+
+	@Autowired
+	private IncomeService incomeService;
+
+	@Autowired
+	private SpendService spendService;
+
+	@Autowired
+	private AccountService accountService;
 
 	@SuppressWarnings("unchecked")
 	@PostMapping("/richCodeList")
@@ -85,5 +100,71 @@ public class MainController {
 		}
 		
 		return transferListMsgDto;
+	}
+	
+	@PostMapping("/income/list")
+    @ResponseBody
+    public IncomeListMsgDto getIncomeList(HttpSession session) {
+		
+		IncomeListMsgDto incomeListMsgDto = new IncomeListMsgDto();
+
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if(null == userInfoEntity) {
+			
+			incomeListMsgDto.setStatus(false);
+			incomeListMsgDto.setMsg("使用者未登入");
+			
+		} else {
+		
+			incomeListMsgDto = incomeService.getTodayListForMain(userInfoEntity.getId());
+		
+		}
+		
+		return incomeListMsgDto;
+	}
+	
+	@PostMapping("/spend/list")
+    @ResponseBody
+    public SpendListMsgDto getSpendList(HttpSession session) {
+		
+		SpendListMsgDto spendListMsgDto = new SpendListMsgDto();
+
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if(null == userInfoEntity) {
+			
+			spendListMsgDto.setStatus(false);
+			spendListMsgDto.setMsg("使用者未登入");
+			
+		} else {
+		
+			spendListMsgDto = spendService.getTodayListForMain(userInfoEntity.getId());
+		
+		}
+		
+		return spendListMsgDto;
+	}
+	
+	@PostMapping("/account/list")
+    @ResponseBody
+    public AccountListMsgDto getAccountList(HttpSession session) {
+		
+		AccountListMsgDto accountListMsgDto = new AccountListMsgDto();
+
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if(null == userInfoEntity) {
+			
+			accountListMsgDto.setStatus(false);
+			accountListMsgDto.setMsg("使用者未登入");
+			
+		} else {
+		
+			accountListMsgDto = accountService.getTodayListForMain(userInfoEntity.getId());
+		
+		}
+		
+		return accountListMsgDto;
 	}
 }
