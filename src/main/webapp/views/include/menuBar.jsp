@@ -9,29 +9,53 @@
 		</button>
 		<div class="collapse navbar-collapse" id="menuList">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="nav-link menu-item" href="/spend">新增支出</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link menu-item" href="/income">新增收入</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link menu-item" href="/transfer">新增轉帳</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link menu-item" href="/account">帳戶管理</a>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link menu-item dropdown-toggle" href="#" id="itemMenage" role="button" data-bs-toggle="dropdown" aria-expanded="false">項目管理</a>
-					<ul class="dropdown-menu" aria-labelledby="itemMenage">
+				<li class="nav-item dropdown px-3">
+					<a class="nav-link menu-item dropdown-toggle" href="#" id="spendMenage" role="button" data-bs-toggle="dropdown" aria-expanded="false">支出</a>
+					<ul class="dropdown-menu" aria-labelledby="spendMenage">
 						<li>
-							<a class="dropdown-item menu-sub-item" href="/itemSpend">支出項目管理</a>
+							<a class="dropdown-item menu-sub-item" href="/spend">新增支出</a>
 						</li>
 						<li>
-							<a class="dropdown-item menu-sub-item" href="/itemIncome">收入項目管理</a>
+							<a class="dropdown-item menu-sub-item" href="/spend/record">支出紀錄</a>
 						</li>
 						<li>
-							<a class="dropdown-item menu-sub-item" href="/itemAccountType">帳戶類型管理</a>
+							<a class="dropdown-item menu-sub-item" href="/spend/items">支出項目管理</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown px-3">
+					<a class="nav-link menu-item dropdown-toggle" href="#" id="incomeMenage" role="button" data-bs-toggle="dropdown" aria-expanded="false">收入</a>
+					<ul class="dropdown-menu" aria-labelledby="incomeMenage">
+						<li>
+							<a class="dropdown-item menu-sub-item" href="/income">新增收入</a>
+						</li>
+						<li>
+							<a class="dropdown-item menu-sub-item" href="/income/record">收入紀錄</a>
+						</li>
+						<li>
+							<a class="dropdown-item menu-sub-item" href="/income/items">收入項目管理</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown px-3">
+					<a class="nav-link menu-item dropdown-toggle" href="#" id="transferMenage" role="button" data-bs-toggle="dropdown" aria-expanded="false">轉帳</a>
+					<ul class="dropdown-menu" aria-labelledby="transferMenage">
+						<li>
+							<a class="dropdown-item menu-sub-item" href="/transfer">新增轉帳</a>
+						</li>
+						<li>
+							<a class="dropdown-item menu-sub-item" href="/transfer/record">轉帳紀錄</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown px-3">
+					<a class="nav-link menu-item dropdown-toggle" href="#" id="accountMenage" role="button" data-bs-toggle="dropdown" aria-expanded="false">帳戶</a>
+					<ul class="dropdown-menu" aria-labelledby="accountMenage">
+						<li>
+							<a class="dropdown-item menu-sub-item" href="/account">帳戶管理</a>
+						</li>
+						<li>
+							<a class="dropdown-item menu-sub-item" href="/account/types">帳戶類型管理</a>
 						</li>
 					</ul>
 				</li>

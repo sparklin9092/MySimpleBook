@@ -125,7 +125,7 @@ public class PageViewController {
 	 * 支出項目管理-列表
 	 * @return
 	 */
-	@GetMapping("itemSpend")
+	@GetMapping("/spend/items")
 	public ModelAndView spendItem() {
 
 		ModelAndView mv = new ModelAndView();
@@ -139,7 +139,7 @@ public class PageViewController {
 	 * 支出項目管理-新增
 	 * @return
 	 */
-	@GetMapping("itemSpend/create")
+	@GetMapping("/income/items")
 	public ModelAndView spendItemCreate() {
 
 		ModelAndView mv = new ModelAndView();
@@ -211,7 +211,7 @@ public class PageViewController {
 	 * 帳戶類型項目管理-列表
 	 * @return
 	 */
-	@GetMapping("itemAccountType")
+	@GetMapping("/account/types")
 	public ModelAndView itemAccountType() {
 
 		ModelAndView mv = new ModelAndView();
