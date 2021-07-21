@@ -11,7 +11,7 @@ function initData() {
 	var itemId = $('#itemId').val();
 	
 	$.ajax({
-		url: '/itemAccountType/one/' + itemId,
+		url: '/account/types/one/' + itemId,
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -66,7 +66,7 @@ function deleteAct() {
 	data.itemId = $('#itemId').val();
 	
 	$.ajax({
-		url: '/itemAccountType/delete/act',
+		url: '/account/types/delete/act',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -101,7 +101,7 @@ function confirmAct() {
 	data.itemDefault = $('input[name=itemAccountTypeDefault]:checked').val();
 	
 	$.ajax({
-		url: '/itemAccountType/modify/act',
+		url: '/account/types/modify/act',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',

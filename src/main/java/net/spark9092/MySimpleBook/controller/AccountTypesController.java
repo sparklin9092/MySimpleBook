@@ -24,17 +24,17 @@ import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.items.accountType.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.items.accountType.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.accountType.ModifyPojo;
-import net.spark9092.MySimpleBook.service.ItemAccountTypeService;
+import net.spark9092.MySimpleBook.service.AccountTypesService;
 import net.spark9092.MySimpleBook.service.UserLoginService;
 
-@RequestMapping("/itemAccountType")
+@RequestMapping("/account/types")
 @RestController
-public class ItemAccountTypeController {
+public class AccountTypesController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
 
 	@Autowired
-	private ItemAccountTypeService itemAccountTypeService;
+	private AccountTypesService itemAccountTypeService;
 
 	@PostMapping("/list")
     @ResponseBody

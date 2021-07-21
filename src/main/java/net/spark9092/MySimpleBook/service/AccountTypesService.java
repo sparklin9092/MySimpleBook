@@ -14,18 +14,18 @@ import net.spark9092.MySimpleBook.dto.items.accountType.ListDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.ModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.OneDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.OneMsgDto;
-import net.spark9092.MySimpleBook.mapper.IItemsAccountTypeMapper;
+import net.spark9092.MySimpleBook.mapper.AccountTypesMapper;
 import net.spark9092.MySimpleBook.pojo.items.accountType.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.items.accountType.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.accountType.ModifyPojo;
 
 @Service
-public class ItemAccountTypeService {
+public class AccountTypesService {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
 
 	@Autowired
-	private IItemsAccountTypeMapper iItemsAccountTypeMapper;
+	private AccountTypesMapper iItemsAccountTypeMapper;
 
 	public List<List<String>> getListByUserId(int userId) {
 

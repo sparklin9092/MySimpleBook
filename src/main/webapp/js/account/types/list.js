@@ -13,7 +13,7 @@ function createView() {
 function initAccountTypeItemDataTable() {
 	
 	$.ajax({
-		url: '/itemAccountType/list',
+		url: '/account/types/list',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
