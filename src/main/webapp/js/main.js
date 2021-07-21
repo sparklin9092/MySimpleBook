@@ -34,7 +34,7 @@ function initRichCodeList() {
 	richCodeItems += '<div class="carousel-item p-2 active">' + defaultRichCode + '</div>';
 	
 	$.ajax({
-		url: '/main/richCodeList',
+		url: '/main/richCode/list',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',

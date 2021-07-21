@@ -45,7 +45,7 @@ public class MainController {
 	private AccountService accountService;
 
 	@SuppressWarnings("unchecked")
-	@PostMapping("/richCodeList")
+	@PostMapping("/richCode/list")
     @ResponseBody
     public ListMsgDto getRishCodeList(HttpSession session) {
 
