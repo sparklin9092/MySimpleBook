@@ -13,7 +13,7 @@
 		<div class="container-xl">
 			<h3 class="text-center">收入項目管理</h3>
 			<div class="text-end">
-				<button type="button" class="btn btn-success btn-lg my-3" id="createBtn" name="createBtn">新增</button>
+				<button type="button" class="btn btn-success btn-lg" id="createBtn" name="createBtn">新增</button>
 			</div>
 			<table id="incomeItemTable" class="cell-border" style="width: 100%"></table>
 			<!-- <div class="create-btn" id="createBtn" name="createBtn">新增</div> -->
