@@ -139,7 +139,7 @@ public class PageViewController {
 	 * 支出項目管理-新增
 	 * @return
 	 */
-	@GetMapping("/income/items")
+	@GetMapping("itemSpend/create")
 	public ModelAndView spendItemCreate() {
 
 		ModelAndView mv = new ModelAndView();
@@ -168,7 +168,7 @@ public class PageViewController {
 	 * 收入項目管理-列表
 	 * @return
 	 */
-	@GetMapping("itemIncome")
+	@GetMapping("/income/items")
 	public ModelAndView itemIncome() {
 
 		ModelAndView mv = new ModelAndView();
