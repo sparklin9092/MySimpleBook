@@ -14,7 +14,7 @@ import net.spark9092.MySimpleBook.dto.items.accountType.ListDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.OneDto;
 
 @Mapper
-public interface AccountTypesMapper {
+public interface IAccountTypesMapper {
 
 	/**
 	 * 根據 User ID，查詢帳戶類型項目管理的清單

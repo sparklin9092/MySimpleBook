@@ -40,7 +40,7 @@ public interface IAccountMapper {
 	 * @return
 	 */
 	@Select("select id, name "
-			+ " from items_account_type "
+			+ " from account_types "
 			+ " where user_id=#{userId} and is_active=1 and is_delete=0 "
 			+ " order by is_default desc")
 	@Results({
@@ -54,7 +54,7 @@ public interface IAccountMapper {
 			+ " date_format(a.limit_date, '%Y') as limitYear, date_format(a.limit_date, '%m') as limitMonth, "
 			+ " a.create_datetime "
 			+ " from account a "
-			+ " left join items_account_type b on b.id = a.type_id "
+			+ " left join account_types b on b.id = a.type_id "
 			+ " where a.is_delete=0 and a.id=#{accountId} and a.user_id=#{userId}")
 	@Results({
 		@Result(column="typeName", property="accountTypeName"),

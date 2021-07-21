@@ -14,7 +14,7 @@ import net.spark9092.MySimpleBook.dto.items.accountType.ListDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.ModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.OneDto;
 import net.spark9092.MySimpleBook.dto.items.accountType.OneMsgDto;
-import net.spark9092.MySimpleBook.mapper.AccountTypesMapper;
+import net.spark9092.MySimpleBook.mapper.IAccountTypesMapper;
 import net.spark9092.MySimpleBook.pojo.items.accountType.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.items.accountType.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.accountType.ModifyPojo;
@@ -25,7 +25,7 @@ public class AccountTypesService {
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
 
 	@Autowired
-	private AccountTypesMapper iItemsAccountTypeMapper;
+	private IAccountTypesMapper iItemsAccountTypeMapper;
 
 	public List<List<String>> getListByUserId(int userId) {
 
