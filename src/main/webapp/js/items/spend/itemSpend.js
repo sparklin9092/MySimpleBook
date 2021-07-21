@@ -7,7 +7,7 @@ $(function() {
 
 function createView() {
 	
-	location.href = '/itemSpend/create';
+	location.href = '/spend/items/create';
 }
 
 function initSpendItemDataTable() {
@@ -65,5 +65,5 @@ function initSpendItemDataTable() {
 
 function modifyView(itemId) {
 	
-	location.href = '/itemSpend/modify/' + itemId;
+	location.href = '/spend/items/modify/' + itemId;
 }

@@ -7,7 +7,7 @@ $(function() {
 
 function createView() {
 	
-	location.href = '/itemIncome/create';
+	location.href = '/income/items/create';
 }
 
 function initIncomeItemDataTable() {
@@ -65,5 +65,5 @@ function initIncomeItemDataTable() {
 
 function modifyView(itemId) {
 	
-	location.href = '/itemIncome/modify/' + itemId;
+	location.href = '/income/items/modify/' + itemId;
 }

@@ -6,7 +6,7 @@ $(function() {
 
 function cancelAct() {
 	
-	location.href = '/itemSpend';
+	location.href = '/spend/items';
 }
 
 function confirmAct() {

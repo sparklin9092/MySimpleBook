@@ -6,7 +6,7 @@ $(function() {
 
 function cancelAct() {
 	
-	location.href = '/itemAccountType';
+	location.href = '/account/types';
 }
 
 function confirmAct() {

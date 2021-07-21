@@ -7,7 +7,7 @@ $(function() {
 
 function createView() {
 	
-	location.href = '/itemAccountType/create';
+	location.href = '/account/types/create';
 }
 
 function initAccountTypeItemDataTable() {
@@ -65,5 +65,5 @@ function initAccountTypeItemDataTable() {
 
 function modifyView(itemId) {
 	
-	location.href = '/itemAccountType/modify/' + itemId;
+	location.href = '/account/types/modify/' + itemId;
 }

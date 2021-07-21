@@ -57,7 +57,7 @@ function initData() {
 
 function cancelAct() {
 	
-	location.href = '/itemSpend';
+	location.href = '/spend/items';
 }
 	
 function deleteAct() {

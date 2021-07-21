@@ -57,7 +57,7 @@ function initData() {
 
 function cancelAct() {
 	
-	location.href = '/itemAccountType';
+	location.href = '/account/types';
 }
 	
 function deleteAct() {
