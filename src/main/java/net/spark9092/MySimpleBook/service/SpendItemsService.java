@@ -14,18 +14,18 @@ import net.spark9092.MySimpleBook.dto.items.spend.ListDto;
 import net.spark9092.MySimpleBook.dto.items.spend.ModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.items.spend.OneDto;
 import net.spark9092.MySimpleBook.dto.items.spend.OneMsgDto;
-import net.spark9092.MySimpleBook.mapper.IItemsSpendMapper;
+import net.spark9092.MySimpleBook.mapper.ISpendItemsMapper;
 import net.spark9092.MySimpleBook.pojo.items.spend.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.items.spend.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.spend.ModifyPojo;
 
 @Service
-public class ItemSpendService {
+public class SpendItemsService {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
 
 	@Autowired
-	private IItemsSpendMapper iItemsSpendMapper;
+	private ISpendItemsMapper iItemsSpendMapper;
 
 	public List<List<String>> getListByUserId(int userId) {
 

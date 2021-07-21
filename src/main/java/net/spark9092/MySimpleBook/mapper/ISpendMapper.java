@@ -17,7 +17,7 @@ import net.spark9092.MySimpleBook.dto.spend.SelectItemListDto;
 @Mapper
 public interface ISpendMapper {
 
-	@Select("select id, name from items_spend where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
+	@Select("select id, name from spend_items where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
 	@Results({
 		@Result(column="id", property="itemId"),
 		@Result(column="name", property="itemName")
@@ -44,7 +44,7 @@ public interface ISpendMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select (select name from items_spend where id = item_id) as itemName,	amount as amnt "
+	@Select("select (select name from spend_items where id = item_id) as itemName,	amount as amnt "
 			+ " from spend "
 			+ " where user_id = #{userId} and spend_date = date_sub(curdate(), interval 0 day) "
 			+ " order by id desc limit 5")

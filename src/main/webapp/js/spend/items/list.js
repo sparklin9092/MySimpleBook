@@ -13,7 +13,7 @@ function createView() {
 function initSpendItemDataTable() {
 	
 	$.ajax({
-		url: '/itemSpend/list',
+		url: '/spend/items/list',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',

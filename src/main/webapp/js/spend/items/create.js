@@ -19,7 +19,7 @@ function confirmAct() {
 	data.itemDefault = itemDefault;
 	
 	$.ajax({
-		url: '/itemSpend/create/act',
+		url: '/spend/items/create/act',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',

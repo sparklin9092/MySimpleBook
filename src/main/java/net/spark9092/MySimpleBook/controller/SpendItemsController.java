@@ -24,17 +24,17 @@ import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.items.spend.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.items.spend.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.spend.ModifyPojo;
-import net.spark9092.MySimpleBook.service.ItemSpendService;
+import net.spark9092.MySimpleBook.service.SpendItemsService;
 import net.spark9092.MySimpleBook.service.UserLoginService;
 
-@RequestMapping("/itemSpend")
+@RequestMapping("/spend/items")
 @RestController
-public class ItemSpendController {
+public class SpendItemsController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
 
 	@Autowired
-	private ItemSpendService itemSpendService;
+	private SpendItemsService itemSpendService;
 
 	@PostMapping("/list")
     @ResponseBody

@@ -14,7 +14,7 @@ import net.spark9092.MySimpleBook.dto.items.spend.ListDto;
 import net.spark9092.MySimpleBook.dto.items.spend.OneDto;
 
 @Mapper
-public interface IItemsSpendMapper {
+public interface ISpendItemsMapper {
 
 	/**
 	 * 根據 User ID，查詢支出項目管理的清單
@@ -22,7 +22,7 @@ public interface IItemsSpendMapper {
 	 * @return
 	 */
 	@Select("select id, name, is_default, is_active "
-			+ " from items_spend "
+			+ " from spend_items "
 			+ " where user_id=#{userId} and is_delete=0")
 	@Results({
 		@Result(column="id", property="itemId"),
@@ -39,7 +39,7 @@ public interface IItemsSpendMapper {
 	 * @return
 	 */
 	@Select("select name, is_default, is_active, create_datetime "
-			+ " from items_spend "
+			+ " from spend_items "
 			+ " where is_delete=0 and id=#{itemId} and user_id=#{userId}")
 	@Results({
 		@Result(column="name", property="itemName"),
@@ -56,7 +56,7 @@ public interface IItemsSpendMapper {
 	 * @param itemDefault
 	 * @return
 	 */
-	@Insert("insert into items_spend(user_id, name, is_default, create_user_id) "
+	@Insert("insert into spend_items(user_id, name, is_default, create_user_id) "
 			+ " values(#{userId}, #{itemName}, #{itemDefault}, #{userId})")
 	boolean createByValues(@Param("userId") int userId, @Param("itemName") String itemName, @Param("itemDefault") boolean itemDefault);
 
@@ -69,7 +69,7 @@ public interface IItemsSpendMapper {
 	 * @param itemDefault
 	 * @return
 	 */
-	@Update("update items_spend set "
+	@Update("update spend_items set "
 			+ " name=#{itemName}, is_active=#{itemActive}, is_default=#{itemDefault} "
 			+ " where id=#{itemId} and user_id=#{userId}")
 	boolean modifyByValues(@Param("userId") int userId, @Param("itemId") int itemId,
@@ -82,7 +82,7 @@ public interface IItemsSpendMapper {
 	 * @param itemId
 	 * @return
 	 */
-	@Update("update items_spend set "
+	@Update("update spend_items set "
 			+ " is_delete=1 "
 			+ " where id=#{itemId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("itemId") int itemId);
