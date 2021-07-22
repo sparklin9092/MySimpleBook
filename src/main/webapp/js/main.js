@@ -3,6 +3,7 @@ $(function() {
 	$('#transferBtn').on('click', transferView);
 	$('#incomeBtn').on('click', incomeView);
 	$('#spendBtn').on('click', spendView);
+	$('#moreAccRecords').on('click', accountView);
 	
 	initRichCodeList();
 	
@@ -25,6 +26,12 @@ function incomeView() {
 function spendView() {
 	
 	location.href = '/spend';
+}
+
+
+function accountView() {
+	
+	location.href = '/account';
 }
 
 function initRichCodeList() {

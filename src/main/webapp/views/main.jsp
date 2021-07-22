@@ -107,7 +107,7 @@
 			</div>
 			<div class="row pb-2 border-start border-end border-bottom border-primary rounded-bottom">
 				<div class="col d-grid gap-2">
-					<button class="btn btn-primary">查看更多帳戶</button>
+					<button class="btn btn-primary" id="moreAccRecords" name="moreAccRecords">查看更多帳戶</button>
 				</div>
 			</div>
 		</div>
