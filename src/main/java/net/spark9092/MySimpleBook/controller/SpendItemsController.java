@@ -24,13 +24,12 @@ import net.spark9092.MySimpleBook.pojo.items.spend.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.items.spend.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.spend.ModifyPojo;
 import net.spark9092.MySimpleBook.service.SpendItemsService;
-import net.spark9092.MySimpleBook.service.UserLoginService;
 
 @RequestMapping("/spend/items")
 @RestController
 public class SpendItemsController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(SpendItemsController.class);
 
 	@Autowired
 	private SpendItemsService itemSpendService;

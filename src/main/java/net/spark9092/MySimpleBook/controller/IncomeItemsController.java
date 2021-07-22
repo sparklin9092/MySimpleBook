@@ -24,13 +24,12 @@ import net.spark9092.MySimpleBook.pojo.items.income.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.items.income.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.income.ModifyPojo;
 import net.spark9092.MySimpleBook.service.IncomeItemsService;
-import net.spark9092.MySimpleBook.service.UserLoginService;
 
 @RequestMapping("/income/items")
 @RestController
 public class IncomeItemsController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(IncomeItemsController.class);
 
 	@Autowired
 	private IncomeItemsService itemIncomeService;

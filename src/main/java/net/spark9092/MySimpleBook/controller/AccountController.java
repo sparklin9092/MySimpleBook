@@ -30,7 +30,7 @@ import net.spark9092.MySimpleBook.service.AccountService;
 @RestController
 public class AccountController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserInfoController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
 	@Autowired
 	private AccountService accountService;

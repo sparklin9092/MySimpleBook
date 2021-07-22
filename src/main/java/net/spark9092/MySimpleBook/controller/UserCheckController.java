@@ -14,7 +14,7 @@ import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 @RestController
 public class UserCheckController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserInfoController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserCheckController.class);
 
 	@GetMapping("/userCheck")
 	public LoginCheckMsgDto userCheck(HttpSession session) {

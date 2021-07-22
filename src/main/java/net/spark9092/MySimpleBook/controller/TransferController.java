@@ -16,13 +16,12 @@ import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.transfer.CreatePojo;
 import net.spark9092.MySimpleBook.service.TransferService;
-import net.spark9092.MySimpleBook.service.UserLoginService;
 
 @RequestMapping("/transfer")
 @RestController
 public class TransferController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(TransferController.class);
 
 	@Autowired
 	private TransferService transferService;

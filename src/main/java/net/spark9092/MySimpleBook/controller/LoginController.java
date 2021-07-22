@@ -21,7 +21,7 @@ import net.spark9092.MySimpleBook.service.UserLoginService;
 @RestController
 public class LoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
 	private UserLoginService userLoginService;

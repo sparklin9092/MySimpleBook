@@ -17,13 +17,12 @@ import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.income.CreatePojo;
 import net.spark9092.MySimpleBook.service.IncomeService;
-import net.spark9092.MySimpleBook.service.UserLoginService;
 
 @RequestMapping("/income")
 @RestController
 public class IncomeController {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(IncomeController.class);
 
 	@Autowired
 	private IncomeService incomeService;
