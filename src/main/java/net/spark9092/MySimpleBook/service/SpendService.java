@@ -25,7 +25,7 @@ import net.spark9092.MySimpleBook.pojo.spend.CreatePojo;
 @Service
 public class SpendService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(SpendService.class);
 
 	@Autowired
 	private CheckCommon checkCommon;

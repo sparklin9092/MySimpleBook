@@ -23,7 +23,7 @@ import net.spark9092.MySimpleBook.pojo.transfer.CreatePojo;
 @Service
 public class TransferService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(TransferService.class);
 
 	@Autowired
 	private CheckCommon checkCommon;

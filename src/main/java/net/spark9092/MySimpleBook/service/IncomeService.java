@@ -25,7 +25,7 @@ import net.spark9092.MySimpleBook.pojo.income.CreatePojo;
 @Service
 public class IncomeService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(IncomeService.class);
 
 	@Autowired
 	private CheckCommon checkCommon;

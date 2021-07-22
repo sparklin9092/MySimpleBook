@@ -22,7 +22,7 @@ import net.spark9092.MySimpleBook.pojo.items.income.ModifyPojo;
 @Service
 public class IncomeItemsService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(IncomeItemsService.class);
 
 	@Autowired
 	private IIncomeItemsMapper iItemsIncomeMapper;

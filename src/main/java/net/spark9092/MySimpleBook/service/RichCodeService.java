@@ -19,7 +19,7 @@ import net.spark9092.MySimpleBook.mapper.IRichCodeMapper;
 @Service
 public class RichCodeService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(RichCodeService.class);
 
 	@Autowired
 	private IRichCodeMapper iRichCodeMapper;

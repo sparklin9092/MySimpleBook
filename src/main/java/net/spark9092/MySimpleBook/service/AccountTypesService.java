@@ -22,7 +22,7 @@ import net.spark9092.MySimpleBook.pojo.items.accountType.ModifyPojo;
 @Service
 public class AccountTypesService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccountTypesService.class);
 
 	@Autowired
 	private IAccountTypesMapper iItemsAccountTypeMapper;

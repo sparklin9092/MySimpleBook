@@ -28,7 +28,7 @@ import net.spark9092.MySimpleBook.pojo.account.ModifyPojo;
 @Service
 public class AccountService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
 	private static final String limitDateRegex = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 

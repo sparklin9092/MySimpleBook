@@ -22,7 +22,7 @@ import net.spark9092.MySimpleBook.pojo.items.spend.ModifyPojo;
 @Service
 public class SpendItemsService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(SpendItemsService.class);
 
 	@Autowired
 	private ISpendItemsMapper iItemsSpendMapper;
