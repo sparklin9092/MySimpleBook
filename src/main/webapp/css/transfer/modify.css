@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.remark-height {
+	line-height: 20vh;
+	height: 20vh;
+}
+
+.vertical-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.in-out-title {
+	font-size: 1.4rem;
+}

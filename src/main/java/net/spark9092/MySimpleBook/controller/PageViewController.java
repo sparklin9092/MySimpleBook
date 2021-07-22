@@ -161,6 +161,33 @@ public class PageViewController {
 	}
 
 	/**
+	 * 轉帳紀錄
+	 */
+	@GetMapping("/transfer/records")
+	public ModelAndView transferRecords() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/transfer/records";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
+	 * 修改一筆轉帳
+	 */
+	@GetMapping("/transfer/modify/{transferId}")
+	public ModelAndView transferModify(@PathVariable("transferId") int transferId) {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/transfer/modify";
+		mv.setViewName(pageName);
+		mv.addObject("transferId", transferId);
+
+		return mv;
+	}
+
+	/**
 	 * 帳戶管理-列表
 	 */
 	@GetMapping("/account")

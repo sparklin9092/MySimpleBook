@@ -9,8 +9,11 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import net.spark9092.MySimpleBook.dto.main.TransferListDto;
+import net.spark9092.MySimpleBook.dto.transfer.OneDto;
+import net.spark9092.MySimpleBook.dto.transfer.RecListDto;
 import net.spark9092.MySimpleBook.dto.transfer.SelectAccountListDto;
 
 @Mapper
@@ -27,6 +30,43 @@ public interface ITransferMapper {
 		@Result(column="name", property="accountName")
 	})
 	List<SelectAccountListDto> selectAccountListByUserId(@Param("userId") int userId);
+
+	/**
+	 * 根據 User ID、日期範圍，查詢轉帳紀錄
+	 * @param userId
+	 * @return
+	 */
+	@Select("select id, trans_date, "
+			+ " (select name from account where id = out_acc_id) transOutAccName, "
+			+ "	if(is_outside = 1, "
+			+ "    if(outside_acc_name is null or outside_acc_name = '', '(外部帳戶)', concat('(外部帳戶) ', outside_acc_name)), "
+			+ "    (select name from account where id = in_acc_id) "
+			+ " ) transInAccName, amount "
+			+ " from transfer "
+			+ " where user_id=#{userId} and is_delete=0 and trans_date >= #{startDate} and trans_date <= #{endDate}")
+	@Results({
+		@Result(column="id", property="transId"),
+		@Result(column="trans_date", property="transDate"),
+		@Result(column="transOutAccName", property="transOutAccName"),
+		@Result(column="transInAccName", property="transInAccName"),
+		@Result(column="amount", property="transAmnt")
+	})
+	List<RecListDto> selectRecordsByUserId(@Param("userId") int userId, @Param("startDate") String startDate, @Param("endDate") String endDate);
+
+	@Select("select trans_date, amount, out_acc_id, in_acc_id, is_outside, outside_acc_name, create_datetime, remark "
+			+ " from transfer "
+			+ " where is_delete=0 and id=#{transferId} and user_id=#{userId}")
+	@Results({
+		@Result(column="trans_date", property="transDate"),
+		@Result(column="amount", property="amount"),
+		@Result(column="out_acc_id", property="outAccId"),
+		@Result(column="in_acc_id", property="inAccId"),
+		@Result(column="is_outside", property="isOutside"),
+		@Result(column="outside_acc_name", property="outsideAccName"),
+		@Result(column="create_datetime", property="createDateTime"),
+		@Result(column="remark", property="remark")
+	})
+	OneDto selectOneByIds(@Param("transferId") int transferId, @Param("userId") int userId);
 
 	/**
 	 * 新增一般轉帳
@@ -69,6 +109,37 @@ public interface ITransferMapper {
 	boolean createOutsideByValues(@Param("userId") int userId, @Param("transferDate") String transferDate,
 			@Param("amnt") BigDecimal amnt, @Param("tOutAccId") int tOutAccId,
 			@Param("tOutsideAccName") String tOutsideAccName, @Param("remark") String remark);
+
+	@Update("update transfer set "
+			+ " trans_date=#{transferDate}, amount=#{amnt}, out_acc_id=#{tOutAccId}, "
+			+ " in_acc_id=#{tInAccId}, is_outside=0, "
+			+ " outside_acc_name=null, remark=#{remark} "
+			+ " where id=#{transferId} and user_id=#{userId}")
+	boolean modifyByValues(@Param("userId") int userId, @Param("transferId") int transferId, 
+			@Param("transferDate") String transferDate, @Param("amnt") BigDecimal amnt, 
+			@Param("tOutAccId") int tOutAccId, @Param("tInAccId") int tInAccId, 
+			@Param("remark") String remark);
+
+	@Update("update transfer set "
+			+ " trans_date=#{transferDate}, amount=#{amnt}, out_acc_id=#{tOutAccId}, "
+			+ " in_acc_id=null, is_outside=1, "
+			+ " outside_acc_name=#{tOutsideAccName}, remark=#{remark} "
+			+ " where id=#{transferId} and user_id=#{userId}")
+	boolean modifyOutsideByValues(@Param("userId") int userId, @Param("transferId") int transferId, 
+			@Param("transferDate") String transferDate, @Param("amnt") BigDecimal amnt, 
+			@Param("tOutAccId") int tOutAccId, @Param("tOutsideAccName") String tOutsideAccName, 
+			@Param("remark") String remark);
+
+	/**
+	 * 根據 User ID、Transfer ID，刪除某一筆轉帳(假刪除，把刪除標記設為True)
+	 * @param userId
+	 * @param transferId
+	 * @return
+	 */
+	@Update("update transfer set "
+			+ " is_delete=1 "
+			+ " where id=#{transferId} and user_id=#{userId}")
+	boolean deleteByIds(@Param("userId") int userId, @Param("transferId") int transferId);
 
 	/**
 	 * 首頁查詢當日最新5筆轉帳紀錄

@@ -44,7 +44,7 @@
 			</div>
 			<div class="row pb-2 border-start border-end border-bottom border-info rounded-bottom">
 				<div class="col d-grid gap-2">
-					<button class="btn btn-info">查看更多轉帳</button>
+					<button class="btn btn-info" id="moreTransRecords" name="moreTransRecords">查看更多轉帳</button>
 				</div>
 			</div>
 		</div>
