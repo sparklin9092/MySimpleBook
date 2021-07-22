@@ -16,7 +16,7 @@
 							<a class="dropdown-item menu-sub-item" href="/spend">新增支出</a>
 						</li>
 						<li>
-							<a class="dropdown-item menu-sub-item" href="/spend/record">支出紀錄</a>
+							<a class="dropdown-item menu-sub-item" href="/spend/records">支出紀錄</a>
 						</li>
 						<li>
 							<a class="dropdown-item menu-sub-item" href="/spend/items">支出項目管理</a>
@@ -30,7 +30,7 @@
 							<a class="dropdown-item menu-sub-item" href="/income">新增收入</a>
 						</li>
 						<li>
-							<a class="dropdown-item menu-sub-item" href="/income/record">收入紀錄</a>
+							<a class="dropdown-item menu-sub-item" href="/income/records">收入紀錄</a>
 						</li>
 						<li>
 							<a class="dropdown-item menu-sub-item" href="/income/items">收入項目管理</a>
@@ -44,7 +44,7 @@
 							<a class="dropdown-item menu-sub-item" href="/transfer">新增轉帳</a>
 						</li>
 						<li>
-							<a class="dropdown-item menu-sub-item" href="/transfer/record">轉帳紀錄</a>
+							<a class="dropdown-item menu-sub-item" href="/transfer/records">轉帳紀錄</a>
 						</li>
 					</ul>
 				</li>
