@@ -186,9 +186,9 @@ public class IncomeItemsService {
 			int userId = deletePojo.getUserId();
 			int itemId = deletePojo.getItemId();
 
-			boolean modifyStatus = iItemsIncomeMapper.deleteByIds(userId, itemId);
+			boolean deleteStatus = iItemsIncomeMapper.deleteByIds(userId, itemId);
 
-			if(modifyStatus) {
+			if(deleteStatus) {
 
 				deleteMsgDto.setStatus(true);
 				deleteMsgDto.setMsg("");

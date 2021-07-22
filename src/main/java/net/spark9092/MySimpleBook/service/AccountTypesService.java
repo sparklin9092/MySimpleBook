@@ -182,9 +182,9 @@ public class AccountTypesService {
 			int userId = deletePojo.getUserId();
 			int itemId = deletePojo.getItemId();
 
-			boolean modifyStatus = iItemsAccountTypeMapper.deleteByIds(userId, itemId);
+			boolean deleteStatus = iItemsAccountTypeMapper.deleteByIds(userId, itemId);
 
-			if(modifyStatus) {
+			if(deleteStatus) {
 
 				deleteMsgDto.setStatus(true);
 				deleteMsgDto.setMsg("");

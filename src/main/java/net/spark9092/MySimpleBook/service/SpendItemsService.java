@@ -184,9 +184,9 @@ public class SpendItemsService {
 			int userId = deletePojo.getUserId();
 			int itemId = deletePojo.getItemId();
 
-			boolean modifyStatus = iItemsSpendMapper.deleteByIds(userId, itemId);
+			boolean deleteStatus = iItemsSpendMapper.deleteByIds(userId, itemId);
 
-			if(modifyStatus) {
+			if(deleteStatus) {
 
 				deleteMsgDto.setStatus(true);
 				deleteMsgDto.setMsg("");

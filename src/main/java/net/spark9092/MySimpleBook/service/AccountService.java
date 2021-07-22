@@ -271,9 +271,9 @@ public class AccountService {
 			int userId = deletePojo.getUserId();
 			int accountId = deletePojo.getAccountId();
 
-			boolean modifyStatus = iAccountMapper.deleteByIds(userId, accountId);
+			boolean deleteStatus = iAccountMapper.deleteByIds(userId, accountId);
 
-			if(modifyStatus) {
+			if(deleteStatus) {
 
 				deleteMsgDto.setStatus(true);
 				deleteMsgDto.setMsg("");
