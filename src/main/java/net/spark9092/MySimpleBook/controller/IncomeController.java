@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.income.CreateMsgDto;
@@ -30,7 +29,6 @@ public class IncomeController {
 	private IncomeService incomeService;
 
 	@PostMapping("/itemList")
-    @ResponseBody
 	public SelectItemMsgDto incomeItemList(HttpSession session) {
 
 		logger.debug("取得支出項目的下拉選單");
@@ -53,7 +51,6 @@ public class IncomeController {
 	}
 
 	@PostMapping("/accountList")
-    @ResponseBody
 	public SelectAccountMsgDto accountList(HttpSession session) {
 
 		logger.debug("取得帳戶的下拉選單");
@@ -76,7 +73,6 @@ public class IncomeController {
 	}
 
 	@PostMapping("/create/act")
-    @ResponseBody
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
 
 		logger.debug("新增一筆收入");

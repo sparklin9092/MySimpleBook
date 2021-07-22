@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.transfer.CreateMsgDto;
@@ -29,7 +28,6 @@ public class TransferController {
 	private TransferService transferService;
 
 	@PostMapping("/accountList")
-    @ResponseBody
 	public SelectAccountMsgDto accountList(HttpSession session) {
 
 		logger.debug("取得帳戶的下拉選單");
@@ -52,7 +50,6 @@ public class TransferController {
 	}
 
 	@PostMapping("/create/act")
-    @ResponseBody
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
 
 		logger.debug("新增一筆轉帳");

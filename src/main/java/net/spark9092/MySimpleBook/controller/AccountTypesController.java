@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.items.accountType.CreateMsgDto;
@@ -37,9 +36,8 @@ public class AccountTypesController {
 	private AccountTypesService itemAccountTypeService;
 
 	@PostMapping("/list")
-    @ResponseBody
 	public List<List<String>> list(HttpSession session) {
-		
+
 		logger.debug("取得帳戶類型清單");
 
 		List<List<String>> dataMap = new ArrayList<>();
@@ -55,9 +53,8 @@ public class AccountTypesController {
 	}
 
 	@PostMapping("/one/{itemId}")
-    @ResponseBody
 	public OneMsgDto one(HttpSession session, @PathVariable("itemId") int itemId) {
-		
+
 		logger.debug("取得某一筆帳戶類型資料");
 
 		OneMsgDto oneMsgDto = new OneMsgDto();
@@ -78,9 +75,8 @@ public class AccountTypesController {
 	}
 
 	@PostMapping("/create/act")
-    @ResponseBody
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
-		
+
 		logger.debug("新增一筆帳戶類型");
 
 		CreateMsgDto createMsgDto = new CreateMsgDto();
@@ -103,9 +99,8 @@ public class AccountTypesController {
 	}
 
 	@PostMapping("/modify/act")
-    @ResponseBody
 	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
-		
+
 		logger.debug("修改一筆帳戶類型");
 
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
@@ -128,9 +123,8 @@ public class AccountTypesController {
 	}
 
 	@PostMapping("/delete/act")
-    @ResponseBody
 	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
-		
+
 		logger.debug("刪除一筆帳戶類型");
 
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();

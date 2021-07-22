@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.account.CreateMsgDto;
@@ -37,9 +36,8 @@ public class AccountController {
 	private AccountService accountService;
 
 	@PostMapping("/list")
-    @ResponseBody
 	public List<List<String>> list(HttpSession session) {
-		
+
 		logger.debug("取得帳戶清單");
 
 		List<List<String>> dataMap = new ArrayList<>();
@@ -55,9 +53,8 @@ public class AccountController {
 	}
 
 	@PostMapping("/typeList")
-    @ResponseBody
 	public TypeListMsgDto typeList(HttpSession session) {
-		
+
 		logger.debug("取得帳戶類型清單");
 
 		TypeListMsgDto typeListMsgDto = new TypeListMsgDto();
@@ -78,9 +75,8 @@ public class AccountController {
 	}
 
 	@PostMapping("/one/{accountId}")
-    @ResponseBody
 	public OneMsgDto one(HttpSession session, @PathVariable("accountId") int accountId) {
-		
+
 		logger.debug("取得某一筆帳戶資料");
 
 		OneMsgDto accountOneMsgDto = new OneMsgDto();
@@ -101,9 +97,8 @@ public class AccountController {
 	}
 
 	@PostMapping("/create/act")
-    @ResponseBody
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
-		
+
 		logger.debug("新增一筆帳戶");
 
 		CreateMsgDto createMsgDto = new CreateMsgDto();
@@ -126,9 +121,8 @@ public class AccountController {
 	}
 
 	@PostMapping("/modify/act")
-    @ResponseBody
 	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
-		
+
 		logger.debug("更新一筆帳戶");
 
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
@@ -151,9 +145,8 @@ public class AccountController {
 	}
 
 	@PostMapping("/delete/act")
-    @ResponseBody
 	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
-		
+
 		logger.debug("刪除一筆帳戶");
 
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
