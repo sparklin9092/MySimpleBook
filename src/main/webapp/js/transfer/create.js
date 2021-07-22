@@ -44,11 +44,17 @@ function initAccountItemSelect() {
 				var itemList = res.accountList;
 				var selOpts = "";
 				
+				var secondOptionVal = "";
+				
 				$.each(itemList, function(index, value){
 					selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
+					
+					if(index == 1) secondOptionVal = value.accountId;
 				})
 				
 				$('#tInAccItemSelect, #tOutAccItemSelect').empty().html(selOpts);
+				
+				$('#tInAccItemSelect').val(secondOptionVal).change();
 				
 			} else {
 				
