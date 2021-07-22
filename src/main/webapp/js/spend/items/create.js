@@ -26,12 +26,10 @@ function confirmAct() {
 		data: JSON.stringify(data),
 		success: function(res) {
 			
-			console.log(res);
-			
 			if(res.status) {
 				
 				alert('新增成功');
-				location.href = '/itemSpend';
+				location.href = '/spend/items';
 				
 			} else {
 				

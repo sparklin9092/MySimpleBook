@@ -18,8 +18,6 @@ function initData() {
 		data: {},
 		success: function(res) {
 			
-			console.log(res);
-			
 			if(res.status) {
 				
 				var itemName = res.itemAccountTypeOneDto.itemName;
@@ -73,12 +71,10 @@ function deleteAct() {
 		data: JSON.stringify(data),
 		success: function(res) {
 			
-			console.log(res);
-			
 			if(res.status) {
 				
 				alert('刪除成功');
-				location.href = '/itemAccountType';
+				location.href = '/account/types';
 				
 			} else {
 				
@@ -108,12 +104,10 @@ function confirmAct() {
 		data: JSON.stringify(data),
 		success: function(res) {
 			
-			console.log(res);
-			
 			if(res.status) {
 				
 				alert('修改成功');
-				location.href = '/itemAccountType';
+				location.href = '/account/types';
 				
 			} else {
 				

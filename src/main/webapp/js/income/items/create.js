@@ -31,7 +31,7 @@ function confirmAct() {
 			if(res.status) {
 				
 				alert('新增成功');
-				location.href = '/itemIncome';
+				location.href = '/income/items';
 				
 			} else {
 				

@@ -78,7 +78,7 @@ function deleteAct() {
 			if(res.status) {
 				
 				alert('刪除成功');
-				location.href = '/itemSpend';
+				location.href = '/spend/items';
 				
 			} else {
 				
@@ -111,7 +111,7 @@ function confirmAct() {
 			if(res.status) {
 				
 				alert('修改成功');
-				location.href = '/itemSpend';
+				location.href = '/spend/items';
 				
 			} else {
 				
