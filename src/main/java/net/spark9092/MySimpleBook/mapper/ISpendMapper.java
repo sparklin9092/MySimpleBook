@@ -46,7 +46,7 @@ public interface ISpendMapper {
 	 */
 	@Select("select (select name from spend_items where id = item_id) as itemName,	amount as amnt "
 			+ " from spend "
-			+ " where user_id = #{userId} and spend_date = date_sub(curdate(), interval 0 day) "
+			+ " where user_id = #{userId} and is_delete=0 and spend_date = date_sub(curdate(), interval 0 day) "
 			+ " order by id desc limit 5")
 	@Results({
 		@Result(column="itemName", property="itemName"),

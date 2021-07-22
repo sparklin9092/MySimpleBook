@@ -82,7 +82,7 @@ public interface ITransferMapper {
 			+ "    (select name from account where id = in_acc_id) "
 			+ " ) transInAccName, amount as transAmnt "
 			+ " from transfer "
-			+ " where user_id = #{userId} and trans_date = date_sub(curdate(), interval 0 day) "
+			+ " where user_id = #{userId} and is_delete=0 and trans_date = date_sub(curdate(), interval 0 day) "
 			+ " order by id desc limit 5")
 	@Results({
 		@Result(column="transOutAccName", property="accOutName"),

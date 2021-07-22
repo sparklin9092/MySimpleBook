@@ -127,7 +127,7 @@ public interface IAccountMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select name, amount from account where user_id = #{userId} order by amount desc limit 5")
+	@Select("select name, amount from account where user_id = #{userId} and is_delete=0 order by amount desc limit 5")
 	@Results({
 		@Result(column="name", property="accName"),
 		@Result(column="amount", property="amnt")

@@ -45,7 +45,7 @@ public interface IIncomeMapper {
 	 */
 	@Select("select (select name from income_items where id = item_id) as itemName,	amount as amnt "
 			+ " from income "
-			+ " where user_id = #{userId} and income_date = date_sub(curdate(), interval 0 day) "
+			+ " where user_id = #{userId} and is_delete=0 and income_date = date_sub(curdate(), interval 0 day) "
 			+ " order by id desc limit 5")
 	@Results({
 		@Result(column="itemName", property="itemName"),
