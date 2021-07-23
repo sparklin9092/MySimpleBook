@@ -67,4 +67,40 @@ public class LoginController {
 
 		return loginMsgDto;
 	}
+
+	@PostMapping("/login/guest")
+	public LoginMsgDto loginGuest(HttpServletRequest request, HttpSession session) {
+
+		LoginResultDto loginResultDto = userLoginService.guestLogin();
+
+		UserInfoEntity userInfoEntity = loginResultDto.getUserInfoEntity();
+		boolean loginStatus = loginResultDto.isStatus();
+		String loginMsg = loginResultDto.getMsg();
+
+		if(loginStatus) {
+			
+			//使用者登入成功之後，重新給一個Session，防止XSS攻擊
+			session = request.getSession(false);
+			if(session != null){
+				session.invalidate();
+			}
+			session = request.getSession(true);
+			
+			//取得隨機10組的財富密碼
+			ListMsgDto listMsgDto = richCodeService.getRichCodeList();
+			if(listMsgDto.isStatus()) {
+				//如果取得成功，寫入session
+				session.setAttribute(SessinNameEnum.RICH_CODE.getName(), listMsgDto.getListDtos());
+			}
+
+			//在 Session 寫入 User 基本資料，後續的功能基本上都要 User ID 去查資料
+			session.setAttribute(SessinNameEnum.USER_INFO.getName(), userInfoEntity);
+		}
+
+		LoginMsgDto loginMsgDto = new LoginMsgDto();
+		loginMsgDto.setStatus(loginStatus);
+		loginMsgDto.setMsg(loginMsg);
+
+		return loginMsgDto;
+	}
 }
