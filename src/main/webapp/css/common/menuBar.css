@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 .menu-color {
-	background-color: rgba(13,110,253,0.8);
-	box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05),inset 0 -1px 0 rgba(0,0,0,0.15);
+	background-color: rgba(13, 110, 253, 0.8);
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
 
 .menu-title {
@@ -15,4 +15,10 @@
 
 .menu-sub-item {
 	font-size: 1rem;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 768px) {
+	.menu-sub-item {
+		font-size: 1.3rem;
+	}
 }
