@@ -12,10 +12,10 @@ function initTodayRecords() {
 	var startDate = todayDate;
 	var endDate = todayDate;
 	
-	initTransferDataTable(startDate, endDate);
+	initIncomeDataTable(startDate, endDate);
 }
 
-function initTransferDataTable(startDate, endDate) {
+function initIncomeDataTable(startDate, endDate) {
 	
 	var data = {};
 	data.startDate = startDate;
@@ -112,21 +112,21 @@ function changeDataRange() {
 					var startDate = moment().day(1).format('YYYY-MM-DD');
 					var endDate = moment().day(7).format('YYYY-MM-DD');
 					
-					initTransferDataTable(startDate, endDate);
+					initIncomeDataTable(startDate, endDate);
 					
 				} else if(dateRange == 30) {
 					
 					var startDate = moment().startOf('month').format('YYYY-MM-DD');
 					var endDate = moment().endOf('month').format('YYYY-MM-DD');
 					
-					initTransferDataTable(startDate, endDate);
+					initIncomeDataTable(startDate, endDate);
 					
 				} else if(dateRange == 90) {
 					
 					var startDate = moment().subtract(2, 'months').startOf('month').format('YYYY-MM-DD');
 					var endDate = moment().endOf('month').format('YYYY-MM-DD');
 					
-					initTransferDataTable(startDate, endDate);
+					initIncomeDataTable(startDate, endDate);
 					
 				} else {
 					
