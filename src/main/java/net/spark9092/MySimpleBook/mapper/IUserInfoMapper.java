@@ -41,11 +41,24 @@ public interface IUserInfoMapper {
 	})
 	UserInfoEntity selectByUserName(@Param("userName") String userName);
 
-	@Insert("insert into user_info(user_name, user_password, create_user_id) "
-			+ "values(#{userName}, #{userPwd}, #{systemUserId})")
+	@Insert("insert into user_info(user_name, user_password, is_guest, guest_seq, create_user_id) "
+			+ "values(#{userName}, #{userPwd}, 1, #{guestSeq}, #{systemUserId})")
 	boolean createUserByGuest(@Param("userName") String userName, @Param("userPwd") String userPwd, 
-			@Param("systemUserId") int systemUserId);
+			@Param("systemUserId") int systemUserId, @Param("guestSeq") int guestSeq);
 	
 	@Update("update user_info set last_login_datetime=#{lastLoginDateTime} where id=#{id}")
 	boolean updateById(@Param("lastLoginDateTime") LocalDateTime lastLoginDateTime, @Param("id") int id);
+
+	@Select("select * from user_info where guest_seq=#{guestSeq} and is_guest=1")
+	@Results({
+		@Result(column="id", property="id"),
+		@Result(column="user_name", property="userName"),
+		@Result(column="user_password", property="userPwd"),
+		@Result(column="last_login_datetime", property="lastLoginDateTime"),
+		@Result(column="is_active", property="isActive"),
+		@Result(column="is_delete", property="isDelete"),
+		@Result(column="create_user_id", property="createUserId"),
+		@Result(column="create_datetime", property="createDateTime")
+	})
+	UserInfoEntity selectGuestBySeq(@Param("guestSeq") int guestSeq);
 }

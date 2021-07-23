@@ -92,19 +92,19 @@ public class UserLoginService {
 		LoginResultDto loginResultDto = new LoginResultDto();
 		UserInfoEntity userInfoEntity = new UserInfoEntity();
 		
-		int guestNum = iSeqsMapper.getSeq(SeqsNameEnum.GUEST.getName());
+		int guestSeq = iSeqsMapper.getSeq(SeqsNameEnum.GUEST.getName());
 		
-		logger.info("目前是第 " + guestNum + " 位訪客使用致富寶典系統！");
+		logger.info("目前是第 " + guestSeq + " 位訪客使用致富寶典系統！");
 		
 		String userName = "訪客";
 		String UserPwd = generatorCommon.getUserPwd();
 		
-		boolean createStatus = iUserInfoMapper.createUserByGuest(userName, UserPwd, SystemEnum.SYSTEM_USER_ID.getId());
+		boolean createStatus = iUserInfoMapper.createUserByGuest(userName, UserPwd, SystemEnum.SYSTEM_USER_ID.getId(), guestSeq);
 		
 		//訪客帳號建立成功之後，就走一般的登入流程
 		if(createStatus) {
 			
-			userInfoEntity = iUserInfoMapper.selectByUserName(userName);
+			userInfoEntity = iUserInfoMapper.selectGuestBySeq(guestSeq);
 
 			if(userInfoEntity == null) {
 				
