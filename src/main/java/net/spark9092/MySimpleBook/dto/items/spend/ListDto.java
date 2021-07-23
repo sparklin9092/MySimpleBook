@@ -6,8 +6,6 @@ public class ListDto {
 	
 	private String itemName;
 	
-	private boolean itemDefault;
-	
 	private boolean itemActive;
 
 	public int getItemId() {
@@ -24,14 +22,6 @@ public class ListDto {
 
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
-	}
-
-	public boolean isItemDefault() {
-		return itemDefault;
-	}
-
-	public void setItemDefault(boolean itemDefault) {
-		this.itemDefault = itemDefault;
 	}
 
 	public boolean isItemActive() {

@@ -39,11 +39,6 @@ public class SpendItemsService {
 
 			listDtos.stream().forEach(dto -> {
 
-				String itemDefault = "否";
-				if(dto.isItemDefault()) {
-					itemDefault = "是";
-				}
-
 				String itemActive = "停用";
 				if(dto.isItemActive()) {
 					itemActive = "啟用";
@@ -52,7 +47,6 @@ public class SpendItemsService {
 				List<String> itemList = new ArrayList<>();
 				itemList.add(String.valueOf(dto.getItemId()));
 				itemList.add(dto.getItemName());
-				itemList.add(itemDefault);
 				itemList.add(itemActive);
 				itemList.add("");
 

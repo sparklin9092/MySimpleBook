@@ -21,13 +21,12 @@ public interface IAccountTypesMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select id, name, is_default, is_active "
+	@Select("select id, name, is_active "
 			+ " from account_types "
 			+ " where user_id=#{userId} and is_delete=0")
 	@Results({
 		@Result(column="id", property="itemId"),
 		@Result(column="name", property="itemName"),
-		@Result(column="is_default", property="itemDefault"),
 		@Result(column="is_active", property="itemActive")
 	})
 	List<ListDto> selectItemListByUserId(@Param("userId") int userId);

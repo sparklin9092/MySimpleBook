@@ -25,10 +25,9 @@ function initIncomeItemDataTable() {
 				data: res,
 				columns: [
 					{title: 'id'},
-					{title: '名稱'},
-					{title: '預設'},
-					{title: '狀態'},
-					{title: '功能'}
+					{title: '名稱', width: '55%'},
+					{title: '狀態', width: '20%'},
+					{title: '功能', width: '25%'}
 				],
 				order: [[0, 'desc']],
 				columnDefs: [
@@ -38,7 +37,7 @@ function initIncomeItemDataTable() {
 						searchable: false
 					},
 					{
-						targets: 4,
+						targets: 3,
 						render: function(data, type, row) {
 							return '<button type="button" class="btn btn-outline-warning" onclick="modifyView('+row[0]+')">修改</button>';
 						}
