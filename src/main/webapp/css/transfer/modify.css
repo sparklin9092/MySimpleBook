@@ -14,3 +14,9 @@
 .in-out-title {
 	font-size: 1.4rem;
 }
+
+@media only screen and (min-width: 0px) and (max-width: 768px) {
+	.in-out-title {
+		font-size: 1.2rem;
+	}
+}

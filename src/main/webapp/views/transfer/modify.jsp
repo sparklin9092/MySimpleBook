@@ -21,8 +21,8 @@
 				</div>
 			</div>
 			<div class="row mx-1 my-3 border border-warning rounded">
-				<div class="col-2 vertical-center in-out-title">轉出帳戶</div>
-				<div class="col-10 py-3">
+				<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 vertical-center in-out-title">轉出帳戶</div>
+				<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 py-3">
 					<div class="row">
 						<div class="col">帳戶</div>
 					</div>
@@ -48,8 +48,8 @@
 				</div>
 			</div>
 			<div class="row mx-1 my-3 border border-info rounded" id="insideAcc" name="insideAcc">
-				<div class="col-2 vertical-center in-out-title">轉入帳戶</div>
-				<div class="col-10 py-3">
+				<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 vertical-center in-out-title">轉入帳戶</div>
+				<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 py-3">
 					<div class="row">
 						<div class="col">帳戶</div>
 					</div>
@@ -61,8 +61,8 @@
 				</div>
 			</div>
 			<div class="row mx-1 my-3 border border-info rounded" id="outsideAcc" name="outsideAcc">
-				<div class="col-2 vertical-center in-out-title">轉入外部帳戶</div>
-				<div class="col-10 py-3">
+				<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 vertical-center in-out-title">外部帳戶</div>
+				<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 py-3">
 					<div class="row">
 						<div class="col">帳戶名稱</div>
 					</div>
