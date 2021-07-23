@@ -219,6 +219,7 @@ public class AccountService {
 
 			int userId = modifyPojo.getUserId();
 			int accountId = modifyPojo.getAccountId();
+			String accountName = modifyPojo.getAccountName();
 			String accountDefaultStr = modifyPojo.getAccountDefault();
 			String accountActiveStr = modifyPojo.getAccountActive();
 			boolean enableLimitDate = modifyPojo.isEnableLimitDate();
@@ -239,7 +240,7 @@ public class AccountService {
 			limitDate = this.formatLimitDate(enableLimitDate, limitMonth, limitYear);
 
 			boolean modifyStatus = iAccountMapper.modifyByValues(
-					userId, accountId, limitDate, accountDefault, accountActive);
+					userId, accountId, accountName, limitDate, accountDefault, accountActive);
 
 			if(modifyStatus) {
 

@@ -21,11 +21,11 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">帳戶名稱（只能檢視，不能修改）</div>
+				<div class="col">帳戶名稱</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="text" class="form-control" id="accountName" name="accountName" readonly>
+					<input type="text" class="form-control" id="accountName" name="accountName">
 				</div>
 			</div>
 			<div class="row">

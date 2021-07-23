@@ -86,7 +86,8 @@ public interface IAccountMapper {
 			@Param("accountDefault") boolean accountDefault, @Param("limitDate") String limitDate);
 
 	/**
-	 * 根據 User ID、Account ID，更新某一筆帳戶的使用期限、預設帳戶、帳戶狀態，其他的欄位不給使用者修改，不然帳務會出問題
+	 * 根據 User ID、Account ID，更新某一筆帳戶的帳戶名稱、使用期限、預設帳戶、帳戶狀態，
+	 * 其他的欄位不給使用者修改，不然帳務會出問題
 	 * @param userId
 	 * @param accountId
 	 * @param limitDate
@@ -95,11 +96,12 @@ public interface IAccountMapper {
 	 * @return
 	 */
 	@Update("update account set "
-			+ " limit_date=#{limitDate}, is_default=#{accountDefault}, is_active=#{accountActive} "
+			+ " name=#{accountName}, limit_date=#{limitDate}, "
+			+ " is_default=#{accountDefault}, is_active=#{accountActive} "
 			+ " where id=#{accountId} and user_id=#{userId}")
 	boolean modifyByValues(@Param("userId") int userId, @Param("accountId") int accountId,
-			@Param("limitDate") String limitDate, @Param("accountDefault") boolean accountDefault,
-			@Param("accountActive") boolean accountActive);
+			@Param("accountName") String accountName, @Param("limitDate") String limitDate, 
+			@Param("accountDefault") boolean accountDefault, @Param("accountActive") boolean accountActive);
 
 	/**
 	 * 根據 User ID、Account ID，刪除某一筆帳戶(假刪除，把刪除標記設為True)

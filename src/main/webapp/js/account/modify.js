@@ -133,6 +133,7 @@ function deleteAct() {
 function confirmAct() {
 	
 	var accountId = $('#accountId').val();
+	var accountName = $('#accountName').val();
 	var accountActive = $('input[name=accountActive]:checked').val();
 	var accountDefault = $('input[name=accountDefault]:checked').val();
 	var enableLimitDate = $('#enableLimitDate').prop('checked');
@@ -146,6 +147,7 @@ function confirmAct() {
 	
 	var data = {};
 	data.accountId = accountId;
+	data.accountName = accountName;
 	data.accountActive = accountActive;
 	data.accountDefault = accountDefault;
 	data.enableLimitDate = enableLimitDate;
