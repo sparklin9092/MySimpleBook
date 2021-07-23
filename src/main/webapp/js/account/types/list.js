@@ -43,6 +43,7 @@ function initAccountTypeItemDataTable() {
 						}
 					}
 				],
+				pageLength: 5,
 				language: {
 					search: '搜尋：',
 					zeroRecords: '找不到資料',
