@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">預設項目</div>
+				<div class="col">提高排序</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col">
