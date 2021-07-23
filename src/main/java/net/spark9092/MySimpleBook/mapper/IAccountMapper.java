@@ -35,13 +35,13 @@ public interface IAccountMapper {
 	List<ListDto> selectListByUserId(@Param("userId") int userId);
 
 	/**
-	 * 根據 User ID，查詢帳戶類型的清單
+	 * 根據 User ID，查詢帳戶類型的清單，user_id=0 表示是系統預設的資料
 	 * @param userId
 	 * @return
 	 */
-	@Select("select id, name "
+	@Select("select id, if(user_id=0, concat(name, '(系統預設)'), name) name "
 			+ " from account_types "
-			+ " where user_id=#{userId} and is_active=1 and is_delete=0 "
+			+ " where (user_id=#{userId} or user_id=0) and is_active=1 and is_delete=0 "
 			+ " order by is_default desc")
 	@Results({
 		@Result(column="id", property="typeId"),
