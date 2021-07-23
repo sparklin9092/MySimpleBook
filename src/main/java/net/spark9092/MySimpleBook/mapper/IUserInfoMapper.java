@@ -2,6 +2,7 @@ package net.spark9092.MySimpleBook.mapper;
 
 import java.time.LocalDateTime;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
@@ -39,6 +40,11 @@ public interface IUserInfoMapper {
 		@Result(column="create_datetime", property="createDateTime")
 	})
 	UserInfoEntity selectByUserName(@Param("userName") String userName);
+
+	@Insert("insert into user_info(user_name, user_password, create_user_id) "
+			+ "values(#{userName}, #{userPwd}, #{systemUserId})")
+	boolean createUserByGuest(@Param("userName") String userName, @Param("userPwd") String userPwd, 
+			@Param("systemUserId") int systemUserId);
 	
 	@Update("update user_info set last_login_datetime=#{lastLoginDateTime} where id=#{id}")
 	boolean updateById(@Param("lastLoginDateTime") LocalDateTime lastLoginDateTime, @Param("id") int id);

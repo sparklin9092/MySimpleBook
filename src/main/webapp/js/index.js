@@ -1,6 +1,8 @@
 $(function() {
 
 	$('#loginBtn').on('click', loginAct);
+	
+	$('#guestBtn').on('click', guestAct)
 
 	$('#userName, #userPwd').on('keypress', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
@@ -26,6 +28,28 @@ function loginAct() {
 			} else {
 				alert(res.msg);
 				$('#userPwd').val('');
+			}
+		},
+		error: function(err) {
+			console.log(err);
+			alert('無法連接伺服器');
+		}
+	});
+}
+
+function guestAct() {
+	
+	$.ajax({
+		url: '/login/guest',
+		method: 'POST',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: {},
+		success: function(res) {
+			if(res.status) {
+				location.href = 'main';
+			} else {
+				alert(res.msg);
 			}
 		},
 		error: function(err) {

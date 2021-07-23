@@ -38,7 +38,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 				.excludePathPatterns(
 						"/**/*.css", "/**/*.js",
 						"", "/", "/index", 
-						"/login", "/logout", 
+						"/login", "/login/guest", "/logout", 
 						"/userCheck");
 	}
 }

@@ -22,6 +22,9 @@
 				<div class="text-center mt-5">
 					<button type="button" class="btn btn-primary" id="loginBtn" name="loginBtn">登入</button>
 				</div>
+				<div class="text-center mt-5">
+					<button type="button" class="btn btn-primary" id="guestBtn" name="guestBtn">訪客試用</button>
+				</div>
 			</div>
 		</form>
 	</div>
