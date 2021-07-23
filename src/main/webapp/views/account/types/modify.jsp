@@ -56,7 +56,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">類型建立時間</div>
+				<div class="col">建立時間</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col">
