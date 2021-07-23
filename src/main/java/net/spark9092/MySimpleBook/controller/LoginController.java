@@ -1,5 +1,6 @@
 package net.spark9092.MySimpleBook.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class LoginController {
 	private RichCodeService richCodeService;
 
 	@PostMapping("/login")
-	public LoginMsgDto login(HttpSession session, @RequestBody LoginPojo loginPojo) {
+	public LoginMsgDto login(HttpServletRequest request, HttpSession session, @RequestBody LoginPojo loginPojo) {
 
 		logger.debug(loginPojo.toString());
 
@@ -41,6 +42,14 @@ public class LoginController {
 		String loginMsg = loginResultDto.getMsg();
 
 		if(loginStatus) {
+			
+			//使用者登入成功之後，重新給一個Session，防止XSS攻擊
+			session = request.getSession(false);
+			if(session != null){
+				session.invalidate();
+			}
+			session = request.getSession(true);
+			
 			//取得隨機10組的財富密碼
 			ListMsgDto listMsgDto = richCodeService.getRichCodeList();
 			if(listMsgDto.isStatus()) {
