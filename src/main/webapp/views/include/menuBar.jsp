@@ -1,8 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ page import="net.spark9092.MySimpleBook.entity.UserInfoEntity" %>
+<%@ page import="net.spark9092.MySimpleBook.enums.SessinNameEnum" %>
+<%
+UserInfoEntity user = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+String title = "我的致富寶典";
+
+if(null != user) {
+	if(!user.getUserName().equals("")) {
+		title = user.getUserName() + " 的致富寶典";
+	}
+}
+%>
+
 <nav class="navbar navbar-expand-lg navbar-dark menu-color mb-3">
 	<div class="container-xl py-3">
 		<a class="navbar-brand menu-title" href="/main">
-			<span id="menuUserTitle" name="menuUserTitle">我的記帳本</span>
+			<span id="menuUserTitle" name="menuUserTitle"><%=title%></span>
 		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuList" aria-controls="menuList" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
