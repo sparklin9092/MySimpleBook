@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.spark9092.MySimpleBook.common.GeneratorCommon;
+import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SeqsNameEnum;
 import net.spark9092.MySimpleBook.enums.SystemEnum;
+import net.spark9092.MySimpleBook.mapper.IGuestMapper;
 import net.spark9092.MySimpleBook.mapper.ISeqsMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
@@ -28,7 +30,13 @@ public class UserLoginService {
 	private ISeqsMapper iSeqsMapper;
 	
 	@Autowired
+	private IGuestMapper iGuestMapper;
+	
+	@Autowired
 	private GeneratorCommon generatorCommon;
+	
+	@Autowired
+	private GetCommon getCommon;
 
 	public LoginResultDto userLogin(LoginPojo userLoginPojo) {
 
@@ -87,14 +95,32 @@ public class UserLoginService {
 		return loginResultDto;
 	}
 
-	public LoginResultDto guestLogin() {
+	public LoginResultDto guestLogin(String ipAddress, String guestDevice) {
 
 		LoginResultDto loginResultDto = new LoginResultDto();
-		UserInfoEntity userInfoEntity = new UserInfoEntity();
 		
+		//計算這個 IP 已經建立多少次訪客了
+		int guestLoginTimes = iGuestMapper.getLoginTimes(ipAddress);
+		
+		//超過 5 次就不能再用訪客登入了
+		if(guestLoginTimes == 5 && !getCommon.isIntranet(ipAddress)) {
+			
+			loginResultDto.setStatus(false);
+			loginResultDto.setMsg("今日訪客數量已達系統上限。");
+			return loginResultDto;
+		}
+		
+		//對訪客取號碼牌(訪客序號)
 		int guestSeq = iSeqsMapper.getSeq(SeqsNameEnum.GUEST.getName());
 		
 		logger.info("目前是第 " + guestSeq + " 位訪客使用致富寶典系統！");
+		
+		try {
+			
+			//訪客資料寫不了就算了，不要讓使用者對系統的初次感覺不好
+			iGuestMapper.createByValues(guestSeq, ipAddress, guestDevice);
+			
+		} catch (Exception e) {}
 		
 		String userName = "訪客";
 		String UserPwd = generatorCommon.getUserPwd();
@@ -104,7 +130,7 @@ public class UserLoginService {
 		//訪客帳號建立成功之後，就走一般的登入流程
 		if(createStatus) {
 			
-			userInfoEntity = iUserInfoMapper.selectGuestBySeq(guestSeq);
+			UserInfoEntity userInfoEntity = iUserInfoMapper.selectGuestBySeq(guestSeq);
 
 			if(userInfoEntity == null) {
 				
