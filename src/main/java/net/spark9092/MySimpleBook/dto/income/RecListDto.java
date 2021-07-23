@@ -8,7 +8,7 @@ public class RecListDto {
 	
 	private String incomeDate;
 	
-	private String incomeTypeName;
+	private String incomeItemName;
 	
 	private BigDecimal amount;
 
@@ -28,12 +28,12 @@ public class RecListDto {
 		this.incomeDate = incomeDate;
 	}
 
-	public String getIncomeTypeName() {
-		return incomeTypeName;
+	public String getIncomeItemName() {
+		return incomeItemName;
 	}
 
-	public void setIncomeTypeName(String incomeTypeName) {
-		this.incomeTypeName = incomeTypeName;
+	public void setIncomeItemName(String incomeItemName) {
+		this.incomeItemName = incomeItemName;
 	}
 
 	public BigDecimal getAmount() {

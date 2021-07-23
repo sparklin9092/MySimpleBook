@@ -118,7 +118,7 @@ public class IncomeService {
 				List<String> record = new ArrayList<>();
 				record.add(String.valueOf(dto.getIncomeId()));
 				record.add(dto.getIncomeDate());
-				record.add(dto.getIncomeTypeName());
+				record.add(dto.getIncomeItemName());
 				record.add(dto.getAmount().toString());
 				record.add("");
 
