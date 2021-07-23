@@ -16,4 +16,4 @@
 <script type="text/javascript" src="/js/plugins/moment-with-locales.js"></script>
 <script type="text/javascript" src="/js/common/menuBar.js"></script>
 
-<title>我的記帳本</title>
+<title>我的致富寶典</title>

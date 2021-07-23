@@ -9,7 +9,7 @@
 <body>
 	<div class="login-box">
 		<form class="rounded shadow login-form login-form-padding">
-			<div class="h1 text-center">我的記帳本</div>
+			<div class="h1 text-center">我的致富寶典</div>
 			<div>
 				<div class="h4 mt-3">帳號</div>
 				<div>
