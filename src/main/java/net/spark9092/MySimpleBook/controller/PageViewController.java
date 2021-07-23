@@ -52,6 +52,33 @@ public class PageViewController {
 	}
 
 	/**
+	 * 支出紀錄
+	 */
+	@GetMapping("/spend/records")
+	public ModelAndView spendRecords() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/spend/records";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
+
+	/**
+	 * 修改一筆支出
+	 */
+	@GetMapping("/spend/modify/{spendId}")
+	public ModelAndView spendModify(@PathVariable("spendId") int spendId) {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/spend/modify";
+		mv.setViewName(pageName);
+		mv.addObject("spendId", spendId);
+
+		return mv;
+	}
+
+	/**
 	 * 支出項目管理-列表
 	 */
 	@GetMapping("/spend/items")

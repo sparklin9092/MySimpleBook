@@ -5,17 +5,25 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.spend.CreateMsgDto;
+import net.spark9092.MySimpleBook.dto.spend.DeleteMsgDto;
+import net.spark9092.MySimpleBook.dto.spend.ModifyMsgDto;
+import net.spark9092.MySimpleBook.dto.spend.OneMsgDto;
+import net.spark9092.MySimpleBook.dto.spend.RecListMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.SelectAccountMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.SelectItemMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.spend.CreatePojo;
+import net.spark9092.MySimpleBook.pojo.spend.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.spend.ModifyPojo;
+import net.spark9092.MySimpleBook.pojo.spend.RecordPojo;
 import net.spark9092.MySimpleBook.service.SpendService;
 
 @RequestMapping("/spend")
@@ -71,6 +79,47 @@ public class SpendController {
 		return selectAccountMsgDto;
 	}
 
+	@PostMapping("/records")
+	public RecListMsgDto records(HttpSession session, @RequestBody RecordPojo recordPojo) {
+
+		logger.debug("根據使用者索引(User ID)、日期範圍取得支出紀錄");
+
+		RecListMsgDto recListMsgDto = new RecListMsgDto();
+
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if(null != userInfoEntity) {
+
+			recordPojo.setUserId(userInfoEntity.getId());
+
+			recListMsgDto = spendService.getRecordsByUserId(recordPojo);
+		}
+
+		return recListMsgDto;
+	}
+
+	@PostMapping("/one/{spendId}")
+	public OneMsgDto one(HttpSession session, @PathVariable("spendId") int spendId) {
+		
+		logger.debug("取得某一筆支出資料");
+
+		OneMsgDto oneMsgDto = new OneMsgDto();
+
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if(null == userInfoEntity) {
+
+			oneMsgDto.setStatus(false);
+			oneMsgDto.setMsg("使用者未登入");
+
+		} else {
+
+			oneMsgDto = spendService.getOneByIds(userInfoEntity.getId(), spendId);
+		}
+
+		return oneMsgDto;
+	}
+
 	@PostMapping("/create/act")
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
 
@@ -103,6 +152,74 @@ public class SpendController {
 		}
 
 		return createMsgDto;
+	}
+
+	@PostMapping("/modify/act")
+	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
+
+		logger.debug("更新一筆支出");
+
+		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
+
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if(null == userInfoEntity) {
+
+			modifyMsgDto.setStatus(false);
+			modifyMsgDto.setMsg("使用者未登入");
+
+		} else {
+
+			modifyPojo.setUserId(userInfoEntity.getId());
+
+			try {
+
+				modifyMsgDto = spendService.modifyByPojo(modifyPojo);
+
+			} catch (Exception ex) {
+
+				ex.printStackTrace();
+
+				modifyMsgDto.setStatus(false);
+				modifyMsgDto.setMsg("修改一筆支出發生錯誤，請再重新操作一次。");
+			}
+		}
+
+		return modifyMsgDto;
+	}
+
+	@PostMapping("/delete/act")
+	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
+
+		logger.debug("刪除一筆支出");
+
+		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
+
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if(null == userInfoEntity) {
+
+			deleteMsgDto.setStatus(false);
+			deleteMsgDto.setMsg("使用者未登入");
+
+		} else {
+
+			deletePojo.setUserId(userInfoEntity.getId());
+
+			try {
+
+				deleteMsgDto = spendService.deleteByPojo(deletePojo);
+
+			} catch (Exception ex) {
+
+				ex.printStackTrace();
+
+				deleteMsgDto.setStatus(false);
+				deleteMsgDto.setMsg("刪除一筆支出發生錯誤，請再重新操作一次。");
+			}
+		}
+
+		return deleteMsgDto;
 	}
 
 }

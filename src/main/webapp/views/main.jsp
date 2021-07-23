@@ -86,7 +86,7 @@
 			</div>
 			<div class="row pb-2 border-start border-end border-bottom border-success rounded-bottom">
 				<div class="col d-grid gap-2">
-					<button class="btn btn-danger">查看更多支出</button>
+					<button class="btn btn-danger" id="moreSpendRecords" name="moreSpendRecords">查看更多支出</button>
 				</div>
 			</div>
 		</div>
