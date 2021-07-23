@@ -35,13 +35,13 @@ public interface ISpendMapper {
 	})
 	List<SelectAccountListDto> selectAccountListByUserId(@Param("userId") int userId);
 
-	@Select("select id, spend_date, amount, "
+	@Select("select id, date_format(spend_date, '%Y年%m月%d日') as spendDate, amount, "
 			+ " (select name from spend_items where id=item_id) as spendItmeName "
 			+ " from spend "
 			+ " where user_id=#{userId} and is_delete=0 and spend_date >= #{startDate} and spend_date <= #{endDate}")
 	@Results({
 		@Result(column="id", property="spendId"),
-		@Result(column="spend_date", property="spendDate"),
+		@Result(column="spendDate", property="spendDate"),
 		@Result(column="amount", property="amount"),
 		@Result(column="spendItmeName", property="spendItmeName")
 	})

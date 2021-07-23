@@ -34,13 +34,13 @@ public interface IIncomeMapper {
 	})
 	List<SelectAccountListDto> selectAccountListByUserId(@Param("userId") int userId);
 
-	@Select("select id, income_date, amount, "
+	@Select("select id, date_format(income_date, '%Y年%m月%d日') as incomeDate, amount, "
 			+ " (select name from income_items where id=item_id) as incomeItemName "
 			+ " from income "
 			+ " where user_id=#{userId} and is_delete=0 and income_date >= #{startDate} and income_date <= #{endDate}")
 	@Results({
 		@Result(column="id", property="incomeId"),
-		@Result(column="income_date", property="incomeDate"),
+		@Result(column="incomeDate", property="incomeDate"),
 		@Result(column="amount", property="amount"),
 		@Result(column="incomeItemName", property="incomeItemName")
 	})
