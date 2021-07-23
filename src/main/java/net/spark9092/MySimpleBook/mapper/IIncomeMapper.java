@@ -9,7 +9,10 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
+import net.spark9092.MySimpleBook.dto.income.OneDto;
+import net.spark9092.MySimpleBook.dto.income.RecListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectAccountListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectItemListDto;
 import net.spark9092.MySimpleBook.dto.main.IncomeListDto;
@@ -32,11 +35,50 @@ public interface IIncomeMapper {
 	})
 	List<SelectAccountListDto> selectAccountListByUserId(@Param("userId") int userId);
 
+	@Select("select id, income_date, amount, "
+			+ " (select name from income_items where id=item_id) as incomeTypeName "
+			+ " from income "
+			+ " where user_id=#{userId} and is_delete=0 and income_date >= #{startDate} and income_date <= #{endDate}")
+	@Results({
+		@Result(column="id", property="incomeId"),
+		@Result(column="income_date", property="incomeDate"),
+		@Result(column="amount", property="amount"),
+		@Result(column="incomeTypeName", property="incomeTypeName")
+	})
+	List<RecListDto> selectRecordsByUserId(@Param("userId") int userId, @Param("startDate") String startDate, @Param("endDate") String endDate);
+
+	@Select("select income_date, item_id, account_id, amount, create_datetime, remark "
+			+ " from income "
+			+ " where is_delete=0 and id=#{incomeId} and user_id=#{userId}")
+	@Results({
+		@Result(column="income_date", property="incomeDate"),
+		@Result(column="item_id", property="incomeItemId"),
+		@Result(column="account_id", property="accountId"),
+		@Result(column="amount", property="amount"),
+		@Result(column="create_datetime", property="createDateTime"),
+		@Result(column="remark", property="remark")
+	})
+	OneDto selectOneByIds(@Param("incomeId") int incomeId, @Param("userId") int userId);
+
 	@Insert("insert into income(user_id, item_id, account_id, income_date, amount, create_user_id, remark) "
 			+ " values(#{userId}, #{incomeItemId}, #{accountItemId}, #{incomeDate}, #{amount}, #{userId}, #{remark})")
 	boolean createByValues(@Param("userId") int userId, @Param("incomeItemId") int incomeItemId, 
 			@Param("accountItemId") int accountItemId, @Param("incomeDate") String incomeDate, 
 			@Param("amount") BigDecimal amount, @Param("remark") String remark);
+
+	@Update("update income set "
+			+ " item_id=#{incomeItemId}, account_id=#{accountId}, income_date=#{incomeDate}, "
+			+ " amount=#{amount}, remark=#{remark} "
+			+ " where id=#{incomeId} and user_id=#{userId}")
+	boolean modifyByValues(@Param("userId") int userId, @Param("incomeId") int incomeId, 
+			@Param("incomeItemId") int incomeItemId, @Param("accountId") int accountId, 
+			@Param("incomeDate") String incomeDate, @Param("amount") BigDecimal amount, 
+			@Param("remark") String remark);
+
+	@Update("update income set "
+			+ " is_delete=1 "
+			+ " where id=#{incomeId} and user_id=#{userId}")
+	boolean deleteByIds(@Param("userId") int userId, @Param("incomeId") int incomeId);
 
 	/**
 	 * 首頁查詢當日最新5筆收入紀錄
@@ -52,4 +94,5 @@ public interface IIncomeMapper {
 		@Result(column="amnt", property="amnt")
 	})
 	List<IncomeListDto> getTodayListForMain(@Param("userId") int userId);
+
 }

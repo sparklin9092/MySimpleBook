@@ -65,7 +65,7 @@
 			</div>
 			<div class="row pb-2 border-start border-end border-bottom border-success rounded-bottom">
 				<div class="col d-grid gap-2">
-					<button class="btn btn-success">查看更多收入</button>
+					<button class="btn btn-success" id="moreIncomeRecords" name="moreIncomeRecords">查看更多收入</button>
 				</div>
 			</div>
 		</div>

@@ -1,9 +1,11 @@
 $(function() {
 
-	$('#incomeBtn').on('click', incomeView);
 	$('#spendBtn').on('click', spendView);
 	$('#transferBtn').on('click', transCreateView);
+	$('#incomeBtn').on('click', incomeCreateView);
+	
 	$('#moreTransRecords').on('click', transRecView);
+	$('#moreIncomeRecords').on('click', incomeRecView);
 	$('#moreAccRecords').on('click', accountView);
 	
 	initRichCodeList();
@@ -19,7 +21,7 @@ function transCreateView() {
 	location.href = '/transfer';
 }
 
-function incomeView() {
+function incomeCreateView() {
 	
 	location.href = '/income';
 }
@@ -32,6 +34,11 @@ function spendView() {
 function transRecView() {
 	
 	location.href = '/transfer/records';
+}
+
+function incomeRecView() {
+	
+	location.href = '/income/records';
 }
 
 function accountView() {
