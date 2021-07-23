@@ -56,8 +56,8 @@
 				</h4>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-bottom border-success">
-				<div class="col">收入項目</div>
-				<div class="col">收入金額</div>
+				<div class="col-8">收入項目</div>
+				<div class="col-4">收入金額</div>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-success">
 				<div class="col" id="incomeRecords" name="incomeRecords"></div>
@@ -77,8 +77,8 @@
 				</h4>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-bottom border-danger">
-				<div class="col">支出項目</div>
-				<div class="col">支出金額</div>
+				<div class="col-8">支出項目</div>
+				<div class="col-4">支出金額</div>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-danger">
 				<div class="col" id="spendRecords" name="spendRecords"></div>
@@ -98,8 +98,8 @@
 				</h4>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-bottom border-primary">
-				<div class="col">帳戶名稱</div>
-				<div class="col">帳戶餘額</div>
+				<div class="col-8">帳戶名稱</div>
+				<div class="col-4">帳戶餘額</div>
 			</div>
 			<div class="row py-2 text-center border-start border-end border-primary">
 				<div class="col" id="accRecords" name="accRecords"></div>

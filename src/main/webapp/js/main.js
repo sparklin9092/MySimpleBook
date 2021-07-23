@@ -152,8 +152,8 @@ function queryIncomeRecord() {
 				
 				$.each(res.listDtos, function(key, val) {
 					records += '<div class="row">';
-					records += '<div class="col">' + val.itemName + '</div>';
-					records += '<div class="col text-success">' + val.amnt + '</div>';
+					records += '<div class="col-8">' + val.itemName + '</div>';
+					records += '<div class="col-4 text-success">' + val.amnt + '</div>';
 					records += '</div>';
 					
 					if(key+1 == 5) {
@@ -197,8 +197,8 @@ function querySpendRecord() {
 				
 				$.each(res.listDtos, function(key, val) {
 					records += '<div class="row">';
-					records += '<div class="col">' + val.itemName + '</div>';
-					records += '<div class="col text-danger">' + val.amnt + '</div>';
+					records += '<div class="col-8">' + val.itemName + '</div>';
+					records += '<div class="col-4 text-danger">' + val.amnt + '</div>';
 					records += '</div>';
 					
 					if(key+1 == 5) {
@@ -242,8 +242,8 @@ function queryAccoundRecord() {
 				
 				$.each(res.listDtos, function(key, val) {
 					records += '<div class="row">';
-					records += '<div class="col">' + val.accName + '</div>';
-					records += '<div class="col text-primary">' + val.amnt + '</div>';
+					records += '<div class="col-8">' + val.accName + '</div>';
+					records += '<div class="col-4 text-primary">' + val.amnt + '</div>';
 					records += '</div>';
 					
 					if(key+1 == 5) {
