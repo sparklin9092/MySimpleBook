@@ -47,10 +47,10 @@ function initTransferDataTable(startDate, endDate) {
 				data: data,
 				columns: [
 					{title: 'id'},
-					{title: '轉帳時間'},
-					{title: '轉出帳戶'},
-					{title: '轉入帳戶'},
-					{title: '轉帳金額'},
+					{title: '時間'},
+					{title: '轉出'},
+					{title: '轉入'},
+					{title: '金額'},
 					{title: '功能'}
 				],
 				order: [[1, 'desc']],

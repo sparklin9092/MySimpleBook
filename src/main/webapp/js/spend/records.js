@@ -46,9 +46,9 @@ function initSpendDataTable(startDate, endDate) {
 				data: data,
 				columns: [
 					{title: 'id'},
-					{title: '收入時間'},
-					{title: '收入項目'},
-					{title: '收入金額'},
+					{title: '時間'},
+					{title: '項目'},
+					{title: '金額'},
 					{title: '功能'}
 				],
 				order: [[1, 'desc']],
