@@ -155,7 +155,7 @@ public class IncomeController {
 	@PostMapping("/modify/act")
 	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
 
-		logger.debug("更新一筆帳戶");
+		logger.debug("更新一筆收入");
 
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
@@ -189,7 +189,7 @@ public class IncomeController {
 	@PostMapping("/delete/act")
 	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
 
-		logger.debug("刪除一筆帳戶");
+		logger.debug("刪除一筆收入");
 
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 

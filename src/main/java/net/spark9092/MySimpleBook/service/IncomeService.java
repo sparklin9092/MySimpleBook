@@ -253,7 +253,6 @@ public class IncomeService {
 			
 			//先恢復這筆收入之前的帳戶餘額
 			//加進去的錢要扣回來
-					
 			boolean rDecreaseAmntStatus = iAccountMapper.decreaseAmnt(userId, oneDto.getAccountId(), oneDto.getAmount());
 			
 			if(!rDecreaseAmntStatus) {
@@ -262,7 +261,7 @@ public class IncomeService {
 				throw new Exception("減少帳戶餘額發生錯誤");
 			}
 			
-			//把加進去的前扣回來之後，在更新這筆收入資料
+			//把加進去的錢扣回來之後，再更新這筆收入資料
 			boolean modifyStatus = false;
 			modifyStatus = iIncomeMapper.modifyByValues(userId, incomeId, incomeItemId, accountId, incomeDate, amount, remark);
 			

@@ -27,7 +27,6 @@ public interface IIncomeMapper {
 	})
 	List<SelectItemListDto> selectItemListByUserId(@Param("userId") int userId);
 
-
 	@Select("select id, name from account where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
 	@Results({
 		@Result(column="id", property="accountId"),
@@ -36,14 +35,14 @@ public interface IIncomeMapper {
 	List<SelectAccountListDto> selectAccountListByUserId(@Param("userId") int userId);
 
 	@Select("select id, income_date, amount, "
-			+ " (select name from income_items where id=item_id) as incomeTypeName "
+			+ " (select name from income_items where id=item_id) as incomeItemName "
 			+ " from income "
 			+ " where user_id=#{userId} and is_delete=0 and income_date >= #{startDate} and income_date <= #{endDate}")
 	@Results({
 		@Result(column="id", property="incomeId"),
 		@Result(column="income_date", property="incomeDate"),
 		@Result(column="amount", property="amount"),
-		@Result(column="incomeTypeName", property="incomeTypeName")
+		@Result(column="incomeItemName", property="incomeItemName")
 	})
 	List<RecListDto> selectRecordsByUserId(@Param("userId") int userId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
@@ -94,5 +93,4 @@ public interface IIncomeMapper {
 		@Result(column="amnt", property="amnt")
 	})
 	List<IncomeListDto> getTodayListForMain(@Param("userId") int userId);
-
 }
