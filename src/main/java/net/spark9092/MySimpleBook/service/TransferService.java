@@ -345,7 +345,7 @@ public class TransferService {
 				}
 			} else {
 				
-				//當新增一筆轉帳發生錯誤時，rollback 全部交易
+				//當修改一筆轉帳發生錯誤時，rollback 全部交易
 				throw new Exception("修改一筆轉帳發生錯誤");
 			}
 		}

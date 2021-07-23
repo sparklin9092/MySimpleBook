@@ -59,7 +59,7 @@ public class TransferController {
 	@PostMapping("/records")
 	public RecListMsgDto records(HttpSession session, @RequestBody RecordPojo recordPojo) {
 
-		logger.debug("根據使用者索引 (User ID) 取得轉帳紀錄");
+		logger.debug("根據使用者索引(User ID)、日期範圍取得轉帳紀錄");
 
 		RecListMsgDto recListMsgDto = new RecListMsgDto();
 
