@@ -5,7 +5,6 @@
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/income/items/modify.css">
 	<script type="text/javascript" src="/js/income/items/modify.js"></script>
-	<script type="text/javascript" src="/js/common/userCheck.js"></script>
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
