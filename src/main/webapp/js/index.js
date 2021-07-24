@@ -2,7 +2,7 @@ $(function() {
 
 	$('#loginBtn').on('click', loginAct);
 	
-	$('#guestBtn').on('click', guestAct)
+	$('#guestBtn').on('click', guestAct);
 
 	$('#userName, #userPwd').on('keypress', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);

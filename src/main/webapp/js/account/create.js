@@ -7,6 +7,13 @@ $(function() {
 
 	$('#cancelBtn').on('click', cancelAct);
 	$('#confirmBtn').on('click', confirmAct);
+
+	$('#initAmnt').focus();
+
+	$('#initAmnt').on('keypress', function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if (code == 13) $('#confirmBtn').trigger('click');
+	});
 });
 
 function initAccountTypeSelect() {

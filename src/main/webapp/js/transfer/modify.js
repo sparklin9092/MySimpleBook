@@ -12,6 +12,13 @@ $(function() {
 	$('#cancelBtn').on('click', cancelAct);
 	$('#deleteBtn').on('click', deleteAct);
 	$('#confirmBtn').on('click', confirmAct);
+
+	$('#tOutAmnt').focus();
+
+	$('#tOutAmnt').on('keypress', function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if (code == 13) $('#confirmBtn').trigger('click');
+	});
 });
 
 function initTodayDate() {
