@@ -14,7 +14,7 @@ import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SeqsNameEnum;
 import net.spark9092.MySimpleBook.enums.SystemEnum;
 import net.spark9092.MySimpleBook.mapper.IGuestMapper;
-import net.spark9092.MySimpleBook.mapper.ISeqsMapper;
+import net.spark9092.MySimpleBook.mapper.ISystemSeqsMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 
@@ -27,7 +27,7 @@ public class UserLoginService {
 	private IUserInfoMapper iUserInfoMapper;
 	
 	@Autowired
-	private ISeqsMapper iSeqsMapper;
+	private ISystemSeqsMapper iSystemSeqsMapper;
 	
 	@Autowired
 	private IGuestMapper iGuestMapper;
@@ -111,7 +111,7 @@ public class UserLoginService {
 		}
 		
 		//對訪客取號碼牌(訪客序號)
-		int guestSeq = iSeqsMapper.getSeq(SeqsNameEnum.GUEST.getName());
+		int guestSeq = iSystemSeqsMapper.getSeq(SeqsNameEnum.GUEST.getName());
 		
 		logger.info("目前是第 " + guestSeq + " 位訪客使用致富寶典系統！");
 		

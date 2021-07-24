@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
-public interface ISeqsMapper {
+public interface ISystemSeqsMapper {
 
 	@Select("select select_seq(#{seqName})")
 	int getSeq(@Param("seqName") String seqName);
