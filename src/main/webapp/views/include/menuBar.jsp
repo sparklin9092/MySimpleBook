@@ -9,7 +9,7 @@ String title = "我的致富寶典";
 
 if(null != user) {
 	if(!user.getUserName().equals("")) {
-		title = user.getUserName() + " 的致富寶典";
+		title = user.getUserName() + "的致富寶典";
 	}
 }
 %>
