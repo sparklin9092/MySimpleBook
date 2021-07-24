@@ -5,12 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import net.spark9092.MySimpleBook.service.UserLoginService;
-
 @SpringBootTest
 class MySimpleBookApplicationTests {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(MySimpleBookApplicationTests.class);
 
 	@Test
 	void contextLoads() throws Exception {
