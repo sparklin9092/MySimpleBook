@@ -15,5 +15,6 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/js/plugins/moment-with-locales.js"></script>
 <script type="text/javascript" src="/js/common/menuBar.js"></script>
+<script type="text/javascript" src="/js/common/checkCommon.js"></script>
 
 <title>致富寶典</title>

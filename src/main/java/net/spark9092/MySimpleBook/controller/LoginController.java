@@ -18,7 +18,7 @@ import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 import net.spark9092.MySimpleBook.service.RichCodeService;
-import net.spark9092.MySimpleBook.service.UserLoginService;
+import net.spark9092.MySimpleBook.service.UserInfoService;
 
 @RestController
 public class LoginController {
@@ -26,7 +26,7 @@ public class LoginController {
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
-	private UserLoginService userLoginService;
+	private UserInfoService userLoginService;
 
 	@Autowired
 	private RichCodeService richCodeService;
@@ -63,6 +63,9 @@ public class LoginController {
 
 			//在 Session 寫入 User 基本資料，後續的功能基本上都要 User ID 去查資料
 			session.setAttribute(SessinNameEnum.USER_INFO.getName(), userInfoEntity);
+			
+			//因為是一般使用者登入，為避免前端誤判訪客，故意把訪客資料數量寫為 0
+			session.setAttribute(SessinNameEnum.GUEST_DATA_COUNT.getName(), 0);
 		}
 
 		LoginMsgDto loginMsgDto = new LoginMsgDto();
@@ -109,6 +112,9 @@ public class LoginController {
 
 			//在 Session 寫入 User 基本資料，後續的功能基本上都要 User ID 去查資料
 			session.setAttribute(SessinNameEnum.USER_INFO.getName(), userInfoEntity);
+			
+			//預設訪客資料數量為 0，後續如果有觸發 AfterControllerCreateActAspect 這個 AOP 會再修改
+			session.setAttribute(SessinNameEnum.GUEST_DATA_COUNT.getName(), 0);
 		}
 
 		LoginMsgDto loginMsgDto = new LoginMsgDto();

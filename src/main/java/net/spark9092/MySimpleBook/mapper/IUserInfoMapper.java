@@ -67,4 +67,21 @@ public interface IUserInfoMapper {
 		@Result(column="create_datetime", property="createDateTime")
 	})
 	UserInfoEntity selectGuestBySeq(@Param("guestSeq") int guestSeq);
+
+	/**
+	 * 計算訪客目前的資料數量
+	 * @param userId
+	 * @return Guest data count 訪客資料數量
+	 */
+	@Select("select "
+			+ "	(select count(b.id) from transfer b where b.user_id=a.id and b.is_delete=0)+ "
+			+ "	(select count(c.id) from income c where c.user_id=a.id and c.is_delete=0)+ "
+			+ "	(select count(d.id)-1 from income_items d where d.user_id=a.id and d.is_delete=0)+ "
+			+ "	(select count(e.id) from spend e where e.user_id=a.id and e.is_delete=0)+ "
+			+ "	(select count(f.id)-1 from spend_items f where f.user_id=a.id and f.is_delete=0)+ "
+			+ "	(select count(g.id)-2 from account g where g.user_id=a.id and g.is_delete=0)+ "
+			+ "	(select count(h.id) from account_types h where h.user_id=a.id and h.is_delete=0) as guestDataCount "
+			+ " from user_info a "
+			+ " where a.id=#{userId} and a.is_guest=1")
+	int getGuestDataCount(@Param("userId") int userId);
 }

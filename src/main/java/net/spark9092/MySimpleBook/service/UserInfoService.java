@@ -19,9 +19,9 @@ import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 
 @Service
-public class UserLoginService {
+public class UserInfoService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserInfoService.class);
 
 	@Autowired
 	private IUserInfoMapper iUserInfoMapper;
@@ -157,5 +157,28 @@ public class UserLoginService {
 		}
 		
 		return loginResultDto;
+	}
+
+	/**
+	 * 取得訪客目前的資料數量，用於提醒訪客要綁定帳號，包含：
+	 * 
+	 * 轉帳(transfer)、
+	 * 收入(income)、收入項目(income items)、
+	 * 支出(spend)、支出項目(spend items)、
+	 * 帳戶(account)、帳戶類別(account types)，
+	 * 
+	 * 收入項目、支出項目 系統各預設 1 筆，計算的時候要扣掉，
+	 * 帳戶 系統是預設 2 筆，計算的時候，也要扣掉
+	 * 
+	 * @param userId
+	 * @return Guest data count 訪客資料數量
+	 */
+	public int getGuestDataCount(int userId) {
+
+		int dataCount = 0;
+
+		dataCount = iUserInfoMapper.getGuestDataCount(userId);
+		
+		return dataCount;
 	}
 }
