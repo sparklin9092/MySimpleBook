@@ -128,21 +128,24 @@ function confirmAct() {
 		contentType: 'application/json',
 		data: JSON.stringify(data),
 		success: function(res) {
-			
-			if(res.status) {
-				
-				var next = confirm('新增成功，要繼續新增下一筆收入嗎？');
 
-				if(next) {
+			if (res.status) {
 
-					initTodayDate();
-					initIncomeItemSelect();
-					initAccountItemSelect();
-					$('#amount, #remark').val('');
-					
-				} else {
-	
-					location.href = '/main';
+				if (!checkGuestDataCount()) {
+
+					var next = confirm('新增成功，要繼續新增下一筆收入嗎？');
+
+					if (next) {
+
+						initTodayDate();
+						initIncomeItemSelect();
+						initAccountItemSelect();
+						$('#amount, #remark').val('');
+
+					} else {
+
+						location.href = '/main';
+					}
 				}
 			} else {
 

@@ -29,8 +29,11 @@ function confirmAct() {
 			if(res.status) {
 				
 				alert('新增成功');
-				location.href = '/account/types';
 				
+				if(!checkGuestDataCount()) {
+					
+					location.href = '/account/types';
+				}
 			} else {
 				
 				alert(res.msg);

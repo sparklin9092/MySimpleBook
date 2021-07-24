@@ -111,8 +111,11 @@ function confirmAct() {
 			if(res.status) {
 				
 				alert('新增成功');
-				location.href = '/account';
 				
+				if(!checkGuestDataCount()) {
+					
+					location.href = '/account';
+				}
 			} else {
 				
 				alert(res.msg);

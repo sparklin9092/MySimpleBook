@@ -31,8 +31,11 @@ function confirmAct() {
 			if(res.status) {
 				
 				alert('新增成功');
-				location.href = '/income/items';
 				
+				if(!checkGuestDataCount()) {
+					
+					location.href = '/income/items';
+				}
 			} else {
 				
 				alert(res.msg);

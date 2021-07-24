@@ -29,8 +29,11 @@ function confirmAct() {
 			if(res.status) {
 				
 				alert('新增成功');
-				location.href = '/spend/items';
 				
+				if(!checkGuestDataCount()) {
+					
+					location.href = '/spend/items';
+				}
 			} else {
 				
 				alert(res.msg);

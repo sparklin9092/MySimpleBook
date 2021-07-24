@@ -131,18 +131,21 @@ function confirmAct() {
 			
 			if(res.status) {
 				
+				if(!checkGuestDataCount()) {
+				
 				var next = confirm('新增成功，要繼續新增下一筆支出嗎？');
-
-				if(next) {
-
-					initTodayDate();
-					initSpendItemSelect();
-					initAccountItemSelect();
-					$('#amount, #remark').val('');
-					
-				} else {
 	
-					location.href = '/main';
+					if(next) {
+	
+						initTodayDate();
+						initSpendItemSelect();
+						initAccountItemSelect();
+						$('#amount, #remark').val('');
+						
+					} else {
+		
+						location.href = '/main';
+					}
 				}
 			} else {
 				
