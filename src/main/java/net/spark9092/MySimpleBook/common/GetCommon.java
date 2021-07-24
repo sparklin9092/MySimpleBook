@@ -8,12 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import net.spark9092.MySimpleBook.dto.whiteList.WhiteListValueDto;
+import net.spark9092.MySimpleBook.enums.WhiteListTypeEnum;
+import net.spark9092.MySimpleBook.mapper.ISystemWhiteListMapper;
 
 @Component
 public class GetCommon {
 
 	private static final Logger logger = LoggerFactory.getLogger(GetCommon.class);
+	
+	@Autowired
+	private ISystemWhiteListMapper iSystemWhiteListMapper;
 
 	public String getIpAddress(HttpServletRequest request) throws IOException {
 		// 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址
@@ -79,27 +87,27 @@ public class GetCommon {
 		return isMobile;
 	}
 
-	public boolean isIntranet(String ipAddress) {
+	public boolean isWhiteIp(String ipAddress) {
 
-		logger.debug("isIntranet IP: " + ipAddress);
+		logger.debug("Input IP: " + ipAddress);
 
-		boolean isIntranet = false;
+		boolean isWhiteIp = false;
+		
+		List<WhiteListValueDto> dtoList = 
+				iSystemWhiteListMapper.selectListByType(WhiteListTypeEnum.WHITE_IP.getType());
 
-		//根據瀏覽器的UserAgent判斷是否為手機裝置
-		List<String> whiteList = Arrays.asList
-	            (
-	                "192.168", "127.0.0.1", "0:0:0:0:0:0:0:1"
-	            );
-
-	    String ip = ipAddress.toLowerCase();
-	    for (String whiteIp : whiteList) {
-	        if (ip.indexOf(whiteIp) >= 0) {
-	        	isIntranet = true;
+	    String inputIp = ipAddress.toLowerCase();
+	    for (WhiteListValueDto dto : dtoList) {
+	    	
+	    	String whiteIp = dto.getValue();
+	    	
+	        if (inputIp.indexOf(whiteIp) >= 0) {
+	        	isWhiteIp = true;
 	            break;
 	        }
 	    }
 
-		return isIntranet;
+		return isWhiteIp;
 
 	}
 }

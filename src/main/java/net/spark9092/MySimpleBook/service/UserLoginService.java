@@ -103,7 +103,7 @@ public class UserLoginService {
 		int guestLoginTimes = iGuestMapper.getLoginTimes(ipAddress);
 		
 		//超過 5 次就不能再用訪客登入了
-		if(guestLoginTimes == 5 && !getCommon.isIntranet(ipAddress)) {
+		if(guestLoginTimes == 5 && !getCommon.isWhiteIp(ipAddress)) {
 			
 			loginResultDto.setStatus(false);
 			loginResultDto.setMsg("今日訪客數量已達系統上限。");
