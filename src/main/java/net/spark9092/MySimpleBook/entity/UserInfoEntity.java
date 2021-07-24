@@ -23,6 +23,10 @@ public class UserInfoEntity implements Serializable {
 	
 	private int guestSeq;
 	
+	private String userEmail;
+	
+	private String userPhone;
+	
 	private int createUserId;
 	
 	private LocalDateTime createDateTime;
@@ -91,6 +95,22 @@ public class UserInfoEntity implements Serializable {
 		this.guestSeq = guestSeq;
 	}
 
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
 	public int getCreateUserId() {
 		return createUserId;
 	}
@@ -110,8 +130,9 @@ public class UserInfoEntity implements Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"UserInfoEntity [id=%s, userName=%s, lastLoginDateTime=%s, isActive=%s, isDelete=%s, isGuest=%s, guestSeq=%s, createUserId=%s, createDateTime=%s]",
-				id, userName, lastLoginDateTime, isActive, isDelete, isGuest, guestSeq, createUserId, createDateTime);
+				"UserInfoEntity [id=%s, userName=%s, lastLoginDateTime=%s, isActive=%s, isDelete=%s, isGuest=%s, guestSeq=%s, userEmail=%s, userPhone=%s, createUserId=%s, createDateTime=%s]",
+				id, userName, lastLoginDateTime, isActive, isDelete, isGuest, guestSeq, userEmail, userPhone,
+				createUserId, createDateTime);
 	}
 	
 }

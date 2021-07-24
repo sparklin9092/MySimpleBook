@@ -15,7 +15,12 @@ import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 @Mapper
 public interface IUserInfoMapper {
 
-	@Select("select * from user_info where id=#{id}")
+	/**
+	 * 根據使用者 ID，查詢使用者「全部」資料
+	 * @param id
+	 * @return
+	 */
+	@Select("select * from user_info where id=#{userId}")
 	@Results({
 		@Result(column="id", property="id"),
 		@Result(column="user_name", property="userName"),
@@ -25,11 +30,18 @@ public interface IUserInfoMapper {
 		@Result(column="is_delete", property="isDelete"),
 		@Result(column="is_guest", property="isGuest"),
 		@Result(column="guest_seq", property="guestSeq"),
+		@Result(column="email", property="userEmail"),
+		@Result(column="phone", property="userPhone"),
 		@Result(column="create_user_id", property="createUserId"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
-	UserInfoEntity selectAllById(@Param("id") int id);
+	UserInfoEntity selectUserInfoById(@Param("userId") int userId);
 	
+	/**
+	 * 根據使用者名稱(user_name)，查詢使用者「全部」資料
+	 * @param userName
+	 * @return
+	 */
 	@Select("select * from user_info where user_name=#{userName}")
 	@Results({
 		@Result(column="id", property="id"),
@@ -40,19 +52,40 @@ public interface IUserInfoMapper {
 		@Result(column="is_delete", property="isDelete"),
 		@Result(column="is_guest", property="isGuest"),
 		@Result(column="guest_seq", property="guestSeq"),
+		@Result(column="email", property="userEmail"),
+		@Result(column="phone", property="userPhone"),
 		@Result(column="create_user_id", property="createUserId"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
 	UserInfoEntity selectByUserName(@Param("userName") String userName);
 
+	/**
+	 * 新增一位訪客類型的使用者
+	 * @param userName
+	 * @param userPwd
+	 * @param systemUserId
+	 * @param guestSeq
+	 * @return
+	 */
 	@Insert("insert into user_info(user_name, user_password, is_guest, guest_seq, create_user_id) "
 			+ "values(#{userName}, #{userPwd}, 1, #{guestSeq}, #{systemUserId})")
-	boolean createUserByGuest(@Param("userName") String userName, @Param("userPwd") String userPwd, 
+	boolean createUserByGuest(@Param("userName") String userName, @Param("userPwd") String userPwd,
 			@Param("systemUserId") int systemUserId, @Param("guestSeq") int guestSeq);
-	
-	@Update("update user_info set last_login_datetime=#{lastLoginDateTime} where id=#{id}")
-	boolean updateById(@Param("lastLoginDateTime") LocalDateTime lastLoginDateTime, @Param("id") int id);
 
+	/**
+	 * 更新使用者的最後登入時間，通常是登入時候會更新
+	 * @param lastLoginDateTime
+	 * @param userId
+	 * @return
+	 */
+	@Update("update user_info set last_login_datetime=#{lastLoginDateTime} where id=#{userId}")
+	boolean updateById(@Param("lastLoginDateTime") LocalDateTime lastLoginDateTime, @Param("userId") int userId);
+
+	/**
+	 * 根據訪客序號，查詢訪客類型的使用者「全部」資料
+	 * @param guestSeq 訪客序號
+	 * @return
+	 */
 	@Select("select * from user_info where guest_seq=#{guestSeq} and is_guest=1")
 	@Results({
 		@Result(column="id", property="id"),
@@ -63,6 +96,8 @@ public interface IUserInfoMapper {
 		@Result(column="is_delete", property="isDelete"),
 		@Result(column="is_guest", property="isGuest"),
 		@Result(column="guest_seq", property="guestSeq"),
+		@Result(column="email", property="userEmail"),
+		@Result(column="phone", property="userPhone"),
 		@Result(column="create_user_id", property="createUserId"),
 		@Result(column="create_datetime", property="createDateTime")
 	})

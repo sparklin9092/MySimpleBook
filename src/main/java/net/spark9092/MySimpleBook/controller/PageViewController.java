@@ -322,4 +322,18 @@ public class PageViewController {
 
 		return mv;
 	}
+
+	/**
+	 * 使用者基本資料
+	 * @return
+	 */
+	@GetMapping("/user/info")
+	public ModelAndView userInfo() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/user/info";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
 }

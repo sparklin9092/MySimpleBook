@@ -75,6 +75,7 @@ if(null != user) {
 					</ul>
 				</li>
 			</ul>
+			<button type="botton" class="btn btn-primary btn-lg me-4" id="userInfo" name="userInfo">使用者</button>
 			<button type="botton" class="btn btn-danger btn-lg" id="logout" name="logout">登出</button>
 		</div>
 	</div>
