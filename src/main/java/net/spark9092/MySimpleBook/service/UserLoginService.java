@@ -19,9 +19,9 @@ import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 
 @Service
-public class UserInfoService {
+public class UserLoginService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserInfoService.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserLoginService.class);
 
 	@Autowired
 	private IUserInfoMapper iUserInfoMapper;
