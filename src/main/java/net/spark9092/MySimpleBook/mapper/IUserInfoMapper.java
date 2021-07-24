@@ -23,6 +23,8 @@ public interface IUserInfoMapper {
 		@Result(column="last_login_datetime", property="lastLoginDateTime"),
 		@Result(column="is_active", property="isActive"),
 		@Result(column="is_delete", property="isDelete"),
+		@Result(column="is_guest", property="isGuest"),
+		@Result(column="guest_seq", property="guestSeq"),
 		@Result(column="create_user_id", property="createUserId"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
@@ -36,6 +38,8 @@ public interface IUserInfoMapper {
 		@Result(column="last_login_datetime", property="lastLoginDateTime"),
 		@Result(column="is_active", property="isActive"),
 		@Result(column="is_delete", property="isDelete"),
+		@Result(column="is_guest", property="isGuest"),
+		@Result(column="guest_seq", property="guestSeq"),
 		@Result(column="create_user_id", property="createUserId"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
@@ -57,6 +61,8 @@ public interface IUserInfoMapper {
 		@Result(column="last_login_datetime", property="lastLoginDateTime"),
 		@Result(column="is_active", property="isActive"),
 		@Result(column="is_delete", property="isDelete"),
+		@Result(column="is_guest", property="isGuest"),
+		@Result(column="guest_seq", property="guestSeq"),
 		@Result(column="create_user_id", property="createUserId"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
