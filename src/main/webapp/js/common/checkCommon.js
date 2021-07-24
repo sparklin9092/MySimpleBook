@@ -15,20 +15,13 @@ function checkGuestDataCount() {
 		data: {},
 		success: function(res) {
 			
-			console.log(res);
-			
 			var guestDataCount = res;
 			
 			$.each(alertGuestDataCountList, function(key, alertCount) {
-			
-				console.log("alertCount: " + alertCount);
-				console.log("guestDataCount: " + guestDataCount);
 				
 				if(guestDataCount == alertCount) {
 					
-					var goToBindAcc = confirm('推薦前往綁定帳號！避免目前的資料，在您離開後，被系統刪除。 ^_^');
-					
-					console.log("goToBindAcc: " + goToBindAcc);
+					var goToBindAcc = confirm('推薦前往綁定帳號！避免目前的資料，在您離開後被系統刪除。');
 					
 					if(goToBindAcc) {
 				
