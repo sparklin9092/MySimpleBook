@@ -9,7 +9,7 @@
 <body>
 	<div class="login-box">
 		<form class="rounded shadow login-form login-form-padding">
-			<div class="h1 text-center">我的致富寶典</div>
+			<div class="h1 text-center">致富寶典</div>
 			<div>
 				<div class="h4 mt-3">帳號</div>
 				<div>
@@ -19,11 +19,12 @@
 				<div>
 					<input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="請輸入密碼">
 				</div>
-				<div class="text-center mt-5">
-					<button type="button" class="btn btn-primary" id="loginBtn" name="loginBtn">登入</button>
+				<div class="text-center mt-5 mb-4">
+					<button type="button" class="btn btn-success btn-lg" id="loginBtn" name="loginBtn">登入</button>
 				</div>
-				<div class="text-center mt-5">
-					<button type="button" class="btn btn-primary" id="guestBtn" name="guestBtn">訪客試用</button>
+				<hr>
+				<div class="text-center mt-4">
+					<button type="button" class="btn btn-primary btn-lg" id="guestBtn" name="guestBtn">訪客登入</button>
 				</div>
 			</div>
 		</form>
