@@ -19,6 +19,10 @@ public class UserInfoEntity implements Serializable {
 	
 	private boolean isDelete;
 	
+	private boolean isGuest;
+	
+	private int guestSeq;
+	
 	private int createUserId;
 	
 	private LocalDateTime createDateTime;
@@ -71,6 +75,22 @@ public class UserInfoEntity implements Serializable {
 		this.isDelete = isDelete;
 	}
 
+	public boolean isGuest() {
+		return isGuest;
+	}
+
+	public void setGuest(boolean isGuest) {
+		this.isGuest = isGuest;
+	}
+
+	public int getGuestSeq() {
+		return guestSeq;
+	}
+
+	public void setGuestSeq(int guestSeq) {
+		this.guestSeq = guestSeq;
+	}
+
 	public int getCreateUserId() {
 		return createUserId;
 	}
@@ -90,8 +110,8 @@ public class UserInfoEntity implements Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"UserInfoEntity [id=%s, userName=%s, userPwd=%s, lastLoginDateTime=%s, isActive=%s, isDelete=%s, createUserId=%s, createDateTime=%s]",
-				id, userName, userPwd, lastLoginDateTime, isActive, isDelete, createUserId, createDateTime);
+				"UserInfoEntity [id=%s, userName=%s, lastLoginDateTime=%s, isActive=%s, isDelete=%s, isGuest=%s, guestSeq=%s, createUserId=%s, createDateTime=%s]",
+				id, userName, lastLoginDateTime, isActive, isDelete, isGuest, guestSeq, createUserId, createDateTime);
 	}
 	
 }
