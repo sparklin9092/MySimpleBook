@@ -651,70 +651,76 @@ public class UserInfoService {
 
 			mailBindMsgDto = iUserInfoMapper.selectUserIdByAccount(userAccount);
 
-			if(null != mailBindMsgDto) {
+			if(null == mailBindMsgDto) {
 
-				UserMailVerifyDataDto userMailVerifyDataDto =
-						iUserVerifyMapper.selectByUserId(mailBindMsgDto.getUserId());
-
-				//先判斷有沒有驗證碼
-				if(null == userMailVerifyDataDto) {
-
-					mailBindMsgDto.setStatus(false);
-					mailBindMsgDto.setMsg("系統找不到您的驗證碼，請重新綁定。");
-					return mailBindMsgDto;
-
-				}
-
-				//再判斷驗證碼過期了沒
-				LocalDateTime now = LocalDateTime.now();
-				Duration duration = Duration.between(
-						userMailVerifyDataDto.getSystemSendDatetime(), now);
-				
-				logger.debug("duration.toMinutes(): " + duration.toMinutes());
-
-				if(duration.toMinutes() >= 3) {
-
-					mailBindMsgDto.setStatus(false);
-					mailBindMsgDto.setMsg("驗證碼已過期，請重新綁定。");
-					return mailBindMsgDto;
-
-				}
-
-				//最後判斷驗證碼是否正確
-				if(!inputVerifyCode.equals(userMailVerifyDataDto.getVerifyCode())) {
-
-					mailBindMsgDto.setStatus(false);
-					mailBindMsgDto.setMsg("驗證碼輸入錯誤，請重新輸入。");
-					return mailBindMsgDto;
-				}
-				
-				//判斷驗證碼使用過了沒
-				if(userMailVerifyDataDto.isUsed()) {
-
-					mailBindMsgDto.setStatus(false);
-					mailBindMsgDto.setMsg("驗證碼已使用，請重新綁定。");
-					return mailBindMsgDto;
-					
-				}
-
-				boolean updateStatus = iUserVerifyMapper.updateByUserId(
-						userMailVerifyDataDto.getVerifyId(), 
-						mailBindMsgDto.getUserId());
-
-				if(updateStatus) {
-
-					mailBindMsgDto.setStatus(true);
-					mailBindMsgDto.setMsg("");
-
-				} else {
-
-					mailBindMsgDto.setStatus(false);
-					mailBindMsgDto.setMsg("目前無法綁定電子信箱，請稍後再試。");
-
-				}
-				
+				mailBindMsgDto = new MailBindMsgDto();
+				mailBindMsgDto.setStatus(false);
+				mailBindMsgDto.setMsg("找不到您的電子信箱，請重新綁定。");
 				return mailBindMsgDto;
 			}
+
+			UserMailVerifyDataDto userMailVerifyDataDto =
+					iUserVerifyMapper.selectByUserId(mailBindMsgDto.getUserId());
+
+			//先判斷有沒有驗證碼
+			if(null == userMailVerifyDataDto) {
+
+				mailBindMsgDto.setStatus(false);
+				mailBindMsgDto.setMsg("找不到您的驗證碼，請重新綁定。");
+				return mailBindMsgDto;
+
+			}
+
+			//再判斷驗證碼過期了沒
+			LocalDateTime now = LocalDateTime.now();
+			Duration duration = Duration.between(
+					userMailVerifyDataDto.getSystemSendDatetime(), now);
+			
+			logger.debug("duration.toMinutes(): " + duration.toMinutes());
+
+			if(duration.toMinutes() >= 3) {
+
+				mailBindMsgDto.setStatus(false);
+				mailBindMsgDto.setMsg("驗證碼已過期，請重新綁定。");
+				return mailBindMsgDto;
+
+			}
+
+			//最後判斷驗證碼是否正確
+			if(!inputVerifyCode.equals(userMailVerifyDataDto.getVerifyCode())) {
+
+				mailBindMsgDto.setStatus(false);
+				mailBindMsgDto.setMsg("驗證碼輸入錯誤，請重新輸入。");
+				return mailBindMsgDto;
+			}
+			
+			//判斷驗證碼使用過了沒
+			if(userMailVerifyDataDto.isUsed()) {
+
+				mailBindMsgDto.setStatus(false);
+				mailBindMsgDto.setMsg("驗證碼已使用，請重新綁定。");
+				return mailBindMsgDto;
+				
+			}
+
+			boolean updateStatus = iUserVerifyMapper.updateByUserId(
+					userMailVerifyDataDto.getVerifyId(), 
+					mailBindMsgDto.getUserId());
+
+			if(updateStatus) {
+
+				mailBindMsgDto.setStatus(true);
+				mailBindMsgDto.setMsg("");
+
+			} else {
+
+				mailBindMsgDto.setStatus(false);
+				mailBindMsgDto.setMsg("目前無法綁定電子信箱，請稍後再試。");
+
+			}
+			
+			return mailBindMsgDto;
+			
 		} catch (Exception e) {}
 
 		mailBindMsgDto = new MailBindMsgDto();
