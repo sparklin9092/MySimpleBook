@@ -6,8 +6,7 @@ $(function() {
 	$('#phoneTitle').on('click', phoneShow);
 	$('#emailTitle').on('click', emailShow);
 	
-	$('#changeAcc').on('click', checkUserAccAct);
-	
+	$('#checkAcc').on('click', checkUserAccAct);
 	$('#userAcc').on('blur', checkUserAccAct);
 	
 	$('#bindAccPwd').on('click', bindAccPwdAct);
@@ -63,13 +62,13 @@ function checkUserAccAct() {
 			
 			if(res.status) {
 				
-				$('#changeAcc').removeClass('btn-warning').addClass('btn-success');
-				$('#changeAcc').prop('disabled', true).text('通過');
+				$('#checkAcc').removeClass('btn-warning').addClass('btn-success');
+				$('#checkAcc').prop('disabled', true).text('通過');
 				
 			} else {
 				
-				$('#changeAcc').removeClass('btn-success').addClass('btn-warning');
-				$('#changeAcc').prop('disabled', false).text('檢查');
+				$('#checkAcc').removeClass('btn-success').addClass('btn-warning');
+				$('#checkAcc').prop('disabled', false).text('檢查');
 				
 				alert(res.msg);
 			}
@@ -102,8 +101,8 @@ function bindAccPwdAct() {
 				
 			} else {
 				
-				$('#changeAcc').removeClass('btn-success').addClass('btn-warning');
-				$('#changeAcc').prop('disabled', false).text('檢查');
+				$('#checkAcc').removeClass('btn-success').addClass('btn-warning');
+				$('#checkAcc').prop('disabled', false).text('檢查');
 				
 				alert(res.msg);
 			}
