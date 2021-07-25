@@ -2,6 +2,7 @@ $(function() {
 	
 	initBuAcc();
 
+	$('#homeBtn').on('click', homeAct);
 	$('#bindBtn').on('click', bindAct);
 
 	$('#verifyCode').on('keypress', function(e) {
@@ -24,6 +25,9 @@ function initBuAcc() {
 		success: function(res) {
 			if(res.status) {
 				$('#userMail').val(res.userMail);
+			} else {
+				$('#userMail').val('系統查無資料，請重新綁定');
+				$('#bindBtn').prop('disabled', true);
 			}
 		},
 		error: function(err) {
@@ -31,6 +35,11 @@ function initBuAcc() {
 			alert('無法連接伺服器');
 		}
 	});
+}
+
+function homeAct() {
+	
+	location.href = '/';
 }
 
 function bindAct() {
