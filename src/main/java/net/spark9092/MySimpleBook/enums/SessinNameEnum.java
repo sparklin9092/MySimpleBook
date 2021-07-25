@@ -1,6 +1,8 @@
 package net.spark9092.MySimpleBook.enums;
 
-public enum SessinNameEnum {
+import java.io.Serializable;
+
+public enum SessinNameEnum implements Serializable {
 
     USER_INFO("user-info"),
     RICH_CODE("rich-code"),
