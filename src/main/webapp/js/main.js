@@ -1,4 +1,6 @@
 $(function() {
+	
+	checkGuest();
 
 	$('#transferBtn').on('click', transCreateView);
 	$('#incomeBtn').on('click', incomeCreateView);
@@ -16,6 +18,35 @@ $(function() {
 	querySpendRecord();
 	queryAccoundRecord();
 });
+
+function checkGuest() {
+
+	if (!$.cookie('checkGuest')) {
+		
+		$.cookie('checkGuest', true);
+		
+		$.ajax({
+			url: '/main/check/guest',
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: {},
+			success: function(res) {
+				
+				if(res.status) {
+					
+					var goToBindAcc = confirm('推薦前往綁定帳號！避免目前的資料，在您離開後被系統刪除。');
+			
+					if (goToBindAcc) {
+			
+						location.href = '/user/info';
+					}
+				}
+			},
+			error: function(err) {}
+		});
+	}
+}
 
 function transCreateView() {
 	
@@ -82,9 +113,7 @@ function initRichCodeList() {
 				$('#richCodeBox').empty().html(richCodeItems);
 			}
 		},
-		error: function(err) {
-			console.log(err);
-		}
+		error: function(err) {}
 	});
 				
 	$('#richCodeBox').empty().html(richCodeItems);

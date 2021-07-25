@@ -10,6 +10,7 @@
 
 <script type="text/javascript" src="/js/plugins/jquery.min.js"></script>
 <script type="text/javascript" src="/js/plugins/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/plugins/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/plugins/datepicker-zh-TW.js"></script>
 <script type="text/javascript" src="/js/plugins/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>

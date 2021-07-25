@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.main.AccountListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.CheckGuestMsgDto;
 import net.spark9092.MySimpleBook.dto.main.IncomeListMsgDto;
 import net.spark9092.MySimpleBook.dto.main.SpendListMsgDto;
 import net.spark9092.MySimpleBook.dto.main.TransferListMsgDto;
@@ -42,6 +43,26 @@ public class MainController {
 
 	@Autowired
 	private AccountService accountService;
+	
+	@PostMapping("/check/guest")
+	public CheckGuestMsgDto checkGuest(HttpSession session) {
+		
+		CheckGuestMsgDto checkGuestMsgDto = new CheckGuestMsgDto();
+		
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+		
+		if(userInfoEntity.isGuest()) {
+			
+			checkGuestMsgDto.setStatus(true);
+			
+		} else {
+			
+			checkGuestMsgDto.setStatus(false);
+			
+		}
+		
+		return checkGuestMsgDto;
+	}
 
 	@SuppressWarnings("unchecked")
 	@PostMapping("/richCode/list")
