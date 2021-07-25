@@ -32,6 +32,18 @@ public class CheckCommon {
 		
 		return amount.toString().matches(regex);
 	}
+	
+	/**
+	 * 驗證Email(電子信箱)
+	 * @param userMail
+	 * @return
+	 */
+	public boolean checkMail(String userMail) {
+
+		String regex = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}";
+		
+		return userMail.toString().matches(regex);
+	}
 
 	/**
 	 * 檢查是否為手機裝置、平板裝置等移動設備
