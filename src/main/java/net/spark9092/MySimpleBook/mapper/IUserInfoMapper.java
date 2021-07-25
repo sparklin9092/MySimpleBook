@@ -24,6 +24,7 @@ public interface IUserInfoMapper {
 	@Results({
 		@Result(column="id", property="id"),
 		@Result(column="user_name", property="userName"),
+		@Result(column="user_account", property="userAccount"),
 		@Result(column="user_password", property="userPwd"),
 		@Result(column="last_login_datetime", property="lastLoginDateTime"),
 		@Result(column="is_active", property="isActive"),
@@ -46,6 +47,7 @@ public interface IUserInfoMapper {
 	@Results({
 		@Result(column="id", property="id"),
 		@Result(column="user_name", property="userName"),
+		@Result(column="user_account", property="userAccount"),
 		@Result(column="user_password", property="userPwd"),
 		@Result(column="last_login_datetime", property="lastLoginDateTime"),
 		@Result(column="is_active", property="isActive"),
@@ -90,6 +92,7 @@ public interface IUserInfoMapper {
 	@Results({
 		@Result(column="id", property="id"),
 		@Result(column="user_name", property="userName"),
+		@Result(column="user_account", property="userAccount"),
 		@Result(column="user_password", property="userPwd"),
 		@Result(column="last_login_datetime", property="lastLoginDateTime"),
 		@Result(column="is_active", property="isActive"),
