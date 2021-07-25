@@ -87,6 +87,7 @@ function checkUserAccAct() {
 
 function changePwdView() {
 	
+	location.href = '/user/info/pwd';
 }
 
 function bindEmailAct() {

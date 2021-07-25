@@ -16,12 +16,14 @@ import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
+import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SeqsNameEnum;
 import net.spark9092.MySimpleBook.enums.SystemEnum;
 import net.spark9092.MySimpleBook.mapper.IGuestMapper;
 import net.spark9092.MySimpleBook.mapper.ISystemSeqsMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
+import net.spark9092.MySimpleBook.pojo.user.ChangePwdPojo;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserAccCheckPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserBindAccPwdPojo;
@@ -350,5 +352,62 @@ public class UserInfoService {
 		}
 
 		return userInfoMsgDto;
+	}
+
+	/**
+	 * 要先驗證舊密碼，再修改新密碼
+	 * @param changePwdPojo
+	 * @return
+	 */
+	public UserPwdChangeMsgDto modifyPwd(ChangePwdPojo changePwdPojo, String oriPwd) {
+
+		UserPwdChangeMsgDto userPwdChangeMsgDto = new UserPwdChangeMsgDto();
+		
+		String userOldPwd = changePwdPojo.getOldPwd();
+		String userNewPwd = changePwdPojo.getNewPwd();
+		
+		if(null == userOldPwd || userOldPwd.equals("") || userOldPwd.isEmpty()) {
+
+			userPwdChangeMsgDto.setStatus(false);
+			userPwdChangeMsgDto.setMsg("請輸入舊密碼。");
+			
+		} else if(null == userNewPwd || userNewPwd.equals("") || userNewPwd.isEmpty()) {
+
+			userPwdChangeMsgDto.setStatus(false);
+			userPwdChangeMsgDto.setMsg("請輸入新密碼。");
+			
+		} else {
+
+			//把資料庫裡的密碼解密，比對使用者輸入的舊密碼是否相同
+			String deOriPwd = cryptionCommon.decryptionPwd(oriPwd);
+
+			if(deOriPwd.equals(userOldPwd)) {
+
+				//如果都相同，再把新密碼加密，存入資料庫
+				String enNewPwd = cryptionCommon.encryptionPwd(userNewPwd);
+
+				boolean updateStatus = iUserInfoMapper.updateUserNewPwdById(
+						changePwdPojo.getUserId(), enNewPwd);
+
+				if(updateStatus) {
+
+					userPwdChangeMsgDto.setStatus(true);
+					userPwdChangeMsgDto.setMsg("");
+
+				} else {
+
+					userPwdChangeMsgDto.setStatus(false);
+					userPwdChangeMsgDto.setMsg("舊密碼不正確，請重新輸入，或請客服協助處理。");
+
+				}
+
+			} else {
+
+				userPwdChangeMsgDto.setStatus(false);
+				userPwdChangeMsgDto.setMsg("舊密碼不正確，請重新輸入。");
+			}
+		}
+
+		return userPwdChangeMsgDto;
 	}
 }

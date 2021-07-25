@@ -144,4 +144,15 @@ public interface IUserInfoMapper {
 			+ " where id=#{userId}")
 	boolean bindAccPwdByUserId(@Param("userId") int userId,
 			@Param("userAcc") String userAcc, @Param("enPwd") String enPwd);
+
+	/**
+	 * 更新使用者密碼
+	 * @param userId
+	 * @param enNewPwd
+	 * @return
+	 */
+	@Update("update user_info set "
+			+ " user_password=#{enNewPwd} "
+			+ " where id=#{userId}")
+	boolean updateUserNewPwdById(@Param("userId") int userId, @Param("enNewPwd") String enNewPwd);
 }

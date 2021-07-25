@@ -362,6 +362,16 @@ public class PageViewController {
 
 		return mv;
 	}
+	
+	/**
+	 * 使用者修改密碼
+	 * @return
+	 */
+	@GetMapping("/user/info/pwd")
+	public ModelAndView userInfoPed() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/user/pwd";
 		mv.setViewName(pageName);
 
 		return mv;
