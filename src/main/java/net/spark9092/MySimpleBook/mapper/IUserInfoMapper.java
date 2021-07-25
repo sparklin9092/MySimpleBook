@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import net.spark9092.MySimpleBook.dto.verify.MailBindMsgDto;
+import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 
 @Mapper
@@ -179,4 +181,26 @@ public interface IUserInfoMapper {
 	 */
 	@Update("update user_info set is_delete=1 where id=#{userId}")
 	boolean deleteByUserId(@Param("userId") int userId);
+
+	/**
+	 * 根據使用者帳號，查詢使用者電子信箱(Email)
+	 * @param userAccount
+	 * @return
+	 */
+	@Select("select email from user_info where user_account=#{userAccount}")
+	@Results({
+		@Result(column="email", property="userMail")
+	})
+	UserMailMsgDto selectMailByAccount(@Param("userAccount") String userAccount);
+
+	/**
+	 * 根據使用者帳號，查詢使用者ID
+	 * @param userAccount
+	 * @return
+	 */
+	@Select("select id from user_info where user_account=#{userAccount}")
+	@Results({
+		@Result(column="id", property="userId")
+	})
+	MailBindMsgDto selectUserIdByAccount(@Param("userAccount") String userAccount);
 }

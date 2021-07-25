@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+.mail-box {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.mail-form {
+	background-color: #96FED1;
+}
+
+.mail-form-padding {
+	padding: 5vw;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 768px) {
+	.mail-box {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
+	}
+	
+	.mail-form-padding {
+		padding: 3vw;
+	}
+}

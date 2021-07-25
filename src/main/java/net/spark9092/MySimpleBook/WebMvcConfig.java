@@ -39,6 +39,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 						"/**/*.css", "/**/*.css.map", "/**/*.js", "/**/*.js.map",
 						"", "/", "/index", 
 						"/login", "/login/guest", "/logout", 
-						"/userCheck");
+						"/verify/mail/**", "/verify/phone/*");
 	}
 }

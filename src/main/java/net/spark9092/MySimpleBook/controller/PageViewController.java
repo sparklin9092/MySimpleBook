@@ -376,4 +376,19 @@ public class PageViewController {
 
 		return mv;
 	}
+	
+	/**
+	 * 電子信箱(Email)驗證碼輸入畫面
+	 * @return
+	 */
+	@GetMapping("/verify/mail/{base64UserAcc}")
+	public ModelAndView verifyMail(@PathVariable("base64UserAcc") String base64UserAcc) {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/verify/mail";
+		mv.setViewName(pageName);
+		mv.addObject("buAcc", base64UserAcc);
+
+		return mv;
+	}
 }

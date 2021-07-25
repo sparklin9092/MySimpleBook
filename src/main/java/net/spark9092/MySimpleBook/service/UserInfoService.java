@@ -1,7 +1,9 @@
 package net.spark9092.MySimpleBook.service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +23,13 @@ import net.spark9092.MySimpleBook.dto.user.UserInfoDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
+import net.spark9092.MySimpleBook.dto.verify.MailBindMsgDto;
+import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
+import net.spark9092.MySimpleBook.dto.verify.UserMailVerifyDataDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SeqsNameEnum;
 import net.spark9092.MySimpleBook.enums.SystemEnum;
+import net.spark9092.MySimpleBook.enums.VerifyTypeEnum;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.mapper.IAccountTypesMapper;
 import net.spark9092.MySimpleBook.mapper.IGuestMapper;
@@ -34,11 +40,13 @@ import net.spark9092.MySimpleBook.mapper.ISpendMapper;
 import net.spark9092.MySimpleBook.mapper.ISystemSeqsMapper;
 import net.spark9092.MySimpleBook.mapper.ITransferMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
+import net.spark9092.MySimpleBook.mapper.IUserVerifyMapper;
 import net.spark9092.MySimpleBook.pojo.user.ChangePwdPojo;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 import net.spark9092.MySimpleBook.pojo.user.ModifyPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserAccCheckPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserBindAccPwdPojo;
+import net.spark9092.MySimpleBook.pojo.verify.BindMailPojo;
 
 @Service
 public class UserInfoService {
@@ -74,6 +82,9 @@ public class UserInfoService {
 
 	@Autowired
 	private IGuestMapper iGuestMapper;
+
+	@Autowired
+	private IUserVerifyMapper iUserVerifyMapper;
 
 	@Autowired
 	private GeneratorCommon generatorCommon;
@@ -244,12 +255,12 @@ public class UserInfoService {
 		UserAccCheckMsgDto userAccCheckMsgDto = new UserAccCheckMsgDto();
 
 		String userAcc = userAccCheckPojo.getUserAcc();
-		
+
 		if(null == userAcc || userAcc.equals("") || userAcc.isEmpty()) {
 
 			userAccCheckMsgDto.setStatus(false);
 			userAccCheckMsgDto.setMsg("請輸入帳號。");
-			
+
 		} else if(checkCommon.isSystemAccount(userAcc)) { //檢查是否為系統相關帳號
 
 			userAccCheckMsgDto.setStatus(false);
@@ -281,23 +292,23 @@ public class UserInfoService {
 	 * @return
 	 */
 	public UserBindAccPwdMsgDto bindUserByAccPwdPojo(UserBindAccPwdPojo userBindAccPwdPojo) {
-		
+
 		UserBindAccPwdMsgDto userBindAccPwdMsgDto = new UserBindAccPwdMsgDto();
 
 		String userAcc = userBindAccPwdPojo.getUserAcc();
-		
+
 		//可能會有時間差，更新使用者資料前，再次檢查使用者帳號是否重複
 		UserAccCheckPojo userAccCheckPojo = new UserAccCheckPojo();
 		userAccCheckPojo.setUserAcc(userAcc);
-		
+
 		UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
-		
+
 		if(userAccCheckMsgDto.isStatus()) {
-			
+
 			String enPwd = cryptionCommon.encryptionPwd(userBindAccPwdPojo.getUserpwd());
-			
+
 			boolean bindAccPwdStatus = false;
-			
+
 			try {
 				//確定帳號沒有重複，可以更新到資料庫了
 				bindAccPwdStatus = iUserInfoMapper.bindAccPwdByUserId(
@@ -306,26 +317,26 @@ public class UserInfoService {
 			} catch (Exception ex) {
 				//可能會因為時間差，導致更新失敗，因為使用者帳號 (user_info.user_account) 只能是唯一值
 			}
-			
+
 			if(bindAccPwdStatus) {
-				
+
 				userBindAccPwdMsgDto.setStatus(true);
 				userBindAccPwdMsgDto.setMsg("");
-				
+
 			} else {
-				
+
 				userBindAccPwdMsgDto.setStatus(false);
 				userBindAccPwdMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
-				
+
 			}
 		} else {
-			
+
 			//帳號有重複，回傳訊息給使用者
 			userBindAccPwdMsgDto.setStatus(false);
 			userBindAccPwdMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
-			
+
 		}
-		
+
 		return userBindAccPwdMsgDto;
 	}
 
@@ -381,20 +392,20 @@ public class UserInfoService {
 	public UserPwdChangeMsgDto modifyPwd(ChangePwdPojo changePwdPojo, String oriPwd) {
 
 		UserPwdChangeMsgDto userPwdChangeMsgDto = new UserPwdChangeMsgDto();
-		
+
 		String userOldPwd = changePwdPojo.getOldPwd();
 		String userNewPwd = changePwdPojo.getNewPwd();
-		
+
 		if(null == userOldPwd || userOldPwd.equals("") || userOldPwd.isEmpty()) {
 
 			userPwdChangeMsgDto.setStatus(false);
 			userPwdChangeMsgDto.setMsg("請輸入舊密碼。");
-			
+
 		} else if(null == userNewPwd || userNewPwd.equals("") || userNewPwd.isEmpty()) {
 
 			userPwdChangeMsgDto.setStatus(false);
 			userPwdChangeMsgDto.setMsg("請輸入新密碼。");
-			
+
 		} else {
 
 			//把資料庫裡的密碼解密，比對使用者輸入的舊密碼是否相同
@@ -436,62 +447,62 @@ public class UserInfoService {
 	 * @return
 	 */
 	public UserInfoModifyMsgDto modifyByPojo(ModifyPojo modifyPojo) {
-		
+
 		UserInfoModifyMsgDto userInfoModifyMsgDto = new UserInfoModifyMsgDto();
-		
+
 		int userId = modifyPojo.getUserId();
 		String userName = modifyPojo.getUserName();
 		String userAcc = modifyPojo.getUserAccount();
 		String userEmail = modifyPojo.getUserEmail();
 		String userPhone = modifyPojo.getUserPhone();
-		
+
 		//更新使用者資料前，先檢查使用者帳號是否重複
 		UserAccCheckPojo userAccCheckPojo = new UserAccCheckPojo();
 		userAccCheckPojo.setUserId(userId);
 		userAccCheckPojo.setUserAcc(userAcc);
-		
+
 		UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
-		
+
 		if(userAccCheckMsgDto.isStatus()) {
-			
+
 			try {
-				
+
 				//確定帳號沒有重複，就可以更新到資料庫了
 				boolean updateStatus = iUserInfoMapper.updateUserInfoById(
 						userId, userName, userAcc, userEmail, userPhone);
-				
+
 				if(updateStatus) {
-					
+
 					//基本資料更新後，重新把新的資料寫入到entity裡面，因為回到controller要更新session
 					UserInfoEntity entity = modifyPojo.getEntity();
 					entity.setUserName(userName);
 					entity.setUserAccount(userAcc);
 					entity.setUserEmail(userEmail);
 					entity.setUserPhone(userPhone);
-					
+
 					userInfoModifyMsgDto.setStatus(true);
 					userInfoModifyMsgDto.setMsg("");
 					userInfoModifyMsgDto.setEntity(entity);
-					
+
 				} else {
-					
+
 					userInfoModifyMsgDto.setStatus(false);
 					userInfoModifyMsgDto.setMsg("更新基本資料發生錯誤，請稍後再嘗試。");
-					
+
 				}
 			} catch(Exception ex) {
-				
+
 				//如果因為時間差，導致更新帳號發生異常錯誤，從這裡攔截
-				
+
 				userInfoModifyMsgDto.setStatus(false);
 				userInfoModifyMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
 			}
 		} else {
-			
+
 			userInfoModifyMsgDto.setStatus(false);
 			userInfoModifyMsgDto.setMsg(userAccCheckMsgDto.getMsg());
 		}
-		
+
 		return userInfoModifyMsgDto;
 	}
 
@@ -506,84 +517,210 @@ public class UserInfoService {
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public UserDeleteMsgDto deleteUserById(int userId) throws Exception {
-		
+
 		UserDeleteMsgDto userDeleteMsgDto = new UserDeleteMsgDto();
-		
+
 		//刪除前，先查詢有無資料，避免發生錯誤
 		if(iAccountMapper.selectListByUserId(userId).size() != 0) {
-			
+
 			boolean accountDeleteStatus = iAccountMapper.deleteAllByUserId(userId);
-			
+
 			if(!accountDeleteStatus)
 				throw new Exception("刪除使用者ID: "+userId+" 的帳戶時，發生錯誤。");
 		}
-		
+
 		//刪除前，先查詢有無資料，避免發生錯誤
 		if(iAccountTypesMapper.selectItemListByUserId(userId).size() != 0) {
-			
+
 			boolean accountTypesDeleteStatus = iAccountTypesMapper.deleteAllByUserId(userId);
-			
+
 			if(!accountTypesDeleteStatus)
 				throw new Exception("刪除使用者ID: "+userId+" 的帳戶類型時，發生錯誤。");
 		}
-		
+
 		//刪除前，先查詢有無資料，避免發生錯誤
 		if(iIncomeMapper.selectRecordsByUserId(userId, "0001-01-01", "9999-12-31").size() != 0) {
-			
+
 			boolean incomeDeleteStatus = iIncomeMapper.deleteAllByUserId(userId);
-			
+
 			if(!incomeDeleteStatus)
 				throw new Exception("刪除使用者ID: "+userId+" 的收入時，發生錯誤。");
 		}
-		
+
 		//刪除前，先查詢有無資料，避免發生錯誤
 		if(iIncomeItemsMapper.selectListByUserId(userId).size() != 0) {
-			
+
 			boolean incomeItemsDeleteStatus = iIncomeItemsMapper.deleteAllByUserId(userId);
-			
+
 			if(!incomeItemsDeleteStatus)
 				throw new Exception("刪除使用者ID: "+userId+" 的收入項目時，發生錯誤。");
 		}
-		
+
 		//刪除前，先查詢有無資料，避免發生錯誤
 		if(iSpendMapper.selectRecordsByUserId(userId, "0001-01-01", "9999-12-31").size() != 0) {
-			
+
 			boolean spendDeleteStatus = iSpendMapper.deleteAllByUserId(userId);
-			
+
 			if(!spendDeleteStatus)
 				throw new Exception("刪除使用者ID: "+userId+" 的支出時，發生錯誤。");
 		}
-		
+
 		//刪除前，先查詢有無資料，避免發生錯誤
 		if(iSpendItemsMapper.selectItemListByUserId(userId).size() != 0) {
-			
+
 			boolean spendItemsDeleteStatus = iSpendItemsMapper.deleteAllByUserId(userId);
-			
+
 			if(!spendItemsDeleteStatus)
 				throw new Exception("刪除使用者ID: "+userId+" 的支出項目時，發生錯誤。");
 		}
-		
+
 		//刪除前，先查詢有無資料，避免發生錯誤
 		if(iTransferMapper.selectRecordsByUserId(userId, "0001-01-01", "9999-12-31").size() != 0) {
-			
+
 			boolean transferDeleteStatus = iTransferMapper.deleteAllByUserId(userId);
-			
+
 			if(!transferDeleteStatus)
 				throw new Exception("刪除使用者ID: "+userId+" 的轉帳時，發生錯誤。");
 		}
-		
+
 		boolean userDeleteStatus = iUserInfoMapper.deleteByUserId(userId);
-		
+
 		if(userDeleteStatus) {
-			
+
 			userDeleteMsgDto.setStatus(true);
 			userDeleteMsgDto.setMsg("");
-			
+
 		} else {
 
 			throw new Exception("刪除使用者ID: "+userId+" 的使用者資料時，發生錯誤。");
 		}
-		
+
 		return userDeleteMsgDto;
+	}
+
+	/**
+	 * 傳入 base64 邊碼後的使用者帳號，解碼後，查詢使用者電子信箱
+	 * @param base64UserAccount
+	 * @return
+	 */
+	public UserMailMsgDto getUserMailByAccount(String base64UserAccount) {
+
+		UserMailMsgDto userMailMsgDto = new UserMailMsgDto();
+		Base64.Decoder decoder = Base64.getDecoder();
+
+		try {
+
+			String userAccount = new String(decoder.decode(base64UserAccount), "UTF-8");
+
+			userMailMsgDto = iUserInfoMapper.selectMailByAccount(userAccount);
+
+			if(null != userMailMsgDto) {
+
+				userMailMsgDto.setStatus(true);
+				userMailMsgDto.setMsg("");
+
+				return userMailMsgDto;
+
+			}
+
+		} catch (Exception e) {}
+
+		userMailMsgDto = new UserMailMsgDto();
+		userMailMsgDto.setMsg("");
+		userMailMsgDto.setUserMail("");
+		userMailMsgDto.setStatus(false);
+
+		return userMailMsgDto;
+	}
+
+	/**
+	 * 綁定使用者信箱
+	 * @param bindMailPojo
+	 * @return
+	 */
+	public MailBindMsgDto bindUserMailByPojo(BindMailPojo bindMailPojo) {
+
+		MailBindMsgDto mailBindMsgDto = new MailBindMsgDto();
+		Base64.Decoder decoder = Base64.getDecoder();
+
+		String base64UserAccount = bindMailPojo.getBuAcc();
+		String inputVerifyCode = bindMailPojo.getVerifyCode();
+
+		try {
+			String userAccount = new String(decoder.decode(base64UserAccount), "UTF-8");
+
+			mailBindMsgDto = iUserInfoMapper.selectUserIdByAccount(userAccount);
+
+			if(null != mailBindMsgDto) {
+
+				UserMailVerifyDataDto userMailVerifyDataDto =
+						iUserVerifyMapper.selectByUserId(mailBindMsgDto.getUserId());
+
+				//先判斷有沒有驗證碼
+				if(null == userMailVerifyDataDto) {
+
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("系統找不到您的驗證碼，請重新綁定。");
+					return mailBindMsgDto;
+
+				}
+
+				//再判斷驗證碼過期了沒
+				LocalDateTime now = LocalDateTime.now();
+				Duration duration = Duration.between(
+						userMailVerifyDataDto.getSystemSendDatetime(), now);
+				
+				logger.debug("duration.toMinutes(): " + duration.toMinutes());
+
+				if(duration.toMinutes() >= 3) {
+
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("驗證碼已過期，請重新綁定。");
+					return mailBindMsgDto;
+
+				}
+
+				//最後判斷驗證碼是否正確
+				if(!inputVerifyCode.equals(userMailVerifyDataDto.getVerifyCode())) {
+
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("驗證碼輸入錯誤，請重新輸入。");
+					return mailBindMsgDto;
+				}
+				
+				//判斷驗證碼使用過了沒
+				if(userMailVerifyDataDto.isUsed()) {
+
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("驗證碼已使用，請重新綁定。");
+					return mailBindMsgDto;
+					
+				}
+
+				boolean updateStatus = iUserVerifyMapper.updateByUserId(
+						userMailVerifyDataDto.getVerifyId(), 
+						mailBindMsgDto.getUserId());
+
+				if(updateStatus) {
+
+					mailBindMsgDto.setStatus(true);
+					mailBindMsgDto.setMsg("");
+
+				} else {
+
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("目前無法綁定電子信箱，請稍後再試。");
+
+				}
+				
+				return mailBindMsgDto;
+			}
+		} catch (Exception e) {}
+
+		mailBindMsgDto = new MailBindMsgDto();
+		mailBindMsgDto.setStatus(false);
+		mailBindMsgDto.setMsg("目前無法綁定電子信箱，請稍後再試。");
+
+		return mailBindMsgDto;
 	}
 }
