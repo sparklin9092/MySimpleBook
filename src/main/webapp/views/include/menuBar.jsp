@@ -6,10 +6,12 @@
 UserInfoEntity user = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 String title = "我的致富寶典";
+String userBtn = "富";
 
 if(null != user) {
 	if(!user.getUserName().equals("")) {
 		title = user.getUserName() + "的致富寶典";
+		userBtn = user.getUserName().substring(0, 1);
 	}
 }
 %>
@@ -75,8 +77,10 @@ if(null != user) {
 					</ul>
 				</li>
 			</ul>
-			<button type="botton" class="btn btn-primary btn-lg me-4" id="userInfo" name="userInfo">使用者</button>
-			<button type="botton" class="btn btn-danger btn-lg" id="logout" name="logout">登出</button>
+			<div class="text-end">
+				<button type="botton" class="btn btn-light btn-lg me-2 rounded-circle" id="userInfo" name="userInfo"><%=userBtn%></button>
+				<button type="botton" class="btn btn-danger btn-lg" id="logout" name="logout">登出</button>
+			</div>
 		</div>
 	</div>
 </nav>
