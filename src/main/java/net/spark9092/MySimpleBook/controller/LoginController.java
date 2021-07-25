@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.dto.richCode.ListMsgDto;
 import net.spark9092.MySimpleBook.dto.user.LoginMsgDto;
@@ -30,6 +31,9 @@ public class LoginController {
 
 	@Autowired
 	private RichCodeService richCodeService;
+	
+	@Autowired
+	private CheckCommon checkCommon;
 	
 	@Autowired
 	private GetCommon getCommon;
@@ -86,7 +90,7 @@ public class LoginController {
 		
 		//簡單判別一下使用者的裝置是不是移動設備(例如：手機、平板等等)
 		String device = "not mobile";
-		if(getCommon.isMobile(request.getHeader("User-Agent"))) device = "mobile";
+		if(checkCommon.isMobile(request.getHeader("User-Agent"))) device = "mobile";
 		
 		LoginResultDto loginResultDto = userLoginService.guestLogin(ip, device);
 

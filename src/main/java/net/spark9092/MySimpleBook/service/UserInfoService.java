@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.CryptionCommon;
 import net.spark9092.MySimpleBook.common.GeneratorCommon;
-import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
@@ -40,7 +40,7 @@ public class UserInfoService {
 	private GeneratorCommon generatorCommon;
 
 	@Autowired
-	private GetCommon getCommon;
+	private CheckCommon checkCommon;
 
 	@Autowired
 	private CryptionCommon cryptionCommon;
@@ -121,7 +121,7 @@ public class UserInfoService {
 		int guestLoginTimes = iGuestMapper.getLoginTimes(ipAddress);
 
 		//超過 5 次就不能再用訪客登入了
-		if(guestLoginTimes == 5 && !getCommon.isWhiteIp(ipAddress)) {
+		if(guestLoginTimes == 5 && !checkCommon.isWhiteIp(ipAddress)) {
 
 			loginResultDto.setStatus(false);
 			loginResultDto.setMsg("今日訪客數量已達系統上限。");
