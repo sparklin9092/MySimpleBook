@@ -39,11 +39,11 @@ public interface IUserInfoMapper {
 	UserInfoEntity selectUserInfoById(@Param("userId") int userId);
 	
 	/**
-	 * 根據使用者名稱(user_name)，查詢使用者「全部」資料
+	 * 根據使用者帳號(user_account)，查詢使用者「全部」資料
 	 * @param userName
 	 * @return
 	 */
-	@Select("select * from user_info where user_name=#{userName}")
+	@Select("select * from user_info where user_account=#{userAcc}")
 	@Results({
 		@Result(column="id", property="id"),
 		@Result(column="user_name", property="userName"),
@@ -59,7 +59,7 @@ public interface IUserInfoMapper {
 		@Result(column="create_user_id", property="createUserId"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
-	UserInfoEntity selectByUserName(@Param("userName") String userName);
+	UserInfoEntity selectByUserAcc(@Param("userAcc") String userAcc);
 
 	/**
 	 * 新增一位訪客類型的使用者

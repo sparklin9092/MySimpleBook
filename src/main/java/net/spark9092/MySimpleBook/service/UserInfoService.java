@@ -59,8 +59,8 @@ public class UserInfoService {
 		LoginResultDto loginResultDto = new LoginResultDto();
 		UserInfoEntity userInfoEntity = new UserInfoEntity();
 
-		String userName = userLoginPojo.getUserName();
-		userInfoEntity = iUserInfoMapper.selectByUserName(userName);
+		String userAcc = userLoginPojo.getUserAcc();
+		userInfoEntity = iUserInfoMapper.selectByUserAcc(userAcc);
 
 		if(userInfoEntity == null) {
 

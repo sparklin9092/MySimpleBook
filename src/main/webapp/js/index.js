@@ -4,7 +4,7 @@ $(function() {
 	
 	$('#guestBtn').on('click', guestAct);
 
-	$('#userName, #userPwd').on('keypress', function(e) {
+	$('#userAcc, #userPwd').on('keypress', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if (code == 13) $('#loginBtn').trigger('click');
 	});
@@ -13,7 +13,7 @@ $(function() {
 function loginAct() {
 	
 	var data = {};
-	data.userName = $('#userName').val();
+	data.userAcc = $('#userAcc').val();
 	data.userPwd = $('#userPwd').val();
 	
 	$.ajax({

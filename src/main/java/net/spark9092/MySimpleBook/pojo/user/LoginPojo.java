@@ -2,28 +2,23 @@ package net.spark9092.MySimpleBook.pojo.user;
 
 public class LoginPojo {
 
-	private String userName;
+	private String userAcc;
 	
 	private String userPwd;
-	
-	public String getUserName() {
-		return userName;
+
+	public String getUserAcc() {
+		return userAcc;
 	}
-	
-	public void setUserName(String userName) {
-		this.userName = userName;
+
+	public void setUserAcc(String userAcc) {
+		this.userAcc = userAcc;
 	}
-	
+
 	public String getUserPwd() {
 		return userPwd;
 	}
-	
+
 	public void setUserPwd(String userPwd) {
 		this.userPwd = userPwd;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("UserLoginPojo [userName=%s, userPwd=%s]", userName, userPwd);
 	}
 }

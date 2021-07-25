@@ -13,7 +13,7 @@
 			<div>
 				<div class="h4 mt-3">帳號</div>
 				<div>
-					<input type="text" class="form-control" id="userName" name="userName" placeholder="帳號、E-Mail或手機號碼">
+					<input type="text" class="form-control" id="userAcc" name="userAcc" placeholder="帳號、E-Mail或手機號碼">
 				</div>
 				<div class="h4 mt-3">密碼</div>
 				<div>
