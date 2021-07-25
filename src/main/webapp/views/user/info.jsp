@@ -42,11 +42,11 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">電子信箱 (E-mail)</div>
+				<div class="col">電子信箱 (Email)</div>
 			</div>
 			<div class="row my-2">
 				<div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 mt-2">
-					<input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="(選填) 請輸入您的電子信箱 (E-mail)">
+					<input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="(選填) 請輸入您的電子信箱 (Email)">
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 mt-2 text-end">
 					<button type="button" class="btn btn-success" id="bindEmail" name="bindEmail">綁定</button>

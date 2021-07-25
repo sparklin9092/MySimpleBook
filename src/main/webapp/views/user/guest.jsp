@@ -65,14 +65,14 @@
 			<div class="row px-2">
 				<div class="col form-check">
 					<input class="form-check-input bind-type-size" type="radio" name="bindType" id="emailTitle">
-					<label class="form-check-label bind-type-size" for="emailTitle">電子信箱 (E-mail)</label>
+					<label class="form-check-label bind-type-size" for="emailTitle">電子信箱 (Email)</label>
 				</div>
 			</div>
 			<div class="row border border-primary rounded p-3 mb-3" id="email" name="email">
 				<div class="col">
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 mt-2">
-							<input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="請輸入您的 E-mail">
+							<input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="請輸入您的 Email">
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 mt-2 text-end">
 							<button type="button" class="btn btn-success" id="bindEmail" name="bindEmail">綁定</button>
