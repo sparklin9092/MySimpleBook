@@ -24,7 +24,7 @@ function loginAct() {
 		data: JSON.stringify(data),
 		success: function(res) {
 			if(res.status) {
-				location.href = 'main';
+				location.href = '/main';
 			} else {
 				alert(res.msg);
 				$('#userPwd').val('');
@@ -47,7 +47,7 @@ function guestAct() {
 		data: {},
 		success: function(res) {
 			if(res.status) {
-				location.href = 'main';
+				location.href = '/main';
 			} else {
 				alert(res.msg);
 			}

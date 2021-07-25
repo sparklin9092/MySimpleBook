@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div class="login-box">
-		<form class="rounded shadow login-form login-form-padding">
+		<div class="rounded shadow login-form login-form-padding">
 			<div class="h1 text-center">致富寶典</div>
 			<div>
 				<div class="h4 mt-3">帳號</div>
@@ -27,7 +27,7 @@
 					<button type="button" class="btn btn-primary btn-lg" id="guestBtn" name="guestBtn">訪客登入</button>
 				</div>
 			</div>
-		</form>
+		</div>
 	</div>
 	<jsp:include page="/views/include/footer.jsp"></jsp:include>
 </body>
