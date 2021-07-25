@@ -1,5 +1,7 @@
 package net.spark9092.MySimpleBook.common;
 
+import java.util.Random;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +19,7 @@ public class GeneratorCommon {
 		while (outStr.length() < 8) {
 
 			// 亂數取編號為 50~90 的字符 (排除 0 和 1)
-			num = (int) (Math.random() * (90 - 50 + 1)) + 50; 
+			num = (int) (Math.random() * (90 - 50 + 1)) + 50;
 
 			if (num > 57 && num < 65) {
 				
@@ -36,5 +38,22 @@ public class GeneratorCommon {
 
 		return outStr.toLowerCase();
 
+	}
+	
+	public String getVerifyCode() {
+
+		Random random = new Random();
+		String outStr = "";
+		int num = 0;
+
+		while (outStr.length() < 6) {
+			
+			num = random.nextInt(10);
+			
+			outStr += num;
+		}
+
+		return outStr;
+		
 	}
 }
