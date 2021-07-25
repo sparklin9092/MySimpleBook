@@ -28,8 +28,8 @@ function confirmAct() {
 			
 			if(res.status) {
 				
-				alert("密碼修改成功");
-				location.href = '/user/info';
+				alert("密碼修改成功！請重新登入。");
+				location.href = '/logout';
 				
 			} else {
 				

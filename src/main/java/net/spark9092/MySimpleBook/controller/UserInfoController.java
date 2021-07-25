@@ -88,6 +88,9 @@ public class UserInfoController {
 			userBindAccPwdPojo.setUserId(userInfoEntity.getId());
 
 			userBindAccPwdMsgDto = userInfoService.bindUserByAccPwdPojo(userBindAccPwdPojo);
+			
+			//把session註銷掉，強制讓使用者重新登入
+			if(userBindAccPwdMsgDto.isStatus()) session.invalidate();
 
 		}
 
@@ -131,6 +134,9 @@ public class UserInfoController {
 			changePwdPojo.setUserId(userInfoEntity.getId());
 
 			userPwdChangeMsgDto = userInfoService.modifyPwd(changePwdPojo, userInfoEntity.getUserPwd());
+
+			//把session註銷掉，強制讓使用者重新登入
+			if(userPwdChangeMsgDto.isStatus()) session.invalidate();
 		}
 
 		return userPwdChangeMsgDto;
