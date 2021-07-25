@@ -15,6 +15,7 @@ import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
 import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoDto;
+import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
@@ -25,6 +26,7 @@ import net.spark9092.MySimpleBook.mapper.ISystemSeqsMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.pojo.user.ChangePwdPojo;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
+import net.spark9092.MySimpleBook.pojo.user.ModifyPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserAccCheckPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserBindAccPwdPojo;
 
@@ -71,8 +73,6 @@ public class UserInfoService {
 
 		} else {
 
-			logger.debug(userInfoEntity.toString());
-
 			String inputPwd = userLoginPojo.getUserPwd();
 			String dataPwd = userInfoEntity.getUserPwd();
 
@@ -87,7 +87,7 @@ public class UserInfoService {
 			} else if (isDelete) {
 
 				loginResultDto.setStatus(false);
-				loginResultDto.setMsg("帳號已刪除");
+				loginResultDto.setMsg("帳號或密碼錯誤");
 
 			} else if(!inputPwd.equals(dataPwd)) {
 
@@ -99,16 +99,13 @@ public class UserInfoService {
 				loginResultDto.setStatus(true);
 				loginResultDto.setUserInfoEntity(userInfoEntity);
 
-				//更新最後登入時間，如果發生錯誤也沒關係
 				try {
 					iUserInfoMapper.updateById(LocalDateTime.now(), userInfoEntity.getId());
 				} catch (Exception e) {
-					e.printStackTrace();
+					//更新最後登入時間，如果發生錯誤也沒關係
 				}
 			}
 		}
-
-		logger.debug(loginResultDto.toString());
 
 		return loginResultDto;
 	}
@@ -258,53 +255,44 @@ public class UserInfoService {
 
 		String userAcc = userBindAccPwdPojo.getUserAcc();
 		
-		//再次檢查是否為系統相關帳號
-		if(checkCommon.isSystemAccount(userAcc)) {
-			
-			userBindAccPwdMsgDto.setStatus(false);
-			userBindAccPwdMsgDto.setMsg(String.format("%s 帳號已使用。", userAcc));
-
-		} else {
+		//可能會有時間差，更新使用者資料前，再次檢查使用者帳號是否重複
+		UserAccCheckPojo userAccCheckPojo = new UserAccCheckPojo();
+		userAccCheckPojo.setUserAcc(userAcc);
 		
-			//可能會有時間差，更新使用者資料前，再次檢查使用者帳號是否重複
-			UserAccCheckPojo userAccCheckPojo = new UserAccCheckPojo();
-			userAccCheckPojo.setUserAcc(userAcc);
+		UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
+		
+		if(userAccCheckMsgDto.isStatus()) {
 			
-			UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
+			String enPwd = cryptionCommon.encryptionPwd(userBindAccPwdPojo.getUserpwd());
 			
-			if(userAccCheckMsgDto.isStatus()) {
+			boolean bindAccPwdStatus = false;
+			
+			try {
+				//確定帳號沒有重複，可以更新到資料庫了
+				bindAccPwdStatus = iUserInfoMapper.bindAccPwdByUserId(
+						userBindAccPwdPojo.getUserId(), userAcc,
+						enPwd);
+			} catch (Exception ex) {
+				//可能會因為時間差，導致更新失敗，因為使用者帳號 (user_info.user_account) 只能是唯一值
+			}
+			
+			if(bindAccPwdStatus) {
 				
-				String enPwd = cryptionCommon.encryptionPwd(userBindAccPwdPojo.getUserpwd());
+				userBindAccPwdMsgDto.setStatus(true);
+				userBindAccPwdMsgDto.setMsg("");
 				
-				boolean bindAccPwdStatus = false;
-				
-				try {
-					//確定帳號沒有重複，可以更新到資料庫了
-					bindAccPwdStatus = iUserInfoMapper.bindAccPwdByUserId(
-							userBindAccPwdPojo.getUserId(), userAcc,
-							enPwd);
-				} catch (Exception ex) {
-					//可能會因為時間差，導致更新失敗，因為使用者帳號 (user_info.user_account) 只能是唯一值
-				}
-				
-				if(bindAccPwdStatus) {
-					
-					userBindAccPwdMsgDto.setStatus(true);
-					userBindAccPwdMsgDto.setMsg("");
-					
-				} else {
-					
-					userBindAccPwdMsgDto.setStatus(false);
-					userBindAccPwdMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
-					
-				}
 			} else {
 				
-				//帳號有重複，回傳訊息給使用者
 				userBindAccPwdMsgDto.setStatus(false);
 				userBindAccPwdMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
 				
 			}
+		} else {
+			
+			//帳號有重複，回傳訊息給使用者
+			userBindAccPwdMsgDto.setStatus(false);
+			userBindAccPwdMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
+			
 		}
 		
 		return userBindAccPwdMsgDto;
@@ -315,7 +303,7 @@ public class UserInfoService {
 	 * @param userId
 	 * @return
 	 */
-	public UserInfoMsgDto getUserInfoById(UserInfoEntity userInfoEntity) {
+	public UserInfoMsgDto getUserInfoByEntity(UserInfoEntity userInfoEntity) {
 
 		UserInfoMsgDto userInfoMsgDto = new UserInfoMsgDto();
 
@@ -409,5 +397,70 @@ public class UserInfoService {
 		}
 
 		return userPwdChangeMsgDto;
+	}
+
+	/**
+	 * 修改使用者基本資料，只能修改 名稱、帳號、Email、手機號碼
+	 * @param modifyPojo
+	 * @return
+	 */
+	public UserInfoModifyMsgDto modifyByPojo(ModifyPojo modifyPojo) {
+		
+		UserInfoModifyMsgDto userInfoModifyMsgDto = new UserInfoModifyMsgDto();
+		
+		int userId = modifyPojo.getUserId();
+		String userName = modifyPojo.getUserName();
+		String userAcc = modifyPojo.getUserAccount();
+		String userEmail = modifyPojo.getUserEmail();
+		String userPhone = modifyPojo.getUserPhone();
+		
+		//更新使用者資料前，先檢查使用者帳號是否重複
+		UserAccCheckPojo userAccCheckPojo = new UserAccCheckPojo();
+		userAccCheckPojo.setUserId(userId);
+		userAccCheckPojo.setUserAcc(userAcc);
+		
+		UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
+		
+		if(userAccCheckMsgDto.isStatus()) {
+			
+			try {
+				
+				//確定帳號沒有重複，就可以更新到資料庫了
+				boolean updateStatus = iUserInfoMapper.updateUserInfoById(
+						userId, userName, userAcc, userEmail, userPhone);
+				
+				if(updateStatus) {
+					
+					//基本資料更新後，重新把新的資料寫入到entity裡面，因為回到controller要更新session
+					UserInfoEntity entity = modifyPojo.getEntity();
+					entity.setUserName(userName);
+					entity.setUserAccount(userAcc);
+					entity.setUserEmail(userEmail);
+					entity.setUserPhone(userPhone);
+					
+					userInfoModifyMsgDto.setStatus(true);
+					userInfoModifyMsgDto.setMsg("");
+					userInfoModifyMsgDto.setEntity(entity);
+					
+				} else {
+					
+					userInfoModifyMsgDto.setStatus(false);
+					userInfoModifyMsgDto.setMsg("更新基本資料發生錯誤，請稍後再嘗試。");
+					
+				}
+			} catch(Exception ex) {
+				
+				//如果因為時間差，導致更新帳號發生異常錯誤，從這裡攔截
+				
+				userInfoModifyMsgDto.setStatus(false);
+				userInfoModifyMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
+			}
+		} else {
+			
+			userInfoModifyMsgDto.setStatus(false);
+			userInfoModifyMsgDto.setMsg(userAccCheckMsgDto.getMsg());
+		}
+		
+		return userInfoModifyMsgDto;
 	}
 }

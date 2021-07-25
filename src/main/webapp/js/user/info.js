@@ -104,4 +104,34 @@ function deleteAct() {
 
 function confirmAct() {
 	
+	var data = {};
+	data.userName = $('#userName').val();
+	data.userAccount = $('#userAcc').val();
+	data.userEmail = $('#userEmail').val();
+	data.userPhone = $('#userPhone').val();
+	
+	$.ajax({
+		url: '/user/info/modify',
+		method: 'POST',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(data),
+		success: function(res) {
+			
+			if(res.status) {
+				
+				alert("基本資料修改成功！");
+				
+				initData();
+				
+			} else {
+				
+				alert(res.msg);
+			}
+		},
+		error: function(err) {
+			console.log(err);
+			alert('無法連接伺服器');
+		}
+	});
 }

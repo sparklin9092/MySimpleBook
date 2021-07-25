@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
+import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.user.ChangePwdPojo;
+import net.spark9092.MySimpleBook.pojo.user.ModifyPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserAccCheckPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserBindAccPwdPojo;
 import net.spark9092.MySimpleBook.service.UserInfoService;
@@ -106,7 +108,7 @@ public class UserInfoController {
 
 		} else {
 
-			userInfoMsgDto = userInfoService.getUserInfoById(userInfoEntity);
+			userInfoMsgDto = userInfoService.getUserInfoByEntity(userInfoEntity);
 		}
 
 		return userInfoMsgDto;
@@ -133,8 +135,37 @@ public class UserInfoController {
 
 		return userPwdChangeMsgDto;
 	}
+	
+	@PostMapping("/modify")
+	public UserInfoModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
+		
+		UserInfoModifyMsgDto userInfoModifyMsgDto = new UserInfoModifyMsgDto();
 
-	//    /user/info/change      修改基本資料
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if (null == userInfoEntity) {
+
+			userInfoModifyMsgDto.setStatus(false);
+			userInfoModifyMsgDto.setMsg("使用者未登入");
+
+		} else {
+
+			modifyPojo.setUserId(userInfoEntity.getId());
+			modifyPojo.setEntity(userInfoEntity);
+
+			userInfoModifyMsgDto = userInfoService.modifyByPojo(modifyPojo);
+			
+			//如果使用者基本資料更新成功之後，就更新 session 裡的資料
+			if(userInfoModifyMsgDto.isStatus()) {
+				
+				session.removeAttribute(SessinNameEnum.USER_INFO.getName());
+				session.setAttribute(SessinNameEnum.USER_INFO.getName(), userInfoModifyMsgDto.getEntity());
+			}
+		}
+		
+		return userInfoModifyMsgDto;
+	}
+
 	//    /user/info/delete      刪除帳號
 
 	//    /user/info/bind/email  綁定 e-mail
