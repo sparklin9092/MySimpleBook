@@ -86,4 +86,9 @@ public interface IAccountTypesMapper {
 			+ " is_delete=1 "
 			+ " where id=#{itemId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("itemId") int itemId);
+
+	@Update("update account_types set "
+			+ " is_delete=1 "
+			+ " where user_id=#{userId}")
+	boolean deleteAllByUserId(@Param("userId") int userId);
 }

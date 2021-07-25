@@ -102,6 +102,34 @@ function bindPhoneAct() {
 
 function deleteAct() {
 	
+	var deleteConfirm = confirm('警告：您確定要刪除帳號嗎？系統將會徹底刪除您的所有資料，而且無法復原！！！');
+	
+	if(deleteConfirm) {
+	
+		$.ajax({
+			url: '/user/info/delete',
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: {},
+			success: function(res) {
+				
+				if(res.status) {
+					
+					alert("您的帳號資料已全數刪除！謝謝您使用「致富寶典」！");
+					location.href = '/logout';
+					
+				} else {
+					
+					alert(res.msg);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+				alert('無法連接伺服器');
+			}
+		});
+	}
 }
 
 function confirmAct() {

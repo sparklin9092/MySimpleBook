@@ -80,6 +80,11 @@ public interface ISpendMapper {
 			+ " where id=#{spendId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("spendId") int spendId);
 
+	@Update("update spend set "
+			+ " is_delete=1 "
+			+ " where user_id=#{userId}")
+	boolean deleteAllByUserId(@Param("userId") int userId);
+
 	/**
 	 * 首頁查詢當日最新5筆支出紀錄
 	 * @param userId

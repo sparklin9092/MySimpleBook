@@ -113,6 +113,11 @@ public interface IAccountMapper {
 			+ " is_delete=1 "
 			+ " where id=#{accountId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("accountId") int accountId);
+
+	@Update("update account set "
+			+ " is_delete=1 "
+			+ " where user_id=#{userId}")
+	boolean deleteAllByUserId(@Param("userId") int userId);
 	
 	@Update("update account set "
 			+ " amount = amount - #{amount} "

@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.CryptionCommon;
@@ -14,6 +16,7 @@ import net.spark9092.MySimpleBook.common.GeneratorCommon;
 import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
 import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
+import net.spark9092.MySimpleBook.dto.user.UserDeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
@@ -21,8 +24,15 @@ import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SeqsNameEnum;
 import net.spark9092.MySimpleBook.enums.SystemEnum;
+import net.spark9092.MySimpleBook.mapper.IAccountMapper;
+import net.spark9092.MySimpleBook.mapper.IAccountTypesMapper;
 import net.spark9092.MySimpleBook.mapper.IGuestMapper;
+import net.spark9092.MySimpleBook.mapper.IIncomeItemsMapper;
+import net.spark9092.MySimpleBook.mapper.IIncomeMapper;
+import net.spark9092.MySimpleBook.mapper.ISpendItemsMapper;
+import net.spark9092.MySimpleBook.mapper.ISpendMapper;
 import net.spark9092.MySimpleBook.mapper.ISystemSeqsMapper;
+import net.spark9092.MySimpleBook.mapper.ITransferMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.pojo.user.ChangePwdPojo;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
@@ -37,6 +47,27 @@ public class UserInfoService {
 
 	@Autowired
 	private IUserInfoMapper iUserInfoMapper;
+
+	@Autowired
+	private IAccountMapper iAccountMapper;
+
+	@Autowired
+	private IAccountTypesMapper iAccountTypesMapper;
+
+	@Autowired
+	private IIncomeMapper iIncomeMapper;
+
+	@Autowired
+	private IIncomeItemsMapper iIncomeItemsMapper;
+
+	@Autowired
+	private ISpendMapper iSpendMapper;
+
+	@Autowired
+	private ISpendItemsMapper iSpendItemsMapper;
+
+	@Autowired
+	private ITransferMapper iTransferMapper;
 
 	@Autowired
 	private ISystemSeqsMapper iSystemSeqsMapper;
@@ -462,5 +493,97 @@ public class UserInfoService {
 		}
 		
 		return userInfoModifyMsgDto;
+	}
+
+	/**
+	 * 刪除使用者帳號，連同以下內容都刪除
+	 * 帳戶(account)、帳戶類型(account_types)
+	 * 收入(income)、收入項目(income_items)
+	 * 支出(spend)、支出項目(spend_items)
+	 * 轉帳(transfer)
+	 * @param id
+	 * @return
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public UserDeleteMsgDto deleteUserById(int userId) throws Exception {
+		
+		UserDeleteMsgDto userDeleteMsgDto = new UserDeleteMsgDto();
+		
+		//刪除前，先查詢有無資料，避免發生錯誤
+		if(iAccountMapper.selectListByUserId(userId).size() != 0) {
+			
+			boolean accountDeleteStatus = iAccountMapper.deleteAllByUserId(userId);
+			
+			if(!accountDeleteStatus)
+				throw new Exception("刪除使用者ID: "+userId+" 的帳戶時，發生錯誤。");
+		}
+		
+		//刪除前，先查詢有無資料，避免發生錯誤
+		if(iAccountTypesMapper.selectItemListByUserId(userId).size() != 0) {
+			
+			boolean accountTypesDeleteStatus = iAccountTypesMapper.deleteAllByUserId(userId);
+			
+			if(!accountTypesDeleteStatus)
+				throw new Exception("刪除使用者ID: "+userId+" 的帳戶類型時，發生錯誤。");
+		}
+		
+		//刪除前，先查詢有無資料，避免發生錯誤
+		if(iIncomeMapper.selectRecordsByUserId(userId, "0001-01-01", "9999-12-31").size() != 0) {
+			
+			boolean incomeDeleteStatus = iIncomeMapper.deleteAllByUserId(userId);
+			
+			if(!incomeDeleteStatus)
+				throw new Exception("刪除使用者ID: "+userId+" 的收入時，發生錯誤。");
+		}
+		
+		//刪除前，先查詢有無資料，避免發生錯誤
+		if(iIncomeItemsMapper.selectListByUserId(userId).size() != 0) {
+			
+			boolean incomeItemsDeleteStatus = iIncomeItemsMapper.deleteAllByUserId(userId);
+			
+			if(!incomeItemsDeleteStatus)
+				throw new Exception("刪除使用者ID: "+userId+" 的收入項目時，發生錯誤。");
+		}
+		
+		//刪除前，先查詢有無資料，避免發生錯誤
+		if(iSpendMapper.selectRecordsByUserId(userId, "0001-01-01", "9999-12-31").size() != 0) {
+			
+			boolean spendDeleteStatus = iSpendMapper.deleteAllByUserId(userId);
+			
+			if(!spendDeleteStatus)
+				throw new Exception("刪除使用者ID: "+userId+" 的支出時，發生錯誤。");
+		}
+		
+		//刪除前，先查詢有無資料，避免發生錯誤
+		if(iSpendItemsMapper.selectItemListByUserId(userId).size() != 0) {
+			
+			boolean spendItemsDeleteStatus = iSpendItemsMapper.deleteAllByUserId(userId);
+			
+			if(!spendItemsDeleteStatus)
+				throw new Exception("刪除使用者ID: "+userId+" 的支出項目時，發生錯誤。");
+		}
+		
+		//刪除前，先查詢有無資料，避免發生錯誤
+		if(iTransferMapper.selectRecordsByUserId(userId, "0001-01-01", "9999-12-31").size() != 0) {
+			
+			boolean transferDeleteStatus = iTransferMapper.deleteAllByUserId(userId);
+			
+			if(!transferDeleteStatus)
+				throw new Exception("刪除使用者ID: "+userId+" 的轉帳時，發生錯誤。");
+		}
+		
+		boolean userDeleteStatus = iUserInfoMapper.deleteByUserId(userId);
+		
+		if(userDeleteStatus) {
+			
+			userDeleteMsgDto.setStatus(true);
+			userDeleteMsgDto.setMsg("");
+			
+		} else {
+
+			throw new Exception("刪除使用者ID: "+userId+" 的使用者資料時，發生錯誤。");
+		}
+		
+		return userDeleteMsgDto;
 	}
 }

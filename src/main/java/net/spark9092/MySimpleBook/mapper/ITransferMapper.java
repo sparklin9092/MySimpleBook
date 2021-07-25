@@ -141,6 +141,11 @@ public interface ITransferMapper {
 			+ " where id=#{transferId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("transferId") int transferId);
 
+	@Update("update transfer set "
+			+ " is_delete=1 "
+			+ " where user_id=#{userId}")
+	boolean deleteAllByUserId(@Param("userId") int userId);
+
 	/**
 	 * 首頁查詢當日最新5筆轉帳紀錄
 	 * @param userId

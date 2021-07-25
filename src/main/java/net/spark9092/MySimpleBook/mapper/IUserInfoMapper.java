@@ -171,4 +171,12 @@ public interface IUserInfoMapper {
 	boolean updateUserInfoById(@Param("userId") int userId, @Param("userName") String userName, 
 			@Param("userAcc") String userAcc, @Param("userEmail") String userEmail, 
 			@Param("userPhone") String userPhone);
+
+	/**
+	 * 刪除使用者，假刪除，把刪除標記改為 1
+	 * @param userId
+	 * @return
+	 */
+	@Update("update user_info set is_delete=1 where id=#{userId}")
+	boolean deleteByUserId(@Param("userId") int userId);
 }

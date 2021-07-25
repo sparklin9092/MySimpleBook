@@ -79,6 +79,11 @@ public interface IIncomeMapper {
 			+ " where id=#{incomeId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("incomeId") int incomeId);
 
+	@Update("update income set "
+			+ " is_delete=1 "
+			+ " where user_id=#{userId}")
+	boolean deleteAllByUserId(@Param("userId") int userId);
+
 	/**
 	 * 首頁查詢當日最新5筆收入紀錄
 	 * @param userId

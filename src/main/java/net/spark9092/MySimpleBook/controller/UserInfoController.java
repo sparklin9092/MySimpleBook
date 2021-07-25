@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
+import net.spark9092.MySimpleBook.dto.user.UserDeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
@@ -171,8 +172,40 @@ public class UserInfoController {
 		
 		return userInfoModifyMsgDto;
 	}
+	
+	@PostMapping("/delete")
+	public UserDeleteMsgDto deleteAct(HttpSession session) {
+		
+		UserDeleteMsgDto userDeleteMsgDto = new UserDeleteMsgDto();
 
-	//    /user/info/delete      刪除帳號
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if (null == userInfoEntity) {
+
+			userDeleteMsgDto.setStatus(false);
+			userDeleteMsgDto.setMsg("使用者未登入");
+
+		} else {
+			
+			try {
+				userDeleteMsgDto = userInfoService.deleteUserById(userInfoEntity.getId());
+				
+				//如果使用者資料都刪除成功，就註銷 session
+				if(userDeleteMsgDto.isStatus()) {
+					
+					session.invalidate();
+				}
+			} catch(Exception ex) {
+				
+				ex.printStackTrace();
+				
+				userDeleteMsgDto.setStatus(false);
+				userDeleteMsgDto.setMsg("目前無法刪除使用者所有資料，請稍後再試。");
+			}
+		}
+		
+		return userDeleteMsgDto;
+	}
 
 	//    /user/info/bind/email  綁定 e-mail
 	//    /user/info/bind/phone  綁定手機號碼

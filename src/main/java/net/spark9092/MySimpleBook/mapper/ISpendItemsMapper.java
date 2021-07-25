@@ -85,4 +85,9 @@ public interface ISpendItemsMapper {
 			+ " is_delete=1 "
 			+ " where id=#{itemId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("itemId") int itemId);
+
+	@Update("update spend_items set "
+			+ " is_delete=1 "
+			+ " where user_id=#{userId}")
+	boolean deleteAllByUserId(@Param("userId") int userId);
 }
