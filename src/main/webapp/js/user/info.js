@@ -40,6 +40,8 @@ function initData() {
 				
 				$('#checkAcc').prop('disabled', true);
 				
+				$('#menuUserTitle').text(userName + '的致富寶典');
+				
 			} else {
 				
 				alert(res.msg);
