@@ -67,8 +67,8 @@ public interface IUserInfoMapper {
 	 * @param guestSeq
 	 * @return
 	 */
-	@Insert("insert into user_info(user_name, user_password, is_guest, guest_seq, create_user_id) "
-			+ "values(#{userName}, #{userPwd}, 1, #{guestSeq}, #{systemUserId})")
+	@Insert("insert into user_info(user_name, user_account, user_password, is_guest, guest_seq, create_user_id) "
+			+ "values(#{userName}, concat('guest', #{guestSeq}), #{userPwd}, 1, #{guestSeq}, #{systemUserId})")
 	boolean createUserByGuest(@Param("userName") String userName, @Param("userPwd") String userPwd,
 			@Param("systemUserId") int systemUserId, @Param("guestSeq") int guestSeq);
 
@@ -119,4 +119,26 @@ public interface IUserInfoMapper {
 			+ " from user_info a "
 			+ " where a.id=#{userId} and a.is_guest=1")
 	int getGuestDataCount(@Param("userId") int userId);
+
+	/**
+	 * 根據使用者帳號，查詢已存在的數量
+	 * @param userAcc
+	 * @return
+	 */
+	@Select("select count(id) from user_info where user_account=#{userAcc}")
+	int selectUserCountByUserAcc(@Param("userAcc") String userAcc);
+
+	/**
+	 * 根據使用者輸入的帳號、密碼，更新使用者資料，並修改「訪客身份」為「使用者」
+	 * @param userId
+	 * @param userAcc
+	 * @param enPwd
+	 * @return
+	 */
+	@Update("update user_info set "
+			+ " user_name=#{userAcc}, user_account=#{userAcc}, "
+			+ " user_password=#{enPwd}, is_guest=0 "
+			+ " where id=#{userId}")
+	boolean bindAccPwdByUserId(@Param("userId") int userId,
+			@Param("userAcc") String userAcc, @Param("enPwd") String enPwd);
 }

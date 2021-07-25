@@ -97,4 +97,26 @@ public class CheckCommon {
 		return isWhiteIp;
 
 	}
+	
+	/**
+	 * 檢查使用者帳號是否為系統相關帳號
+	 * @param userAccount
+	 * @return
+	 */
+	public boolean isSystemAccount(String userAccount) {
+		
+		List<String> systemAccountList = Arrays.asList(
+				"guest", "admin", "spark", "manage", "system", "supervisor");
+		
+		boolean isSystemAccount = false;
+		
+		for (String systemAcc : systemAccountList) {
+	        if (userAccount.indexOf(systemAcc) >= 0) {
+	        	isSystemAccount = true;
+	            break;
+	        }
+	    }
+		
+		return isSystemAccount;
+	}
 }

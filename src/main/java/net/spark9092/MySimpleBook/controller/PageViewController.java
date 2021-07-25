@@ -332,6 +332,20 @@ public class PageViewController {
 
 		ModelAndView mv = new ModelAndView();
 		String pageName = "views/user/info";
+
+	/**
+	 * 給訪客綁定使用者資料，讓訪客可以升級為使用者
+	 * @return
+	 */
+	@GetMapping("/user/guest")
+	public ModelAndView userGuest() {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/user/guest";
+		mv.setViewName(pageName);
+
+		return mv;
+	}
 		mv.setViewName(pageName);
 
 		return mv;

@@ -6,12 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
+import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
+import net.spark9092.MySimpleBook.pojo.user.UserAccCheckPojo;
+import net.spark9092.MySimpleBook.pojo.user.UserBindAccPwdPojo;
 import net.spark9092.MySimpleBook.service.UserInfoService;
 
 @RequestMapping("/user/info")
@@ -38,6 +43,35 @@ public class UserInfoController {
 
 			return guestDataCount;
 		}
+	}
+	
+	@PostMapping("/check/account")
+	public UserAccCheckMsgDto userAccCheck(@RequestBody UserAccCheckPojo userAccCheckPojo) {
+		
+		return userInfoService.checkUserAccByPojo(userAccCheckPojo);
+	}
+	
+	@PostMapping("/bind/accpwd")
+	public UserBindAccPwdMsgDto userBindAccPwd(HttpSession session, @RequestBody UserBindAccPwdPojo userBindAccPwdPojo) {
+		
+		UserBindAccPwdMsgDto userBindAccPwdMsgDto = new UserBindAccPwdMsgDto();
+		
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if (null == userInfoEntity) {
+
+			userBindAccPwdMsgDto.setStatus(false);
+			userBindAccPwdMsgDto.setMsg("使用者未登入");
+
+		} else {
+			
+			userBindAccPwdPojo.setUserId(userInfoEntity.getId());
+			
+			userBindAccPwdMsgDto = userInfoService.bindUserByAccPwdPojo(userBindAccPwdPojo);
+			
+		}
+		
+		return userBindAccPwdMsgDto;
 	}
 	
 	@PostMapping("")

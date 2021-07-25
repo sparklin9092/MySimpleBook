@@ -12,6 +12,8 @@ import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.CryptionCommon;
 import net.spark9092.MySimpleBook.common.GeneratorCommon;
 import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
+import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
+import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
@@ -21,6 +23,8 @@ import net.spark9092.MySimpleBook.mapper.IGuestMapper;
 import net.spark9092.MySimpleBook.mapper.ISystemSeqsMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
+import net.spark9092.MySimpleBook.pojo.user.UserAccCheckPojo;
+import net.spark9092.MySimpleBook.pojo.user.UserBindAccPwdPojo;
 
 @Service
 public class UserInfoService {
@@ -198,6 +202,110 @@ public class UserInfoService {
 		dataCount = iUserInfoMapper.getGuestDataCount(userId);
 
 		return dataCount;
+	}
+
+	/**
+	 * 檢查使用者帳號 (user_info.user_account) 是否已存在
+	 * @param userAccCheckPojo
+	 * @return
+	 */
+	public UserAccCheckMsgDto checkUserAccByPojo(UserAccCheckPojo userAccCheckPojo) {
+
+		UserAccCheckMsgDto userAccCheckMsgDto = new UserAccCheckMsgDto();
+
+		String userAcc = userAccCheckPojo.getUserAcc();
+		
+		if(null == userAcc || userAcc.equals("") || userAcc.isEmpty()) {
+
+			userAccCheckMsgDto.setStatus(false);
+			userAccCheckMsgDto.setMsg("請輸入帳號。");
+			
+		} else if(checkCommon.isSystemAccount(userAcc)) { //檢查是否為系統相關帳號
+
+			userAccCheckMsgDto.setStatus(false);
+			userAccCheckMsgDto.setMsg(String.format("%s 帳號已使用。", userAcc));
+
+		} else {
+
+			int userAccCount = iUserInfoMapper.selectUserCountByUserAcc(userAcc);
+
+			if(userAccCount == 0) {
+
+				userAccCheckMsgDto.setStatus(true);
+				userAccCheckMsgDto.setMsg("");
+
+			} else {
+
+				userAccCheckMsgDto.setStatus(false);
+				userAccCheckMsgDto.setMsg(String.format("%s 帳號已使用。", userAcc));
+
+			}
+		}
+
+		return userAccCheckMsgDto;
+	}
+
+	/**
+	 * 根據使用者輸入的帳號密碼，綁定訪客帳號，並修改訪客身份為使用者
+	 * @param userBindAccPwdPojo
+	 * @return
+	 */
+	public UserBindAccPwdMsgDto bindUserByAccPwdPojo(UserBindAccPwdPojo userBindAccPwdPojo) {
+		
+		UserBindAccPwdMsgDto userBindAccPwdMsgDto = new UserBindAccPwdMsgDto();
+
+		String userAcc = userBindAccPwdPojo.getUserAcc();
+		
+		//再次檢查是否為系統相關帳號
+		if(checkCommon.isSystemAccount(userAcc)) {
+			
+			userBindAccPwdMsgDto.setStatus(false);
+			userBindAccPwdMsgDto.setMsg(String.format("%s 帳號已使用。", userAcc));
+
+		} else {
+		
+			//可能會有時間差，更新使用者資料前，再次檢查使用者帳號是否重複
+			UserAccCheckPojo userAccCheckPojo = new UserAccCheckPojo();
+			userAccCheckPojo.setUserAcc(userAcc);
+			
+			UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
+			
+			if(userAccCheckMsgDto.isStatus()) {
+				
+				String enPwd = cryptionCommon.encryptionPwd(userBindAccPwdPojo.getUserpwd());
+				
+				boolean bindAccPwdStatus = false;
+				
+				try {
+					//確定帳號沒有重複，可以更新到資料庫了
+					bindAccPwdStatus = iUserInfoMapper.bindAccPwdByUserId(
+							userBindAccPwdPojo.getUserId(), userAcc,
+							enPwd);
+				} catch (Exception ex) {
+					//可能會因為時間差，導致更新失敗，因為使用者帳號 (user_info.user_account) 只能是唯一值
+				}
+				
+				if(bindAccPwdStatus) {
+					
+					userBindAccPwdMsgDto.setStatus(true);
+					userBindAccPwdMsgDto.setMsg("");
+					
+				} else {
+					
+					userBindAccPwdMsgDto.setStatus(false);
+					userBindAccPwdMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
+					
+				}
+			} else {
+				
+				//帳號有重複，回傳訊息給使用者
+				userBindAccPwdMsgDto.setStatus(false);
+				userBindAccPwdMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
+				
+			}
+		}
+		
+		return userBindAccPwdMsgDto;
 	}
 
 	/**
