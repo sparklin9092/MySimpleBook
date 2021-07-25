@@ -3,6 +3,8 @@ package net.spark9092.MySimpleBook.dto.user;
 public class UserInfoDto {
 
 	private String userName;
+	
+	private String userAcc;
 
 	private String maskPwd;
 
@@ -18,6 +20,14 @@ public class UserInfoDto {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getUserAcc() {
+		return userAcc;
+	}
+
+	public void setUserAcc(String userAcc) {
+		this.userAcc = userAcc;
 	}
 
 	public String getMaskPwd() {

@@ -124,12 +124,12 @@ public interface IUserInfoMapper {
 	int getGuestDataCount(@Param("userId") int userId);
 
 	/**
-	 * 根據使用者帳號，查詢已存在的數量
+	 * 根據使用者帳號，查詢已存在的數量，排除自己的 user_acoount
 	 * @param userAcc
 	 * @return
 	 */
-	@Select("select count(id) from user_info where user_account=#{userAcc}")
-	int selectUserCountByUserAcc(@Param("userAcc") String userAcc);
+	@Select("select count(id) from user_info where user_account=#{userAcc} and id!=#{userId}")
+	int selectUserCountByUserAcc(@Param("userAcc") String userAcc, @Param("userId") int userId);
 
 	/**
 	 * 根據使用者輸入的帳號、密碼，更新使用者資料，並修改「訪客身份」為「使用者」

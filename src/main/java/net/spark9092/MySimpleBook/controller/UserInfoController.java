@@ -46,9 +46,25 @@ public class UserInfoController {
 	}
 	
 	@PostMapping("/check/account")
-	public UserAccCheckMsgDto userAccCheck(@RequestBody UserAccCheckPojo userAccCheckPojo) {
+	public UserAccCheckMsgDto userAccCheck(HttpSession session, @RequestBody UserAccCheckPojo userAccCheckPojo) {
 		
-		return userInfoService.checkUserAccByPojo(userAccCheckPojo);
+		UserAccCheckMsgDto userAccCheckMsgDto = new UserAccCheckMsgDto();
+		
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if (null == userInfoEntity) {
+
+			userAccCheckMsgDto.setStatus(false);
+			userAccCheckMsgDto.setMsg("使用者未登入");
+
+		} else {
+			
+			userAccCheckPojo.setUserId(userInfoEntity.getId());
+			
+			userAccCheckMsgDto = userInfoService.checkUserAccByPojo(userAccCheckPojo);
+		}
+		
+		return userAccCheckMsgDto;
 	}
 	
 	@PostMapping("/bind/accpwd")
@@ -88,7 +104,7 @@ public class UserInfoController {
 			
 		} else {
 			
-			userInfoMsgDto = userInfoService.getUserInfoById(userInfoEntity.getId());
+			userInfoMsgDto = userInfoService.getUserInfoById(userInfoEntity);
 		}
 		
 		return userInfoMsgDto;

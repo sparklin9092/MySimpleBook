@@ -18,8 +18,16 @@
 				<div class="col">
 					<input type="text" class="form-control" id="userName" name="userName" placeholder="請輸入您的名稱">
 				</div>
+			</div>
+			<div class="row">
+				<div class="col">帳號</div>
+			</div>
+			<div class="row my-2">
+				<div class="col">
+					<input type="text" class="form-control" id="userAcc" name="userAcc" placeholder="請輸入您的帳號">
+				</div>
 				<div class="col-1 text-end">
-					<button type="button" class="btn btn-warning" id="changeName" name="changeName">檢查</button>
+					<button type="button" class="btn btn-success" id="checkAcc" name="checkAcc">通過</button>
 				</div>
 			</div>
 			<div class="row">

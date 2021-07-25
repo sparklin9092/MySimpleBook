@@ -227,7 +227,7 @@ public class UserInfoService {
 
 		} else {
 
-			int userAccCount = iUserInfoMapper.selectUserCountByUserAcc(userAcc);
+			int userAccCount = iUserInfoMapper.selectUserCountByUserAcc(userAcc, userAccCheckPojo.getUserId());
 
 			if(userAccCount == 0) {
 
@@ -313,11 +313,9 @@ public class UserInfoService {
 	 * @param userId
 	 * @return
 	 */
-	public UserInfoMsgDto getUserInfoById(int userId) {
+	public UserInfoMsgDto getUserInfoById(UserInfoEntity userInfoEntity) {
 
 		UserInfoMsgDto userInfoMsgDto = new UserInfoMsgDto();
-
-		UserInfoEntity userInfoEntity = iUserInfoMapper.selectUserInfoById(userId);
 
 		if(null == userInfoEntity) {
 
@@ -329,17 +327,18 @@ public class UserInfoService {
 			UserInfoDto userInfoDto = new UserInfoDto();
 
 			String dePwd = cryptionCommon.decryptionPwd(userInfoEntity.getUserPwd());
-			
+
 			String maskPwd = "";
 			for(int p=0; p<dePwd.length(); p++) {
 				maskPwd = maskPwd + "*";
 			}
-			
+
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
 
 	        String createDate = userInfoEntity.getCreateDateTime().format(formatter);
 
 			userInfoDto.setUserName(userInfoEntity.getUserName());
+			userInfoDto.setUserAcc(userInfoEntity.getUserAccount());
 			userInfoDto.setMaskPwd(maskPwd);
 			userInfoDto.setUserEmail(userInfoEntity.getUserEmail());
 			userInfoDto.setUserPhone(userInfoEntity.getUserPhone());

@@ -1,9 +1,14 @@
 package net.spark9092.MySimpleBook.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
+
+import net.spark9092.MySimpleBook.entity.UserInfoEntity;
+import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 
 /**
  * HTTP 的 Get 方法都寫這個Controller
@@ -328,10 +333,21 @@ public class PageViewController {
 	 * @return
 	 */
 	@GetMapping("/user/info")
-	public ModelAndView userInfo() {
+	public ModelAndView userInfo(HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
 		String pageName = "views/user/info";
+		
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+		if(userInfoEntity.isGuest()) {
+			
+			pageName = "redirect:/user/guest";
+		}
+		
+		mv.setViewName(pageName);
+
+		return mv;
+	}
 
 	/**
 	 * 給訪客綁定使用者資料，讓訪客可以升級為使用者
