@@ -54,6 +54,12 @@
 			<scope>runtime</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-ses</artifactId>
+			<version>1.12.31</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
