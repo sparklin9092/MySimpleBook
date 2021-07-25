@@ -11,6 +11,8 @@ public class UserInfoEntity implements Serializable {
 	
 	private String userName;
 	
+	private String userAccount;
+	
 	private String userPwd;
 	
 	private LocalDateTime lastLoginDateTime;
@@ -45,6 +47,14 @@ public class UserInfoEntity implements Serializable {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getUserAccount() {
+		return userAccount;
+	}
+
+	public void setUserAccount(String userAccount) {
+		this.userAccount = userAccount;
 	}
 
 	public String getUserPwd() {
@@ -130,9 +140,9 @@ public class UserInfoEntity implements Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"UserInfoEntity [id=%s, userName=%s, lastLoginDateTime=%s, isActive=%s, isDelete=%s, isGuest=%s, guestSeq=%s, userEmail=%s, userPhone=%s, createUserId=%s, createDateTime=%s]",
-				id, userName, lastLoginDateTime, isActive, isDelete, isGuest, guestSeq, userEmail, userPhone,
-				createUserId, createDateTime);
+				"UserInfoEntity [id=%s, userName=%s, userAccount=%s, lastLoginDateTime=%s, isActive=%s, isDelete=%s, isGuest=%s, guestSeq=%s, userEmail=%s, userPhone=%s, createUserId=%s, createDateTime=%s]",
+				id, userName, userAccount, lastLoginDateTime, isActive, isDelete, isGuest, guestSeq, userEmail,
+				userPhone, createUserId, createDateTime);
 	}
 	
 }
