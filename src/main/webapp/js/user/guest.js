@@ -137,7 +137,7 @@ function bindEmailAct() {
 				
 				if(res.status) {
 					
-					alert("帳號綁定成功！請重新登入。");
+					alert("已寄發認證碼到您的信箱！請到您的信箱確認郵件。");
 					location.href = '/logout';
 					
 				} else {
