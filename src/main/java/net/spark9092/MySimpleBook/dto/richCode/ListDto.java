@@ -1,6 +1,10 @@
 package net.spark9092.MySimpleBook.dto.richCode;
 
-public class ListDto {
+import java.io.Serializable;
+
+public class ListDto implements Serializable {
+
+	private static final long serialVersionUID = 2074706733273009676L;
 
 	private int richCodeId;
 
