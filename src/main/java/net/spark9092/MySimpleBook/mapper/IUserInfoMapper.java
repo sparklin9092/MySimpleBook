@@ -135,6 +135,18 @@ public interface IUserInfoMapper {
 	int selectGuestDataCount(@Param("userId") int userId);
 
 	/**
+	 * 根據Email，查詢是否已被綁定
+	 * @param userMail
+	 * @return 查出來的結果如果大於1筆資料，表示這個Email已經綁定過了
+	 */
+	@Select("select count(b.id) "
+			+ " from user_info a, user_verify b "
+			+ " where a.id=b.user_id "
+			+ "	and a.email=#{userMail} "
+			+ "	and b.is_used=1")
+	int selectExistBindMailCount(@Param("userMail") String userMail);
+
+	/**
 	 * 新增一位訪客類型的使用者
 	 * @param userName
 	 * @param userPwd

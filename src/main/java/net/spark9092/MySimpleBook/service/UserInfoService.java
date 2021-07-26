@@ -375,8 +375,18 @@ public class UserInfoService {
 			userBindMailMsgDto.setMsg("電子信箱(Email)格式不正確。");
 			return userBindMailMsgDto;
 		}
+		
+		//檢查有無重複的Email已經被綁定
+		int selectCount = iUserInfoMapper.selectExistBindMailCount(userMail);
+		if(selectCount != 0) {
+
+			//已有相同Email被綁定
+			userBindMailMsgDto.setStatus(false);
+			userBindMailMsgDto.setMsg("這個電子信箱(Email)已綁定，請更換其他電子信箱(Email)。");
+			return userBindMailMsgDto;
+		}
 			
-		//如果使用者Email正規化正確，就更新 user_info.email 這個欄位，
+		//如果使用者Email正規化通過，就更新 user_info.email 這個欄位，
 		//讓使用者去驗證的時候，系統找得到Email
 		boolean updateMailStatus = iUserInfoMapper.updateMailByUserId(userId, userMail);
 		
