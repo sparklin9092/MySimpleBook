@@ -8,6 +8,8 @@ public class UserMailMsgDto {
 	
 	private String reSendSec;
 	
+	private boolean used;
+	
 	private boolean status;
 	
 	private String msg;
@@ -34,6 +36,14 @@ public class UserMailMsgDto {
 
 	public void setReSendSec(String reSendSec) {
 		this.reSendSec = reSendSec;
+	}
+
+	public boolean isUsed() {
+		return used;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
 	}
 
 	public boolean isStatus() {

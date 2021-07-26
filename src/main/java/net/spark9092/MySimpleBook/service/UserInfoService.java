@@ -701,8 +701,10 @@ public class UserInfoService {
 
 		try {
 
+			//使用Base64對帳號進行解碼
 			String userAccount = new String(decoder.decode(base64UserAccount), "UTF-8");
 
+			//用帳號查ID、mail、最後寄發認證碼的時間
 			userMailMsgDto = iUserInfoMapper.selectMailByAccount(userAccount);
 
 			if(null != userMailMsgDto) {
@@ -722,25 +724,29 @@ public class UserInfoService {
 					
 				} else {
 					
-					LocalDateTime now = LocalDateTime.now();
-					Duration duration = Duration.between(
-							mailVerifyCodeLastTimeDto.getSystemSendTime(), now);
-					
-					int reSendSecInt = (int) duration.getSeconds();
-					
-					logger.debug("reSendSecInt: " + reSendSecInt);
-					
-					if(reSendSecInt > 180) reSendSecInt = 180;
-					
-					reSendSec = String.valueOf(180-reSendSecInt);
-					
-					logger.debug("reSendSec: " + reSendSec);
+					if(!mailVerifyCodeLastTimeDto.isUsed()) {
+						
+						LocalDateTime now = LocalDateTime.now();
+						Duration duration = Duration.between(
+								mailVerifyCodeLastTimeDto.getSystemSendTime(), now);
+						
+						int reSendSecInt = (int) duration.getSeconds();
+						
+						logger.debug("reSendSecInt: " + reSendSecInt);
+						
+						if(reSendSecInt > 180) reSendSecInt = 180;
+						
+						reSendSec = String.valueOf(180-reSendSecInt);
+						
+						logger.debug("reSendSec: " + reSendSec);
+					}
 				}
 				
 				userMailMsgDto.setStatus(true);
 				userMailMsgDto.setMsg("");
 				userMailMsgDto.setReSendSec(reSendSec);
 				userMailMsgDto.setUserId(0);
+				userMailMsgDto.setUsed(mailVerifyCodeLastTimeDto.isUsed());
 
 				return userMailMsgDto;
 
@@ -753,6 +759,7 @@ public class UserInfoService {
 		userMailMsgDto.setUserMail("");
 		userMailMsgDto.setStatus(false);
 		userMailMsgDto.setUserId(0);
+		userMailMsgDto.setUsed(false);
 
 		return userMailMsgDto;
 	}

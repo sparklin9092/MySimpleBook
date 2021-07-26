@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 public class MailVerifyCodeLastTimeDto {
 
 	private LocalDateTime systemSendTime;
+	
+	private boolean used;
 
 	public LocalDateTime getSystemSendTime() {
 		return systemSendTime;
@@ -12,5 +14,13 @@ public class MailVerifyCodeLastTimeDto {
 
 	public void setSystemSendTime(LocalDateTime systemSendTime) {
 		this.systemSendTime = systemSendTime;
+	}
+
+	public boolean isUsed() {
+		return used;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
 	}
 }

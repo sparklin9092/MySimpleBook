@@ -30,33 +30,41 @@ function initBuAcc() {
 			
 			if(res.status) {
 				
-				$('#userMail').val(res.userMail);
-				
-				var reSendSec = res.reSendSec;
-				
-				if(reSendSec == 0) {
+				if(res.used) {
 					
-					$('#reSendBtn').prop('disabled', false);
-					$('#reSendBtn').text('重寄認證碼');
+					alert("您的信箱已經綁定完成！請使用信箱進行登入。");
+					location.href = '/';
 					
 				} else {
-					
-					$('#reSendBtn').prop('disabled', true);
-					$('#reSendBtn').text('重寄認證碼('+reSendSec+')');
 
-					 var reSendMailInteval = setInterval(function() {
-						
-						reSendSec -= 1;
-						$('#reSendBtn').text('重寄認證碼('+reSendSec+')');
-						
-						if(reSendSec <= 0) {
-							
-							$('#reSendBtn').prop('disabled', false);
-							$('#reSendBtn').text('重寄認證碼');
-							
-							clearInterval(reSendMailInteval);
-						}
-					}, 1000);
+					$('#userMail').val(res.userMail);
+
+					var reSendSec = res.reSendSec;
+
+					if (reSendSec == 0) {
+
+						$('#reSendBtn').prop('disabled', false);
+						$('#reSendBtn').text('重寄認證碼');
+
+					} else {
+
+						$('#reSendBtn').prop('disabled', true);
+						$('#reSendBtn').text('重寄認證碼(' + reSendSec + ')');
+
+						var reSendMailInteval = setInterval(function() {
+
+							reSendSec -= 1;
+							$('#reSendBtn').text('重寄認證碼(' + reSendSec + ')');
+
+							if (reSendSec <= 0) {
+
+								$('#reSendBtn').prop('disabled', false);
+								$('#reSendBtn').text('重寄認證碼');
+
+								clearInterval(reSendMailInteval);
+							}
+						}, 1000);
+					}
 				}
 			} else {
 				

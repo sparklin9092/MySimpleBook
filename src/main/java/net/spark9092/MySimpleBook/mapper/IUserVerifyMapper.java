@@ -37,13 +37,14 @@ public interface IUserVerifyMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select system_send_datetime from user_verify "
+	@Select("select system_send_datetime, is_used from user_verify "
 			+ " where user_id=#{userId} and verify_type='mail' "
-			+ " and is_used=0 and is_active=1 and is_delete=0 "
+			+ " and is_active=1 and is_delete=0 "
 			+ " order by system_send_datetime desc "
 			+ " limit 1")
 	@Results({
-		@Result(column="system_send_datetime", property="systemSendTime")
+		@Result(column="system_send_datetime", property="systemSendTime"),
+		@Result(column="is_used", property="used")
 	})
 	MailVerifyCodeLastTimeDto selectLastCodeTimeByUserId(@Param("userId") int userId);
 
