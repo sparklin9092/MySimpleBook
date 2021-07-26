@@ -19,7 +19,7 @@ public interface IUserInfoMapper {
 
 	/**
 	 * 根據使用者 ID，查詢使用者「全部」資料
-	 * @param id
+	 * @param userId
 	 * @return
 	 */
 	@Select("select * from user_info where id=#{userId}")
@@ -42,7 +42,7 @@ public interface IUserInfoMapper {
 	
 	/**
 	 * 根據使用者帳號(user_account)，查詢使用者「全部」資料
-	 * @param userName
+	 * @param userAcc
 	 * @return
 	 */
 	@Select("select * from user_info where user_account=#{userAcc}")
@@ -61,33 +61,11 @@ public interface IUserInfoMapper {
 		@Result(column="create_user_id", property="createUserId"),
 		@Result(column="create_datetime", property="createDateTime")
 	})
-	UserInfoEntity selectByUserAcc(@Param("userAcc") String userAcc);
-
-	/**
-	 * 新增一位訪客類型的使用者
-	 * @param userName
-	 * @param userPwd
-	 * @param systemUserId
-	 * @param guestSeq
-	 * @return
-	 */
-	@Insert("insert into user_info(user_name, user_account, user_password, is_guest, guest_seq, create_user_id) "
-			+ "values(#{userName}, concat('guest', #{guestSeq}), #{userPwd}, 1, #{guestSeq}, #{systemUserId})")
-	boolean createUserByGuest(@Param("userName") String userName, @Param("userPwd") String userPwd,
-			@Param("systemUserId") int systemUserId, @Param("guestSeq") int guestSeq);
-
-	/**
-	 * 更新使用者的最後登入時間，通常是登入時候會更新
-	 * @param lastLoginDateTime
-	 * @param userId
-	 * @return
-	 */
-	@Update("update user_info set last_login_datetime=#{lastLoginDateTime} where id=#{userId}")
-	boolean updateById(@Param("lastLoginDateTime") LocalDateTime lastLoginDateTime, @Param("userId") int userId);
+	UserInfoEntity selectUserInfoByAccount(@Param("userAcc") String userAcc);
 
 	/**
 	 * 根據訪客序號，查詢訪客類型的使用者「全部」資料
-	 * @param guestSeq 訪客序號
+	 * @param guestSeq
 	 * @return
 	 */
 	@Select("select * from user_info where guest_seq=#{guestSeq} and is_guest=1")
@@ -107,80 +85,6 @@ public interface IUserInfoMapper {
 		@Result(column="create_datetime", property="createDateTime")
 	})
 	UserInfoEntity selectGuestBySeq(@Param("guestSeq") int guestSeq);
-
-	/**
-	 * 計算訪客目前的資料數量
-	 * @param userId
-	 * @return Guest data count 訪客資料數量
-	 */
-	@Select("select "
-			+ "	(select count(b.id) from transfer b where b.user_id=a.id and b.is_delete=0)+ "
-			+ "	(select count(c.id) from income c where c.user_id=a.id and c.is_delete=0)+ "
-			+ "	(select count(d.id)-1 from income_items d where d.user_id=a.id and d.is_delete=0)+ "
-			+ "	(select count(e.id) from spend e where e.user_id=a.id and e.is_delete=0)+ "
-			+ "	(select count(f.id)-1 from spend_items f where f.user_id=a.id and f.is_delete=0)+ "
-			+ "	(select count(g.id)-2 from account g where g.user_id=a.id and g.is_delete=0)+ "
-			+ "	(select count(h.id) from account_types h where h.user_id=a.id and h.is_delete=0) as guestDataCount "
-			+ " from user_info a "
-			+ " where a.id=#{userId} and a.is_guest=1")
-	int getGuestDataCount(@Param("userId") int userId);
-
-	/**
-	 * 根據使用者帳號，查詢已存在的數量，排除自己的 user_acoount
-	 * @param userAcc
-	 * @return
-	 */
-	@Select("select count(id) from user_info where user_account=#{userAcc} and id!=#{userId}")
-	int selectUserCountByUserAcc(@Param("userAcc") String userAcc, @Param("userId") int userId);
-
-	/**
-	 * 根據使用者輸入的帳號、密碼，更新使用者資料，並修改「訪客身份」為「使用者」
-	 * @param userId
-	 * @param userAcc
-	 * @param enPwd
-	 * @return
-	 */
-	@Update("update user_info set "
-			+ " user_name=#{userAcc}, user_account=#{userAcc}, "
-			+ " user_password=#{enPwd}, is_guest=0 "
-			+ " where id=#{userId}")
-	boolean bindAccPwdByUserId(@Param("userId") int userId,
-			@Param("userAcc") String userAcc, @Param("enPwd") String enPwd);
-
-	/**
-	 * 更新使用者密碼
-	 * @param userId
-	 * @param enNewPwd
-	 * @return
-	 */
-	@Update("update user_info set "
-			+ " user_password=#{enNewPwd} "
-			+ " where id=#{userId}")
-	boolean updateUserNewPwdById(@Param("userId") int userId, @Param("enNewPwd") String enNewPwd);
-
-	/**
-	 * 更新使用者基本資料
-	 * @param userId
-	 * @param userName
-	 * @param userAcc
-	 * @param userEmail
-	 * @param userPhone
-	 * @return
-	 */
-	@Update("update user_info set "
-			+ " user_name=#{userName}, user_account=#{userAcc}, email=#{userEmail}, phone=#{userPhone} "
-			+ " where id=#{userId}")
-	boolean updateUserInfoById(@Param("userId") int userId, @Param("userName") String userName, 
-			@Param("userAcc") String userAcc, @Param("userEmail") String userEmail, 
-			@Param("userPhone") String userPhone);
-
-	/**
-	 * 刪除使用者，假刪除，把刪除標記改為 1
-	 * @param userId
-	 * @return
-	 */
-	@Update("update user_info set is_delete=1 where id=#{userId}")
-	boolean deleteByUserId(@Param("userId") int userId);
 
 	/**
 	 * 根據使用者帳號，查詢使用者電子信箱(Email)
@@ -203,4 +107,112 @@ public interface IUserInfoMapper {
 		@Result(column="id", property="userId")
 	})
 	MailBindMsgDto selectUserIdByAccount(@Param("userAccount") String userAccount);
+
+	/**
+	 * 根據使用者帳號，查詢已存在的數量，排除自己的 user_acoount
+	 * @param userAcc
+	 * @param userId
+	 * @return
+	 */
+	@Select("select count(id) from user_info where user_account=#{userAcc} and id!=#{userId}")
+	int selectExistUserCountByAcc(@Param("userAcc") String userAcc, @Param("userId") int userId);
+
+	/**
+	 * 計算訪客目前的資料數量
+	 * @param userId
+	 * @return
+	 */
+	@Select("select "
+			+ "	(select count(b.id) from transfer b where b.user_id=a.id and b.is_delete=0)+ "
+			+ "	(select count(c.id) from income c where c.user_id=a.id and c.is_delete=0)+ "
+			+ "	(select count(d.id)-1 from income_items d where d.user_id=a.id and d.is_delete=0)+ "
+			+ "	(select count(e.id) from spend e where e.user_id=a.id and e.is_delete=0)+ "
+			+ "	(select count(f.id)-1 from spend_items f where f.user_id=a.id and f.is_delete=0)+ "
+			+ "	(select count(g.id)-2 from account g where g.user_id=a.id and g.is_delete=0)+ "
+			+ "	(select count(h.id) from account_types h where h.user_id=a.id and h.is_delete=0) as guestDataCount "
+			+ " from user_info a "
+			+ " where a.id=#{userId} and a.is_guest=1")
+	int selectGuestDataCount(@Param("userId") int userId);
+
+	/**
+	 * 新增一位訪客類型的使用者
+	 * @param userName
+	 * @param userPwd
+	 * @param systemUserId
+	 * @param guestSeq
+	 * @return
+	 */
+	@Insert("insert into user_info(user_name, user_account, user_password, is_guest, guest_seq, create_user_id) "
+			+ "values(#{userName}, concat('guest', #{guestSeq}), #{userPwd}, 1, #{guestSeq}, #{systemUserId})")
+	boolean createGuest(@Param("userName") String userName, @Param("userPwd") String userPwd,
+			@Param("systemUserId") int systemUserId, @Param("guestSeq") int guestSeq);
+
+	/**
+	 * 更新使用者基本資料
+	 * @param userId
+	 * @param userName
+	 * @param userAcc
+	 * @param userEmail
+	 * @param userPhone
+	 * @return
+	 */
+	@Update("update user_info set "
+			+ " user_name=#{userName}, user_account=#{userAcc}, email=#{userEmail}, phone=#{userPhone} "
+			+ " where id=#{userId}")
+	boolean updateUserInfoById(@Param("userId") int userId, @Param("userName") String userName, 
+			@Param("userAcc") String userAcc, @Param("userEmail") String userEmail, 
+			@Param("userPhone") String userPhone);
+
+	/**
+	 * 更新使用者密碼
+	 * @param userId
+	 * @param enNewPwd
+	 * @return
+	 */
+	@Update("update user_info set "
+			+ " user_password=#{enNewPwd} "
+			+ " where id=#{userId}")
+	boolean updateUserNewPwdById(@Param("userId") int userId, @Param("enNewPwd") String enNewPwd);
+
+	/**
+	 * 更新使用者的最後登入時間，通常是登入時候會更新
+	 * @param lastLoginDateTime
+	 * @param userId
+	 * @return
+	 */
+	@Update("update user_info set last_login_datetime=#{lastLoginDateTime} where id=#{userId}")
+	boolean updateLastLoginTimeById(@Param("lastLoginDateTime") LocalDateTime lastLoginDateTime, @Param("userId") int userId);
+
+	/**
+	 * 根據使用者輸入的帳號、密碼，更新使用者資料，並修改「訪客身份」為「使用者」
+	 * @param userId
+	 * @param userAcc
+	 * @param enPwd
+	 * @return
+	 */
+	@Update("update user_info set "
+			+ " user_name=#{userAcc}, user_account=#{userAcc}, "
+			+ " user_password=#{enPwd}, is_guest=0 "
+			+ " where id=#{userId}")
+	boolean updateAccPwdByUserId(@Param("userId") int userId,
+			@Param("userAcc") String userAcc, @Param("enPwd") String enPwd);
+
+	/**
+	 * 根據使用者ID，更新Email
+	 * @param userId
+	 * @param userMail
+	 * @return
+	 */
+	@Update("update user_info set "
+			+ " email=#{userMail} "
+			+ " where id=#{userId}")
+	boolean updateMailByUserId(@Param("userId") int userId, @Param("userMail") String userMail);
+
+	/**
+	 * 刪除使用者，假刪除，把刪除標記改為 1
+	 * @param userId
+	 * @return
+	 */
+	@Update("update user_info set is_delete=1 where id=#{userId}")
+	boolean deleteByUserId(@Param("userId") int userId);
 }

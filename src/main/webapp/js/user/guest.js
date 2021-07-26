@@ -41,10 +41,6 @@ function emailShow() {
 	
 	$('#email').show();
 	$('#accPwd, #phone').hide();
-	
-	alert("功能開放使用，請使用「帳號與密碼」進行綁定。");
-	
-	$('#accPwdTitle').trigger('click');
 }
 
 function checkUserAccAct() {
@@ -123,8 +119,39 @@ function bindPhoneAct() {
 
 function bindEmailAct() {
 	
-	alert("功能開放使用，請使用「帳號與密碼」進行綁定。");
+	$('#bindEmail').addClass('btn-warning').removeClass('btn-success');
+	$('#bindEmail').prop('disabled', false).text('確認中');
 	
-	$('#accPwdTitle').trigger('click');
+	setTimeout(function() {
 	
+		var data = {};
+		data.userEmail = $('#userEmail').val();
+		
+		$.ajax({
+			url: '/user/info/bind/email',
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			success: function(res) {
+				
+				if(res.status) {
+					
+					alert("帳號綁定成功！請重新登入。");
+					location.href = '/logout';
+					
+				} else {
+					
+					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+					$('#bindEmail').prop('disabled', false).text('綁定');
+					
+					alert(res.msg);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+				alert('無法連接伺服器');
+			}
+		});
+	}, 1000);
 }

@@ -15,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.CryptionCommon;
 import net.spark9092.MySimpleBook.common.GeneratorCommon;
+import net.spark9092.MySimpleBook.common.SendCommon;
 import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
 import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
+import net.spark9092.MySimpleBook.dto.user.UserBindMailMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserDeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
@@ -46,6 +48,7 @@ import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 import net.spark9092.MySimpleBook.pojo.user.ModifyPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserAccCheckPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserBindAccPwdPojo;
+import net.spark9092.MySimpleBook.pojo.user.UserBindMailPojo;
 import net.spark9092.MySimpleBook.pojo.verify.BindMailPojo;
 
 @Service
@@ -95,6 +98,9 @@ public class UserInfoService {
 	@Autowired
 	private CryptionCommon cryptionCommon;
 
+	@Autowired
+	private SendCommon sendCommon;
+
 	/**
 	 * 使用者登入
 	 * @param userLoginPojo
@@ -106,7 +112,7 @@ public class UserInfoService {
 		UserInfoEntity userInfoEntity = new UserInfoEntity();
 
 		String userAcc = userLoginPojo.getUserAcc();
-		userInfoEntity = iUserInfoMapper.selectByUserAcc(userAcc);
+		userInfoEntity = iUserInfoMapper.selectUserInfoByAccount(userAcc);
 
 		if(userInfoEntity == null) {
 
@@ -142,7 +148,7 @@ public class UserInfoService {
 				loginResultDto.setUserInfoEntity(userInfoEntity);
 
 				try {
-					iUserInfoMapper.updateById(LocalDateTime.now(), userInfoEntity.getId());
+					iUserInfoMapper.updateLastLoginTimeById(LocalDateTime.now(), userInfoEntity.getId());
 				} catch (Exception e) {
 					//更新最後登入時間，如果發生錯誤也沒關係
 				}
@@ -188,7 +194,7 @@ public class UserInfoService {
 		String userName = "訪客";
 		String UserPwd = generatorCommon.getUserPwd();
 
-		boolean createStatus = iUserInfoMapper.createUserByGuest(userName, UserPwd, SystemEnum.SYSTEM_USER_ID.getId(), guestSeq);
+		boolean createStatus = iUserInfoMapper.createGuest(userName, UserPwd, SystemEnum.SYSTEM_USER_ID.getId(), guestSeq);
 
 		//訪客帳號建立成功之後，就走一般的登入流程
 		if(createStatus) {
@@ -207,7 +213,7 @@ public class UserInfoService {
 
 				//更新最後登入時間，如果發生錯誤也沒關係
 				try {
-					iUserInfoMapper.updateById(LocalDateTime.now(), userInfoEntity.getId());
+					iUserInfoMapper.updateLastLoginTimeById(LocalDateTime.now(), userInfoEntity.getId());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -240,7 +246,7 @@ public class UserInfoService {
 
 		int dataCount = 0;
 
-		dataCount = iUserInfoMapper.getGuestDataCount(userId);
+		dataCount = iUserInfoMapper.selectGuestDataCount(userId);
 
 		return dataCount;
 	}
@@ -268,7 +274,7 @@ public class UserInfoService {
 
 		} else {
 
-			int userAccCount = iUserInfoMapper.selectUserCountByUserAcc(userAcc, userAccCheckPojo.getUserId());
+			int userAccCount = iUserInfoMapper.selectExistUserCountByAcc(userAcc, userAccCheckPojo.getUserId());
 
 			if(userAccCount == 0) {
 
@@ -311,7 +317,7 @@ public class UserInfoService {
 
 			try {
 				//確定帳號沒有重複，可以更新到資料庫了
-				bindAccPwdStatus = iUserInfoMapper.bindAccPwdByUserId(
+				bindAccPwdStatus = iUserInfoMapper.updateAccPwdByUserId(
 						userBindAccPwdPojo.getUserId(), userAcc,
 						enPwd);
 			} catch (Exception ex) {
@@ -338,6 +344,78 @@ public class UserInfoService {
 		}
 
 		return userBindAccPwdMsgDto;
+	}
+
+	/**
+	 * 根據使用者輸入的帳號密碼，綁定訪客帳號，並修改訪客身份為使用者
+	 * @param userBindAccPwdPojo
+	 * @return
+	 */
+	public UserBindMailMsgDto bindUserByMailPojo(UserBindMailPojo userBindMailPojo) {
+
+		UserBindMailMsgDto userBindMailMsgDto = new UserBindMailMsgDto();
+
+		int userId = userBindMailPojo.getUserId();
+		String userAccount = userBindMailPojo.getUserAccount();
+		String userName = userBindMailPojo.getUserName();
+		String userMail = userBindMailPojo.getUserEmail();
+		String verifyCode = generatorCommon.getVerifyCode();
+
+		if(null == userMail || userMail.equals("") || userMail.isEmpty()) {
+
+			userBindMailMsgDto.setStatus(false);
+			userBindMailMsgDto.setMsg("請輸入電子信箱(Email)。");
+			return userBindMailMsgDto;
+		}
+
+		//先進行Email正規化驗證
+		if(!checkCommon.checkMail(userMail)) {
+
+			userBindMailMsgDto.setStatus(false);
+			userBindMailMsgDto.setMsg("電子信箱(Email)格式不正確。");
+			return userBindMailMsgDto;
+		}
+			
+		//如果使用者Email正規化正確，就更新 user_info.email 這個欄位，
+		//讓使用者去驗證的時候，系統找得到Email
+		boolean updateMailStatus = iUserInfoMapper.updateMailByUserId(userId, userMail);
+		
+		if(!updateMailStatus) {
+
+			//Email更新失敗
+			userBindMailMsgDto.setStatus(false);
+			userBindMailMsgDto.setMsg("目前無法寄發電子信箱(Email)的驗證碼，請稍後再試，或是更換其他綁定方法。");
+			return userBindMailMsgDto;
+		}
+
+		//存入user_verify，給使用者來驗證
+		boolean insertStatus = iUserVerifyMapper.insertMailVerifyCodeByUserId(
+				userId, VerifyTypeEnum.EMAIL.getType(), verifyCode);
+
+		if(!insertStatus) {
+
+			//驗證碼insert失敗
+			userBindMailMsgDto.setStatus(false);
+			userBindMailMsgDto.setMsg("目前無法寄發電子信箱(Email)的驗證碼，請稍後再試，或是更換其他綁定方法。");
+			return userBindMailMsgDto;
+		}
+
+		//使用發送公用類，呼叫發送電子信箱驗證碼的方法
+		boolean sendMailStatus = sendCommon.sendVerifyCodeMail(
+				userAccount, userName, userMail, verifyCode);
+
+		if(!sendMailStatus) {
+
+			//Email發送失敗
+			userBindMailMsgDto.setStatus(false);
+			userBindMailMsgDto.setMsg("目前無法寄發電子信箱(Email)的驗證碼，請稍後再試，或是更換其他綁定方法。");
+			return userBindMailMsgDto;
+		}
+
+		userBindMailMsgDto.setStatus(true);
+		userBindMailMsgDto.setMsg("");
+		
+		return userBindMailMsgDto;
 	}
 
 	/**

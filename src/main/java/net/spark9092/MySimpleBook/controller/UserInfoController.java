@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
+import net.spark9092.MySimpleBook.dto.user.UserBindMailMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserDeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
@@ -22,6 +23,7 @@ import net.spark9092.MySimpleBook.pojo.user.ChangePwdPojo;
 import net.spark9092.MySimpleBook.pojo.user.ModifyPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserAccCheckPojo;
 import net.spark9092.MySimpleBook.pojo.user.UserBindAccPwdPojo;
+import net.spark9092.MySimpleBook.pojo.user.UserBindMailPojo;
 import net.spark9092.MySimpleBook.service.UserInfoService;
 
 @RequestMapping("/user/info")
@@ -96,6 +98,34 @@ public class UserInfoController {
 		}
 
 		return userBindAccPwdMsgDto;
+	}
+	
+	@PostMapping("/bind/email")
+	public UserBindMailMsgDto userBindMail(HttpSession session, @RequestBody UserBindMailPojo userBindMailPojo) {
+		
+		UserBindMailMsgDto userBindMailMsgDto = new UserBindMailMsgDto();
+
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if (null == userInfoEntity) {
+
+			userBindMailMsgDto.setStatus(false);
+			userBindMailMsgDto.setMsg("使用者未登入");
+
+		} else {
+
+			userBindMailPojo.setUserId(userInfoEntity.getId());
+			userBindMailPojo.setUserAccount(userInfoEntity.getUserAccount());
+			userBindMailPojo.setUserName(userInfoEntity.getUserName());
+
+			userBindMailMsgDto = userInfoService.bindUserByMailPojo(userBindMailPojo);
+			
+			//把session註銷掉，強制讓使用者重新登入
+			if(userBindMailMsgDto.isStatus()) session.invalidate();
+
+		}
+		
+		return userBindMailMsgDto;
 	}
 
 	@PostMapping("")
@@ -207,7 +237,6 @@ public class UserInfoController {
 		return userDeleteMsgDto;
 	}
 
-	//    /user/info/bind/email  綁定 e-mail
 	//    /user/info/bind/phone  綁定手機號碼
 
 }
