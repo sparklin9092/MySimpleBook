@@ -19,13 +19,13 @@ import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 
 @Component
 public class SendCommon {
-	
-	private static final String systemName = "致富寶典";
-	
-	private static final String systemUrl = "https://richnote.net";
-//	private static final String systemUrl = "http://127.0.0.1:8080";
 
-	private static final String SystemMail = "support@richnote.net";
+	private static final String systemName = "致富寶典";
+
+//	private static final String systemUrl = "https://richnote.net";
+	private static final String systemUrl = "http://192.168.1.238:8080";
+
+	private static final String SystemMail = "RichNote Support <support@richnote.net>";
 
 	private static final Logger logger = LoggerFactory.getLogger(SendCommon.class);
 
@@ -33,7 +33,7 @@ public class SendCommon {
 
 	@Autowired
 	private CheckCommon checkCommon;
-	
+
 	/**
 	 * 透過 Amazon Simple Email Service 發送電子郵件
 	 * @param userMail 收件者
@@ -44,27 +44,28 @@ public class SendCommon {
 	private boolean sendMailByAwsSes(String userMail, String htmlBody, String subject) {
 
 		boolean sendMailStatus = false;
-		
+
 		//檢查Email有沒有存在、有沒有值、而且不是空值
 		if(null == userMail || userMail.equals("") || userMail.isEmpty()) {
 
 			logger.error("信件未發送！！！ 錯誤原因是： 沒有提供可以發送的 Email！！！");
-			
+
 			return sendMailStatus;
 		}
-		
+
 		//Email正規化校驗，檢查是否是合格的Email格式
 		if(!checkCommon.checkMail(userMail)) {
 
 			logger.error("信件未發送！！！ 錯誤原因是： Email 格式不正確！！！");
-			
+
 			return sendMailStatus;
 		}
 
 		try {
+			
 			AmazonSimpleEmailService client =
 					AmazonSimpleEmailServiceClientBuilder.standard().withRegion(Regions.AP_SOUTH_1).build();
-	
+
 			SendEmailRequest request = new SendEmailRequest()
 					.withDestination(new Destination().withToAddresses(userMail))
 					.withMessage(
@@ -72,16 +73,16 @@ public class SendCommon {
 							new Body().withHtml(new Content().withCharset("UTF-8").withData(htmlBody))
 						).withSubject(new Content().withCharset("UTF-8").withData(subject))
 					).withSource(SystemMail);
-	
+
 			client.sendEmail(request);
-	
+
 			sendMailStatus = true;
 
 		} catch (Exception ex) {
 
 			logger.error("信件未發送！！！ 錯誤原因是： " + ex.getMessage());
 		}
-		
+
 		return sendMailStatus;
 	}
 
@@ -96,26 +97,26 @@ public class SendCommon {
 	public boolean sendVerifyCodeMail(String userAccount, String userName, String userMail, String verifyCode) {
 
 		boolean sendMailStatus = false;
-		
+
 		byte[] userAccountByte = {};
 		try {
-			
+
 			userAccountByte = userAccount.getBytes("UTF-8");
-			
+
 			sendMailStatus = true;
-			
+
 		} catch (UnsupportedEncodingException e) {
-			
+
 			logger.error("寄發認證碼通知信，因為轉換使用者帳號為Bytes類型時發生錯誤！！！");
 		}
-		
+
 		if(sendMailStatus) {
 
 			String defaultSubject = "%s-認證碼通知信";
 			String systemSubject = String.format(defaultSubject, systemName);
 
 			String buAcc = encoder.encodeToString(userAccountByte);
-			
+
 			String defaultVerifyUrl = "%s/verify/mail/%s";
 			String systemVerifyUrl = String.format(defaultVerifyUrl, systemUrl, buAcc);
 
@@ -125,8 +126,8 @@ public class SendCommon {
 									+ "<p>這封通知信經過加密處理，請勿將認證碼提供給任何人使用！</p>"
 									+ "<p>若您未曾提出要求，請忽略這個通知，謝謝。</p>"
 									+ "<p><b><a href='%s'>%s</a> 如獲至寶</b></p>";
-			
-			String systemHtmlBody = String.format(defaultHtmlBody, 
+
+			String systemHtmlBody = String.format(defaultHtmlBody,
 					userName, //第一行：使用者名稱
 					verifyCode, //第二行：認證碼
 					systemVerifyUrl, systemName, //第三行：驗證網址、系統名稱
@@ -149,7 +150,7 @@ public class SendCommon {
 	public boolean sendRandomPwdMail(String userName, String userMail, String randomPwd) {
 
 		boolean sendMailStatus = false;
-		
+
 		String defaultSubject = "%s-臨時密碼通知信";
 		String systemSubject = String.format(defaultSubject, systemName);
 
@@ -160,8 +161,8 @@ public class SendCommon {
 								+ "<p>這封通知信經過加密處理，請勿將您的密碼提供給任何人使用！</p>"
 								+ "<p>若您未曾提出要求，請忽略這個通知，謝謝。</p>"
 								+ "<p><b><a href='%s'>%s</a> 如獲至寶</b></p>";
-		
-		String systemHtmlBody = String.format(defaultHtmlBody, 
+
+		String systemHtmlBody = String.format(defaultHtmlBody,
 				userName, //第一段：使用者名稱
 				systemUrl, systemName, randomPwd, //第二段：系統名稱、隨機密碼
 				systemUrl, systemName //最後一行：官網網址、系統名稱
