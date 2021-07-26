@@ -16,6 +16,10 @@
 					<input type="text" class="form-control" id="userAcc" name="userAcc" placeholder="帳號、電子信箱">
 					<!-- <input type="text" class="form-control" id="userAcc" name="userAcc" placeholder="帳號、電子信箱、手機號碼"> -->
 				</div>
+				<div class="text-end">
+					<input type="checkbox" id="rememberAcc" name="rememberAcc" checked>
+					<label for="rememberAcc">記住帳號</label>
+				</div>
 				<div class="h4 mt-3">密碼</div>
 				<div>
 					<input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="請輸入密碼">

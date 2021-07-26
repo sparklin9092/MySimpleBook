@@ -15,9 +15,14 @@ $(function() {
 	}
 	
 	checkUserMailExist();
+	rememberAccVal();
+	
+	$('#rememberAcc').on('click', rememberAccAct);
 });
 
 function loginAct() {
+	
+	rememberAccAct();
 	
 	var data = {};
 	data.userAcc = $('#userAcc').val();
@@ -73,5 +78,31 @@ function checkUserMailExist() {
 	if(userMail) {
 		
 		$('#userAcc').val(userMail);
+	}
+}
+
+function rememberAccAct() {
+	
+	var isCheck = $('#rememberAcc').prop('checked');
+	
+	if(isCheck) {
+
+		var userAcc = $('#userAcc').val();
+
+		$.cookie('rememberAcc', userAcc);
+		
+	} else {
+		
+		$.removeCookie('rememberAcc');
+	}
+}
+
+function rememberAccVal() {
+	
+	if($.cookie('rememberAcc')) {
+		
+		var cookieAcc = $.cookie('rememberAcc');
+		
+		$('#userAcc').val(cookieAcc);
 	}
 }
