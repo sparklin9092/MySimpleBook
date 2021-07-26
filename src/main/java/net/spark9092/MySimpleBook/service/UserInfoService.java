@@ -25,6 +25,7 @@ import net.spark9092.MySimpleBook.dto.user.UserInfoDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
+import net.spark9092.MySimpleBook.dto.user.UserMailDto;
 import net.spark9092.MySimpleBook.dto.verify.MailBindMsgDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailVerifyDataDto;
@@ -347,7 +348,8 @@ public class UserInfoService {
 	}
 
 	/**
-	 * 根據使用者輸入的帳號密碼，綁定訪客帳號，並修改訪客身份為使用者
+	 * 根據使用者輸入的Email，來綁定訪客帳號，並修改訪客身份為使用者
+	 * 然後再寄發臨時密碼給使用者，讓使用者可以使用Email+臨時密碼進行登入
 	 * @param userBindAccPwdPojo
 	 * @return
 	 */
@@ -722,98 +724,193 @@ public class UserInfoService {
 	}
 
 	/**
-	 * 綁定使用者信箱
+	 * 綁定使用者信箱，然後寄發臨時密碼給使用者
 	 * @param bindMailPojo
 	 * @return
 	 */
 	public MailBindMsgDto bindUserMailByPojo(BindMailPojo bindMailPojo) {
 
+		boolean bindSign = false;
 		MailBindMsgDto mailBindMsgDto = new MailBindMsgDto();
 		Base64.Decoder decoder = Base64.getDecoder();
 
 		String base64UserAccount = bindMailPojo.getBuAcc();
 		String inputVerifyCode = bindMailPojo.getVerifyCode();
 
-		try {
+		try { //使用 try..catch... 是因為 Base64.Decoder
 			String userAccount = new String(decoder.decode(base64UserAccount), "UTF-8");
 
 			mailBindMsgDto = iUserInfoMapper.selectUserIdByAccount(userAccount);
 
 			if(null == mailBindMsgDto) {
 
+				bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
+				
 				mailBindMsgDto = new MailBindMsgDto();
 				mailBindMsgDto.setStatus(false);
-				mailBindMsgDto.setMsg("找不到您的電子信箱，請重新綁定。");
-				return mailBindMsgDto;
+				mailBindMsgDto.setMsg("找不到您的電子信箱，請您重新綁定。");
+				return mailBindMsgDto; //只有這一段邏輯要直接return，因為查不到資料後，Dto會是null型態
+				
+			} else {
+				bindSign = true;
 			}
+			
+			int userId = mailBindMsgDto.getUserId();
 
 			UserMailVerifyDataDto userMailVerifyDataDto =
-					iUserVerifyMapper.selectByUserId(mailBindMsgDto.getUserId());
+					iUserVerifyMapper.selectByUserId(userId);
 
 			//先判斷有沒有驗證碼
-			if(null == userMailVerifyDataDto) {
+			if(bindSign) {
+				if(null == userMailVerifyDataDto) {
 
-				mailBindMsgDto.setStatus(false);
-				mailBindMsgDto.setMsg("找不到您的驗證碼，請重新綁定。");
-				return mailBindMsgDto;
+					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
 
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("找不到您的驗證碼，請您重新綁定。");
+					
+				} else {
+					bindSign = true;
+				}
 			}
 
 			//再判斷驗證碼過期了沒
-			LocalDateTime now = LocalDateTime.now();
-			Duration duration = Duration.between(
-					userMailVerifyDataDto.getSystemSendDatetime(), now);
-			
-			logger.debug("duration.toMinutes(): " + duration.toMinutes());
-
-			if(duration.toMinutes() >= 3) {
-
-				mailBindMsgDto.setStatus(false);
-				mailBindMsgDto.setMsg("驗證碼已過期，請重新綁定。");
-				return mailBindMsgDto;
-
-			}
-
-			//最後判斷驗證碼是否正確
-			if(!inputVerifyCode.equals(userMailVerifyDataDto.getVerifyCode())) {
-
-				mailBindMsgDto.setStatus(false);
-				mailBindMsgDto.setMsg("驗證碼輸入錯誤，請重新輸入。");
-				return mailBindMsgDto;
-			}
-			
-			//判斷驗證碼使用過了沒
-			if(userMailVerifyDataDto.isUsed()) {
-
-				mailBindMsgDto.setStatus(false);
-				mailBindMsgDto.setMsg("驗證碼已使用，請重新綁定。");
-				return mailBindMsgDto;
+			if(bindSign) {
+				LocalDateTime now = LocalDateTime.now();
+				Duration duration = Duration.between(
+						userMailVerifyDataDto.getSystemSendDatetime(), now);
 				
+				logger.debug("duration.toMinutes(): " + duration.toMinutes());
+	
+				if(duration.toMinutes() >= 3) {
+
+					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
+	
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("驗證碼已過期，請您重新綁定。");
+					
+				} else {
+					bindSign = true;
+				}
 			}
 
-			boolean updateStatus = iUserVerifyMapper.updateByUserId(
-					userMailVerifyDataDto.getVerifyId(), 
-					mailBindMsgDto.getUserId());
+			//比對驗證碼是否正確
+			if(bindSign) {
+				if(!inputVerifyCode.equals(userMailVerifyDataDto.getVerifyCode())) {
 
-			if(updateStatus) {
+					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
+	
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("驗證碼輸入錯誤，請您重新輸入。");
+					
+				} else {
+					bindSign = true;
+				}
+			}
 
-				mailBindMsgDto.setStatus(true);
-				mailBindMsgDto.setMsg("");
+			//判斷驗證碼使用過了沒
+			if(bindSign) {
+				if(userMailVerifyDataDto.isUsed()) {
 
-			} else {
+					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
+	
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("驗證碼已使用，請您重新綁定。");
+					
+				} else {
+					bindSign = true;
+				}
+			}
 
-				mailBindMsgDto.setStatus(false);
-				mailBindMsgDto.setMsg("目前無法綁定電子信箱，請稍後再試。");
-
+			//更新驗證碼為「已使用」
+			if(bindSign) {
+				boolean updateStatus = iUserVerifyMapper.updateByUserId(
+						userMailVerifyDataDto.getVerifyId(), 
+						userId);
+	
+				if(!updateStatus) {
+	
+					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
+	
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("目前無法綁定電子信箱，請您稍後再試。");
+					
+				} else {
+					bindSign = true;
+				}
 			}
 			
-			return mailBindMsgDto;
+			//產出亂數密碼，作為臨時密碼，等系統都更新好使用者資料之後，再寄發臨時密碼給使用者
+			String randomPwd = generatorCommon.getUserPwd();
 			
-		} catch (Exception e) {}
+			//對密碼進行加密處理
+			String enPwd = cryptionCommon.encryptionPwd(randomPwd);
 
-		mailBindMsgDto = new MailBindMsgDto();
-		mailBindMsgDto.setStatus(false);
-		mailBindMsgDto.setMsg("目前無法綁定電子信箱，請稍後再試。");
+			if(bindSign) {
+				
+				//根據使用者ID，把加密後的密碼更新到資料庫，並且也更新帳號為Email，讓使用者可以用Email+臨時密碼登入
+				//同時修改訪客身份為一般使用者
+				boolean updateStatus = iUserInfoMapper.updateMailToAccWithPwdById(
+						userId, enPwd);
+				
+				if(updateStatus) {
+					
+					bindSign = true;
+					
+				} else {
+	
+					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
+	
+					mailBindMsgDto.setStatus(false);
+					mailBindMsgDto.setMsg("目前無法為您產生臨時密碼，請您稍後再試。");
+				}
+			}
+
+			//寄發臨時密碼給使用者
+			if(bindSign) {
+				
+				//根據使用者ID，查詢要寄發臨時密碼的Email
+				UserMailDto userMailDto = iUserInfoMapper.selectMailByUserId(userId);
+				
+				if(null == userMailDto) {
+	
+					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
+					
+				} else {
+					
+					boolean sendStatus = sendCommon.sendRandomPwdMail(
+							"訪客", userMailDto.getUserMail(), randomPwd);
+					
+					if(sendStatus) {
+						
+						bindSign = true;
+						
+					} else {
+		
+						bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
+		
+						mailBindMsgDto.setStatus(false);
+						mailBindMsgDto.setMsg("目前無法寄發臨時密碼給您，請您稍後再試。");
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			
+			logger.error("使用Base64對使用者帳號解碼時，發生問題！！！");
+			
+			mailBindMsgDto.setStatus(false);
+			mailBindMsgDto.setMsg("目前無法寄發臨時密碼給您，請您稍後再試。");
+		}
+
+		mailBindMsgDto.setUserId(0); //最後把使用者ID歸零，讓前端不知道使用者ID是多少
+		
+		//如果以上邏輯處理都正確，就把回傳的狀態改為true
+		if(bindSign) {
+			
+			mailBindMsgDto.setStatus(true);
+			mailBindMsgDto.setMsg("");
+		}
 
 		return mailBindMsgDto;
 	}

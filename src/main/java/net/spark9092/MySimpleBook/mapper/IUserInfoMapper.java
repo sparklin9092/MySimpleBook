@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Update;
 import net.spark9092.MySimpleBook.dto.verify.MailBindMsgDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
+import net.spark9092.MySimpleBook.dto.user.UserMailDto;
 
 @Mapper
 public interface IUserInfoMapper {
@@ -96,6 +97,17 @@ public interface IUserInfoMapper {
 		@Result(column="email", property="userMail")
 	})
 	UserMailMsgDto selectMailByAccount(@Param("userAccount") String userAccount);
+
+	/**
+	 * 根據使用者ID，查詢使用者電子信箱(Email)
+	 * @param userAccount
+	 * @return
+	 */
+	@Select("select email from user_info where id=#{userId}")
+	@Results({
+		@Result(column="email", property="userMail")
+	})
+	UserMailDto selectMailByUserId(@Param("userId") int userId);
 
 	/**
 	 * 根據使用者帳號，查詢使用者ID
@@ -196,7 +208,7 @@ public interface IUserInfoMapper {
 	boolean updateLastLoginTimeById(@Param("lastLoginDateTime") LocalDateTime lastLoginDateTime, @Param("userId") int userId);
 
 	/**
-	 * 根據使用者輸入的帳號、密碼，更新使用者資料，並修改「訪客身份」為「使用者」
+	 * 根據使用者輸入的帳號、加密後的密碼，更新使用者資料，並修改「訪客身份」為「使用者」
 	 * @param userId
 	 * @param userAcc
 	 * @param enPwd
@@ -219,6 +231,17 @@ public interface IUserInfoMapper {
 			+ " email=#{userMail} "
 			+ " where id=#{userId}")
 	boolean updateMailByUserId(@Param("userId") int userId, @Param("userMail") String userMail);
+	
+	/**
+	 * 根據使用者ID，將使用者Email更新為帳號，並更新加密後的密碼
+	 * @param userId
+	 * @param enPwd
+	 * @return
+	 */
+	@Update("update user_info set "
+			+ " user_account=email, user_password=#{enPwd}, is_guest=0 "
+			+ " where id=#{userId}")
+	boolean updateMailToAccWithPwdById(@Param("userId") int userId, @Param("enPwd") String enPwd);
 
 	/**
 	 * 刪除使用者，假刪除，把刪除標記改為 1
