@@ -37,26 +37,31 @@ public class SendCommon {
 		boolean sendMailStatus = false;
 
 		try {
+			
+			String systemName = "致富寶典";
 
 			byte[] userAccountByte = userAccount.getBytes("UTF-8");
 
-			String systemSubject = "致富寶典-認證碼通知";
-			
-//			String defaultVerifyUrl = "https://richnote.net/verify/mail/%s";
-			
-			String defaultVerifyUrl = "http://127.0.0.1:8080/verify/mail/%s";
+			String defaultSubject = "%s-認證碼通知信";
+			String systemSubject = String.format(defaultSubject, systemName);
 
 			String defaultHtmlBody = "<h3>親愛的 %s 您好：</h3>"
 									+ "<p>您的認證碼為：「<b><i> %s </i></b>」，認證碼有效時間為 <b><u>3</u></b> 分鐘</p>"
-									+ "<p>請盡快至 <a href='%s'>致富寶典-電子信箱綁定功能</a> 使用。</p>"
-									+ "<p>如果以上功能無法使用，請點擊這個網址  <a href='%s'>%s</a>  </p>"
+									+ "<p>請盡快至 <a href='%s'>%s-電子信箱綁定功能</a> 使用。</p>"
+									+ "<p>請勿將認證碼提供給任何人使用！</p>"
+									+ "<p>如果您未曾要求該認證碼，請忽略這個通知，謝謝。</p>"
 									+ "<p><b>致富寶典 如獲至寶</b></p>";
 
 			String buAcc = encoder.encodeToString(userAccountByte);
+			
+			String defaultVerifyUrl = "https://richnote.net/verify/mail/%s";
+//			String defaultVerifyUrl = "http://127.0.0.1:8080/verify/mail/%s";
 			String systemVerifyUrl = String.format(defaultVerifyUrl, buAcc);
 			
-			String systemHtmlBody = String.format(
-					defaultHtmlBody, userName, verifyCode, systemVerifyUrl, systemVerifyUrl, systemVerifyUrl);
+			String systemHtmlBody = String.format(defaultHtmlBody, userName, //第一段：使用者名稱
+					verifyCode, //第二段：驗證碼
+					systemVerifyUrl, systemName //第三段：驗證網址、系統名稱
+			);
 
 			AmazonSimpleEmailService client =
 					AmazonSimpleEmailServiceClientBuilder.standard().withRegion(Regions.AP_SOUTH_1).build();
