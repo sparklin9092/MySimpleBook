@@ -21,11 +21,14 @@ public class PageViewController {
 	 * 登入頁
 	 */
 	@GetMapping({"", "/", "/index"})
-	public ModelAndView index() {
+	public ModelAndView index(HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
 		String pageName = "views/index";
 		mv.setViewName(pageName);
+		
+		String userMail = (String) session.getAttribute(SessinNameEnum.USER_MAIL.getName());
+		mv.addObject("userMail", userMail);
 
 		return mv;
 	}

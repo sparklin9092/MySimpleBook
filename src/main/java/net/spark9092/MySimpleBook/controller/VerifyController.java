@@ -1,5 +1,7 @@
 package net.spark9092.MySimpleBook.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.verify.MailBindMsgDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
+import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.verify.BindMailPojo;
 import net.spark9092.MySimpleBook.pojo.verify.MailBuAccPojo;
 import net.spark9092.MySimpleBook.service.UserInfoService;
@@ -33,9 +36,16 @@ public class VerifyController {
 	}
 	
 	@PostMapping("/mail/bindAct")
-	public MailBindMsgDto mailBindAct(@RequestBody BindMailPojo bindMailPojo) {
+	public MailBindMsgDto mailBindAct(HttpSession session, @RequestBody BindMailPojo bindMailPojo) {
 		
-		return userInfoService.bindUserMailByPojo(bindMailPojo);
+		MailBindMsgDto mailBindMsgDto = userInfoService.bindUserMailByPojo(bindMailPojo);
+		
+		if(mailBindMsgDto.isStatus()) {
+			
+			session.setAttribute(SessinNameEnum.USER_MAIL.getName(), mailBindMsgDto.getUserMail());
+		}
+		
+		return mailBindMsgDto;
 	}
 	
 	@PostMapping("/mail/resend")

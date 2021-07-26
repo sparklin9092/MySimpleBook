@@ -13,6 +13,8 @@ $(function() {
 		
 		$.removeCookie('checkGuest');
 	}
+	
+	checkUserMailExist();
 });
 
 function loginAct() {
@@ -62,4 +64,14 @@ function guestAct() {
 			alert('無法連接伺服器');
 		}
 	});
+}
+
+function checkUserMailExist() {
+	
+	var userMail = $('#userMail').val();
+	
+	if(userMail) {
+		
+		$('#userAcc').val(userMail);
+	}
 }

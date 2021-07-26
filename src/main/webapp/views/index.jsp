@@ -30,6 +30,7 @@
 			</div>
 		</div>
 	</div>
+	<input type="hidden" id="userMail" name="userMail" value="${userMail}">
 	<jsp:include page="/views/include/footer.jsp"></jsp:include>
 </body>
 </html>

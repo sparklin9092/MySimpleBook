@@ -765,6 +765,7 @@ public class UserInfoService {
 	public MailBindMsgDto bindUserMailByPojo(BindMailPojo bindMailPojo) {
 
 		boolean bindSign = false;
+		String userMail = "";
 		MailBindMsgDto mailBindMsgDto = new MailBindMsgDto();
 		Base64.Decoder decoder = Base64.getDecoder();
 
@@ -912,6 +913,8 @@ public class UserInfoService {
 					
 				} else {
 					
+					userMail = userMailDto.getUserMail();
+					
 					boolean sendStatus = sendCommon.sendRandomPwdMail(
 							"訪客", userMailDto.getUserMail(), randomPwd);
 					
@@ -944,6 +947,7 @@ public class UserInfoService {
 			
 			mailBindMsgDto.setStatus(true);
 			mailBindMsgDto.setMsg("");
+			mailBindMsgDto.setUserMail(userMail);
 		}
 
 		return mailBindMsgDto;
