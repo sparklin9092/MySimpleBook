@@ -9,7 +9,7 @@ $(function() {
 		if (code == 13) $('#loginBtn').trigger('click');
 	});
 	
-	if (!$.cookie('checkGuest')) {
+	if ($.cookie('checkGuest')) {
 		
 		$.removeCookie('checkGuest');
 	}
