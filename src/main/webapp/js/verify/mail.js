@@ -131,20 +131,7 @@ function reSendAct() {
 				
 				alert('已經重新寄發認證碼到您的信箱！請到信箱索取認證碼進行綁定！');
 				
-				var reSendSec = 180;
-				var reSendMailInteval = setInterval(function() {
-						
-					reSendSec -= 1;
-					$('#reSendBtn').text('重寄認證碼('+reSendSec+')');
-					
-					if(reSendSec <= 0) {
-						
-						$('#reSendBtn').prop('disabled', false);
-						$('#reSendBtn').text('重寄認證碼');
-						
-						clearInterval(reSendMailInteval);
-					}
-				}, 1000);
+				initBuAcc();
 			} else {
 				alert(res.msg);
 			}
