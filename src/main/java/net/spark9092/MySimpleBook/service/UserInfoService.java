@@ -131,17 +131,17 @@ public class UserInfoService {
 			if(!isActive) {
 
 				loginResultDto.setStatus(false);
-				loginResultDto.setMsg("帳號已停用");
+				loginResultDto.setMsg("帳號已停用。");
 
 			} else if (isDelete) {
 
 				loginResultDto.setStatus(false);
-				loginResultDto.setMsg("帳號或密碼錯誤");
+				loginResultDto.setMsg("帳號或密碼錯誤。");
 
 			} else if(!inputPwd.equals(dataPwd)) {
 
 				loginResultDto.setStatus(false);
-				loginResultDto.setMsg("帳號或密碼錯誤");
+				loginResultDto.setMsg("帳號或密碼錯誤。");
 
 			} else {
 
