@@ -42,7 +42,19 @@ public class CheckCommon {
 
 		String regex = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}";
 		
-		return userMail.toString().matches(regex);
+		return userMail.matches(regex);
+	}
+	
+	/**
+	 * 驗證手機號碼
+	 * @param userPhone
+	 * @return
+	 */
+	public boolean checkPhone(String userPhone) {
+
+		String regex = "[0-9]{10}";
+		
+		return userPhone.matches(regex);
 	}
 
 	/**
