@@ -16,17 +16,22 @@
 				<div>
 					<input type="text" class="form-control" id="userMail" name="userMail" readonly>
 				</div>
-				<div class="mt-3">驗證碼</div>
+				<div class="mt-3">認證碼</div>
 				<div>
-					<input type="text" class="form-control" id="verifyCode" name="verifyCode" placeholder="請輸入驗證碼">
+					<input type="text" class="form-control" id="verifyCode" name="verifyCode" placeholder="請輸入認證碼">
 				</div>
-				<div class="text-center mt-5 mb-4">
+				<div class="text-center mt-4 mb-4">
 					<div class="row">
 						<div class="col text-start">
 							<button type="button" class="btn btn-primary btn-lg" id="homeBtn" name="homeBtn">取消</button>
 						</div>
 						<div class="col text-end">
 							<button type="button" class="btn btn-success btn-lg" id="bindBtn" name="bindBtn">綁定</button>
+						</div>
+					</div>
+					<div class="row mt-4">
+						<div class="col">
+							<button type="button" class="btn btn-info btn-lg" id="reSendBtn" name="reSendBtn">重寄認證碼(180)</button>
 						</div>
 					</div>
 				</div>

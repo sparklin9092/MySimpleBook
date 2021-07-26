@@ -27,6 +27,7 @@ import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserMailDto;
 import net.spark9092.MySimpleBook.dto.verify.MailBindMsgDto;
+import net.spark9092.MySimpleBook.dto.verify.MailVerifyCodeLastTimeDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailVerifyDataDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
@@ -396,7 +397,7 @@ public class UserInfoService {
 
 			//Email更新失敗
 			userBindMailMsgDto.setStatus(false);
-			userBindMailMsgDto.setMsg("目前無法寄發電子信箱(Email)的驗證碼，請稍後再試，或是更換其他綁定方法。");
+			userBindMailMsgDto.setMsg("目前無法寄發電子信箱(Email)的認證碼，請稍後再試，或是更換其他綁定方法。");
 			return userBindMailMsgDto;
 		}
 
@@ -406,13 +407,13 @@ public class UserInfoService {
 
 		if(!insertStatus) {
 
-			//驗證碼insert失敗
+			//認證碼insert失敗
 			userBindMailMsgDto.setStatus(false);
-			userBindMailMsgDto.setMsg("目前無法寄發電子信箱(Email)的驗證碼，請稍後再試，或是更換其他綁定方法。");
+			userBindMailMsgDto.setMsg("目前無法寄發電子信箱(Email)的認證碼，請稍後再試，或是更換其他綁定方法。");
 			return userBindMailMsgDto;
 		}
 
-		//使用發送公用類，呼叫發送電子信箱驗證碼的方法
+		//使用發送公用類，呼叫發送電子信箱認證碼的方法
 		boolean sendMailStatus = sendCommon.sendVerifyCodeMail(
 				userAccount, userName, userMail, verifyCode);
 
@@ -420,7 +421,7 @@ public class UserInfoService {
 
 			//Email發送失敗
 			userBindMailMsgDto.setStatus(false);
-			userBindMailMsgDto.setMsg("目前無法寄發電子信箱(Email)的驗證碼，請稍後再試，或是更換其他綁定方法。");
+			userBindMailMsgDto.setMsg("目前無法寄發電子信箱(Email)的認證碼，請稍後再試，或是更換其他綁定方法。");
 			return userBindMailMsgDto;
 		}
 
@@ -705,9 +706,41 @@ public class UserInfoService {
 			userMailMsgDto = iUserInfoMapper.selectMailByAccount(userAccount);
 
 			if(null != userMailMsgDto) {
+				
+				String reSendSec = "";
+				
+				//查詢還有多久可以重寄認證碼
+				MailVerifyCodeLastTimeDto mailVerifyCodeLastTimeDto = 
+						iUserVerifyMapper.selectLastCodeTimeByUserId(
+						userMailMsgDto.getUserId());
 
+				if(null == mailVerifyCodeLastTimeDto) {
+					
+					//因為使用者看到信件，加上點擊網址需要時間，
+					//所以如果真的沒有查到時間，最慢也就設定120秒就可以了
+					reSendSec = "120";
+					
+				} else {
+					
+					LocalDateTime now = LocalDateTime.now();
+					Duration duration = Duration.between(
+							mailVerifyCodeLastTimeDto.getSystemSendTime(), now);
+					
+					int reSendSecInt = (int) duration.getSeconds();
+					
+					logger.debug("reSendSecInt: " + reSendSecInt);
+					
+					if(reSendSecInt > 180) reSendSecInt = 180;
+					
+					reSendSec = String.valueOf(180-reSendSecInt);
+					
+					logger.debug("reSendSec: " + reSendSec);
+				}
+				
 				userMailMsgDto.setStatus(true);
 				userMailMsgDto.setMsg("");
+				userMailMsgDto.setReSendSec(reSendSec);
+				userMailMsgDto.setUserId(0);
 
 				return userMailMsgDto;
 
@@ -719,6 +752,7 @@ public class UserInfoService {
 		userMailMsgDto.setMsg("");
 		userMailMsgDto.setUserMail("");
 		userMailMsgDto.setStatus(false);
+		userMailMsgDto.setUserId(0);
 
 		return userMailMsgDto;
 	}
@@ -760,21 +794,21 @@ public class UserInfoService {
 			UserMailVerifyDataDto userMailVerifyDataDto =
 					iUserVerifyMapper.selectByUserId(userId);
 
-			//先判斷有沒有驗證碼
+			//先判斷有沒有認證碼
 			if(bindSign) {
 				if(null == userMailVerifyDataDto) {
 
 					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
 
 					mailBindMsgDto.setStatus(false);
-					mailBindMsgDto.setMsg("找不到您的驗證碼，請您重新綁定。");
+					mailBindMsgDto.setMsg("找不到您的認證碼，請您重新綁定。");
 					
 				} else {
 					bindSign = true;
 				}
 			}
 
-			//再判斷驗證碼過期了沒
+			//再判斷認證碼過期了沒
 			if(bindSign) {
 				LocalDateTime now = LocalDateTime.now();
 				Duration duration = Duration.between(
@@ -787,42 +821,42 @@ public class UserInfoService {
 					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
 	
 					mailBindMsgDto.setStatus(false);
-					mailBindMsgDto.setMsg("驗證碼已過期，請您重新綁定。");
+					mailBindMsgDto.setMsg("認證碼已過期，請您重新綁定。");
 					
 				} else {
 					bindSign = true;
 				}
 			}
 
-			//比對驗證碼是否正確
+			//比對認證碼是否正確
 			if(bindSign) {
 				if(!inputVerifyCode.equals(userMailVerifyDataDto.getVerifyCode())) {
 
 					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
 	
 					mailBindMsgDto.setStatus(false);
-					mailBindMsgDto.setMsg("驗證碼輸入錯誤，請您重新輸入。");
+					mailBindMsgDto.setMsg("認證碼輸入錯誤，請您重新輸入。");
 					
 				} else {
 					bindSign = true;
 				}
 			}
 
-			//判斷驗證碼使用過了沒
+			//判斷認證碼使用過了沒
 			if(bindSign) {
 				if(userMailVerifyDataDto.isUsed()) {
 
 					bindSign = false; //有出現錯誤，把標記改為false，後面邏輯都不用繼續了
 	
 					mailBindMsgDto.setStatus(false);
-					mailBindMsgDto.setMsg("驗證碼已使用，請您重新綁定。");
+					mailBindMsgDto.setMsg("認證碼已使用，請您重新綁定。");
 					
 				} else {
 					bindSign = true;
 				}
 			}
 
-			//更新驗證碼為「已使用」
+			//更新認證碼為「已使用」
 			if(bindSign) {
 				boolean updateStatus = iUserVerifyMapper.updateByUserId(
 						userMailVerifyDataDto.getVerifyId(), 
@@ -913,5 +947,114 @@ public class UserInfoService {
 		}
 
 		return mailBindMsgDto;
+	}
+
+	public UserMailMsgDto resSendVerifyCodeMailByAccount(String base64UserAccount) {
+
+		UserMailMsgDto userMailMsgDto = new UserMailMsgDto();
+		Base64.Decoder decoder = Base64.getDecoder();
+
+		try {
+
+			String userAccount = new String(decoder.decode(base64UserAccount), "UTF-8");
+
+			userMailMsgDto = iUserInfoMapper.selectMailByAccount(userAccount);
+			
+			if(null == userMailMsgDto) {
+				
+				userMailMsgDto = new UserMailMsgDto();
+				userMailMsgDto.setStatus(false);
+				userMailMsgDto.setMsg("目前無法重新寄發認證碼到您的信箱，請您稍候再重新操作一次。");
+				userMailMsgDto.setReSendSec("");
+				userMailMsgDto.setUserMail("");
+				userMailMsgDto.setUserId(0);
+				
+			} else {
+				
+				int userId = userMailMsgDto.getUserId();
+				String userMail = userMailMsgDto.getUserMail();
+				String verifyCode = generatorCommon.getVerifyCode();
+				
+				//先查詢上一個認證碼是否已經超過3分鐘
+				MailVerifyCodeLastTimeDto mailVerifyCodeLastTimeDto = 
+						iUserVerifyMapper.selectLastCodeTimeByUserId(userId);
+				
+				if(null == mailVerifyCodeLastTimeDto) {
+
+					//認證碼insert失敗
+					userMailMsgDto.setStatus(false);
+					userMailMsgDto.setMsg("目前無法重新寄發認證碼到您的信箱，請您稍候再重新操作一次。");
+					userMailMsgDto.setReSendSec("");
+					userMailMsgDto.setUserMail("");
+					userMailMsgDto.setUserId(0);
+					return userMailMsgDto;
+					
+				} else {
+					
+					LocalDateTime now = LocalDateTime.now();
+					Duration duration = Duration.between(
+							mailVerifyCodeLastTimeDto.getSystemSendTime(), now);
+					
+					int reSendSecInt = (int) duration.getSeconds();
+					
+					if(reSendSecInt > 0 && reSendSecInt <= 180) {
+						
+						userMailMsgDto.setStatus(false);
+						userMailMsgDto.setMsg("您的上一個認證碼還未過期，請先使用上一個認證碼。");
+						userMailMsgDto.setReSendSec("");
+						userMailMsgDto.setUserMail("");
+						userMailMsgDto.setUserId(0);
+						return userMailMsgDto;
+						
+					}
+				}
+				
+				//存入user_verify，給使用者來驗證
+				boolean insertStatus = iUserVerifyMapper.insertMailVerifyCodeByUserId(
+						userId, VerifyTypeEnum.EMAIL.getType(), verifyCode);
+
+				if(!insertStatus) {
+
+					//認證碼insert失敗
+					userMailMsgDto.setStatus(false);
+					userMailMsgDto.setMsg("目前無法重新寄發認證碼到您的信箱，請您稍候再重新操作一次。");
+					userMailMsgDto.setReSendSec("");
+					userMailMsgDto.setUserMail("");
+					userMailMsgDto.setUserId(0);
+					return userMailMsgDto;
+				}
+
+				//使用發送公用類，呼叫發送電子信箱認證碼的方法
+				boolean sendMailStatus = sendCommon.sendVerifyCodeMail(
+						userAccount, "訪客", userMail, verifyCode);
+
+				if(!sendMailStatus) {
+
+					//Email發送失敗
+					userMailMsgDto.setStatus(false);
+					userMailMsgDto.setMsg("目前無法重新寄發認證碼到您的信箱，請您稍候再重新操作一次。");
+					userMailMsgDto.setReSendSec("");
+					userMailMsgDto.setUserMail("");
+					userMailMsgDto.setUserId(0);
+					return userMailMsgDto;
+				}
+				
+				userMailMsgDto.setStatus(true);
+				userMailMsgDto.setMsg("");
+				userMailMsgDto.setReSendSec("");
+				userMailMsgDto.setUserMail("");
+				userMailMsgDto.setUserId(0);
+			}
+		} catch (Exception e) {
+			
+			userMailMsgDto = new UserMailMsgDto();
+			userMailMsgDto.setStatus(false);
+			userMailMsgDto.setMsg("目前無法重新寄發認證碼到您的信箱，請您稍候再重新操作一次。");
+			userMailMsgDto.setReSendSec("");
+			userMailMsgDto.setUserMail("");
+			userMailMsgDto.setUserId(0);
+		}
+		
+		return userMailMsgDto;
 	}
 }

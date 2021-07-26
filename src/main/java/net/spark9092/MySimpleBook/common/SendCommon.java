@@ -86,11 +86,11 @@ public class SendCommon {
 	}
 
 	/**
-	 * 寄發電子信箱(Email)驗證碼給使用者
+	 * 寄發電子信箱(Email)認證碼給使用者
 	 * @param userAccount 使用者帳號
 	 * @param userName 使用者名稱
 	 * @param userMail 使用者電子信箱
-	 * @param verifyCode 驗證碼
+	 * @param verifyCode 認證碼
 	 * @return
 	 */
 	public boolean sendVerifyCodeMail(String userAccount, String userName, String userMail, String verifyCode) {
@@ -128,7 +128,7 @@ public class SendCommon {
 			
 			String systemHtmlBody = String.format(defaultHtmlBody, 
 					userName, //第一行：使用者名稱
-					verifyCode, //第二行：驗證碼
+					verifyCode, //第二行：認證碼
 					systemVerifyUrl, systemName, //第三行：驗證網址、系統名稱
 					systemUrl, systemName //最後一行：官網網址、系統名稱
 			);

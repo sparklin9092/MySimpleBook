@@ -4,6 +4,7 @@ $(function() {
 
 	$('#homeBtn').on('click', homeAct);
 	$('#bindBtn').on('click', bindAct);
+	$('#reSendBtn').on('click', reSendAct);
 
 	$('#verifyCode').on('keypress', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
@@ -12,6 +13,9 @@ $(function() {
 });
 
 function initBuAcc() {
+	
+	$('#reSendBtn').prop('disabled', true);
+	$('#reSendBtn').text('重寄認證碼(180)');
 	
 	var data = {};
 	data.buAcc = $('#buAcc').val();
@@ -23,9 +27,39 @@ function initBuAcc() {
 		contentType: 'application/json',
 		data: JSON.stringify(data),
 		success: function(res) {
+			
 			if(res.status) {
+				
 				$('#userMail').val(res.userMail);
+				
+				var reSendSec = res.reSendSec;
+				
+				if(reSendSec == 0) {
+					
+					$('#reSendBtn').prop('disabled', false);
+					$('#reSendBtn').text('重寄認證碼');
+					
+				} else {
+					
+					$('#reSendBtn').prop('disabled', true);
+					$('#reSendBtn').text('重寄認證碼('+reSendSec+')');
+
+					 var reSendMailInteval = setInterval(function() {
+						
+						reSendSec -= 1;
+						$('#reSendBtn').text('重寄認證碼('+reSendSec+')');
+						
+						if(reSendSec <= 0) {
+							
+							$('#reSendBtn').prop('disabled', false);
+							$('#reSendBtn').text('重寄認證碼');
+							
+							clearInterval(reSendMailInteval);
+						}
+					}, 1000);
+				}
 			} else {
+				
 				$('#userMail').val('系統查無資料，請重新綁定');
 				$('#bindBtn').prop('disabled', true);
 			}
@@ -58,6 +92,51 @@ function bindAct() {
 			if(res.status) {
 				alert('綁定成功！已寄發臨時密碼到您的信箱，請到信箱索取臨時密碼進行登入！');
 				location.href = '/';
+			} else {
+				alert(res.msg);
+			}
+		},
+		error: function(err) {
+			console.log(err);
+			alert('無法連接伺服器');
+		}
+	});
+}
+
+function reSendAct() {
+	
+	$('#reSendBtn').prop('disabled', true);
+	$('#reSendBtn').text('重寄認證碼(180)');
+	
+	var data = {};
+	data.buAcc = $('#buAcc').val();
+	
+	$.ajax({
+		url: '/verify/mail/resend',
+		method: 'POST',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(data),
+		success: function(res) {
+			
+			if(res.status) {
+				
+				alert('已經重新寄發認證碼到您的信箱！請到信箱索取認證碼進行綁定！');
+				
+				var reSendSec = 180;
+				var reSendMailInteval = setInterval(function() {
+						
+					reSendSec -= 1;
+					$('#reSendBtn').text('重寄認證碼('+reSendSec+')');
+					
+					if(reSendSec <= 0) {
+						
+						$('#reSendBtn').prop('disabled', false);
+						$('#reSendBtn').text('重寄認證碼');
+						
+						clearInterval(reSendMailInteval);
+					}
+				}, 1000);
 			} else {
 				alert(res.msg);
 			}

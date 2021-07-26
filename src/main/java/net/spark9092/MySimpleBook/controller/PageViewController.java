@@ -378,7 +378,7 @@ public class PageViewController {
 	}
 	
 	/**
-	 * 電子信箱(Email)驗證碼輸入畫面
+	 * 電子信箱(Email)認證碼輸入畫面
 	 * @return
 	 */
 	@GetMapping("/verify/mail/{base64UserAcc}")

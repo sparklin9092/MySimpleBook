@@ -8,25 +8,14 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import net.spark9092.MySimpleBook.dto.verify.MailVerifyCodeLastTimeDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailVerifyDataDto;
 
 @Mapper
 public interface IUserVerifyMapper {
 
 	/**
-	 * 根據使用者ID，新增電子信箱(Email)的驗證碼
-	 * @param userId
-	 * @param verifyCode
-	 * @return
-	 */
-	@Insert("insert into user_verify(user_id, verify_type, verify_code) "
-			+ " values(#{userId}, #{verifyType}, #{verifyCode})")
-	boolean insertMailVerifyCodeByUserId(@Param("userId") int userId, 
-			@Param("verifyType") String verifyType, 
-			@Param("verifyCode") String verifyCode);
-
-	/**
-	 * 根據使用者 ID 查詢驗證碼資料
+	 * 根據使用者 ID 查詢認證碼資料
 	 * @param userId
 	 * @return
 	 */
@@ -44,7 +33,34 @@ public interface IUserVerifyMapper {
 	UserMailVerifyDataDto selectByUserId(@Param("userId") int userId);
 
 	/**
-	 * 更新驗證碼為「已使用」
+	 * 根據使用者ID，取得最後一次電子信箱(Email)認證碼發送的時間
+	 * @param userId
+	 * @return
+	 */
+	@Select("select system_send_datetime from user_verify "
+			+ " where user_id=#{userId} and verify_type='mail' "
+			+ " and is_used=0 and is_active=1 and is_delete=0 "
+			+ " order by system_send_datetime desc "
+			+ " limit 1")
+	@Results({
+		@Result(column="system_send_datetime", property="systemSendTime")
+	})
+	MailVerifyCodeLastTimeDto selectLastCodeTimeByUserId(@Param("userId") int userId);
+
+	/**
+	 * 根據使用者ID，新增電子信箱(Email)的認證碼
+	 * @param userId
+	 * @param verifyCode
+	 * @return
+	 */
+	@Insert("insert into user_verify(user_id, verify_type, verify_code) "
+			+ " values(#{userId}, #{verifyType}, #{verifyCode})")
+	boolean insertMailVerifyCodeByUserId(@Param("userId") int userId, 
+			@Param("verifyType") String verifyType, 
+			@Param("verifyCode") String verifyCode);
+
+	/**
+	 * 更新認證碼為「已使用」
 	 * @param verifyId
 	 * @param userId
 	 * @return

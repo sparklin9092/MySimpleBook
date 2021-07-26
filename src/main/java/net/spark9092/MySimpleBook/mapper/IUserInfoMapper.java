@@ -92,8 +92,9 @@ public interface IUserInfoMapper {
 	 * @param userAccount
 	 * @return
 	 */
-	@Select("select email from user_info where user_account=#{userAccount}")
+	@Select("select id, email from user_info where user_account=#{userAccount}")
 	@Results({
+		@Result(column="id", property="userId"),
 		@Result(column="email", property="userMail")
 	})
 	UserMailMsgDto selectMailByAccount(@Param("userAccount") String userAccount);

@@ -37,5 +37,15 @@ public class VerifyController {
 		
 		return userInfoService.bindUserMailByPojo(bindMailPojo);
 	}
+	
+	@PostMapping("/mail/resend")
+	public UserMailMsgDto resSendVerifyCodeMailByAccount(@RequestBody MailBuAccPojo mailBuAccPojo) {
+		
+		String base64UserAccount = mailBuAccPojo.getBuAcc();
+		
+		logger.debug("resSendVerifyCodeMailByAccount base64UserAccount: " + base64UserAccount);
+		
+		return userInfoService.resSendVerifyCodeMailByAccount(base64UserAccount);
+	}
 
 }
