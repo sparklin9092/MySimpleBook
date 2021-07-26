@@ -8,6 +8,11 @@ $(function() {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if (code == 13) $('#loginBtn').trigger('click');
 	});
+	
+	if (!$.cookie('checkGuest')) {
+		
+		$.removeCookie('checkGuest');
+	}
 });
 
 function loginAct() {
