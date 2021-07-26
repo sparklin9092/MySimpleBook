@@ -72,6 +72,7 @@ public class LoginController {
 			session.setAttribute(SessinNameEnum.GUEST_DATA_COUNT.getName(), 0);
 		}
 
+		//多用一個Dto回傳登入結果的原因，是因為不想讓前端知道有 UserInfoEntity 的存在
 		LoginMsgDto loginMsgDto = new LoginMsgDto();
 		loginMsgDto.setStatus(loginStatus);
 		loginMsgDto.setMsg(loginMsg);
