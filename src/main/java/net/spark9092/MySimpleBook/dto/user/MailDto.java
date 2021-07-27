@@ -1,6 +1,6 @@
 package net.spark9092.MySimpleBook.dto.user;
 
-public class UserMailDto {
+public class MailDto {
 	
 	private String userMail;
 

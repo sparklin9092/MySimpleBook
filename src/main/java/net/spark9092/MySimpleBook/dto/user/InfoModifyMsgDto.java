@@ -1,9 +1,9 @@
 package net.spark9092.MySimpleBook.dto.user;
 
-import net.spark9092.MySimpleBook.dto.MsgDto;
+import net.spark9092.MySimpleBook.dto.BaseMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 
-public class UserInfoModifyMsgDto extends MsgDto {
+public class InfoModifyMsgDto extends BaseMsgDto {
 	
 	private UserInfoEntity entity;
 

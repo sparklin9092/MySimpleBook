@@ -2,9 +2,9 @@ package net.spark9092.MySimpleBook.dto.richCode;
 
 import java.util.List;
 
-import net.spark9092.MySimpleBook.dto.MsgDto;
+import net.spark9092.MySimpleBook.dto.BaseMsgDto;
 
-public class ListMsgDto extends MsgDto {
+public class ListMsgDto extends BaseMsgDto {
 
 	private List<ListDto> listDtos;
 

@@ -1,6 +1,6 @@
 package net.spark9092.MySimpleBook.dto;
 
-public class MsgDto {
+public class BaseMsgDto {
 	
 	private boolean status;
 	

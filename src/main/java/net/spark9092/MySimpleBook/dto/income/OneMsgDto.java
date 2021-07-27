@@ -1,8 +1,8 @@
 package net.spark9092.MySimpleBook.dto.income;
 
-import net.spark9092.MySimpleBook.dto.MsgDto;
+import net.spark9092.MySimpleBook.dto.BaseMsgDto;
 
-public class OneMsgDto extends MsgDto {
+public class OneMsgDto extends BaseMsgDto {
 	
 	private OneDto oneDto;
 

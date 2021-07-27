@@ -1,4 +1,4 @@
-package net.spark9092.MySimpleBook.dto.items.spend;
+package net.spark9092.MySimpleBook.dto.user;
 
 import net.spark9092.MySimpleBook.dto.BaseMsgDto;
 

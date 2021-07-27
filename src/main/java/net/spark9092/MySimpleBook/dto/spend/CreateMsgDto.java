@@ -1,7 +1,7 @@
 package net.spark9092.MySimpleBook.dto.spend;
 
-import net.spark9092.MySimpleBook.dto.MsgDto;
+import net.spark9092.MySimpleBook.dto.BaseMsgDto;
 
-public class CreateMsgDto extends MsgDto {
+public class CreateMsgDto extends BaseMsgDto {
 
 }

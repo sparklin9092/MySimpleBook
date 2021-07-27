@@ -2,9 +2,9 @@ package net.spark9092.MySimpleBook.dto.account;
 
 import java.util.List;
 
-import net.spark9092.MySimpleBook.dto.MsgDto;
+import net.spark9092.MySimpleBook.dto.BaseMsgDto;
 
-public class TypeListMsgDto extends MsgDto {
+public class TypeListMsgDto extends BaseMsgDto {
 
 	private List<TypeListDto> accountTypeListDto;
 

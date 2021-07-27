@@ -1,8 +1,8 @@
 package net.spark9092.MySimpleBook.dto.verify;
 
-import net.spark9092.MySimpleBook.dto.MsgDto;
+import net.spark9092.MySimpleBook.dto.BaseMsgDto;
 
-public class UserMailMsgDto extends MsgDto {
+public class UserMailMsgDto extends BaseMsgDto {
 	
 	private int userId;
 	
