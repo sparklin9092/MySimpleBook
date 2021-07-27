@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.spark9092.MySimpleBook.dto.user.UserDeleteMsgDto;
-import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
-import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
-import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
+import net.spark9092.MySimpleBook.dto.user.DeleteMsgDto;
+import net.spark9092.MySimpleBook.dto.user.InfoModifyMsgDto;
+import net.spark9092.MySimpleBook.dto.user.InfoMsgDto;
+import net.spark9092.MySimpleBook.dto.user.PwdChangeMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.user.ChangePwdPojo;
@@ -28,9 +28,9 @@ public class UserInfoController {
 	private UserInfoService userInfoService;
 
 	@PostMapping("")
-	public UserInfoMsgDto userInfo(HttpSession session) {
+	public InfoMsgDto userInfo(HttpSession session) {
 
-		UserInfoMsgDto userInfoMsgDto = new UserInfoMsgDto();
+		InfoMsgDto userInfoMsgDto = new InfoMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
@@ -48,9 +48,9 @@ public class UserInfoController {
 	}
 
 	@PostMapping("/pwd/change")
-	public UserPwdChangeMsgDto changePwd(HttpSession session, @RequestBody ChangePwdPojo changePwdPojo) {
+	public PwdChangeMsgDto changePwd(HttpSession session, @RequestBody ChangePwdPojo changePwdPojo) {
 
-		UserPwdChangeMsgDto userPwdChangeMsgDto = new UserPwdChangeMsgDto();
+		PwdChangeMsgDto userPwdChangeMsgDto = new PwdChangeMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
@@ -73,9 +73,9 @@ public class UserInfoController {
 	}
 
 	@PostMapping("/modify")
-	public UserInfoModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
+	public InfoModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
 
-		UserInfoModifyMsgDto userInfoModifyMsgDto = new UserInfoModifyMsgDto();
+		InfoModifyMsgDto userInfoModifyMsgDto = new InfoModifyMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
@@ -103,9 +103,9 @@ public class UserInfoController {
 	}
 
 	@PostMapping("/delete")
-	public UserDeleteMsgDto deleteAct(HttpSession session) {
+	public DeleteMsgDto deleteAct(HttpSession session) {
 
-		UserDeleteMsgDto userDeleteMsgDto = new UserDeleteMsgDto();
+		DeleteMsgDto userDeleteMsgDto = new DeleteMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 

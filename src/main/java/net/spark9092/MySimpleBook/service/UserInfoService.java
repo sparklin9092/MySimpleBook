@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CryptionCommon;
-import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
-import net.spark9092.MySimpleBook.dto.user.UserDeleteMsgDto;
-import net.spark9092.MySimpleBook.dto.user.UserInfoDto;
-import net.spark9092.MySimpleBook.dto.user.UserInfoModifyMsgDto;
-import net.spark9092.MySimpleBook.dto.user.UserInfoMsgDto;
-import net.spark9092.MySimpleBook.dto.user.UserPwdChangeMsgDto;
+import net.spark9092.MySimpleBook.dto.login.ResultMsgDto;
+import net.spark9092.MySimpleBook.dto.user.DeleteMsgDto;
+import net.spark9092.MySimpleBook.dto.user.InfoDto;
+import net.spark9092.MySimpleBook.dto.user.InfoModifyMsgDto;
+import net.spark9092.MySimpleBook.dto.user.InfoMsgDto;
+import net.spark9092.MySimpleBook.dto.user.PwdChangeMsgDto;
 import net.spark9092.MySimpleBook.dto.verify.MailVerifyCodeLastTimeDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
@@ -29,7 +29,7 @@ import net.spark9092.MySimpleBook.mapper.ISpendMapper;
 import net.spark9092.MySimpleBook.mapper.ITransferMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.mapper.IUserVerifyMapper;
-import net.spark9092.MySimpleBook.pojo.guest.UserAccCheckPojo;
+import net.spark9092.MySimpleBook.pojo.guest.AccCheckPojo;
 import net.spark9092.MySimpleBook.pojo.user.ChangePwdPojo;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 import net.spark9092.MySimpleBook.pojo.user.ModifyPojo;
@@ -74,9 +74,9 @@ public class UserInfoService {
 	 * @param userLoginPojo
 	 * @return
 	 */
-	public LoginResultDto userLogin(LoginPojo userLoginPojo) {
+	public ResultMsgDto userLogin(LoginPojo userLoginPojo) {
 
-		LoginResultDto loginResultDto = new LoginResultDto();
+		ResultMsgDto loginResultDto = new ResultMsgDto();
 		UserInfoEntity userInfoEntity = new UserInfoEntity();
 
 		String userAcc = userLoginPojo.getUserAcc();
@@ -131,9 +131,9 @@ public class UserInfoService {
 	 * @param userId
 	 * @return
 	 */
-	public UserInfoMsgDto getUserInfoByEntity(UserInfoEntity userInfoEntity) {
+	public InfoMsgDto getUserInfoByEntity(UserInfoEntity userInfoEntity) {
 
-		UserInfoMsgDto userInfoMsgDto = new UserInfoMsgDto();
+		InfoMsgDto userInfoMsgDto = new InfoMsgDto();
 
 		if(null == userInfoEntity) {
 
@@ -142,7 +142,7 @@ public class UserInfoService {
 
 		} else {
 
-			UserInfoDto userInfoDto = new UserInfoDto();
+			InfoDto userInfoDto = new InfoDto();
 
 			String dePwd = cryptionCommon.decryptionPwd(userInfoEntity.getUserPwd());
 
@@ -269,9 +269,9 @@ public class UserInfoService {
 	 * @param changePwdPojo
 	 * @return
 	 */
-	public UserPwdChangeMsgDto modifyPwd(ChangePwdPojo changePwdPojo, String oriPwd) {
+	public PwdChangeMsgDto modifyPwd(ChangePwdPojo changePwdPojo, String oriPwd) {
 
-		UserPwdChangeMsgDto userPwdChangeMsgDto = new UserPwdChangeMsgDto();
+		PwdChangeMsgDto userPwdChangeMsgDto = new PwdChangeMsgDto();
 
 		String userOldPwd = changePwdPojo.getOldPwd();
 		String userNewPwd = changePwdPojo.getNewPwd();
@@ -327,9 +327,9 @@ public class UserInfoService {
 	 * @param modifyPojo
 	 * @return
 	 */
-	public UserInfoModifyMsgDto modifyByPojo(ModifyPojo modifyPojo) {
+	public InfoModifyMsgDto modifyByPojo(ModifyPojo modifyPojo) {
 
-		UserInfoModifyMsgDto userInfoModifyMsgDto = new UserInfoModifyMsgDto();
+		InfoModifyMsgDto userInfoModifyMsgDto = new InfoModifyMsgDto();
 
 		int userId = modifyPojo.getUserId();
 		String userName = modifyPojo.getUserName();
@@ -340,7 +340,7 @@ public class UserInfoService {
 		//TODO 如果 Email 已經綁定，Email也不能改
 
 		//更新使用者資料前，先檢查使用者帳號是否重複
-		UserAccCheckPojo userAccCheckPojo = new UserAccCheckPojo();
+		AccCheckPojo userAccCheckPojo = new AccCheckPojo();
 		userAccCheckPojo.setUserId(userId);
 		//userAccCheckPojo.setUserAcc(userAcc);
 
@@ -402,9 +402,9 @@ public class UserInfoService {
 	 * @return
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public UserDeleteMsgDto deleteUserById(int userId) throws Exception {
+	public DeleteMsgDto deleteUserById(int userId) throws Exception {
 
-		UserDeleteMsgDto userDeleteMsgDto = new UserDeleteMsgDto();
+		DeleteMsgDto userDeleteMsgDto = new DeleteMsgDto();
 
 		//刪除前，先查詢有無資料，避免發生錯誤
 		if(iAccountMapper.selectListByUserId(userId).size() != 0) {

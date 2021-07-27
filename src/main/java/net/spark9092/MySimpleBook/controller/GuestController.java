@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.spark9092.MySimpleBook.dto.guest.UserAccCheckMsgDto;
-import net.spark9092.MySimpleBook.dto.guest.UserBindAccPwdMsgDto;
-import net.spark9092.MySimpleBook.dto.guest.UserBindMailMsgDto;
+import net.spark9092.MySimpleBook.dto.guest.AccCheckMsgDto;
+import net.spark9092.MySimpleBook.dto.guest.BindAccPwdMsgDto;
+import net.spark9092.MySimpleBook.dto.guest.BindMailMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
-import net.spark9092.MySimpleBook.pojo.guest.UserAccCheckPojo;
-import net.spark9092.MySimpleBook.pojo.guest.UserBindAccPwdPojo;
-import net.spark9092.MySimpleBook.pojo.guest.UserBindMailPojo;
+import net.spark9092.MySimpleBook.pojo.guest.AccCheckPojo;
+import net.spark9092.MySimpleBook.pojo.guest.BindAccPwdPojo;
+import net.spark9092.MySimpleBook.pojo.guest.BindMailPojo;
 import net.spark9092.MySimpleBook.service.GuestService;
 
 @RequestMapping("/guest")
@@ -43,9 +43,9 @@ public class GuestController {
 	}
 
 	@PostMapping("/check/account")
-	public UserAccCheckMsgDto userAccCheck(HttpSession session, @RequestBody UserAccCheckPojo userAccCheckPojo) {
+	public AccCheckMsgDto userAccCheck(HttpSession session, @RequestBody AccCheckPojo userAccCheckPojo) {
 
-		UserAccCheckMsgDto userAccCheckMsgDto = new UserAccCheckMsgDto();
+		AccCheckMsgDto userAccCheckMsgDto = new AccCheckMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
@@ -65,9 +65,9 @@ public class GuestController {
 	}
 
 	@PostMapping("/bind/accpwd")
-	public UserBindAccPwdMsgDto userBindAccPwd(HttpSession session, @RequestBody UserBindAccPwdPojo userBindAccPwdPojo) {
+	public BindAccPwdMsgDto guestBindAccPwd(HttpSession session, @RequestBody BindAccPwdPojo userBindAccPwdPojo) {
 
-		UserBindAccPwdMsgDto userBindAccPwdMsgDto = new UserBindAccPwdMsgDto();
+		BindAccPwdMsgDto userBindAccPwdMsgDto = new BindAccPwdMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
@@ -91,9 +91,9 @@ public class GuestController {
 	}
 
 	@PostMapping("/bind/email")
-	public UserBindMailMsgDto userBindMail(HttpSession session, @RequestBody UserBindMailPojo userBindMailPojo) {
+	public BindMailMsgDto guestBindMail(HttpSession session, @RequestBody BindMailPojo userBindMailPojo) {
 
-		UserBindMailMsgDto userBindMailMsgDto = new UserBindMailMsgDto();
+		BindMailMsgDto userBindMailMsgDto = new BindMailMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 

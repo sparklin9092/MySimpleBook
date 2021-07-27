@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.GetCommon;
+import net.spark9092.MySimpleBook.dto.BaseMsgDto;
+import net.spark9092.MySimpleBook.dto.login.ResultMsgDto;
 import net.spark9092.MySimpleBook.dto.richCode.ListMsgDto;
-import net.spark9092.MySimpleBook.dto.user.LoginMsgDto;
-import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
@@ -43,11 +43,11 @@ public class LoginController {
 	private GetCommon getCommon;
 
 	@PostMapping("/login")
-	public LoginMsgDto login(HttpServletRequest request, HttpSession session, @RequestBody LoginPojo loginPojo) {
+	public BaseMsgDto login(HttpServletRequest request, HttpSession session, @RequestBody LoginPojo loginPojo) {
 
 		logger.debug(loginPojo.toString());
 
-		LoginResultDto loginResultDto = userLoginService.userLogin(loginPojo);
+		ResultMsgDto loginResultDto = userLoginService.userLogin(loginPojo);
 
 		UserInfoEntity userInfoEntity = loginResultDto.getUserInfoEntity();
 		boolean loginStatus = loginResultDto.isStatus();
@@ -77,15 +77,15 @@ public class LoginController {
 		}
 
 		//多用一個Dto回傳登入結果的原因，是因為不想讓前端知道有 UserInfoEntity 的存在
-		LoginMsgDto loginMsgDto = new LoginMsgDto();
-		loginMsgDto.setStatus(loginStatus);
-		loginMsgDto.setMsg(loginMsg);
+		BaseMsgDto msgDto = new BaseMsgDto();
+		msgDto.setStatus(loginStatus);
+		msgDto.setMsg(loginMsg);
 
-		return loginMsgDto;
+		return msgDto;
 	}
 
 	@PostMapping("/login/guest")
-	public LoginMsgDto loginGuest(HttpServletRequest request, HttpSession session) {
+	public BaseMsgDto loginGuest(HttpServletRequest request, HttpSession session) {
 
 		String ip = null;
 		try {
@@ -97,7 +97,7 @@ public class LoginController {
 		String device = "not mobile";
 		if(checkCommon.isMobile(request.getHeader("User-Agent"))) device = "mobile";
 		
-		LoginResultDto loginResultDto = guestService.guestLogin(ip, device);
+		ResultMsgDto loginResultDto = guestService.guestLogin(ip, device);
 
 		UserInfoEntity userInfoEntity = loginResultDto.getUserInfoEntity();
 		boolean loginStatus = loginResultDto.isStatus();
@@ -126,10 +126,10 @@ public class LoginController {
 			session.setAttribute(SessinNameEnum.GUEST_DATA_COUNT.getName(), 0);
 		}
 
-		LoginMsgDto loginMsgDto = new LoginMsgDto();
-		loginMsgDto.setStatus(loginStatus);
-		loginMsgDto.setMsg(loginMsg);
+		BaseMsgDto msgDto = new BaseMsgDto();
+		msgDto.setStatus(loginStatus);
+		msgDto.setMsg(loginMsg);
 
-		return loginMsgDto;
+		return msgDto;
 	}
 }

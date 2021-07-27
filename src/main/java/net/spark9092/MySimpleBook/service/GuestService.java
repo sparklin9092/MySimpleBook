@@ -11,10 +11,10 @@ import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.CryptionCommon;
 import net.spark9092.MySimpleBook.common.GeneratorCommon;
 import net.spark9092.MySimpleBook.common.SendMailCommon;
-import net.spark9092.MySimpleBook.dto.guest.UserAccCheckMsgDto;
-import net.spark9092.MySimpleBook.dto.guest.UserBindAccPwdMsgDto;
-import net.spark9092.MySimpleBook.dto.guest.UserBindMailMsgDto;
-import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
+import net.spark9092.MySimpleBook.dto.guest.AccCheckMsgDto;
+import net.spark9092.MySimpleBook.dto.guest.BindAccPwdMsgDto;
+import net.spark9092.MySimpleBook.dto.guest.BindMailMsgDto;
+import net.spark9092.MySimpleBook.dto.login.ResultMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SeqsNameEnum;
 import net.spark9092.MySimpleBook.enums.SystemEnum;
@@ -23,9 +23,9 @@ import net.spark9092.MySimpleBook.mapper.IGuestMapper;
 import net.spark9092.MySimpleBook.mapper.ISystemSeqsMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.mapper.IUserVerifyMapper;
-import net.spark9092.MySimpleBook.pojo.guest.UserAccCheckPojo;
-import net.spark9092.MySimpleBook.pojo.guest.UserBindAccPwdPojo;
-import net.spark9092.MySimpleBook.pojo.guest.UserBindMailPojo;
+import net.spark9092.MySimpleBook.pojo.guest.AccCheckPojo;
+import net.spark9092.MySimpleBook.pojo.guest.BindAccPwdPojo;
+import net.spark9092.MySimpleBook.pojo.guest.BindMailPojo;
 
 @Service
 public class GuestService {
@@ -62,9 +62,9 @@ public class GuestService {
 	 * @param guestDevice
 	 * @return
 	 */
-	public LoginResultDto guestLogin(String ipAddress, String guestDevice) {
+	public ResultMsgDto guestLogin(String ipAddress, String guestDevice) {
 
-		LoginResultDto loginResultDto = new LoginResultDto();
+		ResultMsgDto loginResultDto = new ResultMsgDto();
 
 		//計算這個 IP 已經建立多少次訪客了
 		int guestLoginTimes = iGuestMapper.selectLoginTimes(ipAddress);
@@ -130,9 +130,9 @@ public class GuestService {
 	 * @param userAccCheckPojo
 	 * @return
 	 */
-	public UserAccCheckMsgDto checkUserAccByPojo(UserAccCheckPojo userAccCheckPojo) {
+	public AccCheckMsgDto checkUserAccByPojo(AccCheckPojo userAccCheckPojo) {
 
-		UserAccCheckMsgDto userAccCheckMsgDto = new UserAccCheckMsgDto();
+		AccCheckMsgDto userAccCheckMsgDto = new AccCheckMsgDto();
 
 		String userAcc = userAccCheckPojo.getUserAcc();
 
@@ -171,17 +171,17 @@ public class GuestService {
 	 * @param userBindAccPwdPojo
 	 * @return
 	 */
-	public UserBindAccPwdMsgDto bindUserByAccPwdPojo(UserBindAccPwdPojo userBindAccPwdPojo) {
+	public BindAccPwdMsgDto bindUserByAccPwdPojo(BindAccPwdPojo userBindAccPwdPojo) {
 
-		UserBindAccPwdMsgDto userBindAccPwdMsgDto = new UserBindAccPwdMsgDto();
+		BindAccPwdMsgDto userBindAccPwdMsgDto = new BindAccPwdMsgDto();
 
 		String userAcc = userBindAccPwdPojo.getUserAcc();
 
 		//可能會有時間差，更新使用者資料前，再次檢查使用者帳號是否重複
-		UserAccCheckPojo userAccCheckPojo = new UserAccCheckPojo();
+		AccCheckPojo userAccCheckPojo = new AccCheckPojo();
 		userAccCheckPojo.setUserAcc(userAcc);
 
-		UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
+		AccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
 
 		if(userAccCheckMsgDto.isStatus()) {
 
@@ -225,9 +225,9 @@ public class GuestService {
 	 * @param userBindAccPwdPojo
 	 * @return
 	 */
-	public UserBindMailMsgDto bindUserByMailPojo(UserBindMailPojo userBindMailPojo) {
+	public BindMailMsgDto bindUserByMailPojo(BindMailPojo userBindMailPojo) {
 
-		UserBindMailMsgDto userBindMailMsgDto = new UserBindMailMsgDto();
+		BindMailMsgDto userBindMailMsgDto = new BindMailMsgDto();
 
 		int userId = userBindMailPojo.getUserId();
 		String userAccount = userBindMailPojo.getUserAccount();

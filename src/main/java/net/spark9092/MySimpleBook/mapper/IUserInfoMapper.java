@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Update;
 import net.spark9092.MySimpleBook.dto.verify.MailBindMsgDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
-import net.spark9092.MySimpleBook.dto.user.UserMailDto;
+import net.spark9092.MySimpleBook.dto.user.MailDto;
 
 @Mapper
 public interface IUserInfoMapper {
@@ -108,7 +108,7 @@ public interface IUserInfoMapper {
 	@Results({
 		@Result(column="email", property="userMail")
 	})
-	UserMailDto selectMailByUserId(@Param("userId") int userId);
+	MailDto selectMailByUserId(@Param("userId") int userId);
 
 	/**
 	 * 根據使用者帳號，查詢使用者ID

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import net.spark9092.MySimpleBook.common.CryptionCommon;
 import net.spark9092.MySimpleBook.common.GeneratorCommon;
 import net.spark9092.MySimpleBook.common.SendMailCommon;
-import net.spark9092.MySimpleBook.dto.user.UserMailDto;
+import net.spark9092.MySimpleBook.dto.user.MailDto;
 import net.spark9092.MySimpleBook.dto.verify.MailBindMsgDto;
 import net.spark9092.MySimpleBook.dto.verify.MailVerifyCodeLastTimeDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
@@ -192,7 +192,7 @@ public class VerifyService {
 			if(bindSign) {
 				
 				//根據使用者ID，查詢要寄發臨時密碼的Email
-				UserMailDto userMailDto = iUserInfoMapper.selectMailByUserId(userId);
+				MailDto userMailDto = iUserInfoMapper.selectMailByUserId(userId);
 				
 				if(null == userMailDto) {
 	
