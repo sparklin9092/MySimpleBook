@@ -18,7 +18,7 @@ import com.amazonaws.services.simpleemail.model.Message;
 import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 
 @Component
-public class SendCommon {
+public class SendMailCommon {
 
 	private static final String systemName = "致富寶典";
 
@@ -27,7 +27,7 @@ public class SendCommon {
 
 	private static final String SystemMail = "RichNote Support <support@richnote.net>";
 
-	private static final Logger logger = LoggerFactory.getLogger(SendCommon.class);
+	private static final Logger logger = LoggerFactory.getLogger(SendMailCommon.class);
 
 	private Base64.Encoder encoder = Base64.getEncoder();
 

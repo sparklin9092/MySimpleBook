@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.CryptionCommon;
 import net.spark9092.MySimpleBook.common.GeneratorCommon;
-import net.spark9092.MySimpleBook.common.SendCommon;
+import net.spark9092.MySimpleBook.common.SendMailCommon;
 import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
 import net.spark9092.MySimpleBook.dto.user.UserAccCheckMsgDto;
 import net.spark9092.MySimpleBook.dto.user.UserBindAccPwdMsgDto;
@@ -101,7 +101,7 @@ public class UserInfoService {
 	private CryptionCommon cryptionCommon;
 
 	@Autowired
-	private SendCommon sendCommon;
+	private SendMailCommon sendCommon;
 
 	/**
 	 * 使用者登入
