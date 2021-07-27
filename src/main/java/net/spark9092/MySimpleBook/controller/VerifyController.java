@@ -16,6 +16,7 @@ import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.verify.BindMailPojo;
 import net.spark9092.MySimpleBook.pojo.verify.MailBuAccPojo;
 import net.spark9092.MySimpleBook.service.UserInfoService;
+import net.spark9092.MySimpleBook.service.VerifyService;
 
 @RequestMapping("/verify")
 @RestController
@@ -24,6 +25,8 @@ public class VerifyController {
 	private static final Logger logger = LoggerFactory.getLogger(VerifyController.class);
 	
 	@Autowired UserInfoService userInfoService;
+	
+	@Autowired VerifyService verifyService;
 	
 	@PostMapping("/mail/buacc")
 	public UserMailMsgDto getUserMailByAccount(@RequestBody MailBuAccPojo mailBuAccPojo) {
@@ -38,7 +41,7 @@ public class VerifyController {
 	@PostMapping("/mail/bindAct")
 	public MailBindMsgDto mailBindAct(HttpSession session, @RequestBody BindMailPojo bindMailPojo) {
 		
-		MailBindMsgDto mailBindMsgDto = userInfoService.bindUserMailByPojo(bindMailPojo);
+		MailBindMsgDto mailBindMsgDto = verifyService.bindUserMailByPojo(bindMailPojo);
 		
 		if(mailBindMsgDto.isStatus()) {
 			
@@ -55,7 +58,7 @@ public class VerifyController {
 		
 		logger.debug("resSendVerifyCodeMailByAccount base64UserAccount: " + base64UserAccount);
 		
-		return userInfoService.resSendVerifyCodeMailByAccount(base64UserAccount);
+		return verifyService.resSendVerifyCodeMailByAccount(base64UserAccount);
 	}
 
 }

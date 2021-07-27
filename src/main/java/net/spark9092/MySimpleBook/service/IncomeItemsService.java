@@ -3,8 +3,6 @@ package net.spark9092.MySimpleBook.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +20,17 @@ import net.spark9092.MySimpleBook.pojo.items.income.ModifyPojo;
 @Service
 public class IncomeItemsService {
 
-	private static final Logger logger = LoggerFactory.getLogger(IncomeItemsService.class);
+//	private static final Logger logger = LoggerFactory.getLogger(IncomeItemsService.class);
 
 	@Autowired
 	private IIncomeItemsMapper iItemsIncomeMapper;
 
+	/**
+	 * 根據使用者ID，取得收入項目的清單
+	 * @param userId
+	 * @return
+	 */
 	public List<List<String>> getListByUserId(int userId) {
-
-		logger.debug("使用者ID: " + userId);
 
 		List<List<String>> dataList = new ArrayList<>();
 
@@ -56,6 +57,12 @@ public class IncomeItemsService {
 		return dataList;
 	}
 
+	/**
+	 * 取得某一筆收入項目的資料
+	 * @param userId
+	 * @param itemId
+	 * @return
+	 */
 	public OneMsgDto getOneByIds(int userId, int itemId) {
 
 		OneMsgDto oneMsgDto = new OneMsgDto();
@@ -65,10 +72,7 @@ public class IncomeItemsService {
 		if(null == oneDto) {
 
 			oneMsgDto.setStatus(false);
-			oneMsgDto.setMsg("找不到資料");
-
-			logger.error(String.format("查詢某一筆收入項目時，找不到資料。User ID: %d、Item ID: %d",
-					userId, itemId));
+			oneMsgDto.setMsg("似乎找不到您的資料，已將您的問題提報，請稍後再試試看。");
 
 		} else {
 
@@ -81,14 +85,19 @@ public class IncomeItemsService {
 		return oneMsgDto;
 	}
 
+	/**
+	 * 增加一筆收入項目
+	 * @param createPojo
+	 * @return
+	 */
 	public CreateMsgDto createByPojo(CreatePojo createPojo) {
-		
+
 		CreateMsgDto createMsgDto = new CreateMsgDto();
 
 		if(null == createPojo) {
 
 			createMsgDto.setStatus(false);
-			createMsgDto.setMsg("沒有可以新增的資料");
+			createMsgDto.setMsg("您似乎沒有資料可以新增，再檢查看看還有什麼欄位沒有填寫的。");
 
 		} else {
 
@@ -111,22 +120,27 @@ public class IncomeItemsService {
 			} else {
 
 				createMsgDto.setStatus(false);
-				createMsgDto.setMsg("新增未成功");
+				createMsgDto.setMsg("沒有成功新增收入項目，已將您的問題提報，請稍後再試試看。");
 
 			}
 		}
-		
+
 		return createMsgDto;
 	}
 
+	/**
+	 * 修改某一筆收入項目
+	 * @param modifyPojo
+	 * @return
+	 */
 	public ModifyMsgDto modifyByPojo(ModifyPojo modifyPojo) {
 
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
-		
+
 		if(null == modifyPojo) {
 
 			modifyMsgDto.setStatus(false);
-			modifyMsgDto.setMsg("沒有可以修改的資料");
+			modifyMsgDto.setMsg("您似乎沒有可以修改的資料，再檢查看看還有什麼欄位沒有填寫的。");
 
 		} else {
 
@@ -135,8 +149,6 @@ public class IncomeItemsService {
 			String itemName = modifyPojo.getItemName();
 			String itemActiveStr = modifyPojo.getItemActive();
 			String itemDefaultStr = modifyPojo.getItemDefault();
-
-			logger.debug(modifyPojo.toString());
 
 			boolean itemActive = false;
 			if(itemActiveStr.equals("1")) {
@@ -158,22 +170,27 @@ public class IncomeItemsService {
 			} else {
 
 				modifyMsgDto.setStatus(false);
-				modifyMsgDto.setMsg("修改未成功");
+				modifyMsgDto.setMsg("沒有成功修改收入項目，已將您的問題提報，請稍後再試試看。");
 
 			}
 		}
-		
+
 		return modifyMsgDto;
 	}
 
+	/**
+	 * 刪除某一筆收入項目
+	 * @param deletePojo
+	 * @return
+	 */
 	public DeleteMsgDto deleteByPojo(DeletePojo deletePojo) {
-		
+
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 
 		if(null == deletePojo) {
 
 			deleteMsgDto.setStatus(false);
-			deleteMsgDto.setMsg("沒有可以刪除的資料");
+			deleteMsgDto.setMsg("您似乎沒有可以刪除的資料，再檢查看看還有什麼欄位沒有填寫的。");
 
 		} else {
 
@@ -190,11 +207,11 @@ public class IncomeItemsService {
 			} else {
 
 				deleteMsgDto.setStatus(false);
-				deleteMsgDto.setMsg("刪除未成功");
+				deleteMsgDto.setMsg("沒有成功刪除收入項目，已將您的問題提報，請稍後再試試看。");
 
 			}
 		}
-		
+
 		return deleteMsgDto;
 	}
 

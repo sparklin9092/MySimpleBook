@@ -230,7 +230,7 @@ public class UserInfoController {
 				ex.printStackTrace();
 
 				userDeleteMsgDto.setStatus(false);
-				userDeleteMsgDto.setMsg("目前無法刪除使用者所有資料，請稍後再試。");
+				userDeleteMsgDto.setMsg("目前無法刪除您的所有資料，已將您的需求提報，請稍後再試試看。");
 			}
 		}
 

@@ -24,6 +24,10 @@ public class RichCodeService {
 	@Autowired
 	private IRichCodeMapper iRichCodeMapper;
 
+	/**
+	 * 隨機產生10組財富密碼，用於首頁的輪播
+	 * @return
+	 */
 	public ListMsgDto getRichCodeList() {
 
 		logger.info("隨機產生10組財富密碼");
@@ -91,8 +95,6 @@ public class RichCodeService {
 			listMsgDto.setStatus(true);
 
 		} catch (Exception e) {
-
-			logger.debug(e.getMessage());
 
 			listMsgDto.setStatus(false);
 			listMsgDto.setMsg("取得10組財富密碼發生錯誤");

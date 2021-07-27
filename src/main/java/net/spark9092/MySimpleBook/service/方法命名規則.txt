@@ -1,0 +1,13 @@
+# Service 方法的命名規則：
+	1. 以 get 為開頭，表示要取得資料。
+	2. 以 create 為開頭，表示要增加資料。
+	3. 以 modify 為開頭，表示要修改資料。
+	4. 以 delete 為開頭，表示要刪除資料。
+	5. 方法的排序方式：
+		(1) get
+		(2) create
+		(3) modify
+		(4) delete
+--
+
+2021-07-27 add by Spark

@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +26,7 @@ import net.spark9092.MySimpleBook.pojo.account.ModifyPojo;
 @Service
 public class AccountService {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
-
-	private static final String limitDateRegex = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+//	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
 	@Autowired
 	private CheckCommon checkCommon;
@@ -38,9 +34,12 @@ public class AccountService {
 	@Autowired
 	private IAccountMapper iAccountMapper;
 
+	/**
+	 * 根據使用者ID，取得帳戶的清單
+	 * @param userId
+	 * @return
+	 */
 	public List<List<String>> getListByUserId(int userId) {
-
-		logger.debug("使用者ID: " + userId);
 
 		List<List<String>> dataList = new ArrayList<>();
 
@@ -62,18 +61,21 @@ public class AccountService {
 		return dataList;
 	}
 
+	/**
+	 * 根據使用者ID，取得帳戶類型的清單，用於下拉選單
+	 * @param userId
+	 * @return
+	 */
 	public TypeListMsgDto getTypeListByUserId(int userId) {
 
-		logger.debug("使用者ID: {}", userId);
-		
 		TypeListMsgDto typeListMsgDto = new TypeListMsgDto();
-		
+
 		List<TypeListDto> typeListDtos = iAccountMapper.selectTypeListByUserId(userId);
 
 		if(typeListDtos.size() == 0) {
 
 			typeListMsgDto.setStatus(false);
-			typeListMsgDto.setMsg("沒有找到帳戶類型，請先新增帳戶類型。");
+			typeListMsgDto.setMsg("您似乎還沒有帳戶類型，先新增一個帳戶類型吧！");
 
 		} else {
 
@@ -85,6 +87,12 @@ public class AccountService {
 		return typeListMsgDto;
 	}
 
+	/**
+	 * 根據帳戶索引、使用者ID，取得某一筆帳戶資料
+	 * @param userId
+	 * @param accountId
+	 * @return
+	 */
 	public OneMsgDto getOneByIds(int userId, int accountId) {
 
 		OneMsgDto oneMsgDto = new OneMsgDto();
@@ -94,10 +102,7 @@ public class AccountService {
 		if(null == oneDto) {
 
 			oneMsgDto.setStatus(false);
-			oneMsgDto.setMsg("找不到資料");
-
-			logger.error(String.format("查詢某一筆帳戶時，找不到資料。User ID: %d、Account ID: %d",
-					userId, accountId));
+			oneMsgDto.setMsg("似乎找不到您的資料，已將您的問題提報，請稍後再試試看。");
 
 		} else {
 
@@ -108,6 +113,33 @@ public class AccountService {
 		}
 
 		return oneMsgDto;
+	}
+
+	/**
+	 * 根據使用者ID，取得今天的帳戶資料
+	 * @param userId
+	 * @return
+	 */
+	public AccountListMsgDto getTodayListForMain(int userId) {
+
+		AccountListMsgDto accountListMsgDto = new AccountListMsgDto();
+
+		List<AccountListDto> listDtos = iAccountMapper.selectTodayListForMain(userId);
+
+		if(listDtos.size() == 0) {
+
+			accountListMsgDto.setStatus(false);
+			accountListMsgDto.setMsg("還沒有帳戶嗎？去新增一個吧！");
+
+		} else {
+
+			accountListMsgDto.setListDtos(listDtos);
+			accountListMsgDto.setStatus(true);
+			accountListMsgDto.setMsg("");
+
+		}
+
+		return accountListMsgDto;
 	}
 
 	private String formatLimitDate(boolean enableLimitDate, String limitMonth, String limitYear) {
@@ -144,20 +176,25 @@ public class AccountService {
 			limitDate = limitYear + "-" + limitMonth + "-" + limitDateEndDay;
 
 			//最後組合完日期，進行正規化驗證，如果不合格，那就不要寫入資料庫
-			if(!limitDate.matches(limitDateRegex)) limitDate = null;
+			if(!checkCommon.checkData(limitDate)) limitDate = null;
 		}
 
 		return limitDate;
 	}
 
+	/**
+	 * 增加一筆帳戶
+	 * @param createPojo
+	 * @return
+	 */
 	public CreateMsgDto createByPojo(CreatePojo createPojo) {
-		
+
 		CreateMsgDto createMsgDto = new CreateMsgDto();
 
 		if(null == createPojo) {
 
 			createMsgDto.setStatus(false);
-			createMsgDto.setMsg("沒有可以新增的資料");
+			createMsgDto.setMsg("您似乎沒有資料可以新增，再檢查看看還有什麼欄位沒有填寫的。");
 
 		} else {
 
@@ -170,13 +207,13 @@ public class AccountService {
 			String limitYear = createPojo.getLimitYear();
 			String limitMonth = createPojo.getLimitMonth();
 			String limitDate = null;
-			
+
 			if(!checkCommon.checkAmnt(initAmnt)) {
 
 				createMsgDto.setStatus(false);
-				createMsgDto.setMsg("輸入的金額格式不正確");
+				createMsgDto.setMsg("您輸入的金額格式不正確，再檢查看看。");
 				return createMsgDto;
-				
+
 			}
 
 			boolean accountDefault = false;
@@ -198,22 +235,27 @@ public class AccountService {
 			} else {
 
 				createMsgDto.setStatus(false);
-				createMsgDto.setMsg("新增未成功");
+				createMsgDto.setMsg("沒有成功新增帳戶，已將您的問題提報，請稍後再試試看。");
 
 			}
 		}
-		
+
 		return createMsgDto;
 	}
 
+	/**
+	 * 修改一筆帳戶
+	 * @param modifyPojo
+	 * @return
+	 */
 	public ModifyMsgDto modifyByPojo(ModifyPojo modifyPojo) {
 
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
-		
+
 		if(null == modifyPojo) {
 
 			modifyMsgDto.setStatus(false);
-			modifyMsgDto.setMsg("沒有可以修改的資料");
+			modifyMsgDto.setMsg("您似乎沒有可以修改的資料，再檢查看看還有什麼欄位沒有填寫的。");
 
 		} else {
 
@@ -250,22 +292,27 @@ public class AccountService {
 			} else {
 
 				modifyMsgDto.setStatus(false);
-				modifyMsgDto.setMsg("修改未成功");
+				modifyMsgDto.setMsg("沒有成功修改帳戶，已將您的問題提報，請稍後再試試看。");
 
 			}
 		}
-		
+
 		return modifyMsgDto;
 	}
 
+	/**
+	 * 刪除某一筆帳戶資料
+	 * @param deletePojo
+	 * @return
+	 */
 	public DeleteMsgDto deleteByPojo(DeletePojo deletePojo) {
 
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
-		
+
 		if(null == deletePojo) {
 
 			deleteMsgDto.setStatus(false);
-			deleteMsgDto.setMsg("沒有可以刪除的資料");
+			deleteMsgDto.setMsg("您似乎沒有可以刪除的資料，再檢查看看還有什麼欄位沒有填寫的。");
 
 		} else {
 
@@ -282,34 +329,12 @@ public class AccountService {
 			} else {
 
 				deleteMsgDto.setStatus(false);
-				deleteMsgDto.setMsg("刪除未成功");
+				deleteMsgDto.setMsg("沒有成功刪除帳戶，已將您的問題提報，請稍後再試試看。");
 
 			}
 		}
-		
+
 		return deleteMsgDto;
-	}
-
-	public AccountListMsgDto getTodayListForMain(int userId) {
-
-		AccountListMsgDto accountListMsgDto = new AccountListMsgDto();
-
-		List<AccountListDto> listDtos = iAccountMapper.selectTodayListForMain(userId);
-
-		if(listDtos.size() == 0) {
-
-			accountListMsgDto.setStatus(false);
-			accountListMsgDto.setMsg("還沒有帳戶嗎？去新增一個吧！");
-
-		} else {
-
-			accountListMsgDto.setListDtos(listDtos);
-			accountListMsgDto.setStatus(true);
-			accountListMsgDto.setMsg("");
-
-		}
-
-		return accountListMsgDto;
 	}
 
 }

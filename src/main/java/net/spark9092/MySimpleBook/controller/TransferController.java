@@ -124,7 +124,7 @@ public class TransferController {
 				ex.printStackTrace();
 
 				createMsgDto.setStatus(false);
-				createMsgDto.setMsg("新增一筆轉帳發生錯誤，請再重新操作一次。");
+				createMsgDto.setMsg("新增一筆轉帳時發生錯誤，已將您的問題提報，請稍後再重新新增一次。");
 			}
 		}
 
@@ -158,7 +158,7 @@ public class TransferController {
 				ex.printStackTrace();
 
 				modifyMsgDto.setStatus(false);
-				modifyMsgDto.setMsg("修改一筆轉帳發生錯誤，請再重新操作一次。");
+				modifyMsgDto.setMsg("修改一筆轉帳時發生錯誤，已將您的問題提報，請稍後再重新修改一次。");
 			}
 		}
 
@@ -192,7 +192,7 @@ public class TransferController {
 				ex.printStackTrace();
 
 				deleteMsgDto.setStatus(false);
-				deleteMsgDto.setMsg("刪除一筆轉帳發生錯誤，請再重新操作一次。");
+				deleteMsgDto.setMsg("刪除一筆轉帳時發生錯誤，已將您的問題提報，請稍後再重新刪除一次。");
 			}
 		}
 
