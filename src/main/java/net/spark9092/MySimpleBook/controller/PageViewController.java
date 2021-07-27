@@ -357,10 +357,17 @@ public class PageViewController {
 	 * @return
 	 */
 	@GetMapping("/user/guest")
-	public ModelAndView userGuest() {
+	public ModelAndView userGuest(HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
 		String pageName = "views/user/guest";
+		
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+		if(!userInfoEntity.isGuest()) {
+			
+			pageName = "redirect:/user/info";
+		}
+		
 		mv.setViewName(pageName);
 
 		return mv;
