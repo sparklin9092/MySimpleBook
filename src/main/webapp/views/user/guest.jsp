@@ -44,6 +44,7 @@
 					</div>
 				</div>
 			</div>
+			<!--
 			<div class="row px-2">
 				<div class="col form-check">
 					<input class="form-check-input bind-type-size" type="radio" name="bindType" id="phoneTitle">
@@ -62,6 +63,7 @@
 					</div>
 				</div>
 			</div>
+			-->
 			<div class="row px-2">
 				<div class="col form-check">
 					<input class="form-check-input bind-type-size" type="radio" name="bindType" id="emailTitle">

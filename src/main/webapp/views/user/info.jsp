@@ -55,6 +55,7 @@
 			<div class="row">
 				<div class="col text-end">(綁定後，可以使用電子信箱進行登入)</div>
 			</div>
+			<!--
 			<div class="row">
 				<div class="col">手機號碼</div>
 			</div>
@@ -69,6 +70,7 @@
 			<div class="row">
 				<div class="col text-end">(綁定後，可以使用手機號碼進行登入)</div>
 			</div>
+			-->
 			<div class="row">
 				<div class="col">建立時間</div>
 			</div>
