@@ -34,6 +34,18 @@ public class CheckCommon {
 	}
 	
 	/**
+	 * 驗證日期格式
+	 * @param date
+	 * @return
+	 */
+	public boolean checkData(String date) {
+		
+		String regex = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+		
+		return date.matches(regex);
+	}
+	
+	/**
 	 * 驗證Email(電子信箱)
 	 * @param userMail
 	 * @return
