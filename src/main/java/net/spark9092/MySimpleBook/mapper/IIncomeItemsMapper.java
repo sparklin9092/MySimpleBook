@@ -69,7 +69,7 @@ public interface IIncomeItemsMapper {
 	 */
 	@Insert("insert into income_items(user_id, name, is_default, create_user_id) "
 			+ " values(#{userId}, #{itemName}, #{itemDefault}, #{userId})")
-	boolean createByValues(@Param("userId") int userId, @Param("itemName") String itemName, @Param("itemDefault") boolean itemDefault);
+	boolean insertByValues(@Param("userId") int userId, @Param("itemName") String itemName, @Param("itemDefault") boolean itemDefault);
 
 	/**
 	 * 根據 User ID、Item ID，更新某一筆收入項目
@@ -83,7 +83,7 @@ public interface IIncomeItemsMapper {
 	@Update("update income_items set "
 			+ " name=#{itemName}, is_active=#{itemActive}, is_default=#{itemDefault} "
 			+ " where id=#{itemId} and user_id=#{userId}")
-	boolean modifyByValues(@Param("userId") int userId, @Param("itemId") int itemId,
+	boolean updateByValues(@Param("userId") int userId, @Param("itemId") int itemId,
 			@Param("itemName") String itemName, @Param("itemActive") boolean itemActive,
 			@Param("itemDefault") boolean itemDefault);
 

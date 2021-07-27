@@ -185,7 +185,7 @@ public class SpendService {
 				
 			}
 			
-			boolean createSpendStatus =  iSpendMapper.createByValues(
+			boolean createSpendStatus =  iSpendMapper.insertByValues(
 					userId, spendItemId, accountItemId, spendDate, amount, remark);
 			
 			if(createSpendStatus) {
@@ -262,7 +262,7 @@ public class SpendService {
 			
 			//把被扣掉的錢加回去之後，再更新這筆支出資料
 			boolean modifyStatus = false;
-			modifyStatus = iSpendMapper.modifyByValues(userId, spendId, spendItemId, accountId, spendDate, amount, remark);
+			modifyStatus = iSpendMapper.updateByValues(userId, spendId, spendItemId, accountId, spendDate, amount, remark);
 			
 			//支出資料修改成功之後，就重新把錢扣掉到帳戶裡面
 			if(modifyStatus) {
@@ -344,7 +344,7 @@ public class SpendService {
 
 		SpendListMsgDto spendListMsgDto = new SpendListMsgDto();
 
-		List<SpendListDto> listDtos = iSpendMapper.getTodayListForMain(userId);
+		List<SpendListDto> listDtos = iSpendMapper.selectTodayListForMain(userId);
 
 		if(listDtos.size() == 0) {
 

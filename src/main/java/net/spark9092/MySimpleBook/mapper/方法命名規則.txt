@@ -1,0 +1,15 @@
+# Mapper 方法的命名規則：
+	1. 以 select 為開頭，表示要查詢資料。
+	2. 以 insert 為開頭，表示要新增資料。
+	3. 以 update 為開頭，表示要更新資料。
+	4. 以 delete 為開頭，表示要刪除資料，刪除是假刪除，把刪除標記改為1。
+	5. 方法的排序方式：
+		(1) select
+		(2) insert
+		(3) update
+		(4) select
+--
+以上規則不包含 IAccountMapper 的 decreaseAmnt 和 increaseAmnt。
+--
+
+2021-07-27 add by Spark

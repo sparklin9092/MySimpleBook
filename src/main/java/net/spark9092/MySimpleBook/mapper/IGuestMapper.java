@@ -16,7 +16,7 @@ public interface IGuestMapper {
 	@Select("select count(id) from guest "
 			+ " where ip_address=#{ipAddress} "
 			+ " and date_format(create_datetime, '%Y-%m-%d')=date_sub(curdate(), interval 0 day)")
-	int getLoginTimes(@Param("ipAddress") String ipAddress);
+	int selectLoginTimes(@Param("ipAddress") String ipAddress);
 	
 	/**
 	 * 新增一筆訪客資料
@@ -27,6 +27,6 @@ public interface IGuestMapper {
 	 */
 	@Insert("insert into guest(guest_seq, ip_address, guest_device) "
 			+ " values(#{guestSeq}, #{ipAddress}, #{guestDevice})")
-	boolean createByValues(@Param("guestSeq") int guestSeq, @Param("ipAddress") String ipAddress, 
+	boolean insertByValues(@Param("guestSeq") int guestSeq, @Param("ipAddress") String ipAddress, 
 			@Param("guestDevice") String guestDevice);
 }

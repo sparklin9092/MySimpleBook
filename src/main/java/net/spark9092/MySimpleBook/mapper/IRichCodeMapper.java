@@ -30,5 +30,5 @@ public interface IRichCodeMapper {
 		@Result(column="name", property="richCode"),
 		@Result(column="show_time", property="richCodeShowTime")
 	})
-	public List<ListDto> getList(@Param("loginDate") Date loginDate);
+	public List<ListDto> selectList(@Param("loginDate") Date loginDate);
 }

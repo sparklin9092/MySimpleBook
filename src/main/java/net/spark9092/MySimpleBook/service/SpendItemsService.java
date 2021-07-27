@@ -101,7 +101,7 @@ public class SpendItemsService {
 				itemDefault = true;
 			}
 
-			boolean createStatus = iItemsSpendMapper.createByValues(userId, itemName, itemDefault);
+			boolean createStatus = iItemsSpendMapper.insertByValues(userId, itemName, itemDefault);
 
 			if(createStatus) {
 
@@ -146,7 +146,7 @@ public class SpendItemsService {
 				itemDefault = true;
 			}
 
-			boolean modifyStatus = iItemsSpendMapper.modifyByValues(userId, itemId, itemName, itemActive, itemDefault);
+			boolean modifyStatus = iItemsSpendMapper.updateByValues(userId, itemId, itemName, itemActive, itemDefault);
 
 			if(modifyStatus) {
 

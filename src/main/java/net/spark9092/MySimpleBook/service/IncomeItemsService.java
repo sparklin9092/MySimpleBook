@@ -101,7 +101,7 @@ public class IncomeItemsService {
 				itemDefault = true;
 			}
 
-			boolean createStatus = iItemsIncomeMapper.createByValues(userId, itemName, itemDefault);
+			boolean createStatus = iItemsIncomeMapper.insertByValues(userId, itemName, itemDefault);
 
 			if(createStatus) {
 
@@ -148,7 +148,7 @@ public class IncomeItemsService {
 				itemDefault = true;
 			}
 
-			boolean modifyStatus = iItemsIncomeMapper.modifyByValues(userId, itemId, itemName, itemActive, itemDefault);
+			boolean modifyStatus = iItemsIncomeMapper.updateByValues(userId, itemId, itemName, itemActive, itemDefault);
 
 			if(modifyStatus) {
 

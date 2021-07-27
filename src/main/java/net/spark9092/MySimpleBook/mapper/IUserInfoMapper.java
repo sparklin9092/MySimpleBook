@@ -169,7 +169,7 @@ public interface IUserInfoMapper {
 	 */
 	@Insert("insert into user_info(user_name, user_account, user_password, is_guest, guest_seq, create_user_id) "
 			+ "values(#{userName}, concat('guest', #{guestSeq}), #{userPwd}, 1, #{guestSeq}, #{systemUserId})")
-	boolean createGuest(@Param("userName") String userName, @Param("userPwd") String userPwd,
+	boolean insertGuest(@Param("userName") String userName, @Param("userPwd") String userPwd,
 			@Param("systemUserId") int systemUserId, @Param("guestSeq") int guestSeq);
 
 	/**

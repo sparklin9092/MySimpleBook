@@ -186,7 +186,7 @@ public class AccountService {
 
 			limitDate = this.formatLimitDate(enableLimitDate, limitMonth, limitYear);
 
-			boolean createStatus = iAccountMapper.createByValues(userId, accountType, accountName,
+			boolean createStatus = iAccountMapper.insertByValues(userId, accountType, accountName,
 					initAmnt, accountDefault, limitDate);
 
 
@@ -239,7 +239,7 @@ public class AccountService {
 
 			limitDate = this.formatLimitDate(enableLimitDate, limitMonth, limitYear);
 
-			boolean modifyStatus = iAccountMapper.modifyByValues(
+			boolean modifyStatus = iAccountMapper.updateByValues(
 					userId, accountId, accountName, limitDate, accountDefault, accountActive);
 
 			if(modifyStatus) {
@@ -294,7 +294,7 @@ public class AccountService {
 
 		AccountListMsgDto accountListMsgDto = new AccountListMsgDto();
 
-		List<AccountListDto> listDtos = iAccountMapper.getTodayListForMain(userId);
+		List<AccountListDto> listDtos = iAccountMapper.selectTodayListForMain(userId);
 
 		if(listDtos.size() == 0) {
 

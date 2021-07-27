@@ -83,6 +83,21 @@ public interface ISpendMapper {
 	OneDto selectOneByIds(@Param("spendId") int spendId, @Param("userId") int userId);
 
 	/**
+	 * 首頁查詢當日最新5筆支出紀錄
+	 * @param userId
+	 * @return
+	 */
+	@Select("select (select name from spend_items where id = item_id) as itemName,	amount as amnt "
+			+ " from spend "
+			+ " where user_id = #{userId} and is_delete=0 and spend_date = date_sub(curdate(), interval 0 day) "
+			+ " order by id desc limit 5")
+	@Results({
+		@Result(column="itemName", property="itemName"),
+		@Result(column="amnt", property="amnt")
+	})
+	List<SpendListDto> selectTodayListForMain(@Param("userId") int userId);
+
+	/**
 	 * 新增一筆支出
 	 * @param userId
 	 * @param spendItemId
@@ -94,7 +109,7 @@ public interface ISpendMapper {
 	 */
 	@Insert("insert into spend(user_id, item_id, account_id, spend_date, amount, create_user_id, remark) "
 			+ " values(#{userId}, #{spendItemId}, #{accountItemId}, #{spendDate}, #{amount}, #{userId}, #{remark})")
-	boolean createByValues(@Param("userId") int userId, @Param("spendItemId") int spendItemId, 
+	boolean insertByValues(@Param("userId") int userId, @Param("spendItemId") int spendItemId, 
 			@Param("accountItemId") int accountItemId, @Param("spendDate") String spendDate, 
 			@Param("amount") BigDecimal amount, @Param("remark") String remark);
 
@@ -113,7 +128,7 @@ public interface ISpendMapper {
 			+ " item_id=#{spendItemId}, account_id=#{accountId}, spend_date=#{spendDate}, "
 			+ " amount=#{amount}, remark=#{remark} "
 			+ " where id=#{spendId} and user_id=#{userId}")
-	boolean modifyByValues(@Param("userId") int userId, @Param("spendId") int spendId, 
+	boolean updateByValues(@Param("userId") int userId, @Param("spendId") int spendId, 
 			@Param("spendItemId") int spendItemId, @Param("accountId") int accountId, 
 			@Param("spendDate") String spendDate, @Param("amount") BigDecimal amount,
 			@Param("remark") String remark);
@@ -138,19 +153,4 @@ public interface ISpendMapper {
 			+ " is_delete=1 "
 			+ " where user_id=#{userId}")
 	boolean deleteAllByUserId(@Param("userId") int userId);
-
-	/**
-	 * 首頁查詢當日最新5筆支出紀錄
-	 * @param userId
-	 * @return
-	 */
-	@Select("select (select name from spend_items where id = item_id) as itemName,	amount as amnt "
-			+ " from spend "
-			+ " where user_id = #{userId} and is_delete=0 and spend_date = date_sub(curdate(), interval 0 day) "
-			+ " order by id desc limit 5")
-	@Results({
-		@Result(column="itemName", property="itemName"),
-		@Result(column="amnt", property="amnt")
-	})
-	List<SpendListDto> getTodayListForMain(@Param("userId") int userId);
 }

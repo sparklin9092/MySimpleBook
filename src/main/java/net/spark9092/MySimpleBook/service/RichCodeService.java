@@ -31,7 +31,7 @@ public class RichCodeService {
 		ListMsgDto listMsgDto = new ListMsgDto();
 
 		try {
-			List<ListDto> listDto = iRichCodeMapper.getList(new Date());
+			List<ListDto> listDto = iRichCodeMapper.selectList(new Date());
 
 			// logger.debug("listDto.size: " + listDto.size());
 

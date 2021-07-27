@@ -177,12 +177,12 @@ public class TransferService {
 			if(outSideCheck) {
 				
 				//當轉帳是外部帳戶時
-				createTransferStatus =  iTransferMapper.createOutsideByValues(
+				createTransferStatus =  iTransferMapper.insertOutsideByValues(
 						userId, transferDate, amnt, tOutAccId, tOutsideAccName, remark);
 			} else {
 				
 				//是一般轉帳
-				createTransferStatus = iTransferMapper.createByValues(
+				createTransferStatus = iTransferMapper.insertByValues(
 						userId, transferDate, amnt, tOutAccId, tInAccId, remark);
 			}
 			
@@ -303,12 +303,12 @@ public class TransferService {
 			if(outSideCheck) {
 				
 				//當轉帳是外部帳戶時
-				modifyStatus =  iTransferMapper.modifyOutsideByValues(
+				modifyStatus =  iTransferMapper.updateOutsideByValues(
 						userId, transferId, transferDate, amnt, tOutAccId, tOutsideAccName, remark);
 			} else {
 				
 				//是一般轉帳
-				modifyStatus = iTransferMapper.modifyByValues(
+				modifyStatus = iTransferMapper.updateByValues(
 						userId, transferId, transferDate, amnt, tOutAccId, tInAccId, remark);
 			}
 			
@@ -425,7 +425,7 @@ public class TransferService {
 		
 		TransferListMsgDto transferListMsgDto = new TransferListMsgDto();
 		
-		List<TransferListDto> listDtos = iTransferMapper.getTodayListForMain(userId);
+		List<TransferListDto> listDtos = iTransferMapper.selectTodayListForMain(userId);
 		
 		if(listDtos.size() == 0) {
 			

@@ -185,7 +185,7 @@ public class IncomeService {
 				
 			}
 			
-			boolean createIncomeStatus =  iIncomeMapper.createByValues(
+			boolean createIncomeStatus =  iIncomeMapper.insertByValues(
 					userId, incomeItemId, accountItemId, incomeDate, amount, remark);
 			
 			if(createIncomeStatus) {
@@ -263,7 +263,7 @@ public class IncomeService {
 			
 			//把加進去的錢扣回來之後，再更新這筆收入資料
 			boolean modifyStatus = false;
-			modifyStatus = iIncomeMapper.modifyByValues(userId, incomeId, incomeItemId, accountId, incomeDate, amount, remark);
+			modifyStatus = iIncomeMapper.updateByValues(userId, incomeId, incomeItemId, accountId, incomeDate, amount, remark);
 			
 			//收入資料修改成功之後，就重新把錢加入到帳戶裡面
 			if(modifyStatus) {
@@ -345,7 +345,7 @@ public class IncomeService {
 
 		IncomeListMsgDto incomeListMsgDto = new IncomeListMsgDto();
 
-		List<IncomeListDto> listDtos = iIncomeMapper.getTodayListForMain(userId);
+		List<IncomeListDto> listDtos = iIncomeMapper.selectTodayListForMain(userId);
 
 		if(listDtos.size() == 0) {
 

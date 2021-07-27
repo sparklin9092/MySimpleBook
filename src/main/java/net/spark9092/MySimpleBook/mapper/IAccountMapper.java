@@ -75,6 +75,18 @@ public interface IAccountMapper {
 		@Result(column="create_datetime", property="createDateTime")
 	})
 	OneDto selectOneByIds(@Param("accountId") int accountId, @Param("userId") int userId);
+	
+	/**
+	 * 首頁查詢餘額最高的前5筆帳戶與餘額
+	 * @param userId
+	 * @return
+	 */
+	@Select("select name, amount from account where user_id = #{userId} and is_delete=0 order by amount desc limit 5")
+	@Results({
+		@Result(column="name", property="accName"),
+		@Result(column="amount", property="amnt")
+	})
+	List<AccountListDto> selectTodayListForMain(@Param("userId") int userId);
 
 	/**
 	 * 根據 User ID，新增一個帳戶
@@ -87,7 +99,7 @@ public interface IAccountMapper {
 	 */
 	@Insert("insert into account(user_id,   type_id,        name,           init_amount, amount,      limit_date,   is_default,        create_user_id) "
 			+ "           values(#{userId}, #{accountType}, #{accountName}, #{initAmnt}, #{initAmnt}, #{limitDate}, #{accountDefault}, #{userId})")
-	boolean createByValues(@Param("userId") int userId, @Param("accountType") int accountType,
+	boolean insertByValues(@Param("userId") int userId, @Param("accountType") int accountType,
 			@Param("accountName") String accountName, @Param("initAmnt") BigDecimal initAmnt,
 			@Param("accountDefault") boolean accountDefault, @Param("limitDate") String limitDate);
 
@@ -105,7 +117,7 @@ public interface IAccountMapper {
 			+ " name=#{accountName}, limit_date=#{limitDate}, "
 			+ " is_default=#{accountDefault}, is_active=#{accountActive} "
 			+ " where id=#{accountId} and user_id=#{userId}")
-	boolean modifyByValues(@Param("userId") int userId, @Param("accountId") int accountId,
+	boolean updateByValues(@Param("userId") int userId, @Param("accountId") int accountId,
 			@Param("accountName") String accountName, @Param("limitDate") String limitDate, 
 			@Param("accountDefault") boolean accountDefault, @Param("accountActive") boolean accountActive);
 
@@ -153,16 +165,4 @@ public interface IAccountMapper {
 			+ " amount = amount + #{amount} "
 			+ " where id=#{accountId} and user_id=#{userId}")
 	boolean increaseAmnt(@Param("userId") int userId, @Param("accountId") int accountId, @Param("amount") BigDecimal amount);
-	
-	/**
-	 * 首頁查詢餘額最高的前5筆帳戶與餘額
-	 * @param userId
-	 * @return
-	 */
-	@Select("select name, amount from account where user_id = #{userId} and is_delete=0 order by amount desc limit 5")
-	@Results({
-		@Result(column="name", property="accName"),
-		@Result(column="amount", property="amnt")
-	})
-	List<AccountListDto> getTodayListForMain(@Param("userId") int userId);
 }

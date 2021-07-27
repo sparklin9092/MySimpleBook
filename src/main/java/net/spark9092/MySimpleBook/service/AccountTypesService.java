@@ -98,7 +98,7 @@ public class AccountTypesService {
 				itemDefault = true;
 			}
 
-			boolean createStatus = iItemsAccountTypeMapper.createByValues(userId, itemName, itemDefault);
+			boolean createStatus = iItemsAccountTypeMapper.insertByValues(userId, itemName, itemDefault);
 
 			if(createStatus) {
 
@@ -143,7 +143,7 @@ public class AccountTypesService {
 				itemDefault = true;
 			}
 
-			boolean modifyStatus = iItemsAccountTypeMapper.modifyByValues(
+			boolean modifyStatus = iItemsAccountTypeMapper.updateByValues(
 					userId, itemId, itemName, itemActive, itemDefault);
 
 			if(modifyStatus) {

@@ -13,5 +13,5 @@ public interface ISystemSeqsMapper {
 	 * @return
 	 */
 	@Select("select select_seq(#{seqName})")
-	int getSeq(@Param("seqName") String seqName);
+	int selectSeqByName(@Param("seqName") String seqName);
 }

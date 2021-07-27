@@ -171,7 +171,7 @@ public class UserInfoService {
 		LoginResultDto loginResultDto = new LoginResultDto();
 
 		//計算這個 IP 已經建立多少次訪客了
-		int guestLoginTimes = iGuestMapper.getLoginTimes(ipAddress);
+		int guestLoginTimes = iGuestMapper.selectLoginTimes(ipAddress);
 
 		//超過 5 次就不能再用訪客登入了
 		if(guestLoginTimes == 5 && !checkCommon.isWhiteIp(ipAddress)) {
@@ -182,21 +182,21 @@ public class UserInfoService {
 		}
 
 		//對訪客取號碼牌(訪客序號)
-		int guestSeq = iSystemSeqsMapper.getSeq(SeqsNameEnum.GUEST.getName());
+		int guestSeq = iSystemSeqsMapper.selectSeqByName(SeqsNameEnum.GUEST.getName());
 
 		logger.info("目前是第 " + guestSeq + " 位訪客使用致富寶典系統！");
 
 		try {
 
 			//訪客資料寫不了就算了，不要讓使用者對系統的初次感覺不好
-			iGuestMapper.createByValues(guestSeq, ipAddress, guestDevice);
+			iGuestMapper.insertByValues(guestSeq, ipAddress, guestDevice);
 
 		} catch (Exception e) {}
 
 		String userName = "訪客";
 		String UserPwd = generatorCommon.getUserPwd();
 
-		boolean createStatus = iUserInfoMapper.createGuest(userName, UserPwd, SystemEnum.SYSTEM_USER_ID.getId(), guestSeq);
+		boolean createStatus = iUserInfoMapper.insertGuest(userName, UserPwd, SystemEnum.SYSTEM_USER_ID.getId(), guestSeq);
 
 		//訪客帳號建立成功之後，就走一般的登入流程
 		if(createStatus) {

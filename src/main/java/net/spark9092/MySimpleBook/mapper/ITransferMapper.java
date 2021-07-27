@@ -75,6 +75,27 @@ public interface ITransferMapper {
 	OneDto selectOneByIds(@Param("transferId") int transferId, @Param("userId") int userId);
 
 	/**
+	 * 首頁查詢當日最新5筆轉帳紀錄
+	 * @param userId
+	 * @return
+	 */
+	@Select("select "
+			+ "	(select name from account where id = out_acc_id) transOutAccName, "
+			+ "	if(is_outside = 1, "
+			+ "    if(outside_acc_name is null or outside_acc_name = '', '(外部帳戶)', concat('(外部帳戶) ', outside_acc_name)), "
+			+ "    (select name from account where id = in_acc_id) "
+			+ " ) transInAccName, amount as transAmnt "
+			+ " from transfer "
+			+ " where user_id = #{userId} and is_delete=0 and trans_date = date_sub(curdate(), interval 0 day) "
+			+ " order by id desc limit 5")
+	@Results({
+		@Result(column="transOutAccName", property="accOutName"),
+		@Result(column="transInAccName", property="accoInName"),
+		@Result(column="transAmnt", property="transAmnt")
+	})
+	List<TransferListDto> selectTodayListForMain(@Param("userId") int userId);
+
+	/**
 	 * 新增一般轉帳
 	 * @param userId
 	 * @param transferDate
@@ -90,7 +111,7 @@ public interface ITransferMapper {
 			+ " values(#{userId}, #{transferDate}, "
 			+ " #{amnt}, #{tOutAccId}, #{tInAccId}, "
 			+ " #{userId}, #{remark})")
-	boolean createByValues(@Param("userId") int userId, @Param("transferDate") String transferDate,
+	boolean insertByValues(@Param("userId") int userId, @Param("transferDate") String transferDate,
 			@Param("amnt") BigDecimal amnt, @Param("tOutAccId") int tOutAccId, @Param("tInAccId") int tInAccId,
 			@Param("remark") String remark);
 
@@ -112,7 +133,7 @@ public interface ITransferMapper {
 			+ " #{amnt}, #{tOutAccId}, "
 			+ " 1, #{tOutsideAccName}, "
 			+ " #{userId}, #{remark})")
-	boolean createOutsideByValues(@Param("userId") int userId, @Param("transferDate") String transferDate,
+	boolean insertOutsideByValues(@Param("userId") int userId, @Param("transferDate") String transferDate,
 			@Param("amnt") BigDecimal amnt, @Param("tOutAccId") int tOutAccId,
 			@Param("tOutsideAccName") String tOutsideAccName, @Param("remark") String remark);
 
@@ -132,7 +153,7 @@ public interface ITransferMapper {
 			+ " in_acc_id=#{tInAccId}, is_outside=0, "
 			+ " outside_acc_name=null, remark=#{remark} "
 			+ " where id=#{transferId} and user_id=#{userId}")
-	boolean modifyByValues(@Param("userId") int userId, @Param("transferId") int transferId, 
+	boolean updateByValues(@Param("userId") int userId, @Param("transferId") int transferId, 
 			@Param("transferDate") String transferDate, @Param("amnt") BigDecimal amnt, 
 			@Param("tOutAccId") int tOutAccId, @Param("tInAccId") int tInAccId, 
 			@Param("remark") String remark);
@@ -153,7 +174,7 @@ public interface ITransferMapper {
 			+ " in_acc_id=null, is_outside=1, "
 			+ " outside_acc_name=#{tOutsideAccName}, remark=#{remark} "
 			+ " where id=#{transferId} and user_id=#{userId}")
-	boolean modifyOutsideByValues(@Param("userId") int userId, @Param("transferId") int transferId, 
+	boolean updateOutsideByValues(@Param("userId") int userId, @Param("transferId") int transferId, 
 			@Param("transferDate") String transferDate, @Param("amnt") BigDecimal amnt, 
 			@Param("tOutAccId") int tOutAccId, @Param("tOutsideAccName") String tOutsideAccName, 
 			@Param("remark") String remark);
@@ -178,25 +199,4 @@ public interface ITransferMapper {
 			+ " is_delete=1 "
 			+ " where user_id=#{userId}")
 	boolean deleteAllByUserId(@Param("userId") int userId);
-
-	/**
-	 * 首頁查詢當日最新5筆轉帳紀錄
-	 * @param userId
-	 * @return
-	 */
-	@Select("select "
-			+ "	(select name from account where id = out_acc_id) transOutAccName, "
-			+ "	if(is_outside = 1, "
-			+ "    if(outside_acc_name is null or outside_acc_name = '', '(外部帳戶)', concat('(外部帳戶) ', outside_acc_name)), "
-			+ "    (select name from account where id = in_acc_id) "
-			+ " ) transInAccName, amount as transAmnt "
-			+ " from transfer "
-			+ " where user_id = #{userId} and is_delete=0 and trans_date = date_sub(curdate(), interval 0 day) "
-			+ " order by id desc limit 5")
-	@Results({
-		@Result(column="transOutAccName", property="accOutName"),
-		@Result(column="transInAccName", property="accoInName"),
-		@Result(column="transAmnt", property="transAmnt")
-	})
-	List<TransferListDto> getTodayListForMain(@Param("userId") int userId);
 }
