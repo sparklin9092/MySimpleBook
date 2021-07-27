@@ -1,6 +1,6 @@
 package net.spark9092.MySimpleBook.pojo.guest;
 
-public class UserBindMailPojo {
+public class BindMailPojo {
 	
 	private int userId;
 	

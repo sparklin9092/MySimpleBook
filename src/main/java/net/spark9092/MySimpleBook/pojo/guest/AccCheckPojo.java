@@ -1,6 +1,6 @@
 package net.spark9092.MySimpleBook.pojo.guest;
 
-public class UserAccCheckPojo {
+public class AccCheckPojo {
 	
 	private int userId;
 	
