@@ -1,8 +1,5 @@
 package net.spark9092.MySimpleBook.common;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +26,11 @@ public class SendMailCommon {
 
 	private static final Logger logger = LoggerFactory.getLogger(SendMailCommon.class);
 
-	private Base64.Encoder encoder = Base64.getEncoder();
-
 	@Autowired
 	private CheckCommon checkCommon;
+
+	@Autowired
+	private CryptionCommon cryptionCommon;
 
 	/**
 	 * 透過 Amazon Simple Email Service 發送電子郵件
@@ -62,7 +60,7 @@ public class SendMailCommon {
 		}
 
 		try {
-			
+
 			AmazonSimpleEmailService client =
 					AmazonSimpleEmailServiceClientBuilder.standard().withRegion(Regions.AP_SOUTH_1).build();
 
@@ -98,24 +96,12 @@ public class SendMailCommon {
 
 		boolean sendMailStatus = false;
 
-		byte[] userAccountByte = {};
-		try {
-
-			userAccountByte = userAccount.getBytes("UTF-8");
-
-			sendMailStatus = true;
-
-		} catch (UnsupportedEncodingException e) {
-
-			logger.error("寄發認證碼通知信，因為轉換使用者帳號為Bytes類型時發生錯誤！！！");
-		}
-
 		if(sendMailStatus) {
 
 			String defaultSubject = "%s-認證碼通知信";
 			String systemSubject = String.format(defaultSubject, systemName);
 
-			String buAcc = encoder.encodeToString(userAccountByte);
+			String buAcc = cryptionCommon.encoderBase64UserAccount(0, userAccount);
 
 			String defaultVerifyUrl = "%s/verify/mail/%s";
 			String systemVerifyUrl = String.format(defaultVerifyUrl, systemUrl, buAcc);
