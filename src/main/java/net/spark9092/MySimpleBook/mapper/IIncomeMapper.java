@@ -20,6 +20,11 @@ import net.spark9092.MySimpleBook.dto.main.IncomeListDto;
 @Mapper
 public interface IIncomeMapper {
 
+	/**
+	 * 根據使用者ID查詢收入項目清單，用於新增一筆收入的功能
+	 * @param userId
+	 * @return
+	 */
 	@Select("select id, name from income_items where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
 	@Results({
 		@Result(column="id", property="itemId"),
@@ -27,6 +32,11 @@ public interface IIncomeMapper {
 	})
 	List<SelectItemListDto> selectItemListByUserId(@Param("userId") int userId);
 
+	/**
+	 * 根據使用者ID查詢帳戶清單，用於新增一筆收入的功能
+	 * @param userId
+	 * @return
+	 */
 	@Select("select id, name from account where user_id=#{userId} and is_active=1 and is_delete=0 order by is_default desc")
 	@Results({
 		@Result(column="id", property="accountId"),
@@ -34,6 +44,13 @@ public interface IIncomeMapper {
 	})
 	List<SelectAccountListDto> selectAccountListByUserId(@Param("userId") int userId);
 
+	/**
+	 * 根據使用者ID和日期範圍，查詢收入紀錄
+	 * @param userId
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
 	@Select("select id, date_format(income_date, '%Y年%m月%d日') as incomeDate, amount, "
 			+ " (select name from income_items where id=item_id) as incomeItemName "
 			+ " from income "
@@ -46,6 +63,12 @@ public interface IIncomeMapper {
 	})
 	List<RecListDto> selectRecordsByUserId(@Param("userId") int userId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
+	/**
+	 * 根據索引和使用者ID，查詢某一筆收入資料
+	 * @param incomeId
+	 * @param userId
+	 * @return
+	 */
 	@Select("select income_date, item_id, account_id, amount, create_datetime, remark "
 			+ " from income "
 			+ " where is_delete=0 and id=#{incomeId} and user_id=#{userId}")
@@ -59,12 +82,33 @@ public interface IIncomeMapper {
 	})
 	OneDto selectOneByIds(@Param("incomeId") int incomeId, @Param("userId") int userId);
 
+	/**
+	 * 新增一筆收入資料
+	 * @param userId
+	 * @param incomeItemId
+	 * @param accountItemId
+	 * @param incomeDate
+	 * @param amount
+	 * @param remark
+	 * @return
+	 */
 	@Insert("insert into income(user_id, item_id, account_id, income_date, amount, create_user_id, remark) "
 			+ " values(#{userId}, #{incomeItemId}, #{accountItemId}, #{incomeDate}, #{amount}, #{userId}, #{remark})")
 	boolean createByValues(@Param("userId") int userId, @Param("incomeItemId") int incomeItemId, 
 			@Param("accountItemId") int accountItemId, @Param("incomeDate") String incomeDate, 
 			@Param("amount") BigDecimal amount, @Param("remark") String remark);
 
+	/**
+	 * 修改某一筆收入資料
+	 * @param userId
+	 * @param incomeId
+	 * @param incomeItemId
+	 * @param accountId
+	 * @param incomeDate
+	 * @param amount
+	 * @param remark
+	 * @return
+	 */
 	@Update("update income set "
 			+ " item_id=#{incomeItemId}, account_id=#{accountId}, income_date=#{incomeDate}, "
 			+ " amount=#{amount}, remark=#{remark} "
@@ -74,11 +118,22 @@ public interface IIncomeMapper {
 			@Param("incomeDate") String incomeDate, @Param("amount") BigDecimal amount, 
 			@Param("remark") String remark);
 
+	/**
+	 * 刪除某一筆收入資料，假刪除，把刪除標記改為1
+	 * @param userId
+	 * @param incomeId
+	 * @return
+	 */
 	@Update("update income set "
 			+ " is_delete=1 "
 			+ " where id=#{incomeId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("incomeId") int incomeId);
 
+	/**
+	 * 根據使用者ID，刪除這位使用者全部的收入資料
+	 * @param userId
+	 * @return
+	 */
 	@Update("update income set "
 			+ " is_delete=1 "
 			+ " where user_id=#{userId}")

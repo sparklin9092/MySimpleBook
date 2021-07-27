@@ -86,6 +86,11 @@ public interface ISpendItemsMapper {
 			+ " where id=#{itemId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("itemId") int itemId);
 
+	/**
+	 * 根據使用者ID，刪除某一位使用者全部的支出項目，假刪除，把刪除標記改為1
+	 * @param userId
+	 * @return
+	 */
 	@Update("update spend_items set "
 			+ " is_delete=1 "
 			+ " where user_id=#{userId}")

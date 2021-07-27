@@ -87,6 +87,11 @@ public interface IAccountTypesMapper {
 			+ " where id=#{itemId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("itemId") int itemId);
 
+	/**
+	 * 根據使用者ID刪除某一筆帳戶類型，假刪除，把刪除標記改為1
+	 * @param userId
+	 * @return
+	 */
 	@Update("update account_types set "
 			+ " is_delete=1 "
 			+ " where user_id=#{userId}")

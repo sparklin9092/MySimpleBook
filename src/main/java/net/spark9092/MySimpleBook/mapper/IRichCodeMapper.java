@@ -14,6 +14,11 @@ import net.spark9092.MySimpleBook.dto.richCode.ListDto;
 @Mapper
 public interface IRichCodeMapper {
 
+	/**
+	 * 根據登入日期，查詢符合資格、可以顯示的財富密碼清單
+	 * @param loginDate
+	 * @return
+	 */
 	@Select("select id, name, show_time "
 			+ " from rich_code "
 			+ " where ((show_start_date is null) or (show_start_date is not null and show_start_date <= #{loginDate})) "

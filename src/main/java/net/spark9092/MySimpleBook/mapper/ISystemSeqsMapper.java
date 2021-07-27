@@ -7,6 +7,11 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface ISystemSeqsMapper {
 
+	/**
+	 * 查詢某一個序號目前的數值
+	 * @param seqName
+	 * @return
+	 */
 	@Select("select select_seq(#{seqName})")
 	int getSeq(@Param("seqName") String seqName);
 }

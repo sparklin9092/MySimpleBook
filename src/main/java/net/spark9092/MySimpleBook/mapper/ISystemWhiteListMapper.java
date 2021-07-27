@@ -13,6 +13,11 @@ import net.spark9092.MySimpleBook.dto.whiteList.WhiteListValueDto;
 @Mapper
 public interface ISystemWhiteListMapper {
 
+	/**
+	 * 根據類型，查詢系統白名單
+	 * @param whiteType
+	 * @return
+	 */
 	@Select("select id, white_value from system_whitelist "
 			+ " where white_type=#{whiteType} "
 			+ " and is_active=1 and is_delete=0")

@@ -49,6 +49,12 @@ public interface IAccountMapper {
 	})
 	List<TypeListDto> selectTypeListByUserId(@Param("userId") int userId);
 
+	/**
+	 * 查詢某一筆帳戶紀錄
+	 * @param accountId
+	 * @param userId
+	 * @return
+	 */
 	@Select("select b.name as typeName, a.name, a.init_amount, amount, a.is_default, a.is_active, "
 			+ " if(a.limit_date regexp '[0-9]{4}-[0-9]{2}-[0-9]{2}', true, false) as enableLimitDate, "
 			+ " date_format(a.limit_date, '%Y') as limitYear, date_format(a.limit_date, '%m') as limitMonth, "
@@ -114,16 +120,35 @@ public interface IAccountMapper {
 			+ " where id=#{accountId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("accountId") int accountId);
 
+	/**
+	 * 根據使用者ID刪除某一筆帳戶，假刪除，把刪除標記改為1
+	 * @param userId
+	 * @return
+	 */
 	@Update("update account set "
 			+ " is_delete=1 "
 			+ " where user_id=#{userId}")
 	boolean deleteAllByUserId(@Param("userId") int userId);
 	
+	/**
+	 * 減少帳戶餘額，會觸發 DB Trigger-change_amnt
+	 * @param userId
+	 * @param accountId
+	 * @param amount
+	 * @return
+	 */
 	@Update("update account set "
 			+ " amount = amount - #{amount} "
 			+ " where id=#{accountId} and user_id=#{userId}")
 	boolean decreaseAmnt(@Param("userId") int userId, @Param("accountId") int accountId, @Param("amount") BigDecimal amount);
 
+	/**
+	 * 增加帳戶餘額，會觸發 DB Trigger-change_amnt
+	 * @param userId
+	 * @param accountId
+	 * @param amount
+	 * @return
+	 */
 	@Update("update account set "
 			+ " amount = amount + #{amount} "
 			+ " where id=#{accountId} and user_id=#{userId}")

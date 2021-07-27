@@ -53,6 +53,12 @@ public interface ITransferMapper {
 	})
 	List<RecListDto> selectRecordsByUserId(@Param("userId") int userId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
+	/**
+	 * 查詢某一筆轉帳資料
+	 * @param transferId
+	 * @param userId
+	 * @return
+	 */
 	@Select("select trans_date, amount, out_acc_id, in_acc_id, is_outside, outside_acc_name, create_datetime, remark "
 			+ " from transfer "
 			+ " where is_delete=0 and id=#{transferId} and user_id=#{userId}")
@@ -110,6 +116,17 @@ public interface ITransferMapper {
 			@Param("amnt") BigDecimal amnt, @Param("tOutAccId") int tOutAccId,
 			@Param("tOutsideAccName") String tOutsideAccName, @Param("remark") String remark);
 
+	/**
+	 * 更新某一筆一般轉帳資料
+	 * @param userId
+	 * @param transferId
+	 * @param transferDate
+	 * @param amnt
+	 * @param tOutAccId
+	 * @param tInAccId
+	 * @param remark
+	 * @return
+	 */
 	@Update("update transfer set "
 			+ " trans_date=#{transferDate}, amount=#{amnt}, out_acc_id=#{tOutAccId}, "
 			+ " in_acc_id=#{tInAccId}, is_outside=0, "
@@ -120,6 +137,17 @@ public interface ITransferMapper {
 			@Param("tOutAccId") int tOutAccId, @Param("tInAccId") int tInAccId, 
 			@Param("remark") String remark);
 
+	/**
+	 * 更新某一筆轉帳資料
+	 * @param userId
+	 * @param transferId
+	 * @param transferDate
+	 * @param amnt
+	 * @param tOutAccId
+	 * @param tOutsideAccName
+	 * @param remark
+	 * @return
+	 */
 	@Update("update transfer set "
 			+ " trans_date=#{transferDate}, amount=#{amnt}, out_acc_id=#{tOutAccId}, "
 			+ " in_acc_id=null, is_outside=1, "
@@ -141,6 +169,11 @@ public interface ITransferMapper {
 			+ " where id=#{transferId} and user_id=#{userId}")
 	boolean deleteByIds(@Param("userId") int userId, @Param("transferId") int transferId);
 
+	/**
+	 * 根據使用者ID，刪除這一位使用者全部的轉帳資料
+	 * @param userId
+	 * @return
+	 */
 	@Update("update transfer set "
 			+ " is_delete=1 "
 			+ " where user_id=#{userId}")
