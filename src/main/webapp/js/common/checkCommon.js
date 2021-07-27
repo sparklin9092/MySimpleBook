@@ -8,7 +8,7 @@ function checkGuestDataCount() {
 	var alertGuestDataCountList = [50, 25, 10, 5];
 	
 	$.ajax({
-		url: '/user/info/guest/datacount',
+		url: '/guest/datacount',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',

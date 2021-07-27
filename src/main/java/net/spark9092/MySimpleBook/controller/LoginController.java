@@ -18,6 +18,7 @@ import net.spark9092.MySimpleBook.dto.user.LoginResultDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
+import net.spark9092.MySimpleBook.service.GuestService;
 import net.spark9092.MySimpleBook.service.RichCodeService;
 import net.spark9092.MySimpleBook.service.UserInfoService;
 
@@ -28,6 +29,9 @@ public class LoginController {
 
 	@Autowired
 	private UserInfoService userLoginService;
+
+	@Autowired
+	private GuestService guestService;
 
 	@Autowired
 	private RichCodeService richCodeService;
@@ -93,7 +97,7 @@ public class LoginController {
 		String device = "not mobile";
 		if(checkCommon.isMobile(request.getHeader("User-Agent"))) device = "mobile";
 		
-		LoginResultDto loginResultDto = userLoginService.guestLogin(ip, device);
+		LoginResultDto loginResultDto = guestService.guestLogin(ip, device);
 
 		UserInfoEntity userInfoEntity = loginResultDto.getUserInfoEntity();
 		boolean loginStatus = loginResultDto.isStatus();

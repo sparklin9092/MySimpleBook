@@ -1,10 +1,12 @@
-package net.spark9092.MySimpleBook.pojo.user;
+package net.spark9092.MySimpleBook.pojo.guest;
 
-public class UserAccCheckPojo {
+public class UserBindAccPwdPojo {
 	
 	private int userId;
 	
 	private String userAcc;
+	
+	private String userpwd;
 
 	public int getUserId() {
 		return userId;
@@ -20,6 +22,14 @@ public class UserAccCheckPojo {
 
 	public void setUserAcc(String userAcc) {
 		this.userAcc = userAcc;
+	}
+
+	public String getUserpwd() {
+		return userpwd;
+	}
+
+	public void setUserpwd(String userpwd) {
+		this.userpwd = userpwd;
 	}
 
 }

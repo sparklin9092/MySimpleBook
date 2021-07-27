@@ -1,4 +1,4 @@
-package net.spark9092.MySimpleBook.pojo.user;
+package net.spark9092.MySimpleBook.pojo.guest;
 
 public class UserBindMailPojo {
 	

@@ -49,7 +49,7 @@ function checkUserAccAct() {
 	data.userAcc = $('#userAcc').val();
 	
 	$.ajax({
-		url: '/user/info/check/account',
+		url: '/guest/check/account',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -83,7 +83,7 @@ function bindAccPwdAct() {
 	data.userpwd = $('#userPwd').val();
 	
 	$.ajax({
-		url: '/user/info/bind/accpwd',
+		url: '/guest/bind/accpwd',
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -128,7 +128,7 @@ function bindEmailAct() {
 		data.userEmail = $('#userEmail').val();
 		
 		$.ajax({
-			url: '/user/info/bind/email',
+			url: '/guest/bind/email',
 			method: 'POST',
 			dataType: 'json',
 			contentType: 'application/json',
