@@ -185,7 +185,8 @@ public class GuestService {
 
 		if(userAccCheckMsgDto.isStatus()) {
 
-			String enPwd = cryptionCommon.encryptionPwd(userBindAccPwdPojo.getUserpwd());
+			String enPwd = cryptionCommon.encryptionAESPwd(
+					userBindAccPwdPojo.getUserId(), userBindAccPwdPojo.getUserpwd());
 
 			boolean bindAccPwdStatus = false;
 

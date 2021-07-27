@@ -144,7 +144,8 @@ public class UserInfoService {
 
 			InfoDto userInfoDto = new InfoDto();
 
-			String dePwd = cryptionCommon.decryptionPwd(userInfoEntity.getUserPwd());
+			String dePwd = cryptionCommon.decryptionAESPwd(
+					userInfoEntity.getId(), userInfoEntity.getUserPwd());
 
 			String maskPwd = "";
 			for(int p=0; p<dePwd.length(); p++) {
@@ -289,12 +290,14 @@ public class UserInfoService {
 		} else {
 
 			//把資料庫裡的密碼解密，比對使用者輸入的舊密碼是否相同
-			String deOriPwd = cryptionCommon.decryptionPwd(oriPwd);
+			String deOriPwd = cryptionCommon.decryptionAESPwd(
+					changePwdPojo.getUserId(), oriPwd);
 
 			if(deOriPwd.equals(userOldPwd)) {
 
 				//如果都相同，再把新密碼加密，存入資料庫
-				String enNewPwd = cryptionCommon.encryptionPwd(userNewPwd);
+				String enNewPwd = cryptionCommon.encryptionAESPwd(
+						changePwdPojo.getUserId(), userNewPwd);
 
 				boolean updateStatus = iUserInfoMapper.updateUserNewPwdById(
 						changePwdPojo.getUserId(), enNewPwd);
