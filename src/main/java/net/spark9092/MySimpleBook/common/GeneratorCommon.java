@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class GeneratorCommon {
 
 	/**
-	 * 隨機取得8個字的使用者密碼
+	 * 取得 8 個字的隨機密碼
 	 * @return 
 	 */
 	public String getUserPwd() {
@@ -40,6 +40,10 @@ public class GeneratorCommon {
 
 	}
 	
+	/**
+	 * 取得 6 位數的認證碼
+	 * @return
+	 */
 	public String getVerifyCode() {
 
 		Random random = new Random();
