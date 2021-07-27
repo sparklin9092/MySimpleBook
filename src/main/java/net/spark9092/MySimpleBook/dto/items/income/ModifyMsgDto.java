@@ -1,25 +1,7 @@
 package net.spark9092.MySimpleBook.dto.items.income;
 
-public class ModifyMsgDto {
-	
-	private boolean status;
-	
-	private String msg;
+import net.spark9092.MySimpleBook.dto.MsgDto;
 
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
+public class ModifyMsgDto extends MsgDto {
 
 }

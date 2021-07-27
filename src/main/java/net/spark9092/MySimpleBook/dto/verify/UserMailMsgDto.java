@@ -1,6 +1,8 @@
 package net.spark9092.MySimpleBook.dto.verify;
 
-public class UserMailMsgDto {
+import net.spark9092.MySimpleBook.dto.MsgDto;
+
+public class UserMailMsgDto extends MsgDto {
 	
 	private int userId;
 	
@@ -9,10 +11,6 @@ public class UserMailMsgDto {
 	private String reSendSec;
 	
 	private boolean used;
-	
-	private boolean status;
-	
-	private String msg;
 
 	public int getUserId() {
 		return userId;
@@ -44,22 +42,6 @@ public class UserMailMsgDto {
 
 	public void setUsed(boolean used) {
 		this.used = used;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
 	}
 
 }

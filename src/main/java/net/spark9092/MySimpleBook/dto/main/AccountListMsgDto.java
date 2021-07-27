@@ -2,13 +2,11 @@ package net.spark9092.MySimpleBook.dto.main;
 
 import java.util.List;
 
-public class AccountListMsgDto {
+import net.spark9092.MySimpleBook.dto.MsgDto;
+
+public class AccountListMsgDto extends MsgDto {
 
 	private List<AccountListDto> listDtos;
-	
-	private boolean status;
-	
-	private String msg;
 
 	public List<AccountListDto> getListDtos() {
 		return listDtos;
@@ -16,21 +14,5 @@ public class AccountListMsgDto {
 
 	public void setListDtos(List<AccountListDto> listDtos) {
 		this.listDtos = listDtos;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
 	}
 }

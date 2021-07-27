@@ -1,12 +1,10 @@
 package net.spark9092.MySimpleBook.dto.transfer;
 
-public class OneMsgDto {
+import net.spark9092.MySimpleBook.dto.MsgDto;
+
+public class OneMsgDto extends MsgDto {
 	
 	private OneDto oneDto;
-	
-	private boolean status;
-	
-	private String msg;
 
 	public OneDto getOneDto() {
 		return oneDto;
@@ -14,22 +12,6 @@ public class OneMsgDto {
 
 	public void setOneDto(OneDto oneDto) {
 		this.oneDto = oneDto;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
 	}
 
 }

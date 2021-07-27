@@ -1,14 +1,12 @@
 package net.spark9092.MySimpleBook.dto.verify;
 
-public class MailBindMsgDto {
+import net.spark9092.MySimpleBook.dto.MsgDto;
+
+public class MailBindMsgDto extends MsgDto {
 	
 	private int userId;
 	
 	private String userMail;
-	
-	private boolean status;
-	
-	private String msg;
 
 	public int getUserId() {
 		return userId;
@@ -24,21 +22,5 @@ public class MailBindMsgDto {
 
 	public void setUserMail(String userMail) {
 		this.userMail = userMail;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
 	}
 }
