@@ -97,6 +97,9 @@ public class UserInfoController {
 				session.removeAttribute(SessinNameEnum.USER_INFO.getName());
 				session.setAttribute(SessinNameEnum.USER_INFO.getName(), userInfoModifyMsgDto.getEntity());
 			}
+			
+			//把Entity設為null，不然使用者資料就全部回傳給前端了
+			userInfoModifyMsgDto.setEntity(null);
 		}
 
 		return userInfoModifyMsgDto;
