@@ -176,17 +176,14 @@ public interface IUserInfoMapper {
 	 * 更新使用者基本資料
 	 * @param userId
 	 * @param userName
-	 * @param userAcc
 	 * @param userEmail
-	 * @param userPhone
 	 * @return
 	 */
 	@Update("update user_info set "
-			+ " user_name=#{userName}, user_account=#{userAcc}, email=#{userEmail}, phone=#{userPhone} "
+			+ " user_name=#{userName}, email=#{userEmail} "
 			+ " where id=#{userId}")
 	boolean updateUserInfoById(@Param("userId") int userId, @Param("userName") String userName, 
-			@Param("userAcc") String userAcc, @Param("userEmail") String userEmail, 
-			@Param("userPhone") String userPhone);
+			@Param("userEmail") String userEmail);
 
 	/**
 	 * 更新使用者密碼

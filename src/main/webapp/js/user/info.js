@@ -2,12 +2,12 @@ $(function() {
 
 	initData();
 	
-	$('#checkAcc').on('click', checkUserAccAct);
-	$('#userAcc').on('blur', checkUserAccAct);
+	//$('#checkAcc').on('click', checkUserAccAct);
+	//$('#userAcc').on('blur', checkUserAccAct);
 
 	$('#changePwd').on('click', changePwdView);
 	$('#bindEmail').on('click', bindEmailAct);
-	$('#bindPhone').on('click', bindPhoneAct);
+	//$('#bindPhone').on('click', bindPhoneAct);
 	$('#deleteBtn').on('click', deleteAct);
 	$('#confirmBtn').on('click', confirmAct);
 });
@@ -54,6 +54,7 @@ function initData() {
 	});
 }
 
+/*
 function checkUserAccAct() {
 	
 	var data = {};
@@ -86,6 +87,7 @@ function checkUserAccAct() {
 		}
 	});
 }
+*/
 
 function changePwdView() {
 	
@@ -96,9 +98,11 @@ function bindEmailAct() {
 	
 }
 
+/*
 function bindPhoneAct() {
 	
 }
+*/
 
 function deleteAct() {
 	
@@ -136,7 +140,7 @@ function confirmAct() {
 	
 	var data = {};
 	data.userName = $('#userName').val();
-	data.userAccount = $('#userAcc').val();
+	//data.userAccount = $('#userAcc').val();
 	data.userEmail = $('#userEmail').val();
 	data.userPhone = $('#userPhone').val();
 	

@@ -24,11 +24,13 @@
 			</div>
 			<div class="row my-2">
 				<div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 mt-2">
-					<input type="text" class="form-control" id="userAcc" name="userAcc" placeholder="請輸入您的帳號">
+					<input type="text" class="form-control" id="userAcc" name="userAcc" readonly>
 				</div>
+				<!--
 				<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 mt-2 text-end">
 					<button type="button" class="btn btn-success" id="checkAcc" name="checkAcc">通過</button>
 				</div>
+				-->
 			</div>
 			<div class="row">
 				<div class="col">密碼</div>

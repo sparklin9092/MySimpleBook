@@ -543,44 +543,46 @@ public class UserInfoService {
 
 		int userId = modifyPojo.getUserId();
 		String userName = modifyPojo.getUserName();
-		String userAcc = modifyPojo.getUserAccount();
+		//String userAcc = modifyPojo.getUserAccount();
 		String userEmail = modifyPojo.getUserEmail();
-		String userPhone = modifyPojo.getUserPhone();
+		//String userPhone = modifyPojo.getUserPhone();
 
 		//更新使用者資料前，先檢查使用者帳號是否重複
 		UserAccCheckPojo userAccCheckPojo = new UserAccCheckPojo();
 		userAccCheckPojo.setUserId(userId);
-		userAccCheckPojo.setUserAcc(userAcc);
+		//userAccCheckPojo.setUserAcc(userAcc);
 
-		UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
+		//UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
 
+		/*
 		if(userAccCheckMsgDto.isStatus()) {
 
 			try {
+			*/
+			//確定帳號沒有重複，就可以更新到資料庫了
+			boolean updateStatus = iUserInfoMapper.updateUserInfoById(
+					userId, userName, userEmail);
 
-				//確定帳號沒有重複，就可以更新到資料庫了
-				boolean updateStatus = iUserInfoMapper.updateUserInfoById(
-						userId, userName, userAcc, userEmail, userPhone);
+			if(updateStatus) {
 
-				if(updateStatus) {
+				//基本資料更新後，重新把新的資料寫入到entity裡面，因為回到controller要更新session
+				UserInfoEntity entity = modifyPojo.getEntity();
+				entity.setUserName(userName);
+				//entity.setUserAccount(userAcc);
+				entity.setUserEmail(userEmail);
+				//entity.setUserPhone(userPhone);
 
-					//基本資料更新後，重新把新的資料寫入到entity裡面，因為回到controller要更新session
-					UserInfoEntity entity = modifyPojo.getEntity();
-					entity.setUserName(userName);
-					entity.setUserAccount(userAcc);
-					entity.setUserEmail(userEmail);
-					entity.setUserPhone(userPhone);
+				userInfoModifyMsgDto.setStatus(true);
+				userInfoModifyMsgDto.setMsg("");
+				userInfoModifyMsgDto.setEntity(entity);
 
-					userInfoModifyMsgDto.setStatus(true);
-					userInfoModifyMsgDto.setMsg("");
-					userInfoModifyMsgDto.setEntity(entity);
+			} else {
 
-				} else {
+				userInfoModifyMsgDto.setStatus(false);
+				userInfoModifyMsgDto.setMsg("更新基本資料發生錯誤，請稍後再嘗試。");
 
-					userInfoModifyMsgDto.setStatus(false);
-					userInfoModifyMsgDto.setMsg("更新基本資料發生錯誤，請稍後再嘗試。");
-
-				}
+			}
+			/*
 			} catch(Exception ex) {
 
 				//如果因為時間差，導致更新帳號發生異常錯誤，從這裡攔截
@@ -593,6 +595,7 @@ public class UserInfoService {
 			userInfoModifyMsgDto.setStatus(false);
 			userInfoModifyMsgDto.setMsg(userAccCheckMsgDto.getMsg());
 		}
+		*/
 
 		return userInfoModifyMsgDto;
 	}

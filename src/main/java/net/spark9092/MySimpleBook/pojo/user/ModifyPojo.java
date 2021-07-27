@@ -8,11 +8,11 @@ public class ModifyPojo {
 	
 	private String userName;
 	
-	private String userAccount;
+	//private String userAccount;
 	
 	private String userEmail;
 	
-	private String userPhone;
+	//private String userPhone;
 	
 	private UserInfoEntity entity;
 
@@ -32,6 +32,7 @@ public class ModifyPojo {
 		this.userName = userName;
 	}
 
+	/*
 	public String getUserAccount() {
 		return userAccount;
 	}
@@ -39,6 +40,7 @@ public class ModifyPojo {
 	public void setUserAccount(String userAccount) {
 		this.userAccount = userAccount;
 	}
+	*/
 
 	public String getUserEmail() {
 		return userEmail;
@@ -48,6 +50,7 @@ public class ModifyPojo {
 		this.userEmail = userEmail;
 	}
 
+	/*
 	public String getUserPhone() {
 		return userPhone;
 	}
@@ -55,6 +58,7 @@ public class ModifyPojo {
 	public void setUserPhone(String userPhone) {
 		this.userPhone = userPhone;
 	}
+	*/
 
 	public UserInfoEntity getEntity() {
 		return entity;
