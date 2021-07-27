@@ -1,0 +1,120 @@
+
+n.s.M.c.AccountController:
+{POST [/account/create/act]}: createAct(HttpSession,CreatePojo)
+{POST [/account/modify/act]}: modifyAct(HttpSession,ModifyPojo)
+{POST [/account/delete/act]}: deleteAct(HttpSession,DeletePojo)
+{POST [/account/one/{accountId}]}: one(HttpSession,int)
+{POST [/account/list]}: list(HttpSession)
+{POST [/account/typeList]}: typeList(HttpSession)
+
+n.s.M.c.AccountTypesController:
+{POST [/account/types/create/act]}: createAct(HttpSession,CreatePojo)
+{POST [/account/types/modify/act]}: modifyAct(HttpSession,ModifyPojo)
+{POST [/account/types/delete/act]}: deleteAct(HttpSession,DeletePojo)
+{POST [/account/types/one/{itemId}]}: one(HttpSession,int)
+{POST [/account/types/list]}: list(HttpSession)
+
+n.s.M.c.GuestController:
+{POST [/guest/datacount]}: getDataCount(HttpSession)
+{POST [/guest/check/account]}: userAccCheck(HttpSession,UserAccCheckPojo)
+{POST [/guest/bind/accpwd]}: userBindAccPwd(HttpSession,UserBindAccPwdPojo)
+{POST [/guest/bind/email]}: userBindMail(HttpSession,UserBindMailPojo)
+
+n.s.M.c.IncomeController:
+{POST [/income/create/act]}: createAct(HttpSession,CreatePojo)
+{POST [/income/modify/act]}: modifyAct(HttpSession,ModifyPojo)
+{POST [/income/delete/act]}: deleteAct(HttpSession,DeletePojo)
+{POST [/income/itemList]}: incomeItemList(HttpSession)
+{POST [/income/records]}: records(HttpSession,RecordPojo)
+{POST [/income/accountList]}: accountList(HttpSession)
+{POST [/income/one/{incomeId}]}: one(HttpSession,int)
+
+n.s.M.c.IncomeItemsController:
+{POST [/income/items/create/act]}: createAct(HttpSession,CreatePojo)
+{POST [/income/items/modify/act]}: modifyAct(HttpSession,ModifyPojo)
+{POST [/income/items/delete/act]}: deleteAct(HttpSession,DeletePojo)
+{POST [/income/items/one/{itemId}]}: one(HttpSession,int)
+{POST [/income/items/list]}: list(HttpSession)
+
+n.s.M.c.LoginController:
+{POST [/login/guest]}: loginGuest(HttpServletRequest,HttpSession)
+{POST [/login]}: login(HttpServletRequest,HttpSession,LoginPojo)
+
+n.s.M.c.LogoutController:
+{GET [/logout]}: logout(HttpSession)
+
+n.s.M.c.MainController:
+{POST [/main/check/guest]}: checkGuest(HttpSession)
+{POST [/main/richCode/list]}: getRishCodeList(HttpSession)
+{POST [/main/transfer/list]}: getTransferList(HttpSession)
+{POST [/main/income/list]}: getIncomeList(HttpSession)
+{POST [/main/spend/list]}: getSpendList(HttpSession)
+{POST [/main/account/list]}: getAccountList(HttpSession)
+
+n.s.M.c.PageViewController:
+{GET [/spend]}: spend()
+{GET [/spend/records]}: spendRecords()
+{GET [/spend/modify/{spendId}]}: spendModify(int)
+{GET [/spend/items]}: spendItems()
+{GET [/spend/items/create]}: spendItemsCreate()
+{GET [/spend/items/modify/{itemId}]}: spendItemsModify(int)
+{GET [/income]}: income()
+{GET [/income/records]}: incomeRecords()
+{GET [/income/modify/{incomeId}]}: incomeModify(int)
+{GET [/income/items]}: incomeItems()
+{GET [/income/items/create]}: incomeItemsCreate()
+{GET [/income/items/modify/{itemId}]}: incomeItemsModify(int)
+{GET [/transfer/records]}: transferRecords()
+{GET [/transfer/modify/{transferId}]}: transferModify(int)
+{GET [/account]}: account()
+{GET [/account/create]}: accountCreate()
+{GET [/account/modify/{accountId}]}: accountModify(int)
+{GET [/account/types]}: accountTypes()
+{GET [/account/types/create]}: accountTypesCreate()
+{GET [/account/types/modify/{itemId}]}: accountTypesModify(int)
+{GET [/user/guest]}: userGuest()
+{GET [/user/info/pwd]}: userInfoPed()
+{GET [/verify/mail/{base64UserAcc}]}: verifyMail(String)
+{GET [ || / || /index]}: index(HttpSession)
+{GET [/main]}: main()
+{GET [/user/info]}: userInfo(HttpSession)
+{GET [/transfer]}: transfer()
+
+n.s.M.c.SpendController:
+{POST [/spend/create/act]}: createAct(HttpSession,CreatePojo)
+{POST [/spend/modify/act]}: modifyAct(HttpSession,ModifyPojo)
+{POST [/spend/delete/act]}: deleteAct(HttpSession,DeletePojo)
+{POST [/spend/records]}: records(HttpSession,RecordPojo)
+{POST [/spend/accountList]}: accountList(HttpSession)
+{POST [/spend/itemList]}: spendItemList(HttpSession)
+{POST [/spend/one/{spendId}]}: one(HttpSession,int)
+
+n.s.M.c.SpendItemsController:
+{POST [/spend/items/create/act]}: createAct(HttpSession,CreatePojo)
+{POST [/spend/items/modify/act]}: modifyAct(HttpSession,ModifyPojo)
+{POST [/spend/items/delete/act]}: deleteAct(HttpSession,DeletePojo)
+{POST [/spend/items/one/{itemId}]}: one(HttpSession,int)
+{POST [/spend/items/list]}: list(HttpSession)
+
+n.s.M.c.TransferController:
+{POST [/transfer/create/act]}: createAct(HttpSession,CreatePojo)
+{POST [/transfer/modify/act]}: modifyAct(HttpSession,ModifyPojo)
+{POST [/transfer/delete/act]}: deleteAct(HttpSession,DeletePojo)
+{POST [/transfer/records]}: records(HttpSession,RecordPojo)
+{POST [/transfer/accountList]}: accountList(HttpSession)
+{POST [/transfer/one/{transferId}]}: one(HttpSession,int)
+
+n.s.M.c.UserInfoController:
+{POST [/user/info/modify]}: modifyAct(HttpSession,ModifyPojo)
+{POST [/user/info/delete]}: deleteAct(HttpSession)
+{POST [/user/info/pwd/change]}: changePwd(HttpSession,ChangePwdPojo)
+{POST [/user/info]}: userInfo(HttpSession)
+
+n.s.M.c.VerifyController:
+{POST [/verify/mail/buacc]}: getUserMailByAccount(MailBuAccPojo)
+{POST [/verify/mail/bindAct]}: mailBindAct(HttpSession,BindMailPojo)
+{POST [/verify/mail/resend]}: resSendVerifyCodeMailByAccount(MailBuAccPojo)
+
+o.s.b.a.w.s.e.BasicErrorController:
+{ [/error], produces [text/html]}: errorHtml(HttpServletRequest,HttpServletResponse)
+{ [/error]}: error(HttpServletRequest)
