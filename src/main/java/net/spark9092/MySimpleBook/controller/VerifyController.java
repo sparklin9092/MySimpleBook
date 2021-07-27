@@ -24,9 +24,11 @@ public class VerifyController {
 
 	private static final Logger logger = LoggerFactory.getLogger(VerifyController.class);
 	
-	@Autowired UserInfoService userInfoService;
+	@Autowired
+	private UserInfoService userInfoService;
 	
-	@Autowired VerifyService verifyService;
+	@Autowired
+	private VerifyService verifyService;
 	
 	@PostMapping("/mail/buacc")
 	public UserMailMsgDto getUserMailByAccount(@RequestBody MailBuAccPojo mailBuAccPojo) {
