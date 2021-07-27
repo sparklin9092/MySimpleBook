@@ -3,7 +3,6 @@ package net.spark9092.MySimpleBook.service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -179,12 +178,12 @@ public class UserInfoService {
 	public UserMailMsgDto getUserMailByAccount(String base64UserAccount) {
 
 		UserMailMsgDto userMailMsgDto = new UserMailMsgDto();
-		Base64.Decoder decoder = Base64.getDecoder();
 
 		try {
 
 			//使用Base64對帳號進行解碼
-			String userAccount = new String(decoder.decode(base64UserAccount), "UTF-8");
+			String userAccount = cryptionCommon.decoderBase64UserAccount(
+					0, base64UserAccount);
 
 			//用帳號查ID、mail、最後寄發認證碼的時間
 			userMailMsgDto = iUserInfoMapper.selectMailByAccount(userAccount);
