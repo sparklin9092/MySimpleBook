@@ -392,9 +392,8 @@ public class UserInfoService {
 		String userName = modifyPojo.getUserName();
 		String userEmail = modifyPojo.getUserEmail();
 
-		//TODO 如果 Email 修改之後，與原本已經綁定的不相同，就要讓使用者重新綁定
 		MailDataDto mailDataDto = iUserInfoMapper.selectEmailDataById(userId);
-		if(!mailDataDto.getUserEmail().equals(userEmail)) {
+		if(null != mailDataDto && !mailDataDto.getUserEmail().equals(userEmail)) {
 
 			iUserVerifyMapper.updateUnUsedByUserId(userId);
 		}
