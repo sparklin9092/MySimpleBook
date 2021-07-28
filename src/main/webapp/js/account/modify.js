@@ -100,34 +100,37 @@ function cancelAct() {
 	
 function deleteAct() {
 	
-	var data = {};
-	data.accountId = $('#accountId').val();
+	var deleteConfirm = confirm('確定要刪除嗎？');
 	
-	$.ajax({
-		url: '/account/delete/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			console.log(res);
-			
-			if(res.status) {
+	if(deleteConfirm) {
+	
+		var data = {};
+		data.accountId = $('#accountId').val();
+		
+		$.ajax({
+			url: '/account/delete/act',
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			success: function(res) {
 				
-				alert('刪除成功');
-				location.href = '/account';
-				
-			} else {
-				
-				alert(res.msg);
+				if(res.status) {
+					
+					alert('刪除成功');
+					location.href = '/account';
+					
+				} else {
+					
+					alert(res.msg);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+				alert('無法連接伺服器');
 			}
-		},
-		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
-		}
-	});
+		});
+	}
 }
 
 function confirmAct() {

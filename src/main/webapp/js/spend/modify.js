@@ -104,46 +104,49 @@ function initAccountItemSelect() {
 
 function initData() {
 	
-	var spendId = $('#spendId').val();
+	var deleteConfirm = confirm('確定要刪除嗎？');
 	
-	$.ajax({
-		url: '/spend/one/' + spendId,
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			console.log(res);
-			
-			if(res.status) {
+	if(deleteConfirm) {
+	
+		var spendId = $('#spendId').val();
+		
+		$.ajax({
+			url: '/spend/one/' + spendId,
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: {},
+			success: function(res) {
 				
-				var spendDate = res.oneDto.spendDate;
-				var amount = res.oneDto.amount;
-				
-				var spendItemId = res.oneDto.spendItemId;
-				var accountId = res.oneDto.accountId;
-				
-				var remark = res.oneDto.remark;
-				
-				$('#spendDatePicker').val(moment(spendDate).format('YYYY年MM月DD日'));
-				$('#amount').val(amount);
-				
-				$('#spendItemSelect').val(spendItemId).change();
-				$('#accountItemSelect').val(accountId).change();
-				
-				$('#remark').val(remark);
-				
-			} else {
-				
-				alert(res.msg);
+				if(res.status) {
+					
+					var spendDate = res.oneDto.spendDate;
+					var amount = res.oneDto.amount;
+					
+					var spendItemId = res.oneDto.spendItemId;
+					var accountId = res.oneDto.accountId;
+					
+					var remark = res.oneDto.remark;
+					
+					$('#spendDatePicker').val(moment(spendDate).format('YYYY年MM月DD日'));
+					$('#amount').val(amount);
+					
+					$('#spendItemSelect').val(spendItemId).change();
+					$('#accountItemSelect').val(accountId).change();
+					
+					$('#remark').val(remark);
+					
+				} else {
+					
+					alert(res.msg);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+				alert('無法連接伺服器');
 			}
-		},
-		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
-		}
-	});
+		});
+	}
 }
 
 function cancelAct() {

@@ -60,32 +60,37 @@ function cancelAct() {
 	
 function deleteAct() {
 	
-	var data = {};
-	data.itemId = $('#itemId').val();
+	var deleteConfirm = confirm('確定要刪除嗎？');
 	
-	$.ajax({
-		url: '/spend/items/delete/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
+	if(deleteConfirm) {
+	
+		var data = {};
+		data.itemId = $('#itemId').val();
+		
+		$.ajax({
+			url: '/spend/items/delete/act',
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			success: function(res) {
 				
-				alert('刪除成功');
-				location.href = '/spend/items';
-				
-			} else {
-				
-				alert(res.msg);
+				if(res.status) {
+					
+					alert('刪除成功');
+					location.href = '/spend/items';
+					
+				} else {
+					
+					alert(res.msg);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+				alert('無法連接伺服器');
 			}
-		},
-		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
-		}
-	});
+		});
+	}
 }
 
 function confirmAct() {
