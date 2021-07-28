@@ -9,16 +9,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.CryptionCommon;
+import net.spark9092.MySimpleBook.common.GeneratorCommon;
+import net.spark9092.MySimpleBook.common.SendMailCommon;
 import net.spark9092.MySimpleBook.dto.login.ResultMsgDto;
+import net.spark9092.MySimpleBook.dto.user.BindEmailMsgDto;
 import net.spark9092.MySimpleBook.dto.user.DeleteMsgDto;
+import net.spark9092.MySimpleBook.dto.user.EmailStatusDto;
 import net.spark9092.MySimpleBook.dto.user.InfoDto;
 import net.spark9092.MySimpleBook.dto.user.InfoModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.user.InfoMsgDto;
+import net.spark9092.MySimpleBook.dto.user.MailDataDto;
 import net.spark9092.MySimpleBook.dto.user.PwdChangeMsgDto;
 import net.spark9092.MySimpleBook.dto.verify.MailVerifyCodeLastTimeDto;
+import net.spark9092.MySimpleBook.dto.verify.UserMailDto;
 import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
+import net.spark9092.MySimpleBook.enums.UserEmailStatusEnum;
+import net.spark9092.MySimpleBook.enums.VerifyTypeEnum;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.mapper.IAccountTypesMapper;
 import net.spark9092.MySimpleBook.mapper.IIncomeItemsMapper;
@@ -28,7 +37,7 @@ import net.spark9092.MySimpleBook.mapper.ISpendMapper;
 import net.spark9092.MySimpleBook.mapper.ITransferMapper;
 import net.spark9092.MySimpleBook.mapper.IUserInfoMapper;
 import net.spark9092.MySimpleBook.mapper.IUserVerifyMapper;
-import net.spark9092.MySimpleBook.pojo.guest.AccCheckPojo;
+import net.spark9092.MySimpleBook.pojo.user.BindEmailPojo;
 import net.spark9092.MySimpleBook.pojo.user.ChangePwdPojo;
 import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 import net.spark9092.MySimpleBook.pojo.user.ModifyPojo;
@@ -66,7 +75,16 @@ public class UserInfoService {
 	private IUserVerifyMapper iUserVerifyMapper;
 
 	@Autowired
+	private CheckCommon checkCommon;
+
+	@Autowired
 	private CryptionCommon cryptionCommon;
+
+	@Autowired
+	private GeneratorCommon generatorCommon;
+
+	@Autowired
+	private SendMailCommon sendMailCommon;
 
 	/**
 	 * 使用者登入
@@ -155,10 +173,51 @@ public class UserInfoService {
 
 	        String createDate = userInfoEntity.getCreateDateTime().format(formatter);
 
+	        //查詢目前 User Email 資料
+	        EmailStatusDto emailStatusDto = iUserInfoMapper.selectEmailStatusById(userInfoEntity.getId());
+
+	        //檢查目前 User Email 在什麼階段，1: 已寄發、2: 可綁定(預設)、3: 已認證
+	        int emailStatus = UserEmailStatusEnum.CANBIND.getStatus();
+	        if(null != emailStatusDto) {
+		        //1: 已寄發，表示系統已經寄發認證碼給使用者，
+		        //   而且認證碼目前是可以用的狀態，
+		        //   還沒有過期、已使用、被停用、被刪除
+	        	if(emailStatusDto.getUserEmail() != "" &&
+        			emailStatusDto.getVerifyCode() != "" &&
+        			!emailStatusDto.isVerifyCodeUsed() &&
+        			emailStatusDto.isVerifyCodeActive() &&
+        			!emailStatusDto.isVerifyCodeDelete()) {
+
+	        		//已條件都通過，表示這個認證碼可用，但還要判斷是否已經過期
+	        		LocalDateTime now = LocalDateTime.now(); //驗證當下的時間
+	    			Duration duration = Duration.between(
+	    					emailStatusDto.getSysSendTime(), now); // 與系統寄發時間之差
+
+	    			//如果超過 3 分鐘
+	    			if(duration.toMinutes() < 3) {
+
+	    				emailStatus = UserEmailStatusEnum.ISSEND.getStatus();
+	    			}
+	        	}
+
+		        //2: 可綁定，表示使用者從來沒有索取過認證碼，或是認證碼不可使用了
+	        	//預設就是可綁定，所以這裡不需要寫任何判斷
+
+		        //3: 已認證，表示使用者已經綁定這個Email了，在user_info.email有值，
+		        //   而且在user_verify也找的到對應的認證碼，還有認證碼已經被使用了
+	        	if(emailStatusDto.getUserEmail() != "" &&
+        			emailStatusDto.getVerifyCode() != "" &&
+        			emailStatusDto.isVerifyCodeUsed()) {
+
+	        		emailStatus = UserEmailStatusEnum.ISBIND.getStatus();
+	        	}
+	        }
+
 			userInfoDto.setUserName(userInfoEntity.getUserName());
 			userInfoDto.setUserAcc(userInfoEntity.getUserAccount());
 			userInfoDto.setMaskPwd(maskPwd);
 			userInfoDto.setUserEmail(userInfoEntity.getUserEmail());
+			userInfoDto.setEmailStatus(emailStatus);
 			userInfoDto.setUserPhone(userInfoEntity.getUserPhone());
 			userInfoDto.setCreateDate(createDate);
 
@@ -186,16 +245,15 @@ public class UserInfoService {
 					0, base64UserAccount);
 
 			//用帳號查ID、mail、最後寄發認證碼的時間
-			userMailMsgDto = iUserInfoMapper.selectMailByAccount(userAccount);
+			UserMailDto userMailDto = iUserInfoMapper.selectMailByAccount(userAccount);
 
-			if(null != userMailMsgDto) {
+			if(null != userMailDto) {
 
 				String reSendSec = "";
 
 				//查詢還有多久可以重寄認證碼
 				MailVerifyCodeLastTimeDto mailVerifyCodeLastTimeDto =
-						iUserVerifyMapper.selectLastCodeTimeByUserId(
-						userMailMsgDto.getUserId());
+						iUserVerifyMapper.selectLastCodeTimeByUserId(userMailDto.getUserId());
 
 				if(null == mailVerifyCodeLastTimeDto) {
 
@@ -222,8 +280,8 @@ public class UserInfoService {
 				userMailMsgDto.setStatus(true);
 				userMailMsgDto.setMsg("");
 				userMailMsgDto.setReSendSec(reSendSec);
-				userMailMsgDto.setUserId(0);
 				userMailMsgDto.setUsed(mailVerifyCodeLastTimeDto.isUsed());
+				userMailMsgDto.setUserMail(userMailDto.getUserMail());
 
 				return userMailMsgDto;
 
@@ -233,10 +291,7 @@ public class UserInfoService {
 
 		userMailMsgDto = new UserMailMsgDto();
 		userMailMsgDto.setMsg("");
-		userMailMsgDto.setUserMail("");
 		userMailMsgDto.setStatus(false);
-		userMailMsgDto.setUserId(0);
-		userMailMsgDto.setUsed(false);
 
 		return userMailMsgDto;
 	}
@@ -335,61 +390,38 @@ public class UserInfoService {
 
 		int userId = modifyPojo.getUserId();
 		String userName = modifyPojo.getUserName();
-		//String userAcc = modifyPojo.getUserAccount();
 		String userEmail = modifyPojo.getUserEmail();
-		//String userPhone = modifyPojo.getUserPhone();
 
-		//TODO 如果 Email 已經綁定，Email也不能改
+		//TODO 如果 Email 修改之後，與原本已經綁定的不相同，就要讓使用者重新綁定
+		MailDataDto mailDataDto = iUserInfoMapper.selectEmailDataById(userId);
+		if(!mailDataDto.getUserEmail().equals(userEmail)) {
 
-		//更新使用者資料前，先檢查使用者帳號是否重複
-		AccCheckPojo userAccCheckPojo = new AccCheckPojo();
-		userAccCheckPojo.setUserId(userId);
-		//userAccCheckPojo.setUserAcc(userAcc);
+			iUserVerifyMapper.updateUnUsedByUserId(userId);
+		}
 
-		//UserAccCheckMsgDto userAccCheckMsgDto = this.checkUserAccByPojo(userAccCheckPojo);
+		//根據 User ID 更新使用者基本資料
+		boolean updateStatus = iUserInfoMapper.updateUserInfoById(
+				userId, userName, userEmail);
 
-		/*
-		if(userAccCheckMsgDto.isStatus()) {
+		if(updateStatus) {
 
-			try {
-			*/
-			//確定帳號沒有重複，就可以更新到資料庫了
-			boolean updateStatus = iUserInfoMapper.updateUserInfoById(
-					userId, userName, userEmail);
+			//基本資料更新後，重新把新的資料寫入到entity裡面，因為回到controller要更新session
+			UserInfoEntity entity = modifyPojo.getEntity();
+			entity.setUserName(userName);
+			//entity.setUserAccount(userAcc);
+			entity.setUserEmail(userEmail);
+			//entity.setUserPhone(userPhone);
 
-			if(updateStatus) {
+			userInfoModifyMsgDto.setStatus(true);
+			userInfoModifyMsgDto.setMsg("");
+			userInfoModifyMsgDto.setEntity(entity);
 
-				//基本資料更新後，重新把新的資料寫入到entity裡面，因為回到controller要更新session
-				UserInfoEntity entity = modifyPojo.getEntity();
-				entity.setUserName(userName);
-				//entity.setUserAccount(userAcc);
-				entity.setUserEmail(userEmail);
-				//entity.setUserPhone(userPhone);
-
-				userInfoModifyMsgDto.setStatus(true);
-				userInfoModifyMsgDto.setMsg("");
-				userInfoModifyMsgDto.setEntity(entity);
-
-			} else {
-
-				userInfoModifyMsgDto.setStatus(false);
-				userInfoModifyMsgDto.setMsg("您的基本資料沒有更新成功，已將您的問題提報，請稍後再試試看。");
-
-			}
-			/*
-			} catch(Exception ex) {
-
-				//如果因為時間差，導致更新帳號發生異常錯誤，從這裡攔截
-
-				userInfoModifyMsgDto.setStatus(false);
-				userInfoModifyMsgDto.setMsg(String.format("太可惜了！這個 %s 帳號被其他人搶先使用了，再換一個試試看。", userAcc));
-			}
 		} else {
 
 			userInfoModifyMsgDto.setStatus(false);
-			userInfoModifyMsgDto.setMsg(userAccCheckMsgDto.getMsg());
+			userInfoModifyMsgDto.setMsg("您的基本資料沒有更新成功，已將您的問題提報，請稍後再試試看。");
+
 		}
-		*/
 
 		return userInfoModifyMsgDto;
 	}
@@ -484,5 +516,88 @@ public class UserInfoService {
 		}
 
 		return userDeleteMsgDto;
+	}
+
+	/**
+	 * 使用者綁定Email，寄發認證碼的Email
+	 * @param bindEmailPojo
+	 * @return
+	 */
+	public BindEmailMsgDto bindUserMailByPojo(BindEmailPojo bindEmailPojo) {
+
+		BindEmailMsgDto BindEmailMsgDto = new BindEmailMsgDto();
+
+		int userId = bindEmailPojo.getUserId();
+		String userAcc = bindEmailPojo.getUserAcc();
+		String userName = bindEmailPojo.getUserName();
+		String userMail = bindEmailPojo.getUserEmail();
+		String verifyCode = generatorCommon.getVerifyCode();
+
+		if(null == userMail || userMail.equals("") || userMail.isEmpty()) {
+
+			BindEmailMsgDto.setStatus(false);
+			BindEmailMsgDto.setMsg("請輸入電子信箱(Email)。");
+			return BindEmailMsgDto;
+		}
+
+		//先進行Email正規化驗證
+		if(!checkCommon.checkMail(userMail)) {
+
+			BindEmailMsgDto.setStatus(false);
+			BindEmailMsgDto.setMsg("電子信箱(Email)格式不正確。");
+			return BindEmailMsgDto;
+		}
+
+		//檢查有無重複的Email已經被綁定
+		int selectCount = iUserInfoMapper.selectExistBindMailCount(userMail);
+		if(selectCount != 0) {
+
+			//已有相同Email被綁定
+			BindEmailMsgDto.setStatus(false);
+			BindEmailMsgDto.setMsg("這個電子信箱(Email)已綁定，請更換其他電子信箱(Email)。");
+			return BindEmailMsgDto;
+		}
+
+		//如果使用者Email正規化通過，就更新 user_info.email 這個欄位，
+		//讓使用者去驗證的時候，系統找得到Email
+		boolean updateMailStatus = iUserInfoMapper.updateMailByUserId(userId, userMail);
+
+		if(!updateMailStatus) {
+
+			//Email更新失敗
+			BindEmailMsgDto.setStatus(false);
+			BindEmailMsgDto.setMsg("目前無法寄發電子信箱(Email)的認證碼，已將您的問題提報，請稍後再試。");
+			return BindEmailMsgDto;
+		}
+
+		//存入user_verify，給使用者來驗證
+		boolean insertStatus = iUserVerifyMapper.insertMailVerifyCodeByUserId(
+				userId, VerifyTypeEnum.EMAIL.getType(), verifyCode);
+
+		if(!insertStatus) {
+
+			//認證碼insert失敗
+			BindEmailMsgDto.setStatus(false);
+			BindEmailMsgDto.setMsg("目前無法寄發電子信箱(Email)的認證碼，已將您的問題提報，請稍後再試。");
+			return BindEmailMsgDto;
+		}
+
+		//使用發送公用類，呼叫發送電子信箱認證碼的方法
+		boolean sendMailStatus = sendMailCommon.sendVerifyCodeMail(
+				userAcc, userName, userMail, verifyCode);
+
+		if(!sendMailStatus) {
+
+			//Email發送失敗
+			BindEmailMsgDto.setStatus(false);
+			BindEmailMsgDto.setMsg("目前無法寄發電子信箱(Email)的認證碼，已將您的問題提報，請稍後再試。");
+			return BindEmailMsgDto;
+		}
+
+		BindEmailMsgDto.setStatus(true);
+		BindEmailMsgDto.setMsg("");
+		BindEmailMsgDto.setUserEmail(userMail);
+
+		return BindEmailMsgDto;
 	}
 }

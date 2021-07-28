@@ -1,5 +1,6 @@
 package net.spark9092.MySimpleBook.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class GuestController {
 	}
 
 	@PostMapping("/bind/accpwd")
-	public BindAccPwdMsgDto guestBindAccPwd(HttpSession session, @RequestBody BindAccPwdPojo userBindAccPwdPojo) {
+	public BindAccPwdMsgDto guestBindAccPwd(HttpServletRequest request, HttpSession session, @RequestBody BindAccPwdPojo userBindAccPwdPojo) {
 
 		BindAccPwdMsgDto userBindAccPwdMsgDto = new BindAccPwdMsgDto();
 
@@ -83,7 +84,17 @@ public class GuestController {
 			userBindAccPwdMsgDto = guestService.bindUserByAccPwdPojo(userBindAccPwdPojo);
 
 			//把session註銷掉，強制讓使用者重新登入
-			if(userBindAccPwdMsgDto.isStatus()) session.invalidate();
+			if(userBindAccPwdMsgDto.isStatus()) {
+
+				session = request.getSession(false);
+				if(session != null){
+					session.invalidate();
+				}
+				session = request.getSession(true);
+
+				session.setAttribute(SessinNameEnum.USER_ACC.getName(),
+						userBindAccPwdMsgDto.getUserAccount());
+			}
 
 		}
 

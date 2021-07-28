@@ -93,7 +93,7 @@ function bindAccPwdAct() {
 			if(res.status) {
 				
 				alert("帳號綁定成功！請重新登入。");
-				location.href = '/logout';
+				location.href = '/';
 				
 			} else {
 				

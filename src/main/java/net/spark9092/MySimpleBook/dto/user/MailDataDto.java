@@ -1,9 +1,7 @@
 package net.spark9092.MySimpleBook.dto.user;
 
-import net.spark9092.MySimpleBook.dto.BaseMsgDto;
-
-public class BindEmailMsgDto extends BaseMsgDto {
-
+public class MailDataDto {
+	
 	private String userEmail;
 
 	public String getUserEmail() {
@@ -13,4 +11,5 @@ public class BindEmailMsgDto extends BaseMsgDto {
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
+
 }

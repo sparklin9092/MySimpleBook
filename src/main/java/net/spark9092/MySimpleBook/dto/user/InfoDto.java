@@ -9,6 +9,8 @@ public class InfoDto {
 	private String maskPwd;
 
 	private String userEmail;
+	
+	private int emailStatus;
 
 	private String userPhone;
 
@@ -44,6 +46,14 @@ public class InfoDto {
 
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
+	}
+
+	public int getEmailStatus() {
+		return emailStatus;
+	}
+
+	public void setEmailStatus(int emailStatus) {
+		this.emailStatus = emailStatus;
 	}
 
 	public String getUserPhone() {

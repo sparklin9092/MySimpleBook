@@ -14,7 +14,7 @@ $(function() {
 		$.removeCookie('checkGuest');
 	}
 	
-	checkUserMailExist();
+	checkUserExist();
 	rememberAccVal();
 	
 	$('#rememberAcc').on('click', rememberAccAct);
@@ -71,13 +71,13 @@ function guestAct() {
 	});
 }
 
-function checkUserMailExist() {
+function checkUserExist() {
 	
-	var userMail = $('#userMail').val();
+	var user = $('#user').val();
 	
-	if(userMail) {
+	if(user) {
 		
-		$('#userAcc').val(userMail);
+		$('#userAcc').val(user);
 	}
 }
 

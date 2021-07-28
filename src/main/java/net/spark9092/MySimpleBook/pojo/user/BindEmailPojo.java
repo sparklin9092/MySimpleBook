@@ -1,16 +1,14 @@
 package net.spark9092.MySimpleBook.pojo.user;
 
-import net.spark9092.MySimpleBook.entity.UserInfoEntity;
-
-public class ModifyPojo {
+public class BindEmailPojo {
 	
 	private int userId;
+	
+	private String userAcc;
 	
 	private String userName;
 	
 	private String userEmail;
-	
-	private UserInfoEntity entity;
 
 	public int getUserId() {
 		return userId;
@@ -18,6 +16,14 @@ public class ModifyPojo {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getUserAcc() {
+		return userAcc;
+	}
+
+	public void setUserAcc(String userAcc) {
+		this.userAcc = userAcc;
 	}
 
 	public String getUserName() {
@@ -34,14 +40,6 @@ public class ModifyPojo {
 
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
-	}
-
-	public UserInfoEntity getEntity() {
-		return entity;
-	}
-
-	public void setEntity(UserInfoEntity entity) {
-		this.entity = entity;
 	}
 
 }

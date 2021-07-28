@@ -98,7 +98,7 @@ function bindAct() {
 		data: JSON.stringify(data),
 		success: function(res) {
 			if(res.status) {
-				alert('綁定成功！已寄發臨時密碼到您的信箱，請到信箱索取臨時密碼進行登入！');
+				alert(res.msg);
 				location.href = '/';
 			} else {
 				alert(res.msg);

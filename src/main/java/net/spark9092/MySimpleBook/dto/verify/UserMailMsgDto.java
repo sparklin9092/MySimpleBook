@@ -4,21 +4,11 @@ import net.spark9092.MySimpleBook.dto.BaseMsgDto;
 
 public class UserMailMsgDto extends BaseMsgDto {
 	
-	private int userId;
-	
 	private String userMail;
 	
 	private String reSendSec;
 	
 	private boolean used;
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
 
 	public String getUserMail() {
 		return userMail;

@@ -70,4 +70,15 @@ public interface IUserVerifyMapper {
 			+ " user_used_datetime=now(), is_used=1 "
 			+ " where id=#{verifyId} and user_id=#{userId}")
 	boolean updateByUserId(@Param("verifyId") int verifyId, @Param("userId") int userId);
+
+	/**
+	 * 因為service判斷使用者更新基本資料後，與原本的Email不相同，
+	 * 所以把原本已經驗證通過的認證碼，全部改為未使用，
+	 * 目的是要讓使用者重新認證新的Email
+	 * @param userId
+	 */
+	@Update("update user_verify set "
+			+ " is_used=0 "
+			+ " where user_id=#{userId}")
+	void updateUnUsedByUserId(@Param("userId") int userId);
 }

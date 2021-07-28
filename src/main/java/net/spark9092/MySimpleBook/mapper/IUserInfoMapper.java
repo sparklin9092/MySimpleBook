@@ -10,10 +10,10 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import net.spark9092.MySimpleBook.dto.verify.MailBindMsgDto;
-import net.spark9092.MySimpleBook.dto.verify.UserMailMsgDto;
+import net.spark9092.MySimpleBook.dto.user.EmailStatusDto;
+import net.spark9092.MySimpleBook.dto.user.MailDataDto;
+import net.spark9092.MySimpleBook.dto.verify.UserMailDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
-import net.spark9092.MySimpleBook.dto.user.MailDto;
 
 @Mapper
 public interface IUserInfoMapper {
@@ -46,7 +46,17 @@ public interface IUserInfoMapper {
 	 * @param userAcc
 	 * @return
 	 */
-	@Select("select * from user_info where user_account=#{userAcc}")
+	@Select("select a.* "
+			+ " from user_info a "
+			+ " where a.user_account=#{userAcc} "
+			+ " or (a.email=#{userAcc} and "
+			+ "    1=(select 1 from user_verify b "
+			+ "       where b.user_id=a.id and b.user_used_datetime is not null "
+			+ "             and b.is_used=1 and b.is_active=1 and b.is_delete=0 "
+			+ "       order by b.user_used_datetime "
+			+ "       limit 1"
+			+ "       )"
+			+ "    )")
 	@Results({
 		@Result(column="id", property="id"),
 		@Result(column="user_name", property="userName"),
@@ -88,38 +98,28 @@ public interface IUserInfoMapper {
 	UserInfoEntity selectGuestBySeq(@Param("guestSeq") int guestSeq);
 
 	/**
-	 * 根據使用者帳號，查詢使用者電子信箱(Email)
+	 * 根據 User Account，查詢 User ID、User Email、訪客身份
 	 * @param userAccount
 	 * @return
 	 */
-	@Select("select id, email from user_info where user_account=#{userAccount}")
+	@Select("select id, email, is_guest from user_info where user_account=#{userAccount}")
 	@Results({
 		@Result(column="id", property="userId"),
-		@Result(column="email", property="userMail")
+		@Result(column="email", property="userMail"),
+		@Result(column="is_guest", property="guest")
 	})
-	UserMailMsgDto selectMailByAccount(@Param("userAccount") String userAccount);
+	UserMailDto selectMailByAccount(@Param("userAccount") String userAccount);
 
 	/**
-	 * 根據使用者ID，查詢使用者電子信箱(Email)
-	 * @param userAccount
+	 * 根據 User ID 查詢使用者Email
+	 * @param userId
 	 * @return
 	 */
 	@Select("select email from user_info where id=#{userId}")
 	@Results({
-		@Result(column="email", property="userMail")
+		@Result(column="email", property="userEmail")
 	})
-	MailDto selectMailByUserId(@Param("userId") int userId);
-
-	/**
-	 * 根據使用者帳號，查詢使用者ID
-	 * @param userAccount
-	 * @return
-	 */
-	@Select("select id from user_info where user_account=#{userAccount}")
-	@Results({
-		@Result(column="id", property="userId")
-	})
-	MailBindMsgDto selectUserIdByAccount(@Param("userAccount") String userAccount);
+	MailDataDto selectEmailDataById(@Param("userId") int userId);
 
 	/**
 	 * 根據使用者帳號，查詢已存在的數量，排除自己的 user_acoount
@@ -160,6 +160,27 @@ public interface IUserInfoMapper {
 	int selectExistBindMailCount(@Param("userMail") String userMail);
 
 	/**
+	 * 查詢 User Email 綁定資料，用於使用者基本資料頁面的Email綁定按鈕
+	 * @param userId
+	 * @return
+	 */
+	@Select("select a.email, b.verify_code, b.system_send_datetime, b.is_used, b.is_active, b.is_delete "
+			+ " from user_info a "
+			+ " left join user_verify b on b.user_id=a.id "
+			+ " where b.verify_type='mail' and a.id=#{userId} "
+			+ " order by b.system_send_datetime desc "
+			+ " limit 1")
+	@Results({
+		@Result(column="email", property="userEmail"),
+		@Result(column="verify_code", property="verifyCode"),
+		@Result(column="system_send_datetime", property="sysSendTime"),
+		@Result(column="is_used", property="verifyCodeUsed"),
+		@Result(column="is_active", property="verifyCodeActive"),
+		@Result(column="is_delete", property="verifyCodeDelete")
+	})
+	EmailStatusDto selectEmailStatusById(@Param("userId") int userId);
+
+	/**
 	 * 新增一位訪客類型的使用者
 	 * @param userName
 	 * @param userPwd
@@ -182,7 +203,7 @@ public interface IUserInfoMapper {
 	@Update("update user_info set "
 			+ " user_name=#{userName}, email=#{userEmail} "
 			+ " where id=#{userId}")
-	boolean updateUserInfoById(@Param("userId") int userId, @Param("userName") String userName, 
+	boolean updateUserInfoById(@Param("userId") int userId, @Param("userName") String userName,
 			@Param("userEmail") String userEmail);
 
 	/**

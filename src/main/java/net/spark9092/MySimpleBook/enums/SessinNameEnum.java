@@ -7,7 +7,8 @@ public enum SessinNameEnum implements Serializable {
     USER_INFO("user-info"),
     RICH_CODE("rich-code"),
     GUEST_DATA_COUNT("guest-data-count"),
-    USER_MAIL("user-mail");
+    USER_MAIL("user-mail"),
+    USER_ACC("user-account");
 
     private String name;
 

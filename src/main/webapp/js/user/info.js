@@ -8,6 +8,8 @@ $(function() {
 	$('#confirmBtn').on('click', confirmAct);
 });
 
+var emailStatus = 2;
+
 function initData() {
 	
 	$.ajax({
@@ -24,6 +26,7 @@ function initData() {
 				var userAcc = res.dto.userAcc;
 				var maskPwd = res.dto.maskPwd;
 				var userEmail = res.dto.userEmail;
+				emailStatus = res.dto.emailStatus;
 				var createDate = res.dto.createDate;
 				
 				$('#userName').val(userName);
@@ -32,7 +35,27 @@ function initData() {
 				$('#userEmail').val(userEmail);
 				$('#createDate').val(createDate);
 				
-				$('#checkAcc').prop('disabled', true);
+				if(emailStatus == 1) {
+					
+					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+					$('#bindEmail').prop('disabled', true).text('已寄發');
+					
+				} else if(emailStatus == 2) {
+					
+					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+					$('#bindEmail').prop('disabled', false).text('綁定');
+					
+				} else if(emailStatus == 3) {
+					
+					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+					$('#bindEmail').prop('disabled', true).text('已認證');
+					
+				} else {
+					
+					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+					$('#bindEmail').prop('disabled', false).text('綁定');
+					
+				}
 				
 				$('#menuUserTitle').text(userName + '的致富寶典');
 				
@@ -55,6 +78,42 @@ function changePwdView() {
 
 function bindEmailAct() {
 	
+	$('#bindEmail').addClass('btn-warning').removeClass('btn-success');
+	$('#bindEmail').prop('disabled', true).text('確認中');
+	
+	setTimeout(function() {
+	
+		var data = {};
+		data.userEmail = $('#userEmail').val();
+		
+		$.ajax({
+			url: '/user/info/bind/email',
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			success: function(res) {
+				
+				if(res.status) {
+					
+					alert("已經寄發認證碼到您的信箱，輸入認證碼確認後，綁定就完成了！");
+				
+					initData();
+					
+				} else {
+					
+					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+					$('#bindEmail').prop('disabled', false).text('綁定');
+					
+					alert(res.msg);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+				alert('無法連接伺服器');
+			}
+		});
+	}, 1000);
 }
 
 function deleteAct() {
@@ -91,32 +150,42 @@ function deleteAct() {
 
 function confirmAct() {
 	
-	var data = {};
-	data.userName = $('#userName').val();
-	data.userEmail = $('#userEmail').val();
+	var modifyConfirm = true;
+	if(emailStatus == 3) {
+		
+		modifyConfirm = confirm('您的電子信箱(Email)已認證，修改為不同的電子信箱(Email)，'
+						+'會需要您重新綁定，請問是否要繼續修改嗎？')
+	}
 	
-	$.ajax({
-		url: '/user/info/modify',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
+	if(modifyConfirm) {
+	
+		var data = {};
+		data.userName = $('#userName').val();
+		data.userEmail = $('#userEmail').val();
+		
+		$.ajax({
+			url: '/user/info/modify',
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			success: function(res) {
 				
-				alert("基本資料修改成功！");
-				
-				initData();
-				
-			} else {
-				
-				alert(res.msg);
+				if(res.status) {
+					
+					alert("基本資料修改成功！");
+					
+					initData();
+					
+				} else {
+					
+					alert(res.msg);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+				alert('無法連接伺服器');
 			}
-		},
-		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
-		}
-	});
+		});
+	}
 }

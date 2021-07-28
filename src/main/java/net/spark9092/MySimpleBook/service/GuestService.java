@@ -193,8 +193,7 @@ public class GuestService {
 			try {
 				//確定帳號沒有重複，可以更新到資料庫了
 				bindAccPwdStatus = iUserInfoMapper.updateAccPwdByUserId(
-						userBindAccPwdPojo.getUserId(), userAcc,
-						enPwd);
+						userBindAccPwdPojo.getUserId(), userAcc, enPwd);
 			} catch (Exception ex) {
 				//可能會因為時間差，導致更新失敗，因為使用者帳號 (user_info.user_account) 只能是唯一值
 			}
@@ -203,6 +202,7 @@ public class GuestService {
 
 				userBindAccPwdMsgDto.setStatus(true);
 				userBindAccPwdMsgDto.setMsg("");
+				userBindAccPwdMsgDto.setUserAccount(userAcc);
 
 			} else {
 

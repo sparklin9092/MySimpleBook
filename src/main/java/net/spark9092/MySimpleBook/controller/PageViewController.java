@@ -2,6 +2,8 @@ package net.spark9092.MySimpleBook.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,8 @@ import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 @Controller
 public class PageViewController {
 
+	private static final Logger logger = LoggerFactory.getLogger(PageViewController.class);
+
 	/**
 	 * 登入頁
 	 */
@@ -28,7 +32,16 @@ public class PageViewController {
 		mv.setViewName(pageName);
 		
 		String userMail = (String) session.getAttribute(SessinNameEnum.USER_MAIL.getName());
-		mv.addObject("userMail", userMail);
+		String userAccount = (String) session.getAttribute(SessinNameEnum.USER_ACC.getName());
+		
+		logger.debug("userMail: " + userMail);
+		logger.debug("userAccount: " + userAccount);
+		
+		String user = "";
+		if(null != userMail) user = userMail;
+		else if(null != userAccount) user = userAccount;
+		
+		mv.addObject("user", user);
 
 		return mv;
 	}
