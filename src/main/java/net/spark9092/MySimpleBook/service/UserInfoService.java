@@ -2,7 +2,6 @@ package net.spark9092.MySimpleBook.service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.CryptionCommon;
 import net.spark9092.MySimpleBook.common.GeneratorCommon;
+import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.common.SendMailCommon;
 import net.spark9092.MySimpleBook.dto.login.ResultMsgDto;
 import net.spark9092.MySimpleBook.dto.user.BindEmailMsgDto;
@@ -82,6 +82,9 @@ public class UserInfoService {
 
 	@Autowired
 	private GeneratorCommon generatorCommon;
+
+	@Autowired
+	private GetCommon getCommon;
 
 	@Autowired
 	private SendMailCommon sendMailCommon;
@@ -169,9 +172,7 @@ public class UserInfoService {
 				maskPwd = maskPwd + "*";
 			}
 
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
-
-	        String createDate = userInfoEntity.getCreateDateTime().format(formatter);
+	        String createDate = getCommon.getFormatDate(userInfoEntity.getCreateDateTime());
 
 	        //查詢目前 User Email 資料
 	        EmailStatusDto emailStatusDto = iUserInfoMapper.selectEmailStatusById(userInfoEntity.getId());
