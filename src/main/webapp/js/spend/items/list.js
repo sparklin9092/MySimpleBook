@@ -38,6 +38,7 @@ function initSpendItemDataTable() {
 					},
 					{
 						targets: 3,
+						orderable: false,
 						render: function(data, type, row) {
 							return '<button type="button" class="btn btn-outline-warning" onclick="modifyView('+row[0]+')">修改</button>';
 						}
