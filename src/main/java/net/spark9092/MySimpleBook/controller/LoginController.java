@@ -128,4 +128,24 @@ public class LoginController {
 
 		return msgDto;
 	}
+	
+	@PostMapping("/login/check")
+	public BaseMsgDto loginCheck(HttpServletRequest request, HttpSession oldSession) {
+		
+		BaseMsgDto baseMsgDto = new BaseMsgDto();
+
+		//先檢查舊的session中是否還存在使用者的資料
+		UserInfoEntity userInfoEntity = (UserInfoEntity) oldSession.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if(null == userInfoEntity) {
+
+			baseMsgDto.setStatus(false);
+			
+		} else {
+
+			baseMsgDto.setStatus(true);
+		}
+		
+		return baseMsgDto;
+	}
 }

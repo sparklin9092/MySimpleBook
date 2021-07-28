@@ -8,6 +8,8 @@ $(function() {
 function logoutAct() {
 	
 	location.href = '/logout';
+	
+	$.removeCookie('loginStatus');
 }
 
 function userInfoView() {

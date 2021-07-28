@@ -18,6 +18,8 @@ $(function() {
 	rememberAccVal();
 	
 	$('#rememberAcc').on('click', rememberAccAct);
+	
+	checkLoginStatus();
 });
 
 function loginAct() {
@@ -37,6 +39,7 @@ function loginAct() {
 		success: function(res) {
 			if(res.status) {
 				location.href = '/main';
+				$.cookie('loginStatus', true);
 			} else {
 				alert(res.msg);
 				$('#userPwd').val('');
@@ -60,6 +63,7 @@ function guestAct() {
 		success: function(res) {
 			if(res.status) {
 				location.href = '/main';
+				$.cookie('loginStatus', true);
 			} else {
 				alert(res.msg);
 			}
@@ -104,5 +108,28 @@ function rememberAccVal() {
 		var cookieAcc = $.cookie('rememberAcc');
 		
 		$('#userAcc').val(cookieAcc);
+	}
+}
+
+function checkLoginStatus() {
+	
+	if($.cookie('loginStatus')) {
+	
+		$.ajax({
+			url: '/login/check',
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: {},
+			success: function(res) {
+				if(res.status) {
+					location.href = '/main';
+				}
+			},
+			error: function(err) {
+				console.log(err);
+				alert('無法連接伺服器');
+			}
+		});
 	}
 }
