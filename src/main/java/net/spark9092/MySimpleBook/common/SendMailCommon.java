@@ -22,7 +22,7 @@ public class SendMailCommon {
 //	private static final String systemUrl = "https://richnote.net";
 	private static final String systemUrl = "http://192.168.1.238:8080";
 
-	private static final String SystemMail = "RichNote Support <support@richnote.net>";
+	private static final String SystemMail = "RichNote Notification <support@richnote.net>";
 
 	private static final Logger logger = LoggerFactory.getLogger(SendMailCommon.class);
 
@@ -94,36 +94,29 @@ public class SendMailCommon {
 	 */
 	public boolean sendVerifyCodeMail(String userAccount, String userName, String userMail, String verifyCode) {
 
-		boolean sendMailStatus = false;
+		String defaultSubject = "%s-認證碼通知信";
+		String systemSubject = String.format(defaultSubject, systemName);
 
-		if(sendMailStatus) {
+		String buAcc = cryptionCommon.encoderBase64UserAccount(0, userAccount);
 
-			String defaultSubject = "%s-認證碼通知信";
-			String systemSubject = String.format(defaultSubject, systemName);
+		String defaultVerifyUrl = "%s/verify/mail/%s";
+		String systemVerifyUrl = String.format(defaultVerifyUrl, systemUrl, buAcc);
 
-			String buAcc = cryptionCommon.encoderBase64UserAccount(0, userAccount);
+		String defaultHtmlBody = "<h3>親愛的 %s 您好：</h3>"
+								+ "<p>您的認證碼為：「<b><i> %s </i></b>」，認證碼有效時間為 <b><u>3</u></b> 分鐘。</p>"
+								+ "<p>請盡快至 <a href='%s'>%s-電子信箱綁定功能</a> 使用。</p>"
+								+ "<p>這封通知信經過加密處理，請勿將認證碼提供給任何人使用！</p>"
+								+ "<p>若您未曾提出要求，請忽略這個通知，謝謝。</p>"
+								+ "<p><b><a href='%s'>%s</a> 如獲至寶</b></p>";
 
-			String defaultVerifyUrl = "%s/verify/mail/%s";
-			String systemVerifyUrl = String.format(defaultVerifyUrl, systemUrl, buAcc);
+		String systemHtmlBody = String.format(defaultHtmlBody,
+				userName, //第一行：使用者名稱
+				verifyCode, //第二行：認證碼
+				systemVerifyUrl, systemName, //第三行：驗證網址、系統名稱
+				systemUrl, systemName //最後一行：官網網址、系統名稱
+		);
 
-			String defaultHtmlBody = "<h3>親愛的 %s 您好：</h3>"
-									+ "<p>您的認證碼為：「<b><i> %s </i></b>」，認證碼有效時間為 <b><u>3</u></b> 分鐘。</p>"
-									+ "<p>請盡快至 <a href='%s'>%s-電子信箱綁定功能</a> 使用。</p>"
-									+ "<p>這封通知信經過加密處理，請勿將認證碼提供給任何人使用！</p>"
-									+ "<p>若您未曾提出要求，請忽略這個通知，謝謝。</p>"
-									+ "<p><b><a href='%s'>%s</a> 如獲至寶</b></p>";
-
-			String systemHtmlBody = String.format(defaultHtmlBody,
-					userName, //第一行：使用者名稱
-					verifyCode, //第二行：認證碼
-					systemVerifyUrl, systemName, //第三行：驗證網址、系統名稱
-					systemUrl, systemName //最後一行：官網網址、系統名稱
-			);
-
-			sendMailStatus = sendMailByAwsSes(userMail, systemHtmlBody, systemSubject);
-		}
-
-		return sendMailStatus;
+		return sendMailByAwsSes(userMail, systemHtmlBody, systemSubject);
 	}
 
 	/**
