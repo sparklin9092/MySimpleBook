@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.dto.items.income.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.items.income.DeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.items.income.ListDto;
@@ -24,6 +25,9 @@ public class IncomeItemsService {
 
 	@Autowired
 	private IIncomeItemsMapper iItemsIncomeMapper;
+
+	@Autowired
+	private GetCommon getCommon;
 
 	/**
 	 * 根據使用者ID，取得收入項目的清單
@@ -76,9 +80,14 @@ public class IncomeItemsService {
 
 		} else {
 
+			String fCreateDate = getCommon.getFormatDate(oneDto.getCreateDateTime());
+			
 			oneMsgDto.setStatus(true);
 			oneMsgDto.setMsg("");
-			oneMsgDto.setItemIncomeOneDto(oneDto);
+			oneMsgDto.setItemName(oneDto.getItemName());
+			oneMsgDto.setItemDefault(oneDto.isItemDefault());
+			oneMsgDto.setItemActive(oneDto.isItemActive());
+			oneMsgDto.setCreateDateTime(fCreateDate);
 
 		}
 

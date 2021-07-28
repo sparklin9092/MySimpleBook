@@ -22,10 +22,10 @@ function initData() {
 			
 			if(res.status) {
 				
-				var itemName = res.itemIncomeOneDto.itemName;
-				var itemActive = res.itemIncomeOneDto.itemActive;
-				var itemDefault = res.itemIncomeOneDto.itemDefault;
-				var createDateTime = res.itemIncomeOneDto.createDateTime;
+				var itemName = res.itemName;
+				var itemActive = res.itemActive;
+				var itemDefault = res.itemDefault;
+				var createDateTime = res.createDateTime;
 				
 				$('#itemIncomeName').val(itemName);
 				
@@ -41,7 +41,7 @@ function initData() {
 					$('#defaultFalse').prop('checked', true);
 				}
 				
-				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
+				$('#createDateTime').val(createDateTime);
 				
 			} else {
 				
