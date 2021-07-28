@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.dto.items.spend.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.items.spend.DeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.items.spend.ListDto;
@@ -24,6 +25,9 @@ public class SpendItemsService {
 
 	@Autowired
 	private ISpendItemsMapper iItemsSpendMapper;
+
+	@Autowired
+	private GetCommon getCommon;
 
 	/**
 	 * 取得支出項目的清單
@@ -76,9 +80,14 @@ public class SpendItemsService {
 
 		} else {
 
+			String fCreateDate = getCommon.getFormatDate(oneDto.getCreateDateTime());
+
 			oneMsgDto.setStatus(true);
 			oneMsgDto.setMsg("");
-			oneMsgDto.setItemSpendOneDto(oneDto);
+			oneMsgDto.setItemName(oneDto.getItemName());
+			oneMsgDto.setItemDefault(oneDto.isItemDefault());
+			oneMsgDto.setItemActive(oneDto.isItemActive());
+			oneMsgDto.setCreateDateTime(fCreateDate);
 
 		}
 

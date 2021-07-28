@@ -18,14 +18,12 @@ function initData() {
 		data: {},
 		success: function(res) {
 			
-			console.log(res);
-			
 			if(res.status) {
 				
-				var itemName = res.itemSpendOneDto.itemName;
-				var itemActive = res.itemSpendOneDto.itemActive;
-				var itemDefault = res.itemSpendOneDto.itemDefault;
-				var createDateTime = res.itemSpendOneDto.createDateTime;
+				var itemName = res.itemName;
+				var itemActive = res.itemActive;
+				var itemDefault = res.itemDefault;
+				var createDateTime = res.createDateTime;
 				
 				$('#itemSpendName').val(itemName);
 				
@@ -41,7 +39,7 @@ function initData() {
 					$('#defaultFalse').prop('checked', true);
 				}
 				
-				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
+				$('#createDateTime').val(createDateTime);
 				
 			} else {
 				
@@ -72,8 +70,6 @@ function deleteAct() {
 		contentType: 'application/json',
 		data: JSON.stringify(data),
 		success: function(res) {
-			
-			console.log(res);
 			
 			if(res.status) {
 				
