@@ -33,29 +33,29 @@ function initData() {
 			
 			if(res.status) {
 				
-				var accountTypeName = res.accountOneDto.accountTypeName;
-				var accountName = res.accountOneDto.accountName;
-				var initAmnt = res.accountOneDto.initAmnt;
-				var accountAmnt = res.accountOneDto.accountAmnt;
-				var accountDefault = res.accountOneDto.accountDefault;
-				var accountActive = res.accountOneDto.accountActive;
-				var enableLimitDate = res.accountOneDto.enableLimitDate;
-				var limitYear = res.accountOneDto.limitYear;
-				var limitMonth = res.accountOneDto.limitMonth;
-				var createDateTime = res.accountOneDto.createDateTime;
+				var accTypeName = res.accTypeName;
+				var accName = res.accName;
+				var initAmnt = res.initAmnt;
+				var accAmnt = res.accAmnt;
+				var accDefault = res.accDefault;
+				var accActive = res.accActive;
+				var enableLimitDate = res.enableLimitDate;
+				var limitYear = res.limitYear;
+				var limitMonth = res.limitMonth;
+				var createDateTime = res.createDateTime;
 				
-				$('#accountTypeName').val(accountTypeName);
-				$('#accountName').val(accountName);
+				$('#accountTypeName').val(accTypeName);
+				$('#accountName').val(accName);
 				$('#initAmnt').val(initAmnt);
-				$('#accountAmnt').val(accountAmnt);
+				$('#accountAmnt').val(accAmnt);
 				
-				if(accountDefault) {
+				if(accDefault) {
 					$('#defaultTrue').prop('checked', true);
 				} else {
 					$('#defaultFalse').prop('checked', true);
 				}
 				
-				if(accountActive) {
+				if(accActive) {
 					$('#activeTrue').prop('checked', true);
 				} else {
 					$('#activeFalse').prop('checked', true);
@@ -68,7 +68,7 @@ function initData() {
 					$('#limitMonth').val(limitMonth).change();
 				}
 				
-				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
+				$('#createDateTime').val(createDateTime);
 				
 			} else {
 				

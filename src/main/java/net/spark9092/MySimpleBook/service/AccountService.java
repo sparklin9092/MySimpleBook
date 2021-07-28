@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
+import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.dto.account.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.account.DeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.account.ListDto;
@@ -29,10 +30,13 @@ public class AccountService {
 //	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
 	@Autowired
+	private IAccountMapper iAccountMapper;
+
+	@Autowired
 	private CheckCommon checkCommon;
 
 	@Autowired
-	private IAccountMapper iAccountMapper;
+	private GetCommon getCommon;
 
 	/**
 	 * 根據使用者ID，取得帳戶的清單
@@ -106,9 +110,20 @@ public class AccountService {
 
 		} else {
 
+			String fCreateDate = getCommon.getFormatDate(oneDto.getCreateDateTime());
+
 			oneMsgDto.setStatus(true);
 			oneMsgDto.setMsg("");
-			oneMsgDto.setAccountOneDto(oneDto);
+			oneMsgDto.setAccTypeName(oneDto.getAccountTypeName());
+			oneMsgDto.setAccName(oneDto.getAccountName());
+			oneMsgDto.setInitAmnt(oneDto.getInitAmnt());
+			oneMsgDto.setAccAmnt(oneDto.getAccountAmnt());
+			oneMsgDto.setAccDefault(oneDto.isAccountDefault());
+			oneMsgDto.setAccActive(oneDto.isAccountActive());
+			oneMsgDto.setEnableLimitDate(oneDto.isEnableLimitDate());
+			oneMsgDto.setLimitYear(oneDto.getLimitYear());
+			oneMsgDto.setLimitMonth(oneDto.getLimitMonth());
+			oneMsgDto.setCreateDateTime(fCreateDate);
 
 		}
 

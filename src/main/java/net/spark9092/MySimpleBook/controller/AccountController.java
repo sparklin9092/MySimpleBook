@@ -79,21 +79,21 @@ public class AccountController {
 
 		logger.debug("取得某一筆帳戶資料");
 
-		OneMsgDto accountOneMsgDto = new OneMsgDto();
+		OneMsgDto oneMsgDto = new OneMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
 		if(null == userInfoEntity) {
 
-			accountOneMsgDto.setStatus(false);
-			accountOneMsgDto.setMsg("使用者未登入");
+			oneMsgDto.setStatus(false);
+			oneMsgDto.setMsg("使用者未登入");
 
 		} else {
 
-			accountOneMsgDto = accountService.getOneByIds(userInfoEntity.getId(), accountId);
+			oneMsgDto = accountService.getOneByIds(userInfoEntity.getId(), accountId);
 		}
 
-		return accountOneMsgDto;
+		return oneMsgDto;
 	}
 
 	@PostMapping("/create/act")
