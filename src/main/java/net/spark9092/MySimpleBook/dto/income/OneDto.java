@@ -1,18 +1,17 @@
 package net.spark9092.MySimpleBook.dto.income;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class OneDto {
-	
+
 	private String incomeDate;
-	
+
 	private int incomeItemId;
-	
+
 	private int accountId;
-	
+
 	private BigDecimal amount;
-	
+
 	private String remark;
 
 	public String getIncomeDate() {
