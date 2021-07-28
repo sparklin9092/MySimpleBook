@@ -1,0 +1,13 @@
+-- 2021-07-29 operation by Spark
+
+# 如何修改時區(time_zone)
+
+1. 登入 AWS Console 之後，找到 RDS 的選單。
+2. 左側選單 -> Database -> Configuration(頁籤) -> Instance(區塊) -> Parameter group 這個欄位，點進去。
+(可選) 一般來說，如果初次使用RDS服務的人，都會選擇預設的 Group，要改時區的話，需要建立一個新的 Group。
+3. 在搜尋欄位，輸入「time_zone」，應該在底下搜尋結果的第三欄，會看到很多時區可以選的欄位。
+4. 點擊「Edit parameters」按鈕，進入編輯模式。
+5. 之後就可以修改「time_zone」這個欄位的時區，從下拉選單找到並選擇「Asia/Taipei」。
+6. 回到最上面的按鈕，點擊「Save changes」按鈕，保存剛才修改的時區。
+7. 找個適合的時間，重啟 DB Server。
+8. 之後寫入資料庫的時間，就會自動 UTC+8 了。
