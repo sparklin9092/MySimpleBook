@@ -104,37 +104,72 @@ function initAccountItemSelect() {
 
 function initData() {
 	
+	var spendId = $('#spendId').val();
+	
+	$.ajax({
+		url: '/spend/one/' + spendId,
+		method: 'POST',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: {},
+		success: function(res) {
+			
+			if(res.status) {
+				
+				var spendDate = res.oneDto.spendDate;
+				var amount = res.oneDto.amount;
+				
+				var spendItemId = res.oneDto.spendItemId;
+				var accountId = res.oneDto.accountId;
+				
+				var remark = res.oneDto.remark;
+				
+				$('#spendDatePicker').val(moment(spendDate).format('YYYY年MM月DD日'));
+				$('#amount').val(amount);
+				
+				$('#spendItemSelect').val(spendItemId).change();
+				$('#accountItemSelect').val(accountId).change();
+				
+				$('#remark').val(remark);
+				
+			} else {
+				
+				alert(res.msg);
+			}
+		},
+		error: function(err) {
+			console.log(err);
+			alert('無法連接伺服器');
+		}
+	});
+}
+
+function cancelAct() {
+	
+	location.href = '/spend/records';
+}
+	
+function deleteAct() {
+	
 	var deleteConfirm = confirm('確定要刪除嗎？');
 	
 	if(deleteConfirm) {
 	
-		var spendId = $('#spendId').val();
+		var data = {};
+		data.spendId = $('#spendId').val();
 		
 		$.ajax({
-			url: '/spend/one/' + spendId,
+			url: '/spend/delete/act',
 			method: 'POST',
 			dataType: 'json',
 			contentType: 'application/json',
-			data: {},
+			data: JSON.stringify(data),
 			success: function(res) {
 				
 				if(res.status) {
 					
-					var spendDate = res.oneDto.spendDate;
-					var amount = res.oneDto.amount;
-					
-					var spendItemId = res.oneDto.spendItemId;
-					var accountId = res.oneDto.accountId;
-					
-					var remark = res.oneDto.remark;
-					
-					$('#spendDatePicker').val(moment(spendDate).format('YYYY年MM月DD日'));
-					$('#amount').val(amount);
-					
-					$('#spendItemSelect').val(spendItemId).change();
-					$('#accountItemSelect').val(accountId).change();
-					
-					$('#remark').val(remark);
+					alert('刪除成功');
+					location.href = '/spend/records';
 					
 				} else {
 					
@@ -147,41 +182,6 @@ function initData() {
 			}
 		});
 	}
-}
-
-function cancelAct() {
-	
-	location.href = '/spend/records';
-}
-	
-function deleteAct() {
-	
-	var data = {};
-	data.spendId = $('#spendId').val();
-	
-	$.ajax({
-		url: '/spend/delete/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				alert('刪除成功');
-				location.href = '/spend/records';
-				
-			} else {
-				
-				alert(res.msg);
-			}
-		},
-		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
-		}
-	});
 }
 
 function confirmAct() {
