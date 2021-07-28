@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,15 +28,13 @@ import net.spark9092.MySimpleBook.service.AccountService;
 @RestController
 public class AccountController {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
 	@Autowired
 	private AccountService accountService;
 
 	@PostMapping("/list")
 	public List<List<String>> list(HttpSession session) {
-
-		logger.debug("取得帳戶清單");
 
 		List<List<String>> dataMap = new ArrayList<>();
 
@@ -54,8 +50,6 @@ public class AccountController {
 
 	@PostMapping("/typeList")
 	public TypeListMsgDto typeList(HttpSession session) {
-
-		logger.debug("取得帳戶類型清單");
 
 		TypeListMsgDto typeListMsgDto = new TypeListMsgDto();
 
@@ -77,8 +71,6 @@ public class AccountController {
 	@PostMapping("/one/{accountId}")
 	public OneMsgDto one(HttpSession session, @PathVariable("accountId") int accountId) {
 
-		logger.debug("取得某一筆帳戶資料");
-
 		OneMsgDto oneMsgDto = new OneMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
@@ -98,8 +90,6 @@ public class AccountController {
 
 	@PostMapping("/create/act")
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
-
-		logger.debug("新增一筆帳戶");
 
 		CreateMsgDto createMsgDto = new CreateMsgDto();
 
@@ -123,8 +113,6 @@ public class AccountController {
 	@PostMapping("/modify/act")
 	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
 
-		logger.debug("更新一筆帳戶");
-
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
@@ -146,8 +134,6 @@ public class AccountController {
 
 	@PostMapping("/delete/act")
 	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
-
-		logger.debug("刪除一筆帳戶");
 
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 

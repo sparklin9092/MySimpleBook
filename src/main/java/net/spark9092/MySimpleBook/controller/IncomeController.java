@@ -2,8 +2,6 @@ package net.spark9092.MySimpleBook.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,15 +28,13 @@ import net.spark9092.MySimpleBook.service.IncomeService;
 @RestController
 public class IncomeController {
 
-	private static final Logger logger = LoggerFactory.getLogger(IncomeController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(IncomeController.class);
 
 	@Autowired
 	private IncomeService incomeService;
 
 	@PostMapping("/itemList")
 	public SelectItemMsgDto incomeItemList(HttpSession session) {
-
-		logger.debug("取得支出項目的下拉選單");
 
 		SelectItemMsgDto selectItemMsgDto = new SelectItemMsgDto();
 
@@ -60,8 +56,6 @@ public class IncomeController {
 	@PostMapping("/accountList")
 	public SelectAccountMsgDto accountList(HttpSession session) {
 
-		logger.debug("取得帳戶的下拉選單");
-
 		SelectAccountMsgDto selectAccountMsgDto = new SelectAccountMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
@@ -82,8 +76,6 @@ public class IncomeController {
 	@PostMapping("/records")
 	public RecListMsgDto records(HttpSession session, @RequestBody RecordPojo recordPojo) {
 
-		logger.debug("根據使用者索引(User ID)、日期範圍取得收入紀錄");
-
 		RecListMsgDto recListMsgDto = new RecListMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
@@ -100,8 +92,6 @@ public class IncomeController {
 
 	@PostMapping("/one/{incomeId}")
 	public OneMsgDto one(HttpSession session, @PathVariable("incomeId") int incomeId) {
-		
-		logger.debug("取得某一筆收入資料");
 
 		OneMsgDto oneMsgDto = new OneMsgDto();
 
@@ -122,8 +112,6 @@ public class IncomeController {
 
 	@PostMapping("/create/act")
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
-
-		logger.debug("新增一筆收入");
 
 		CreateMsgDto createMsgDto = new CreateMsgDto();
 
@@ -154,8 +142,6 @@ public class IncomeController {
 
 	@PostMapping("/modify/act")
 	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
-
-		logger.debug("更新一筆收入");
 
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
@@ -188,8 +174,6 @@ public class IncomeController {
 
 	@PostMapping("/delete/act")
 	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
-
-		logger.debug("刪除一筆收入");
 
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 

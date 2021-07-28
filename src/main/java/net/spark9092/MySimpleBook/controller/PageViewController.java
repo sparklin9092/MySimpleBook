@@ -2,8 +2,6 @@ package net.spark9092.MySimpleBook.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +17,7 @@ import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 @Controller
 public class PageViewController {
 
-	private static final Logger logger = LoggerFactory.getLogger(PageViewController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(PageViewController.class);
 
 	/**
 	 * 登入頁
@@ -30,17 +28,14 @@ public class PageViewController {
 		ModelAndView mv = new ModelAndView();
 		String pageName = "views/index";
 		mv.setViewName(pageName);
-		
+
 		String userMail = (String) session.getAttribute(SessinNameEnum.USER_MAIL.getName());
 		String userAccount = (String) session.getAttribute(SessinNameEnum.USER_ACC.getName());
-		
-		logger.debug("userMail: " + userMail);
-		logger.debug("userAccount: " + userAccount);
-		
+
 		String user = "";
 		if(null != userMail) user = userMail;
 		else if(null != userAccount) user = userAccount;
-		
+
 		mv.addObject("user", user);
 
 		return mv;
@@ -353,13 +348,13 @@ public class PageViewController {
 
 		ModelAndView mv = new ModelAndView();
 		String pageName = "views/user/info";
-		
+
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 		if(userInfoEntity.isGuest()) {
-			
+
 			pageName = "redirect:/user/guest";
 		}
-		
+
 		mv.setViewName(pageName);
 
 		return mv;
@@ -374,18 +369,18 @@ public class PageViewController {
 
 		ModelAndView mv = new ModelAndView();
 		String pageName = "views/user/guest";
-		
+
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 		if(!userInfoEntity.isGuest()) {
-			
+
 			pageName = "redirect:/user/info";
 		}
-		
+
 		mv.setViewName(pageName);
 
 		return mv;
 	}
-	
+
 	/**
 	 * 使用者修改密碼
 	 * @return
@@ -399,7 +394,7 @@ public class PageViewController {
 
 		return mv;
 	}
-	
+
 	/**
 	 * 電子信箱(Email)認證碼輸入畫面
 	 * @return

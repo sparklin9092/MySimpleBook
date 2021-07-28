@@ -2,8 +2,6 @@ package net.spark9092.MySimpleBook.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,15 +27,13 @@ import net.spark9092.MySimpleBook.service.TransferService;
 @RestController
 public class TransferController {
 
-	private static final Logger logger = LoggerFactory.getLogger(TransferController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(TransferController.class);
 
 	@Autowired
 	private TransferService transferService;
 
 	@PostMapping("/accountList")
 	public SelectAccountMsgDto accountList(HttpSession session) {
-
-		logger.debug("取得帳戶的下拉選單");
 
 		SelectAccountMsgDto selectAccountMsgDto = new SelectAccountMsgDto();
 
@@ -59,8 +55,6 @@ public class TransferController {
 	@PostMapping("/records")
 	public RecListMsgDto records(HttpSession session, @RequestBody RecordPojo recordPojo) {
 
-		logger.debug("根據使用者索引(User ID)、日期範圍取得轉帳紀錄");
-
 		RecListMsgDto recListMsgDto = new RecListMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
@@ -77,8 +71,6 @@ public class TransferController {
 
 	@PostMapping("/one/{transferId}")
 	public OneMsgDto one(HttpSession session, @PathVariable("transferId") int transferId) {
-		
-		logger.debug("取得某一筆轉帳資料");
 
 		OneMsgDto oneMsgDto = new OneMsgDto();
 
@@ -99,8 +91,6 @@ public class TransferController {
 
 	@PostMapping("/create/act")
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
-
-		logger.debug("新增一筆轉帳");
 
 		CreateMsgDto createMsgDto = new CreateMsgDto();
 
@@ -134,8 +124,6 @@ public class TransferController {
 	@PostMapping("/modify/act")
 	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
 
-		logger.debug("更新一筆帳戶");
-
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
@@ -167,8 +155,6 @@ public class TransferController {
 
 	@PostMapping("/delete/act")
 	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
-
-		logger.debug("刪除一筆帳戶");
 
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 

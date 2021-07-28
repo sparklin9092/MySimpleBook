@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,15 +27,13 @@ import net.spark9092.MySimpleBook.service.AccountTypesService;
 @RestController
 public class AccountTypesController {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccountTypesController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(AccountTypesController.class);
 
 	@Autowired
 	private AccountTypesService accountTypesService;
 
 	@PostMapping("/list")
 	public List<List<String>> list(HttpSession session) {
-
-		logger.debug("取得帳戶類型清單");
 
 		List<List<String>> dataMap = new ArrayList<>();
 
@@ -53,8 +49,6 @@ public class AccountTypesController {
 
 	@PostMapping("/one/{typeId}")
 	public OneMsgDto one(HttpSession session, @PathVariable("typeId") int typeId) {
-
-		logger.debug("取得某一筆帳戶類型資料");
 
 		OneMsgDto oneMsgDto = new OneMsgDto();
 
@@ -75,8 +69,6 @@ public class AccountTypesController {
 
 	@PostMapping("/create/act")
 	public CreateMsgDto createAct(HttpSession session, @RequestBody CreatePojo createPojo) {
-
-		logger.debug("新增一筆帳戶類型");
 
 		CreateMsgDto createMsgDto = new CreateMsgDto();
 
@@ -100,8 +92,6 @@ public class AccountTypesController {
 	@PostMapping("/modify/act")
 	public ModifyMsgDto modifyAct(HttpSession session, @RequestBody ModifyPojo modifyPojo) {
 
-		logger.debug("修改一筆帳戶類型");
-
 		ModifyMsgDto modifyMsgDto = new ModifyMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
@@ -123,8 +113,6 @@ public class AccountTypesController {
 
 	@PostMapping("/delete/act")
 	public DeleteMsgDto deleteAct(HttpSession session, @RequestBody DeletePojo deletePojo) {
-
-		logger.debug("刪除一筆帳戶類型");
 
 		DeleteMsgDto deleteMsgDto = new DeleteMsgDto();
 

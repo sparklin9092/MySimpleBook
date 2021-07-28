@@ -3,8 +3,6 @@ package net.spark9092.MySimpleBook.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +23,7 @@ import net.spark9092.MySimpleBook.service.UserInfoService;
 @RestController
 public class LoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
 	private UserInfoService userLoginService;
@@ -35,17 +33,15 @@ public class LoginController {
 
 	@Autowired
 	private RichCodeService richCodeService;
-	
+
 	@Autowired
 	private CheckCommon checkCommon;
-	
+
 	@Autowired
 	private GetCommon getCommon;
 
 	@PostMapping("/login")
 	public BaseMsgDto login(HttpServletRequest request, HttpSession session, @RequestBody LoginPojo loginPojo) {
-
-		logger.debug(loginPojo.toString());
 
 		ResultMsgDto loginResultDto = userLoginService.userLogin(loginPojo);
 
@@ -54,14 +50,14 @@ public class LoginController {
 		String loginMsg = loginResultDto.getMsg();
 
 		if(loginStatus) {
-			
+
 			//使用者登入成功之後，重新給一個Session，防止XSS攻擊
 			session = request.getSession(false);
 			if(session != null){
 				session.invalidate();
 			}
 			session = request.getSession(true);
-			
+
 			//取得隨機10組的財富密碼
 			ListMsgDto listMsgDto = richCodeService.getRichCodeList();
 			if(listMsgDto.isStatus()) {
@@ -71,7 +67,7 @@ public class LoginController {
 
 			//在 Session 寫入 User 基本資料，後續的功能基本上都要 User ID 去查資料
 			session.setAttribute(SessinNameEnum.USER_INFO.getName(), userInfoEntity);
-			
+
 			//因為是一般使用者登入，為避免前端誤判訪客，故意把訪客資料數量寫為 0
 			session.setAttribute(SessinNameEnum.GUEST_DATA_COUNT.getName(), 0);
 		}
@@ -92,11 +88,11 @@ public class LoginController {
 			//取不到訪客的 IP 就算了
 			ip = getCommon.getIpAddress(request);
 		} catch (Exception e) {}
-		
+
 		//簡單判別一下使用者的裝置是不是移動設備(例如：手機、平板等等)
 		String device = "not mobile";
 		if(checkCommon.isMobile(request.getHeader("User-Agent"))) device = "mobile";
-		
+
 		ResultMsgDto loginResultDto = guestService.guestLogin(ip, device);
 
 		UserInfoEntity userInfoEntity = loginResultDto.getUserInfoEntity();
@@ -104,14 +100,14 @@ public class LoginController {
 		String loginMsg = loginResultDto.getMsg();
 
 		if(loginStatus) {
-			
+
 			//使用者登入成功之後，重新給一個Session，防止XSS攻擊
 			session = request.getSession(false);
 			if(session != null){
 				session.invalidate();
 			}
 			session = request.getSession(true);
-			
+
 			//取得隨機10組的財富密碼
 			ListMsgDto listMsgDto = richCodeService.getRichCodeList();
 			if(listMsgDto.isStatus()) {
@@ -121,7 +117,7 @@ public class LoginController {
 
 			//在 Session 寫入 User 基本資料，後續的功能基本上都要 User ID 去查資料
 			session.setAttribute(SessinNameEnum.USER_INFO.getName(), userInfoEntity);
-			
+
 			//預設訪客資料數量為 0，後續如果有觸發 AfterControllerCreateActAspect 這個 AOP 會再修改
 			session.setAttribute(SessinNameEnum.GUEST_DATA_COUNT.getName(), 0);
 		}

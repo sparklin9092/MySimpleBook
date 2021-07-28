@@ -2,8 +2,6 @@ package net.spark9092.MySimpleBook.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,44 +20,40 @@ import net.spark9092.MySimpleBook.service.VerifyService;
 @RestController
 public class VerifyController {
 
-	private static final Logger logger = LoggerFactory.getLogger(VerifyController.class);
-	
+//	private static final Logger logger = LoggerFactory.getLogger(VerifyController.class);
+
 	@Autowired
 	private UserInfoService userInfoService;
-	
+
 	@Autowired
 	private VerifyService verifyService;
-	
+
 	@PostMapping("/mail/buacc")
 	public UserMailMsgDto getUserMailByAccount(@RequestBody MailBuAccPojo mailBuAccPojo) {
-		
+
 		String base64UserAccount = mailBuAccPojo.getBuAcc();
-		
-		logger.debug("getUserMailByAccount base64UserAccount: " + base64UserAccount);
-		
+
 		return userInfoService.getUserMailByAccount(base64UserAccount);
 	}
-	
+
 	@PostMapping("/mail/bindAct")
 	public MailBindMsgDto mailBindAct(HttpSession session, @RequestBody BindMailPojo bindMailPojo) {
-		
+
 		MailBindMsgDto mailBindMsgDto = verifyService.bindUserMailByPojo(bindMailPojo);
-		
+
 		if(mailBindMsgDto.isStatus()) {
-			
+
 			session.setAttribute(SessinNameEnum.USER_MAIL.getName(), mailBindMsgDto.getUserMail());
 		}
-		
+
 		return mailBindMsgDto;
 	}
-	
+
 	@PostMapping("/mail/resend")
 	public UserMailMsgDto resSendVerifyCodeMailByAccount(@RequestBody MailBuAccPojo mailBuAccPojo) {
-		
+
 		String base64UserAccount = mailBuAccPojo.getBuAcc();
-		
-		logger.debug("resSendVerifyCodeMailByAccount base64UserAccount: " + base64UserAccount);
-		
+
 		return verifyService.resSendVerifyCodeMailByAccount(base64UserAccount);
 	}
 
