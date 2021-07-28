@@ -24,14 +24,12 @@ function initData() {
 				var userAcc = res.dto.userAcc;
 				var maskPwd = res.dto.maskPwd;
 				var userEmail = res.dto.userEmail;
-				var userPhone = res.dto.userPhone;
 				var createDate = res.dto.createDate;
 				
 				$('#userName').val(userName);
 				$('#userAcc').val(userAcc);
 				$('#userPwd').val(maskPwd);
 				$('#userEmail').val(userEmail);
-				$('#userPhone').val(userPhone);
 				$('#createDate').val(createDate);
 				
 				$('#checkAcc').prop('disabled', true);
@@ -96,7 +94,6 @@ function confirmAct() {
 	var data = {};
 	data.userName = $('#userName').val();
 	data.userEmail = $('#userEmail').val();
-	data.userPhone = $('#userPhone').val();
 	
 	$.ajax({
 		url: '/user/info/modify',
