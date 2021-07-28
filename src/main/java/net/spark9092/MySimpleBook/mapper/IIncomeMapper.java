@@ -69,7 +69,7 @@ public interface IIncomeMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select income_date, item_id, account_id, amount, create_datetime, remark "
+	@Select("select income_date, item_id, account_id, amount, remark "
 			+ " from income "
 			+ " where is_delete=0 and id=#{incomeId} and user_id=#{userId}")
 	@Results({
@@ -77,7 +77,6 @@ public interface IIncomeMapper {
 		@Result(column="item_id", property="incomeItemId"),
 		@Result(column="account_id", property="accountId"),
 		@Result(column="amount", property="amount"),
-		@Result(column="create_datetime", property="createDateTime"),
 		@Result(column="remark", property="remark")
 	})
 	OneDto selectOneByIds(@Param("incomeId") int incomeId, @Param("userId") int userId);

@@ -114,8 +114,6 @@ function initData() {
 		data: {},
 		success: function(res) {
 			
-			console.log(res);
-			
 			if(res.status) {
 				
 				var incomeDate = res.oneDto.incomeDate;
@@ -124,7 +122,6 @@ function initData() {
 				var incomeItemId = res.oneDto.incomeItemId;
 				var accountId = res.oneDto.accountId;
 				
-				var createDateTime = res.oneDto.createDateTime;
 				var remark = res.oneDto.remark;
 				
 				$('#incomeDatePicker').val(moment(incomeDate).format('YYYY年MM月DD日'));
@@ -133,7 +130,6 @@ function initData() {
 				$('#incomeItemSelect').val(incomeItemId).change();
 				$('#accountItemSelect').val(accountId).change();
 				
-				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
 				$('#remark').val(remark);
 				
 			} else {

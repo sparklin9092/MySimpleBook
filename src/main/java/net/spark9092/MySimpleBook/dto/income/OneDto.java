@@ -12,8 +12,6 @@ public class OneDto {
 	private int accountId;
 	
 	private BigDecimal amount;
-
-	private LocalDateTime createDateTime;
 	
 	private String remark;
 
@@ -47,14 +45,6 @@ public class OneDto {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
-	}
-
-	public LocalDateTime getCreateDateTime() {
-		return createDateTime;
-	}
-
-	public void setCreateDateTime(LocalDateTime createDateTime) {
-		this.createDateTime = createDateTime;
 	}
 
 	public String getRemark() {
