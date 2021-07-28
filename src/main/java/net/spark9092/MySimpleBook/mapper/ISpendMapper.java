@@ -69,7 +69,7 @@ public interface ISpendMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select spend_date, item_id, account_id, amount, create_datetime, remark "
+	@Select("select spend_date, item_id, account_id, amount, remark "
 			+ " from spend "
 			+ " where is_delete=0 and id=#{spendId} and user_id=#{userId}")
 	@Results({
@@ -77,7 +77,6 @@ public interface ISpendMapper {
 		@Result(column="item_id", property="spendItemId"),
 		@Result(column="account_id", property="accountId"),
 		@Result(column="amount", property="amount"),
-		@Result(column="create_datetime", property="createDateTime"),
 		@Result(column="remark", property="remark")
 	})
 	OneDto selectOneByIds(@Param("spendId") int spendId, @Param("userId") int userId);

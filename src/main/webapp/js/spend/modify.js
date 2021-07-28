@@ -124,7 +124,6 @@ function initData() {
 				var spendItemId = res.oneDto.spendItemId;
 				var accountId = res.oneDto.accountId;
 				
-				var createDateTime = res.oneDto.createDateTime;
 				var remark = res.oneDto.remark;
 				
 				$('#spendDatePicker').val(moment(spendDate).format('YYYY年MM月DD日'));
@@ -133,7 +132,6 @@ function initData() {
 				$('#spendItemSelect').val(spendItemId).change();
 				$('#accountItemSelect').val(accountId).change();
 				
-				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
 				$('#remark').val(remark);
 				
 			} else {
