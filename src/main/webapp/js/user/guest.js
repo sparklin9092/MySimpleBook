@@ -9,9 +9,7 @@ $(function() {
 	$('#checkAcc').on('click', checkUserAccAct);
 	$('#userAcc').on('blur', checkUserAccAct);
 	
-	$('#bindAccPwd').on('click', bindAccPwdAct);
-	$('#bindPhone').on('click', bindPhoneAct);
-	$('#bindEmail').on('click', bindEmailAct);
+	$('#bindBtn').on('click', bindAct);
 
 	$('#cancelBtn').on('click', cancelAct);
 });
@@ -32,7 +30,7 @@ function phoneShow() {
 	$('#phone').show();
 	$('#accPwd, #email').hide();
 	
-	alert("功能開放使用，請使用「帳號與密碼」進行綁定。");
+	alert("功能未開放使用，請使用「帳號與密碼」或「電子信箱(Email)」進行綁定。");
 	
 	$('#accPwdTitle').trigger('click');
 }
@@ -78,36 +76,48 @@ function checkUserAccAct() {
 
 function bindAccPwdAct() {
 	
-	var data = {};
-	data.userAcc = $('#userAcc').val();
-	data.userpwd = $('#userPwd').val();
+	$('#bindBtn').addClass('btn-warning').removeClass('btn-success');
+	$('#bindBtn').prop('disabled', false).text('確認中');
 	
-	$.ajax({
-		url: '/guest/bind/accpwd',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
+	setTimeout(function() {
+	
+		var data = {};
+		data.userAcc = $('#userAcc').val();
+		data.userpwd = $('#userPwd').val();
+		
+		$.ajax({
+			url: '/guest/bind/accpwd',
+			method: 'POST',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(data),
+			success: function(res) {
 				
-				alert("帳號綁定成功！請重新登入。");
-				location.href = '/';
-				
-			} else {
-				
-				$('#checkAcc').removeClass('btn-success').addClass('btn-warning');
-				$('#checkAcc').prop('disabled', false).text('檢查');
-				
-				alert(res.msg);
+				if(res.status) {
+					
+					$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
+					$('#bindBtn').prop('disabled', true).text('已綁定');
+					
+					alert("帳號綁定成功！請重新登入。");
+					location.href = '/';
+					
+				} else {
+					
+					$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
+					$('#bindBtn').prop('disabled', false).text('綁定');
+					
+					$('#checkAcc').removeClass('btn-success').addClass('btn-warning');
+					$('#checkAcc').prop('disabled', false).text('檢查');
+					
+					alert(res.msg);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+				alert('無法連接伺服器');
 			}
-		},
-		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
-		}
-	});
+		});
+	}, 1000)
 }
 
 function bindPhoneAct() {
@@ -119,8 +129,8 @@ function bindPhoneAct() {
 
 function bindEmailAct() {
 	
-	$('#bindEmail').addClass('btn-warning').removeClass('btn-success');
-	$('#bindEmail').prop('disabled', false).text('確認中');
+	$('#bindBtn').addClass('btn-warning').removeClass('btn-success');
+	$('#bindBtn').prop('disabled', false).text('確認中');
 	
 	setTimeout(function() {
 	
@@ -137,13 +147,16 @@ function bindEmailAct() {
 				
 				if(res.status) {
 					
+					$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
+					$('#bindBtn').prop('disabled', true).text('已寄發');
+					
 					alert("已寄發認證碼到您的信箱！請到您的信箱確認郵件。");
 					location.href = '/logout';
 					
 				} else {
 					
-					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
-					$('#bindEmail').prop('disabled', false).text('綁定');
+					$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
+					$('#bindBtn').prop('disabled', false).text('綁定');
 					
 					alert(res.msg);
 				}
@@ -154,4 +167,15 @@ function bindEmailAct() {
 			}
 		});
 	}, 1000);
+}
+
+function bindAct() {
+	
+	var bindtype = $('input[name=bindType]:checked').data('bindtype');
+	
+	if(bindtype == '1') bindAccPwdAct();
+	else if(bindtype == '2') bindPhoneAct();
+	else if(bindtype == '3') bindEmailAct();
+	else alert('請選擇您要綁定的方式。');
+	
 }
