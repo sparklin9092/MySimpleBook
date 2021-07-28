@@ -4,36 +4,36 @@ import java.time.LocalDateTime;
 
 public class OneDto {
 
-	private String itemName;
+	private String typeName;
 
-	private boolean itemDefault;
+	private boolean typeDefault;
 
-	private boolean itemActive;
+	private boolean typeActive;
 
 	private LocalDateTime createDateTime;
 
-	public String getItemName() {
-		return itemName;
+	public String getTypeName() {
+		return typeName;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
-	public boolean isItemDefault() {
-		return itemDefault;
+	public boolean isTypeDefault() {
+		return typeDefault;
 	}
 
-	public void setItemDefault(boolean itemDefault) {
-		this.itemDefault = itemDefault;
+	public void setTypeDefault(boolean typeDefault) {
+		this.typeDefault = typeDefault;
 	}
 
-	public boolean isItemActive() {
-		return itemActive;
+	public boolean isTypeActive() {
+		return typeActive;
 	}
 
-	public void setItemActive(boolean itemActive) {
-		this.itemActive = itemActive;
+	public void setTypeActive(boolean typeActive) {
+		this.typeActive = typeActive;
 	}
 
 	public LocalDateTime getCreateDateTime() {

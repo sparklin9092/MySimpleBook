@@ -18,7 +18,7 @@
 			</div>
 			<div class="row mb-2">
 				<div class="col">
-					<input type="text" class="form-control" id="itemAccountTypeName" name="itemAccountTypeName" placeholder="請輸入類型名稱">
+					<input type="text" class="form-control" id="accountTypeName" name="accountTypeName" placeholder="請輸入類型名稱">
 				</div>
 			</div>
 			<div class="row">
@@ -27,13 +27,13 @@
 			<div class="row mb-2">
 				<div class="col">
 					<div class="d-grid gap-2">
-						<input type="radio" class="btn-check" name="itemAccountTypeDefault" id="defaultFalse" value="0" checked>
+						<input type="radio" class="btn-check" name="accountTypeDefault" id="defaultFalse" value="0" checked>
 						<label class="btn btn-outline-info" for="defaultFalse">否</label>
 					</div>
 				</div>
 				<div class="col">
 					<div class="d-grid gap-2">
-						<input type="radio" class="btn-check" name="itemAccountTypeDefault" id="defaultTrue" value="1">
+						<input type="radio" class="btn-check" name="accountTypeDefault" id="defaultTrue" value="1">
 						<label class="btn btn-outline-info" for="defaultTrue">是</label>
 					</div>
 				</div>

@@ -333,13 +333,13 @@ public class PageViewController {
 	 * 帳戶類型項目管理-修改
 	 * @return
 	 */
-	@GetMapping("/account/types/modify/{itemId}")
-	public ModelAndView accountTypesModify(@PathVariable("itemId") int itemId) {
+	@GetMapping("/account/types/modify/{typeId}")
+	public ModelAndView accountTypesModify(@PathVariable("typeId") int typeId) {
 
 		ModelAndView mv = new ModelAndView();
 		String pageName = "views/account/types/modify";
 		mv.setViewName(pageName);
-		mv.addObject("itemId", itemId);
+		mv.addObject("typeId", typeId);
 
 		return mv;
 	}

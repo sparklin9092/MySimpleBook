@@ -4,7 +4,7 @@ public class DeletePojo {
 	
 	private int userId;
 
-	private int itemId;
+	private int typeId;
 
 	public int getUserId() {
 		return userId;
@@ -14,17 +14,12 @@ public class DeletePojo {
 		this.userId = userId;
 	}
 
-	public int getItemId() {
-		return itemId;
+	public int getTypeId() {
+		return typeId;
 	}
 
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("ItemSpendDeletePojo [userId=%s, itemId=%s]", userId, itemId);
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
 }

@@ -11,12 +11,12 @@ function cancelAct() {
 
 function confirmAct() {
 	
-	var itemName = $('#itemAccountTypeName').val();
-	var itemDefault = $('input[name=itemAccountTypeDefault]:checked').val();
+	var typeName = $('#accountTypeName').val();
+	var typeDefault = $('input[name=accountTypeDefault]:checked').val();
 	
 	var data = {};
-	data.itemName = itemName;
-	data.itemDefault = itemDefault;
+	data.typeName = typeName;
+	data.typeDefault = typeDefault;
 	
 	$.ajax({
 		url: '/account/types/create/act',

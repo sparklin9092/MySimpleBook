@@ -8,10 +8,10 @@ $(function() {
 
 function initData() {
 	
-	var itemId = $('#itemId').val();
+	var typeId = $('#typeId').val();
 	
 	$.ajax({
-		url: '/account/types/one/' + itemId,
+		url: '/account/types/one/' + typeId,
 		method: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -20,26 +20,26 @@ function initData() {
 			
 			if(res.status) {
 				
-				var itemName = res.itemAccountTypeOneDto.itemName;
-				var itemActive = res.itemAccountTypeOneDto.itemActive;
-				var itemDefault = res.itemAccountTypeOneDto.itemDefault;
-				var createDateTime = res.itemAccountTypeOneDto.createDateTime;
+				var typeName = res.typeName;
+				var typeActive = res.typeActive;
+				var typeDefault = res.typeDefault;
+				var createDateTime = res.createDateTime;
 				
-				$('#itemAccountTypeName').val(itemName);
+				$('#accountTypeName').val(typeName);
 				
-				if(itemActive) {
+				if(typeActive) {
 					$('#activeTrue').prop('checked', true);
 				} else {
 					$('#activeFalse').prop('checked', true);
 				}
 				
-				if(itemDefault) {
+				if(typeDefault) {
 					$('#defaultTrue').prop('checked', true);
 				} else {
 					$('#defaultFalse').prop('checked', true);
 				}
 				
-				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
+				$('#createDateTime').val(createDateTime);
 				
 			} else {
 				
@@ -61,7 +61,7 @@ function cancelAct() {
 function deleteAct() {
 	
 	var data = {};
-	data.itemId = $('#itemId').val();
+	data.typeId = $('#typeId').val();
 	
 	$.ajax({
 		url: '/account/types/delete/act',
@@ -91,10 +91,10 @@ function deleteAct() {
 function confirmAct() {
 	
 	var data = {};
-	data.itemId = $('#itemId').val();
-	data.itemName = $('#itemAccountTypeName').val();
-	data.itemActive = $('input[name=itemAccountTypeActive]:checked').val();
-	data.itemDefault = $('input[name=itemAccountTypeDefault]:checked').val();
+	data.typeId = $('#typeId').val();
+	data.typeName = $('#accountTypeName').val();
+	data.typeActive = $('input[name=accountTypeActive]:checked').val();
+	data.typeDefault = $('input[name=accountTypeDefault]:checked').val();
 	
 	$.ajax({
 		url: '/account/types/modify/act',

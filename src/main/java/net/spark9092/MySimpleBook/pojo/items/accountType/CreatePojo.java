@@ -4,9 +4,9 @@ public class CreatePojo {
 
 	private int userId;
 
-	private String itemName;
+	private String typeName;
 
-	private String itemDefault;
+	private String typeDefault;
 
 	public int getUserId() {
 		return userId;
@@ -16,19 +16,19 @@ public class CreatePojo {
 		this.userId = userId;
 	}
 
-	public String getItemName() {
-		return itemName;
+	public String getTypeName() {
+		return typeName;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
-	public String getItemDefault() {
-		return itemDefault;
+	public String getTypeDefault() {
+		return typeDefault;
 	}
 
-	public void setItemDefault(String itemDefault) {
-		this.itemDefault = itemDefault;
+	public void setTypeDefault(String typeDefault) {
+		this.typeDefault = typeDefault;
 	}
 }

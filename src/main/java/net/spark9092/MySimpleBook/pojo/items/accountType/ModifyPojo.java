@@ -4,13 +4,13 @@ public class ModifyPojo {
 
 	private int userId;
 
-	private int itemId;
+	private int typeId;
 
-	private String itemName;
+	private String typeName;
 
-	private String itemActive;
+	private String typeActive;
 
-	private String itemDefault;
+	private String typeDefault;
 
 	public int getUserId() {
 		return userId;
@@ -20,35 +20,35 @@ public class ModifyPojo {
 		this.userId = userId;
 	}
 
-	public int getItemId() {
-		return itemId;
+	public int getTypeId() {
+		return typeId;
 	}
 
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
-	public String getItemName() {
-		return itemName;
+	public String getTypeName() {
+		return typeName;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
-	public String getItemActive() {
-		return itemActive;
+	public String getTypeActive() {
+		return typeActive;
 	}
 
-	public void setItemActive(String itemActive) {
-		this.itemActive = itemActive;
+	public void setTypeActive(String typeActive) {
+		this.typeActive = typeActive;
 	}
 
-	public String getItemDefault() {
-		return itemDefault;
+	public String getTypeDefault() {
+		return typeDefault;
 	}
 
-	public void setItemDefault(String itemDefault) {
-		this.itemDefault = itemDefault;
+	public void setTypeDefault(String typeDefault) {
+		this.typeDefault = typeDefault;
 	}
 }

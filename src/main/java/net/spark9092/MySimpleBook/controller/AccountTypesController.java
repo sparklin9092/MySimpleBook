@@ -32,7 +32,7 @@ public class AccountTypesController {
 	private static final Logger logger = LoggerFactory.getLogger(AccountTypesController.class);
 
 	@Autowired
-	private AccountTypesService itemAccountTypeService;
+	private AccountTypesService accountTypesService;
 
 	@PostMapping("/list")
 	public List<List<String>> list(HttpSession session) {
@@ -45,14 +45,14 @@ public class AccountTypesController {
 
 		if(null != userInfoEntity) {
 
-			dataMap = itemAccountTypeService.getListByUserId(userInfoEntity.getId());
+			dataMap = accountTypesService.getListByUserId(userInfoEntity.getId());
 		}
 
 		return dataMap;
 	}
 
-	@PostMapping("/one/{itemId}")
-	public OneMsgDto one(HttpSession session, @PathVariable("itemId") int itemId) {
+	@PostMapping("/one/{typeId}")
+	public OneMsgDto one(HttpSession session, @PathVariable("typeId") int typeId) {
 
 		logger.debug("取得某一筆帳戶類型資料");
 
@@ -67,7 +67,7 @@ public class AccountTypesController {
 
 		} else {
 
-			oneMsgDto = itemAccountTypeService.getOneByIds(userInfoEntity.getId(), itemId);
+			oneMsgDto = accountTypesService.getOneByIds(userInfoEntity.getId(), typeId);
 		}
 
 		return oneMsgDto;
@@ -91,7 +91,7 @@ public class AccountTypesController {
 
 			createPojo.setUserId(userInfoEntity.getId());
 
-			createMsgDto = itemAccountTypeService.createByPojo(createPojo);
+			createMsgDto = accountTypesService.createByPojo(createPojo);
 		}
 
 		return createMsgDto;
@@ -115,7 +115,7 @@ public class AccountTypesController {
 
 			modifyPojo.setUserId(userInfoEntity.getId());
 
-			modifyMsgDto = itemAccountTypeService.modifyByPojo(modifyPojo);
+			modifyMsgDto = accountTypesService.modifyByPojo(modifyPojo);
 		}
 
 		return modifyMsgDto;
@@ -139,7 +139,7 @@ public class AccountTypesController {
 
 			deletePojo.setUserId(userInfoEntity.getId());
 
-			deleteMsgDto = itemAccountTypeService.deleteByPojo(deletePojo);
+			deleteMsgDto = accountTypesService.deleteByPojo(deletePojo);
 		}
 
 		return deleteMsgDto;

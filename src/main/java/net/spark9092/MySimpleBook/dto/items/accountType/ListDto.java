@@ -2,34 +2,34 @@ package net.spark9092.MySimpleBook.dto.items.accountType;
 
 public class ListDto {
 
-	private int itemId;
+	private int typeId;
 	
-	private String itemName;
+	private String typeName;
 	
-	private boolean itemActive;
+	private boolean typeActive;
 
-	public int getItemId() {
-		return itemId;
+	public int getTypeId() {
+		return typeId;
 	}
 
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
-	public String getItemName() {
-		return itemName;
+	public String getTypeName() {
+		return typeName;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
-	public boolean isItemActive() {
-		return itemActive;
+	public boolean isTypeActive() {
+		return typeActive;
 	}
 
-	public void setItemActive(boolean itemActive) {
-		this.itemActive = itemActive;
+	public void setTypeActive(boolean typeActive) {
+		this.typeActive = typeActive;
 	}
 
 }
