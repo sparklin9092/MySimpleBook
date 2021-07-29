@@ -28,6 +28,7 @@ function initData() {
 				var userEmail = res.dto.userEmail;
 				emailStatus = res.dto.emailStatus;
 				var createDate = res.dto.createDate;
+				var userBtnTxt = userName.substring(0,1);
 				
 				$('#userName').val(userName);
 				$('#userAcc').val(userAcc);
@@ -58,6 +59,7 @@ function initData() {
 				}
 				
 				$('#menuUserTitle').text(userName + '的致富寶典');
+				$('#userInfo').text(userBtnTxt);
 				
 			} else {
 				
