@@ -9,34 +9,34 @@
 2. HTML 5
 3. javascript
 4. CSS 3
-5. Bootstrap 5
-6. jQuery 3.6.0
-7. jQuery-ui 1.12.1
-8. jQuery-cookie 1.4.1
-9. jQuery-dataTables 1.10.16
-10. datepicker
-11. moment
+5. [Bootstrap 5](https://getbootstrap.com)
+6. [jQuery](https://jquery.com) 3.6.0
+7. [jQuery-ui](https://jqueryui.com) 1.12.1
+8. [jQuery-ui-datepicker](https://jqueryui.com/datepicker/)
+9. [jQuery-cookie](https://plugins.jquery.com/cookie/) 1.4.1
+10. [DataTables](https://datatables.net)(jQuery Version) 1.10.16
+11. [Moment.js](https://momentjs.com)
 
 ### 後端技術總覽：
-1. JDK 1.8.0_291
-2. Maven 4.0.0
-3. Spring boot v2.5.2
+1. [JDK](https://www.oracle.com/tw/java/technologies/javase/javase-jdk8-downloads.html) 1.8.0_291
+2. [Maven](https://maven.apache.org) 4.0.0
+3. [Spring Boot](https://start.spring.io) v2.5.2
 4. Spring v5.3.8
 5. Spring AOP
-6. AWS SES
+6. [AWS SES](https://aws.amazon.com/tw/ses/)(中文)
 
 ### 資料庫
-1. MySQL 8.0.23
+1. [MySQL](https://www.mysql.com) 8.0.23
 
 ### ORM
-1. MyBatis 3.5.7
+1. [MyBatis](https://mybatis.org/mybatis-3/zh/index.html)(中文) 3.5.7
 
 ### Log (日誌管理)
 1. log4j
 2. logback
 
 ### Server (伺服器)
-1. Tomcat 9.0.50
+1. [Tomcat](https://tomcat.apache.org/tomcat-9.0-doc/) 9.0.50
 
 ### 功能介紹
 - 訪客登入機制
