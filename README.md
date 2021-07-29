@@ -6,12 +6,15 @@
 
 ## 技術總覽
 
+### IDE
+1. [Eclipse](https://www.eclipse.org/) 2021-06 (4.20.0)
+
 ### 前端
 1. JSP
 2. HTML 5
 3. javascript
 4. CSS 3
-5. [Bootstrap 5](https://getbootstrap.com)
+5. [Bootstrap](https://getbootstrap.com) 5
 6. [jQuery](https://jquery.com) 3.6.0
 7. [jQuery-ui](https://jqueryui.com) 1.12.1
 8. [jQuery-ui-datepicker](https://jqueryui.com/datepicker/)
@@ -22,8 +25,8 @@
 ### 後端
 1. [JDK](https://www.oracle.com/tw/java/technologies/javase/javase-jdk8-downloads.html) 1.8.0_291
 2. [Maven](https://maven.apache.org) 4.0.0
-3. [Spring Boot](https://start.spring.io) v2.5.2
-4. Spring v5.3.8
+3. [Spring Boot](https://start.spring.io) 2.5.2
+4. Spring 5.3.8
 5. Spring AOP
 6. [AWS SES](https://aws.amazon.com/tw/ses/)(中文)
 
