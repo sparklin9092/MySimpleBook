@@ -1,3 +1,16 @@
-重啟EC2之後，要執行以下指令，把 80 port 轉去 8080
+### 將 80 port 指定到 8080 port
+- 重啟EC2之後，要執行以下指令，把 80 port 轉去 8080
+(因為目前還沒有設定好tomcat，所以需要這個設定)
 
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+
+
+### 設定時區
+- 設定EC2時區，因為在程式裡，有時候會需要抓系統當下的時間，所以需要設定
+- 不要看官方的文檔，沒有用
+
+參考文件：https://linuxize.com/post/how-to-set-or-change-timezone-on-ubuntu-20-04/
+指令：
+$ timedatectl   --> 確認目前系統的時區
+$ cat /etc/timezone   --> 查看系統設定的時區
+$ sudo timedatectl set-timezone Asia/Taipei   -->***設定時區在台北(最重要就這一段)
