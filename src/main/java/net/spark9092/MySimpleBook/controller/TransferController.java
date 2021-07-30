@@ -1,5 +1,7 @@
 package net.spark9092.MySimpleBook.controller;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,13 @@ public class TransferController {
 
 	@PostMapping("/records")
 	public RecListMsgDto records(HttpSession session, @RequestBody RecordPojo recordPojo) {
+		
+		try {
+			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
+			TimeUnit.MILLISECONDS.sleep(100); //延遲0.1秒
+		} catch (InterruptedException e) {
+			//如果延遲出錯也沒關係
+		}
 
 		RecListMsgDto recListMsgDto = new RecListMsgDto();
 
