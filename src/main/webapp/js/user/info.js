@@ -2,12 +2,15 @@ $(function() {
 
 	initData();
 	
+	$('#userEmail').on('blur', checkSameEmail);
+	
 	$('#changePwd').on('click', changePwdView);
 	$('#bindEmail').on('click', bindEmailAct);
 	$('#deleteBtn').on('click', deleteAct);
 	$('#confirmBtn').on('click', confirmAct);
 });
 
+var userEmail = "";
 var emailStatus = 2;
 
 function initData() {
@@ -25,7 +28,7 @@ function initData() {
 				var userName = res.dto.userName;
 				var userAcc = res.dto.userAcc;
 				var maskPwd = res.dto.maskPwd;
-				var userEmail = res.dto.userEmail;
+				userEmail = res.dto.userEmail;
 				emailStatus = res.dto.emailStatus;
 				var createDate = res.dto.createDate;
 				var userBtnTxt = userName.substring(0,1);
@@ -71,6 +74,21 @@ function initData() {
 			alert('無法連接伺服器');
 		}
 	});
+}
+
+function checkSameEmail() {
+	
+	if(emailStatus == 3 && $('#userEmail').val() == userEmail) {
+					
+		$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+		$('#bindEmail').prop('disabled', true).text('已認證');
+		
+	} else if(emailStatus == 3 && $('#userEmail').val() != userEmail) {
+					
+		$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+		$('#bindEmail').prop('disabled', false).text('重新綁定');
+		
+	}
 }
 
 function changePwdView() {
