@@ -2,6 +2,7 @@ package net.spark9092.MySimpleBook.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpSession;
 
@@ -67,6 +68,13 @@ public class MainController {
 	@SuppressWarnings("unchecked")
 	@PostMapping("/richCode/list")
     public ListMsgDto getRishCodeList(HttpSession session) {
+		
+		try {
+			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
+			TimeUnit.MILLISECONDS.sleep(100); //延遲0.1秒
+		} catch (InterruptedException e) {
+			//如果延遲出錯也沒關係
+		}
 
 		ListMsgDto listMsgDto = new ListMsgDto();
 		List<ListDto> dtos = new ArrayList<>();
@@ -101,6 +109,13 @@ public class MainController {
 
 	@PostMapping("/transfer/list")
     public TransferListMsgDto getTransferList(HttpSession session) {
+		
+		try {
+			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
+			TimeUnit.MILLISECONDS.sleep(100); //延遲0.1秒
+		} catch (InterruptedException e) {
+			//如果延遲出錯也沒關係
+		}
 
 		TransferListMsgDto transferListMsgDto = new TransferListMsgDto();
 
@@ -122,6 +137,13 @@ public class MainController {
 
 	@PostMapping("/income/list")
     public IncomeListMsgDto getIncomeList(HttpSession session) {
+		
+		try {
+			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
+			TimeUnit.MILLISECONDS.sleep(100); //延遲0.1秒
+		} catch (InterruptedException e) {
+			//如果延遲出錯也沒關係
+		}
 
 		IncomeListMsgDto incomeListMsgDto = new IncomeListMsgDto();
 
@@ -143,6 +165,13 @@ public class MainController {
 
 	@PostMapping("/spend/list")
     public SpendListMsgDto getSpendList(HttpSession session) {
+		
+		try {
+			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
+			TimeUnit.MILLISECONDS.sleep(100); //延遲0.1秒
+		} catch (InterruptedException e) {
+			//如果延遲出錯也沒關係
+		}
 
 		SpendListMsgDto spendListMsgDto = new SpendListMsgDto();
 
@@ -164,6 +193,13 @@ public class MainController {
 
 	@PostMapping("/account/list")
     public AccountListMsgDto getAccountList(HttpSession session) {
+		
+		try {
+			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
+			TimeUnit.MILLISECONDS.sleep(300); //延遲0.3秒
+		} catch (InterruptedException e) {
+			//如果延遲出錯也沒關係
+		}
 
 		AccountListMsgDto accountListMsgDto = new AccountListMsgDto();
 
