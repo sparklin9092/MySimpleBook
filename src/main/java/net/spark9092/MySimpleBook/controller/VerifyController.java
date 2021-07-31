@@ -29,11 +29,18 @@ public class VerifyController {
 	private VerifyService verifyService;
 
 	@PostMapping("/mail/buacc")
-	public UserMailMsgDto getUserMailByAccount(@RequestBody MailBuAccPojo mailBuAccPojo) {
+	public UserMailMsgDto getUserMailByAccount(HttpSession session, @RequestBody MailBuAccPojo mailBuAccPojo) {
 
 		String base64UserAccount = mailBuAccPojo.getBuAcc();
 
-		return userInfoService.getUserMailByAccount(base64UserAccount);
+		UserMailMsgDto userMailMsgDto = userInfoService.getUserMailByAccount(base64UserAccount);
+
+		if(userMailMsgDto.isStatus()) {
+
+			session.setAttribute(SessinNameEnum.USER_MAIL.getName(), userMailMsgDto.getUserMail());
+		}
+		
+		return userMailMsgDto;
 	}
 
 	@PostMapping("/mail/bindAct")

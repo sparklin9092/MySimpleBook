@@ -14,12 +14,13 @@ $(function() {
 		$.removeCookie('checkGuest');
 	}
 	
-	checkUserExist();
 	rememberAccVal();
 	
 	$('#rememberAcc').on('click', rememberAccAct);
 	
 	checkLoginStatus();
+	
+	checkUserExist();
 });
 
 function loginAct() {
