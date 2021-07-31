@@ -1,5 +1,8 @@
 package net.spark9092.MySimpleBook.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,30 @@ import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 public class PageViewController {
 
 //	private static final Logger logger = LoggerFactory.getLogger(PageViewController.class);
+
+	/**
+	 * 給搜尋引擎的爬蟲做SEO
+	 * @param response
+	 */
+	@GetMapping("/robots.txt")
+	public void robots(HttpServletResponse response) {
+	    try {
+			response.getWriter().write("User-agent: *\n"
+					+ "Disallow:\n"
+					+ "Sitemap: https://richnote.net/sitemap.txt\n");
+		} catch (IOException e) {}
+	}
+
+	/**
+	 * 給搜尋引擎的爬蟲做SEO
+	 * @param response
+	 */
+	@GetMapping("/sitemap.txt")
+	public void serveSiteMapFile(HttpServletResponse response) {
+	    try {
+			response.getWriter().write("https://richnote.net");
+		} catch (IOException e) {}
+	}
 
 	/**
 	 * 登入頁

@@ -37,8 +37,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 				.addPathPatterns("/**")
 				.excludePathPatterns(
 						"/**/*.css", "/**/*.css.map", "/**/*.js", "/**/*.js.map",
-						"", "/", "/index", 
-						"/login", "/login/guest", "/login/check", "/logout", 
+						"", "/", "/index", "/robots.txt", "/sitemap.txt",
+						"/login", "/login/guest", "/login/check", "/logout",
 						"/verify/mail/**", "/verify/phone/*");
 	}
 }
