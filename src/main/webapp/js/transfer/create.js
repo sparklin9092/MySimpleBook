@@ -133,20 +133,13 @@ function confirmAct() {
 			
 			if(res.status) {
 				
-				if(!checkGuestDataCount()) {
+				alert('新增成功！');
 				
-					var next = confirm('新增成功，要繼續新增下一筆轉帳嗎？');
+				if(!checkGuestDataCount()) {
 	
-					if(next) {
-	
-						initTodayDate();
-						initAccountItemSelect();
-						$('#tOutAmnt, #remark').val('');
-						
-					} else {
-		
-						location.href = '/main';
-					}
+					initTodayDate();
+					initAccountItemSelect();
+					$('#tOutAmnt, #remark').val('');
 				}
 			} else {
 				

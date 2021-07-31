@@ -130,22 +130,15 @@ function confirmAct() {
 		success: function(res) {
 
 			if (res.status) {
+				
+				alert('新增成功！');
 
 				if (!checkGuestDataCount()) {
 
-					var next = confirm('新增成功，要繼續新增下一筆收入嗎？');
-
-					if (next) {
-
-						initTodayDate();
-						initIncomeItemSelect();
-						initAccountItemSelect();
-						$('#amount, #remark').val('');
-
-					} else {
-
-						location.href = '/main';
-					}
+					initTodayDate();
+					initIncomeItemSelect();
+					initAccountItemSelect();
+					$('#amount, #remark').val('');
 				}
 			} else {
 
