@@ -112,7 +112,7 @@ function confirmAct() {
 			if(res.status) {
 				
 				alert('修改成功');
-				location.href = '/account/types';
+				initData();
 				
 			} else {
 				

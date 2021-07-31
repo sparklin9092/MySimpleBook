@@ -225,7 +225,7 @@ function confirmAct() {
 			if(res.status) {
 				
 				alert('修改成功');
-				location.href = '/transfer/records';
+				initData();
 				
 			} else {
 				

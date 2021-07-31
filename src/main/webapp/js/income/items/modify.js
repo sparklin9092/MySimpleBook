@@ -114,7 +114,7 @@ function confirmAct() {
 			if(res.status) {
 				
 				alert('修改成功');
-				location.href = '/income/items';
+				initData();
 				
 			} else {
 				
