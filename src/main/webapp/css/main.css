@@ -3,3 +3,7 @@
 .btn-height {
 	height: 20vh;
 }
+
+.banner-bg {
+	background-color: rgba(255, 240, 173, 0.4);
+}

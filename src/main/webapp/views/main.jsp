@@ -11,7 +11,7 @@
 	<div class="container-fluid pb-4 mb-4">
 		<div class="container-xl">
 			<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-				<div class="carousel-inner text-center bg-light py-3 rounded-pill display-6" id="richCodeBox" name="richCodeBox"></div>
+				<div class="carousel-inner text-center py-3 rounded-pill display-6 banner-bg" id="richCodeBox" name="richCodeBox"></div>
 			</div>
 			<div class="row my-3">
 				<div class="col d-grid gap-2">
