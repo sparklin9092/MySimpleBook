@@ -36,9 +36,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		registry.addInterceptor(loginStatusInterceptor)
 				.addPathPatterns("/**")
 				.excludePathPatterns(
-						"/**/*.css", "/**/*.css.map", "/**/*.js", "/**/*.js.map",
-						"", "/", "/index", "/robots.txt", "/sitemap.txt",
+						"/**/*.css", "/**/*.css.map",
+						"/**/*.js", "/**/*.js.map",
+						"/robots.txt", "/sitemap.txt",
+						"", "/", "/index",
 						"/login", "/login/guest", "/login/check", "/logout",
-						"/verify/mail/**", "/verify/phone/*");
+						"/verify/mail/**", "/verify/phone/**");
 	}
 }
