@@ -8,4 +8,4 @@
 <link rel="stylesheet" href="/css/common/menuBar.css">
 <link rel="stylesheet" href="/css/common/footer.css">
 
-<title>致富寶典</title>
+<title>致富寶典 RichNote-個人理財記帳本</title>
