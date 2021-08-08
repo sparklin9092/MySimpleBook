@@ -38,3 +38,4 @@ build/
 mvnw
 *.cmd
 credentials.csv
+src/main/webapp/icon
