@@ -8,7 +8,8 @@
 <body>
 	<div class="login-box">
 		<div class="rounded shadow login-form login-form-padding">
-			<h1 class="text-center">致富寶典</h1>
+			<h1 class="text-center">致富寶典 RichNote</h1>
+			<h2 class="text-center">個人理財記帳本</h2>
 			<div>
 				<div class="h4 mt-3">使用者</div>
 				<div>
