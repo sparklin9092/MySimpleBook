@@ -13,7 +13,7 @@
 	
 	<groupId>net.spark9092</groupId>
 	<artifactId>MySimpleBook</artifactId>
-	<version>Release-V.2.1.0</version>
+	<version>Release-V.2.1.1</version>
 	<packaging>war</packaging>
 	<name>MySimpleBook</name>
 	<description>Spark first spring boot project in macBook pro</description>
