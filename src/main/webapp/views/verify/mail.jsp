@@ -4,7 +4,6 @@
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/verify/mail.css">
-	<script type="text/javascript" src="/js/verify/mail.js"></script>
 </head>
 <body>
 	<div class="mail-box">
@@ -40,5 +39,6 @@
 		</div>
 	</div>
 	<jsp:include page="/views/include/footer.jsp"></jsp:include>
+	<script type="text/javascript" src="/js/verify/mail.js"></script>
 </body>
 </html>

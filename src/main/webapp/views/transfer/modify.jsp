@@ -4,8 +4,6 @@
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/transfer/modify.css">
-	<script type="text/javascript" src="/js/transfer/modify.js"></script>
-	<script type="text/javascript" src="/js/common/checkAmnt.js"></script>
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
@@ -97,5 +95,7 @@
 		</div>
 	</div>
 	<jsp:include page="/views/include/footer.jsp"></jsp:include>
+	<script type="text/javascript" src="/js/transfer/modify.js"></script>
+	<script type="text/javascript" src="/js/common/checkAmnt.js"></script>
 </body>
 </html>

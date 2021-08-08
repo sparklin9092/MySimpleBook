@@ -4,7 +4,6 @@
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/index.css">
-	<script type="text/javascript" src="/js/index.js"></script>
 </head>
 <body>
 	<div class="login-box">
@@ -36,5 +35,6 @@
 	</div>
 	<input type="hidden" id="user" name="user" value="${user}">
 	<jsp:include page="/views/include/footer.jsp"></jsp:include>
+	<script type="text/javascript" src="/js/index.js"></script>
 </body>
 </html>

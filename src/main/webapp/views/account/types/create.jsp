@@ -4,7 +4,6 @@
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/account/types/create.css">
-	<script type="text/javascript" src="/js/account/types/create.js"></script>
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
@@ -49,5 +48,6 @@
 		</div>
 	</div>
 	<jsp:include page="/views/include/footer.jsp"></jsp:include>
+	<script type="text/javascript" src="/js/account/types/create.js"></script>
 </body>
 </html>

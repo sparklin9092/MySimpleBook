@@ -11,3 +11,13 @@
 		</div>
 	</div>
 </footer>
+
+<script type="text/javascript" src="https://www.spark9092.com/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.spark9092.com/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://www.spark9092.com/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="https://www.spark9092.com/js/datepicker-zhtw.min.js"></script>
+<script type="text/javascript" src="https://www.spark9092.com/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.spark9092.com/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://www.spark9092.com/js/moment-zhtw.min.js"></script>
+<script type="text/javascript" src="/js/common/menuBar.js"></script>
+<script type="text/javascript" src="/js/common/checkCommon.js"></script>

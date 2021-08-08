@@ -4,9 +4,6 @@
 <head>
 	<jsp:include page="/views/include/header.jsp"></jsp:include>
 	<link rel="stylesheet" href="/css/account/create.css">
-	<script type="text/javascript" src="/js/account/creditCard.js"></script>
-	<script type="text/javascript" src="/js/account/create.js"></script>
-	<script type="text/javascript" src="/js/common/checkAmnt.js"></script>
 </head>
 <body>
 	<jsp:include page="/views/include/menuBar.jsp"></jsp:include>
@@ -79,5 +76,8 @@
 		</div>
 	</div>
 	<jsp:include page="/views/include/footer.jsp"></jsp:include>
+	<script type="text/javascript" src="/js/account/creditCard.js"></script>
+	<script type="text/javascript" src="/js/account/create.js"></script>
+	<script type="text/javascript" src="/js/common/checkAmnt.js"></script>
 </body>
 </html>
