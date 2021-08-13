@@ -1,30 +1,31 @@
 @charset "UTF-8";
 
-.login-box {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-.login-form {
+.top-box {
 	background-color: #96FED1;
 }
 
-.login-form-padding {
-	padding: 5vw;
+.social-bg {
+	background-color: #FFF4C1;
+}
+
+a {
+	text-decoration: none;
+	color: unset;
+}
+
+.card-width {
+	width: 20vw;
+}
+
+.card-img-min-height {
+	min-height: 19vw;
 }
 
 @media only screen and (min-width: 0px) and (max-width: 768px) {
-	.login-box {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 100%;
+	.card-width {
+		width: unset;
 	}
-	
-	.login-form-padding {
-		padding: 3vw;
+	.card-img-min-height {
+		min-height: unset;
 	}
 }
