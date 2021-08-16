@@ -4,40 +4,29 @@
  * 就提醒使用者前往綁定帳號
  */
 function checkGuestDataCount() {
-	
 	var alertGuestDataCountList = [50, 25, 10, 5];
-	
-	$.ajax({
-		url: '/guest/datacount',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			var guestDataCount = res;
-			
-			$.each(alertGuestDataCountList, function(key, alertCount) {
-				
-				if(guestDataCount == alertCount) {
-					
-					var goToBindAcc = confirm('推薦前往綁定帳號！避免目前的資料，在您離開後被系統刪除。');
-					
-					if(goToBindAcc) {
-				
-						location.href = '/user/info';
-						
-						return true;
-					}
+	postSubmitCustErr('/guest/datacount', {}, function(res) {
+		var guestDataCount = res;
+		$.each(alertGuestDataCountList, function(key, alertCount) {
+			if(guestDataCount == alertCount) {
+				var goToBindAcc = confirm('推薦前往綁定帳號！避免目前的資料，在您離開後被系統刪除。');
+				if(goToBindAcc) {
+					location.href = '/user/info';
+					return true;
 				}
-			});
-		},
-		error: function(err) {
-					
-			return false;
-		}
+			}
+		});
+	}, function(err) {
+		return false;
 	});
 	
 	//返回 false 讓訪客繼續使用
 	return false;
+}
+
+/**
+ * 共用方法：檢查傳入的是否為function
+ */
+function isFunction(funcToCheck) {
+	return funcToCheck && {}.toString.call(funcToCheck) === '[object Function]';
 }
