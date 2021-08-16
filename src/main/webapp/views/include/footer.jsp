@@ -25,3 +25,4 @@
 <script type="text/javascript" src="/js/common/menuBar.js"></script>
 <script type="text/javascript" src="/js/common/checkCommon.js"></script>
 <script type="text/javascript" src="/js/common/dialogCommon.js"></script>
+<script type="text/javascript" src="/js/common/ajaxCommon.js"></script>
