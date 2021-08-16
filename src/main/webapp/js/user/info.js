@@ -66,12 +66,11 @@ function initData() {
 				
 			} else {
 				
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }
@@ -116,7 +115,7 @@ function bindEmailAct() {
 				
 				if(res.status) {
 					
-					alert("已經寄發認證碼到您的信箱，輸入認證碼確認後，綁定就完成了！");
+					showMsg("已經寄發認證碼到您的信箱，輸入認證碼確認後，綁定就完成了！");
 				
 					initData();
 					
@@ -125,12 +124,11 @@ function bindEmailAct() {
 					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
 					$('#bindEmail').prop('disabled', false).text('綁定');
 					
-					alert(res.msg);
+					errMsg(res.msg);
 				}
 			},
 			error: function(err) {
-				console.log(err);
-				alert('無法連接伺服器');
+				sysMsg('無法連接伺服器');
 			}
 		});
 	}, 1000);
@@ -152,17 +150,16 @@ function deleteAct() {
 				
 				if(res.status) {
 					
-					alert("您的帳號資料已全數刪除！謝謝您使用「致富寶典」！");
+					showMsg("您的帳號資料已全數刪除！謝謝您使用「致富寶典」！");
 					location.href = '/logout';
 					
 				} else {
 					
-					alert(res.msg);
+					errMsg(res.msg);
 				}
 			},
 			error: function(err) {
-				console.log(err);
-				alert('無法連接伺服器');
+				sysMsg('無法連接伺服器');
 			}
 		});
 	}
@@ -193,18 +190,17 @@ function confirmAct() {
 				
 				if(res.status) {
 					
-					alert("基本資料修改成功！");
+					showMsg("基本資料修改成功！");
 					
 					initData();
 					
 				} else {
 					
-					alert(res.msg);
+					errMsg(res.msg);
 				}
 			},
 			error: function(err) {
-				console.log(err);
-				alert('無法連接伺服器');
+				sysMsg('無法連接伺服器');
 			}
 		});
 	}

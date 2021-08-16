@@ -32,7 +32,7 @@ function initBuAcc() {
 				
 				if(res.used) {
 					
-					alert("您的信箱已經綁定完成！請使用信箱進行登入。");
+					showMsg("您的信箱已經綁定完成！請使用信箱進行登入。");
 					location.href = '/';
 					
 				} else {
@@ -73,8 +73,7 @@ function initBuAcc() {
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }
@@ -98,15 +97,14 @@ function bindAct() {
 		data: JSON.stringify(data),
 		success: function(res) {
 			if(res.status) {
-				alert(res.msg);
+				showMsg(res.msg);
 				location.href = '/';
 			} else {
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }
@@ -129,16 +127,15 @@ function reSendAct() {
 			
 			if(res.status) {
 				
-				alert('已經重新寄發認證碼到您的信箱！請到信箱索取認證碼進行綁定！');
+				showMsg('已經重新寄發認證碼到您的信箱！請到信箱索取認證碼進行綁定！');
 				
 				initBuAcc();
 			} else {
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }

@@ -65,12 +65,11 @@ function initAccountItemSelect() {
 				
 			} else {
 				
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }
@@ -108,7 +107,7 @@ function confirmAct() {
 	var remark = $('#remark').val();
 	
 	if(!outSideCheck && tInAccId == tOutAccId) {
-		alert("無法在相同帳戶之間進行轉帳。");
+		errMsg("無法在相同帳戶之間進行轉帳。");
 		return;
 	}
 	
@@ -133,7 +132,7 @@ function confirmAct() {
 			
 			if(res.status) {
 				
-				alert('新增成功！');
+				showMsg('新增成功！');
 				
 				if(!checkGuestDataCount()) {
 	
@@ -143,12 +142,11 @@ function confirmAct() {
 				}
 			} else {
 				
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	})
 }

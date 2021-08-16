@@ -42,13 +42,12 @@ function loginAct() {
 				location.href = '/main';
 				$.cookie('loginStatus', true);
 			} else {
-				alert(res.msg);
+				errMsg(res.msg);
 				$('#userPwd').val('');
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }
@@ -66,12 +65,11 @@ function guestAct() {
 				location.href = '/main';
 				$.cookie('loginStatus', true);
 			} else {
-				alert(res.msg);
+				showMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }
@@ -128,8 +126,7 @@ function checkLoginStatus() {
 				}
 			},
 			error: function(err) {
-				console.log(err);
-				alert('無法連接伺服器');
+				sysMsg('無法連接伺服器');
 			}
 		});
 	}

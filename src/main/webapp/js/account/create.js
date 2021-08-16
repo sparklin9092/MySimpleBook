@@ -39,12 +39,11 @@ function initAccountTypeSelect() {
 				
 			} else {
 				
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }
@@ -110,7 +109,7 @@ function confirmAct() {
 			
 			if(res.status) {
 				
-				alert('新增成功');
+				showMsg('新增成功');
 				
 				if(!checkGuestDataCount()) {
 					
@@ -118,12 +117,11 @@ function confirmAct() {
 				}
 			} else {
 				
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	})
 }

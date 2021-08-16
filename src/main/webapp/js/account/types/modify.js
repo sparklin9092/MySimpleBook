@@ -43,12 +43,11 @@ function initData() {
 				
 			} else {
 				
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }
@@ -77,17 +76,16 @@ function deleteAct() {
 				
 				if(res.status) {
 					
-					alert('刪除成功');
+					showMsg('刪除成功');
 					location.href = '/account/types';
 					
 				} else {
 					
-					alert(res.msg);
+					errMsg(res.msg);
 				}
 			},
 			error: function(err) {
-				console.log(err);
-				alert('無法連接伺服器');
+				sysMsg('無法連接伺服器');
 			}
 		});
 	}
@@ -111,17 +109,16 @@ function confirmAct() {
 			
 			if(res.status) {
 				
-				alert('修改成功');
+				showMsg('修改成功');
 				initData();
 				
 			} else {
 				
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }

@@ -24,3 +24,4 @@
 <script src="https://kit.fontawesome.com/81eedb9525.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="/js/common/menuBar.js"></script>
 <script type="text/javascript" src="/js/common/checkCommon.js"></script>
+<script type="text/javascript" src="/js/common/dialogCommon.js"></script>

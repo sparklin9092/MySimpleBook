@@ -83,8 +83,7 @@ function initSpendDataTable(startDate, endDate) {
 				});
 			},
 			error: function(err) {
-				console.log(err);
-				alert('無法連接伺服器');
+				sysMsg('無法連接伺服器');
 			}
 		});
 	}, 100);

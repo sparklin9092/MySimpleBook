@@ -33,39 +33,39 @@ function checkAmnt(amnt) {
 		
 		//檢查是否為10位數
 		if (amntBefore.length > 10) {
-			alert('金額最多只能輸入 10 位數。');
+			errMsg('金額最多只能輸入 10 位數。');
 			return false;
 		}
 		
 		//檢查這10位數是不是都是數字，而且是正數
 		var regex = /^[0-9]{1,10}$/;
 		if(!regex.test(amntBefore)) {
-			alert('金額只能輸入數字');
+			errMsg('金額只能輸入數字');
 			return false;
 		}
 		
 		//存在小數點，檢查小數是不是兩位數
 		if(pointExist) {
 			if(amntAfter.length == 0) {
-				alert('請輸入小數點後的數字。');
+				errMsg('請輸入小數點後的數字。');
 				return false;
 			}
 			
 			if(amntAfter.length > 2) {
-				alert('小數點後最多只能輸入 2 位數。');
+				errMsg('小數點後最多只能輸入 2 位數。');
 				return false;
 			}
 			
 			//檢查這2位數是不是都是數字，而且是正數
 			if(!regex.test(amntAfter)) {
-				alert('小數點後只能輸入數字');
+				errMsg('小數點後只能輸入數字');
 				return false;
 			}
 		}
 		
 		return true;
 	} else {
-		alert('請輸入金額。');
+		errMsg('請輸入金額。');
 		return false;
 	}
 }

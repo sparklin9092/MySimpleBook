@@ -28,17 +28,16 @@ function confirmAct() {
 			
 			if(res.status) {
 				
-				alert("密碼修改成功！請重新登入。");
+				showMsg("密碼修改成功！請重新登入。");
 				location.href = '/logout';
 				
 			} else {
 				
-				alert(res.msg);
+				errMsg(res.msg);
 			}
 		},
 		error: function(err) {
-			console.log(err);
-			alert('無法連接伺服器');
+			sysMsg('無法連接伺服器');
 		}
 	});
 }
