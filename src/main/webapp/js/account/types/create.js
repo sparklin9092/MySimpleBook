@@ -18,29 +18,14 @@ function confirmAct() {
 	data.typeName = typeName;
 	data.typeDefault = typeDefault;
 	
-	$.ajax({
-		url: '/account/types/create/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				showMsg('新增成功');
-				
-				if(!checkGuestDataCount()) {
-					
-					location.href = '/account/types';
-				}
-			} else {
-				
-				errMsg(res.msg);
+	postSubmit('/account/types/create/act', data, function(res) {
+		if(res.status) {
+			showMsg('新增成功');
+			if(!checkGuestDataCount()) {
+				location.href = '/account/types';
 			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+		} else {
+			errMsg(res.msg);
 		}
-	})
+	});
 }

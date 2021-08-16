@@ -10,44 +10,30 @@ function initData() {
 	
 	var itemId = $('#itemId').val();
 	
-	$.ajax({
-		url: '/income/items/one/' + itemId,
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
+	postSubmit('/income/items/one/' + itemId, {}, function(res) {
+		if(res.status) {
+			var itemName = res.itemName;
+			var itemActive = res.itemActive;
+			var itemDefault = res.itemDefault;
+			var createDateTime = res.createDateTime;
 			
-			if(res.status) {
-				
-				var itemName = res.itemName;
-				var itemActive = res.itemActive;
-				var itemDefault = res.itemDefault;
-				var createDateTime = res.createDateTime;
-				
-				$('#itemIncomeName').val(itemName);
-				
-				if(itemActive) {
-					$('#activeTrue').prop('checked', true);
-				} else {
-					$('#activeFalse').prop('checked', true);
-				}
-				
-				if(itemDefault) {
-					$('#defaultTrue').prop('checked', true);
-				} else {
-					$('#defaultFalse').prop('checked', true);
-				}
-				
-				$('#createDateTime').val(createDateTime);
-				
+			$('#itemIncomeName').val(itemName);
+			
+			if(itemActive) {
+				$('#activeTrue').prop('checked', true);
 			} else {
-				
-				errMsg(res.msg);
+				$('#activeFalse').prop('checked', true);
 			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+			
+			if(itemDefault) {
+				$('#defaultTrue').prop('checked', true);
+			} else {
+				$('#defaultFalse').prop('checked', true);
+			}
+			
+			$('#createDateTime').val(createDateTime);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -66,26 +52,12 @@ function deleteAct() {
 		var data = {};
 		data.itemId = $('#itemId').val();
 		
-		$.ajax({
-			url: '/income/items/delete/act',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function(res) {
-				
-				if(res.status) {
-					
-					showMsg('刪除成功');
-					location.href = '/income/items';
-					
-				} else {
-					
-					errMsg(res.msg);
-				}
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
+		postSubmit('/income/items/delete/act', data, function(res) {
+			if(res.status) {
+				showMsg('刪除成功');
+				location.href = '/income/items';
+			} else {
+				errMsg(res.msg);
 			}
 		});
 	}
@@ -99,26 +71,12 @@ function confirmAct() {
 	data.itemActive = $('input[name=itemIncomeActive]:checked').val();
 	data.itemDefault = $('input[name=itemIncomeDefault]:checked').val();
 	
-	$.ajax({
-		url: '/income/items/modify/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				showMsg('修改成功');
-				initData();
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/income/items/modify/act', data, function(res) {
+		if(res.status) {
+			showMsg('修改成功');
+			initData();
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }

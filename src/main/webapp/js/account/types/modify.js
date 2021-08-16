@@ -10,44 +10,30 @@ function initData() {
 	
 	var typeId = $('#typeId').val();
 	
-	$.ajax({
-		url: '/account/types/one/' + typeId,
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
+	postSubmit('/account/types/one/' + typeId, {}, function(res) {
+		if(res.status) {
+			var typeName = res.typeName;
+			var typeActive = res.typeActive;
+			var typeDefault = res.typeDefault;
+			var createDateTime = res.createDateTime;
 			
-			if(res.status) {
-				
-				var typeName = res.typeName;
-				var typeActive = res.typeActive;
-				var typeDefault = res.typeDefault;
-				var createDateTime = res.createDateTime;
-				
-				$('#accountTypeName').val(typeName);
-				
-				if(typeActive) {
-					$('#activeTrue').prop('checked', true);
-				} else {
-					$('#activeFalse').prop('checked', true);
-				}
-				
-				if(typeDefault) {
-					$('#defaultTrue').prop('checked', true);
-				} else {
-					$('#defaultFalse').prop('checked', true);
-				}
-				
-				$('#createDateTime').val(createDateTime);
-				
+			$('#accountTypeName').val(typeName);
+			
+			if(typeActive) {
+				$('#activeTrue').prop('checked', true);
 			} else {
-				
-				errMsg(res.msg);
+				$('#activeFalse').prop('checked', true);
 			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+			
+			if(typeDefault) {
+				$('#defaultTrue').prop('checked', true);
+			} else {
+				$('#defaultFalse').prop('checked', true);
+			}
+			
+			$('#createDateTime').val(createDateTime);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -66,26 +52,12 @@ function deleteAct() {
 		var data = {};
 		data.typeId = $('#typeId').val();
 	
-		$.ajax({
-			url: '/account/types/delete/act',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function(res) {
-				
-				if(res.status) {
-					
-					showMsg('刪除成功');
-					location.href = '/account/types';
-					
-				} else {
-					
-					errMsg(res.msg);
-				}
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
+		postSubmit('/account/types/delete/act', data, function(res) {
+			if(res.status) {
+				showMsg('刪除成功');
+				location.href = '/account/types';
+			} else {
+				errMsg(res.msg);
 			}
 		});
 	}
@@ -99,26 +71,12 @@ function confirmAct() {
 	data.typeActive = $('input[name=accountTypeActive]:checked').val();
 	data.typeDefault = $('input[name=accountTypeDefault]:checked').val();
 	
-	$.ajax({
-		url: '/account/types/modify/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				showMsg('修改成功');
-				initData();
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/account/types/modify/act', data, function(res) {
+		if(res.status) {
+			showMsg('修改成功');
+			initData();
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
