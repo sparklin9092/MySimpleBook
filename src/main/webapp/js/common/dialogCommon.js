@@ -17,7 +17,8 @@ function showMsg(msg) {
 /**
  * 公用方法：顯示系統訊息。
  */
-function sysMsg(sMsg) {
+function sysMsg(sMsg, err) {
 	// 目前沒有其他第三方套件，所以使用基本的alert()方法
-	alert(sMsg);
+	console.error(sMsg);
+	console.log(err);
 }
