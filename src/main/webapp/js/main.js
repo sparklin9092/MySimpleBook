@@ -151,7 +151,7 @@ function queryIncomeRecord() {
 function querySpendRecord() {
 	
 	setTimeout(function() {
-		postSubmit('/main/spend/list', data, function(res) {
+		postSubmit('/main/spend/list', {}, function(res) {
 			var records = "";
 			if(res.status) {
 				$.each(res.listDtos, function(key, val) {
