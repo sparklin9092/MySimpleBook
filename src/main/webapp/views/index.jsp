@@ -37,17 +37,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid mt-2 py-3 social-bg">
+	<div class="container-fluid my-4">
 		<div class="container-xl">
-			<div class="row">
+			<div class="row social-bg py-3 mx-2 rounded">
 				<div class="col text-center">
 					<h3>社群平台</h3>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="container-fluid my-4">
-		<div class="container-xl">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 text-center mt-3">
 					<a href="https://page.line.me/richnote" target="_blank">
