@@ -49,7 +49,7 @@
 					<a href="https://page.line.me/richnote" target="_blank">
 						<div class="card card-width mx-auto">
 							<div class="card-img-min-height">
-								<img src="https://resources.richnote.net/index/line_card.jpeg" 
+								<img src="https://resources.richnote.net/index/line_card.jpg" 
 									class="card-img-top" alt="致富寶典的 LINE 官方帳號">
 							</div>
 							<div class="card-body">
@@ -66,7 +66,7 @@
 					<a href="https://www.facebook.com/RichNote.net" target="_blank">
 						<div class="card card-width mx-auto">
 							<div class="card-img-min-height">
-								<img src="https://resources.richnote.net/index/fb_card.jpeg" 
+								<img src="https://resources.richnote.net/index/fb_card.jpg" 
 									class="card-img-top" alt="致富寶典的 FaceBook 粉絲專頁">
 							</div>
 							<div class="card-body">
@@ -83,7 +83,7 @@
 					<a href="https://www.instagram.com/richnote_net" target="_blank">
 						<div class="card card-width mx-auto">
 							<div class="card-img-min-height">
-								<img src="https://resources.richnote.net/index/ig_card.jpeg" 
+								<img src="https://resources.richnote.net/index/ig_card.jpg" 
 									class="card-img-top" alt="致富寶典的 Instagram 粉絲專頁">
 							</div>
 							<div class="card-body">
@@ -100,7 +100,7 @@
 					<a href="https://www.youtube.com/channel/UCRY2uJHJwFgCagB_xJy7K8A" target="_blank">
 						<div class="card card-width mx-auto">
 							<div class="card-img-min-height">
-								<img src="https://resources.richnote.net/index/yt_card.jpeg" 
+								<img src="https://resources.richnote.net/index/yt_card.jpg" 
 									class="card-img-top" alt="致富寶典的 YouTube 頻道">
 							</div>
 							<div class="card-body">
