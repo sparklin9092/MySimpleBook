@@ -84,7 +84,6 @@ function initData() {
 			var outside = res.oneDto.outside;
 			var inAccId = res.oneDto.inAccId;
 			var outsideAccName = res.oneDto.outsideAccName;
-			var createDateTime = res.oneDto.createDateTime;
 			var remark = res.oneDto.remark;
 			
 			$('#transferDatePicker').val(moment(transDate).format('YYYY年MM月DD日'));
@@ -101,7 +100,6 @@ function initData() {
 				$('#tInAccItemSelect').val(inAccId).change();
 			}
 			
-			$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
 			$('#remark').val(remark);
 		} else {
 			errMsg(res.msg);

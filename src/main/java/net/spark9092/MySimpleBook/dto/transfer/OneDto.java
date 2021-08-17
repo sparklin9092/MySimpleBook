@@ -1,24 +1,21 @@
 package net.spark9092.MySimpleBook.dto.transfer;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class OneDto {
-	
+
 	private String transDate;
-	
+
 	private BigDecimal amount;
-	
+
 	private int outAccId;
-	
+
 	private int inAccId;
-	
+
 	private boolean isOutside;
-	
+
 	private String outsideAccName;
 
-	private LocalDateTime createDateTime;
-	
 	private String remark;
 
 	public String getTransDate() {
@@ -67,14 +64,6 @@ public class OneDto {
 
 	public void setOutsideAccName(String outsideAccName) {
 		this.outsideAccName = outsideAccName;
-	}
-
-	public LocalDateTime getCreateDateTime() {
-		return createDateTime;
-	}
-
-	public void setCreateDateTime(LocalDateTime createDateTime) {
-		this.createDateTime = createDateTime;
 	}
 
 	public String getRemark() {

@@ -59,7 +59,7 @@ public interface ITransferMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select trans_date, amount, out_acc_id, in_acc_id, is_outside, outside_acc_name, create_datetime, remark "
+	@Select("select trans_date, amount, out_acc_id, in_acc_id, is_outside, outside_acc_name, remark "
 			+ " from transfer "
 			+ " where is_delete=0 and id=#{transferId} and user_id=#{userId}")
 	@Results({
@@ -69,7 +69,6 @@ public interface ITransferMapper {
 		@Result(column="in_acc_id", property="inAccId"),
 		@Result(column="is_outside", property="isOutside"),
 		@Result(column="outside_acc_name", property="outsideAccName"),
-		@Result(column="create_datetime", property="createDateTime"),
 		@Result(column="remark", property="remark")
 	})
 	OneDto selectOneByIds(@Param("transferId") int transferId, @Param("userId") int userId);
