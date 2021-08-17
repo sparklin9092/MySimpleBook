@@ -32,6 +32,7 @@
 <link rel="icon" type="image/png" sizes="96x96" href="https://resources.richnote.net/icon/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://resources.richnote.net/icon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://resources.richnote.net/icon/favicon-16x16.png">
+<link rel="icon" type="image/x-icon" href="https://resources.richnote.net/icon/favicon.ico">
 <link rel="manifest" href="https://resources.richnote.net/icon/manifest.json">
 
 <link rel="stylesheet" href="/css/plugins/jquery-ui.min.css">
