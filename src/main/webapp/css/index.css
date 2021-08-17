@@ -8,11 +8,6 @@
 	background-color: #FFF4C1;
 }
 
-a {
-	text-decoration: none;
-	color: unset;
-}
-
 .card-width {
 	width: 20vw;
 }
@@ -22,9 +17,11 @@ a {
 }
 
 @media only screen and (min-width: 0px) and (max-width: 768px) {
+	
 	.card-width {
 		width: unset;
 	}
+	
 	.card-img-min-height {
 		min-height: unset;
 	}

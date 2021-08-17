@@ -38,6 +38,7 @@
 <link rel="stylesheet" href="https://www.spark9092.com/css/jquery-ui.min.css">
 <link rel="stylesheet" href="https://www.spark9092.com/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://www.spark9092.com/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="/css/all.css">
 <link rel="stylesheet" href="/css/common/menuBar.css">
 <link rel="stylesheet" href="/css/common/footer.css">
 
