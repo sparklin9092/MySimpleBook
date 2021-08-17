@@ -35,64 +35,32 @@ function initIncomeDate() {
 
 function initIncomeItemSelect() {
 
-	$.ajax({
-		url: '/income/itemList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-
-			if (res.status) {
-
-				var itemList = res.itemList;
-				var selectOptions = "";
-
-				$.each(itemList, function(index, value) {
-					selectOptions += '<option value="' + value.itemId + '">' + value.itemName + '</option>';
-				})
-
-				$('#incomeItemSelect').empty().html(selectOptions);
-
-			} else {
-
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/income/itemList', {}, function(res) {
+		if (res.status) {
+			var itemList = res.itemList;
+			var selectOptions = "";
+			$.each(itemList, function(index, value) {
+				selectOptions += '<option value="' + value.itemId + '">' + value.itemName + '</option>';
+			});
+			$('#incomeItemSelect').empty().html(selectOptions);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
 
 function initAccountItemSelect() {
 
-	$.ajax({
-		url: '/income/accountList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-
-			if (res.status) {
-
-				var itemList = res.accountList;
-				var selOpts = "";
-
-				$.each(itemList, function(index, value) {
-					selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
-				})
-
-				$('#accountItemSelect').empty().html(selOpts);
-
-			} else {
-
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/income/accountList', {}, function(res) {
+		if (res.status) {
+			var itemList = res.accountList;
+			var selOpts = "";
+			$.each(itemList, function(index, value) {
+				selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
+			});
+			$('#accountItemSelect').empty().html(selOpts);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -118,33 +86,18 @@ function confirmAct() {
 	data.accountItemId = accountItemId;
 	data.amount = amount;
 	data.remark = remark;
-
-	$.ajax({
-		url: '/income/create/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-
-			if (res.status) {
-				
-				showMsg('新增成功！');
-
-				if (!checkGuestDataCount()) {
-
-					initTodayDate();
-					initIncomeItemSelect();
-					initAccountItemSelect();
-					$('#amount, #remark').val('');
-				}
-			} else {
-
-				errMsg(res.msg);
+	
+	postSubmit('/income/create/act', data, function(res) {
+		if (res.status) {
+			showMsg('新增成功！');
+			if (!checkGuestDataCount()) {
+				initTodayDate();
+				initIncomeItemSelect();
+				initAccountItemSelect();
+				$('#amount, #remark').val('');
 			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+		} else {
+			errMsg(res.msg);
 		}
-	})
+	});
 }

@@ -18,32 +18,16 @@ $(function() {
 
 function initAccountTypeSelect() {
 	
-	$.ajax({
-		url: '/account/typeList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			if(res.status) {
-				
-				var typeList = res.accountTypeListDto;
-				var selectOptions = "";
-				
-				$.each(typeList, function(index, value){
-					selectOptions += '<option value="' + value.typeId + '">' + value.typeName + '</option>';
-				})
-				
-				$('#accountTypeSelect').html(selectOptions);
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/account/typeList', {}, function(res) {
+		if(res.status) {
+			var typeList = res.accountTypeListDto;
+			var selectOptions = "";
+			$.each(typeList, function(index, value){
+				selectOptions += '<option value="' + value.typeId + '">' + value.typeName + '</option>';
+			})
+			$('#accountTypeSelect').html(selectOptions);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -99,29 +83,12 @@ function confirmAct() {
 	data.limitYear = limitYear;
 	data.limitMonth = limitMonth;
 	
-	$.ajax({
-		url: '/account/create/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				showMsg('新增成功');
-				
-				if(!checkGuestDataCount()) {
-					
-					location.href = '/account';
-				}
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/account/create/act', data, function(res) {
+		if(res.status) {
+			showMsg('新增成功');
+			if(!checkGuestDataCount()) location.href = '/account';
+		} else {
+			errMsg(res.msg);
 		}
-	})
+	});
 }

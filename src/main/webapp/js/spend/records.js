@@ -29,62 +29,47 @@ function initSpendDataTable(startDate, endDate) {
 	}, 100);
 	
 	setTimeout(function() {
-		$.ajax({
-			url: '/spend/records',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function(res) {
-				
-				var data = [];
-				
-				if(res.status) {
-					
-					data = res.list
-				}
-				
-				$('#spendRecTable').DataTable({
-					dom: '<"float-start"f>tp',
-					data: data,
-					columns: [
-						{title: 'id'},
-						{title: '時間'},
-						{title: '項目'},
-						{title: '金額'},
-						{title: '功能'}
-					],
-					order: [[1, 'desc']],
-					columnDefs: [
-						{
-							targets: 0,
-							visible: false,
-							searchable: false
-						},
-						{
-							targets: 4,
-							orderable: false,
-							render: function(data, type, row) {
-								return '<button type="button" class="btn btn-outline-warning" onclick="modifyView('+row[0]+')">修改</button>';
-							}
-						}
-					],
-					pageLength: 5,
-					language: {
-						search: '搜尋：',
-						zeroRecords: '找不到資料',
-						paginate: {
-							first: '第一頁',
-							last: '最後一頁',
-							next: '下一頁',
-							previous: '上一頁'
+		postSubmit('/spend/records', data, function(res) {
+			var data = [];
+			if(res.status) data = res.list
+			
+			$('#spendRecTable').DataTable({
+				dom: '<"float-start"f>tp',
+				data: data,
+				columns: [
+					{title: 'id'},
+					{title: '時間'},
+					{title: '項目'},
+					{title: '金額'},
+					{title: '功能'}
+				],
+				order: [[1, 'desc']],
+				columnDefs: [
+					{
+						targets: 0,
+						visible: false,
+						searchable: false
+					},
+					{
+						targets: 4,
+						orderable: false,
+						render: function(data, type, row) {
+							return '<button type="button" class="btn btn-outline-warning" onclick="modifyView('+row[0]+')">修改</button>';
 						}
 					}
-				});
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
-			}
+				],
+				pageLength: 5,
+				language: {
+					search: '搜尋：',
+					zeroRecords: '找不到資料',
+					paginate: {
+						first: '第一頁',
+						last: '最後一頁',
+						next: '下一頁',
+						previous: '上一頁'
+					}
+				}
+			});
 		});
 	}, 100);
 }

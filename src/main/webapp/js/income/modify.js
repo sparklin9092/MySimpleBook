@@ -38,64 +38,32 @@ function initIncomeDate() {
 
 function initIncomeItemSelect() {
 	
-	$.ajax({
-		url: '/income/itemList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			if(res.status) {
-				
-				var itemList = res.itemList;
-				var selectOptions = "";
-				
-				$.each(itemList, function(index, value){
-					selectOptions += '<option value="' + value.itemId + '">' + value.itemName + '</option>';
-				})
-				
-				$('#incomeItemSelect').empty().html(selectOptions);
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/income/itemList', {}, function(res) {
+		if(res.status) {
+			var itemList = res.itemList;
+			var selectOptions = "";
+			$.each(itemList, function(index, value){
+				selectOptions += '<option value="' + value.itemId + '">' + value.itemName + '</option>';
+			});
+			$('#incomeItemSelect').empty().html(selectOptions);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
 
 function initAccountItemSelect() {
 	
-	$.ajax({
-		url: '/income/accountList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			if(res.status) {
-				
-				var itemList = res.accountList;
-				var selOpts = "";
-				
-				$.each(itemList, function(index, value){
-					selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
-				})
-				
-				$('#accountItemSelect').empty().html(selOpts);
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/income/accountList', {}, function(res) {
+		if(res.status) {
+			var itemList = res.accountList;
+			var selOpts = "";
+			$.each(itemList, function(index, value){
+				selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
+			});
+			$('#accountItemSelect').empty().html(selOpts);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -103,40 +71,22 @@ function initAccountItemSelect() {
 function initData() {
 	
 	var incomeId = $('#incomeId').val();
-	
-	$.ajax({
-		url: '/income/one/' + incomeId,
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
+	postSubmit('/income/one/' + incomeId, {}, function(res) {
+		if(res.status) {
+			var incomeDate = res.oneDto.incomeDate;
+			var amount = res.oneDto.amount;
+			var incomeItemId = res.oneDto.incomeItemId;
+			var accountId = res.oneDto.accountId;
+			var remark = res.oneDto.remark;
 			
-			if(res.status) {
-				
-				var incomeDate = res.oneDto.incomeDate;
-				var amount = res.oneDto.amount;
-				
-				var incomeItemId = res.oneDto.incomeItemId;
-				var accountId = res.oneDto.accountId;
-				
-				var remark = res.oneDto.remark;
-				
-				$('#incomeDatePicker').val(moment(incomeDate).format('YYYY年MM月DD日'));
-				$('#amount').val(amount);
-				
-				$('#incomeItemSelect').val(incomeItemId).change();
-				$('#accountItemSelect').val(accountId).change();
-				
-				$('#remark').val(remark);
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+			$('#incomeDatePicker').val(moment(incomeDate).format('YYYY年MM月DD日'));
+			$('#amount').val(amount);
+			$('#remark').val(remark);
+			
+			$('#incomeItemSelect').val(incomeItemId).change();
+			$('#accountItemSelect').val(accountId).change();
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -149,32 +99,15 @@ function cancelAct() {
 function deleteAct() {
 	
 	var deleteConfirm = confirm('確定要刪除嗎？');
-	
 	if(deleteConfirm) {
-	
 		var data = {};
 		data.incomeId = $('#incomeId').val();
-		
-		$.ajax({
-			url: '/income/delete/act',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function(res) {
-				
-				if(res.status) {
-					
-					showMsg('刪除成功');
-					location.href = '/income/records';
-					
-				} else {
-					
-					errMsg(res.msg);
-				}
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
+		postSubmit('/income/delete/act', data, function(res) {
+			if(res.status) {
+				showMsg('刪除成功');
+				location.href = '/income/records';
+			} else {
+				errMsg(res.msg);
 			}
 		});
 	}
@@ -199,26 +132,12 @@ function confirmAct() {
 	data.amount = amount;
 	data.remark = remark;
 	
-	$.ajax({
-		url: '/income/modify/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				showMsg('修改成功');
-				initData();
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/income/modify/act', data, function(res) {
+		if(res.status) {
+			showMsg('修改成功');
+			initData();
+		} else {
+			errMsg(res.msg);
 		}
-	})
+	});
 }

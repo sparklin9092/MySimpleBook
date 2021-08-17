@@ -35,64 +35,32 @@ function initSpendDate() {
 
 function initSpendItemSelect() {
 	
-	$.ajax({
-		url: '/spend/itemList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			if(res.status) {
-				
-				var itemList = res.itemList;
-				var selectOptions = "";
-				
-				$.each(itemList, function(index, value){
-					selectOptions += '<option value="' + value.itemId + '">' + value.itemName + '</option>';
-				})
-				
-				$('#spendItemSelect').empty().html(selectOptions);
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/spend/itemList', {}, function(res) {
+		if(res.status) {
+			var itemList = res.itemList;
+			var selectOptions = "";
+			$.each(itemList, function(index, value){
+				selectOptions += '<option value="' + value.itemId + '">' + value.itemName + '</option>';
+			});
+			$('#spendItemSelect').empty().html(selectOptions);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
 
 function initAccountItemSelect() {
 	
-	$.ajax({
-		url: '/spend/accountList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			if(res.status) {
-				
-				var itemList = res.accountList;
-				var selOpts = "";
-				
-				$.each(itemList, function(index, value){
-					selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
-				})
-				
-				$('#accountItemSelect').empty().html(selOpts);
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/spend/accountList', {}, function(res) {
+		if(res.status) {
+			var itemList = res.accountList;
+			var selOpts = "";
+			$.each(itemList, function(index, value){
+				selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
+			});
+			$('#accountItemSelect').empty().html(selOpts);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -119,32 +87,17 @@ function confirmAct() {
 	data.amount = amount;
 	data.remark = remark;
 	
-	$.ajax({
-		url: '/spend/create/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				showMsg('新增成功！');
-				
-				if(!checkGuestDataCount()) {
-	
-					initTodayDate();
-					initSpendItemSelect();
-					initAccountItemSelect();
-					$('#amount, #remark').val('');
-				}
-			} else {
-				
-				errMsg(res.msg);
+	postSubmit('/spend/create/act', data, function(res) {
+		if(res.status) {
+			showMsg('新增成功！');
+			if(!checkGuestDataCount()) {
+				initTodayDate();
+				initSpendItemSelect();
+				initAccountItemSelect();
+				$('#amount, #remark').val('');
 			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+		} else {
+			errMsg(res.msg);
 		}
-	})
+	});
 }

@@ -38,38 +38,19 @@ function initTransferDate() {
 
 function initAccountItemSelect() {
 	
-	$.ajax({
-		url: '/transfer/accountList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			if(res.status) {
-				
-				var itemList = res.accountList;
-				var selOpts = "";
-				
-				var secondOptionVal = "";
-				
-				$.each(itemList, function(index, value){
-					selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
-					
-					if(index == 1) secondOptionVal = value.accountId;
-				})
-				
-				$('#tInAccItemSelect, #tOutAccItemSelect').empty().html(selOpts);
-				
-				$('#tInAccItemSelect').val(secondOptionVal).change();
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/transfer/accountList', {}, function(res) {
+		if(res.status) {
+			var itemList = res.accountList;
+			var selOpts = "";
+			var secondOptionVal = "";
+			$.each(itemList, function(index, value){
+				selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
+				if(index == 1) secondOptionVal = value.accountId;
+			});
+			$('#tInAccItemSelect, #tOutAccItemSelect').empty().html(selOpts);
+			$('#tInAccItemSelect').val(secondOptionVal).change();
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -122,31 +103,16 @@ function confirmAct() {
 	data.tOutsideAccName = tOutsideAccName;
 	data.remark = remark;
 	
-	$.ajax({
-		url: '/transfer/create/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				showMsg('新增成功！');
-				
-				if(!checkGuestDataCount()) {
-	
-					initTodayDate();
-					initAccountItemSelect();
-					$('#tOutAmnt, #remark').val('');
-				}
-			} else {
-				
-				errMsg(res.msg);
+	postSubmit('/transfer/create/act', data, function(res) {
+		if(res.status) {
+			showMsg('新增成功！');
+			if(!checkGuestDataCount()) {
+				initTodayDate();
+				initAccountItemSelect();
+				$('#tOutAmnt, #remark').val('');
 			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+		} else {
+			errMsg(res.msg);
 		}
-	})
+	});
 }

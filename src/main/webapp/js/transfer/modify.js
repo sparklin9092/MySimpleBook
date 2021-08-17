@@ -41,32 +41,16 @@ function initTransferDate() {
 
 function initAccountItemSelect() {
 	
-	$.ajax({
-		url: '/transfer/accountList',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
-			
-			if(res.status) {
-				
-				var itemList = res.accountList;
-				var selOpts = "";
-				
-				$.each(itemList, function(index, value){
-					selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
-				})
-				
-				$('#tInAccItemSelect, #tOutAccItemSelect').empty().html(selOpts);
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/transfer/accountList', {}, function(res) {
+		if(res.status) {
+			var itemList = res.accountList;
+			var selOpts = "";
+			$.each(itemList, function(index, value){
+				selOpts += '<option value="' + value.accountId + '">' + value.accountName + '</option>';
+			});
+			$('#tInAccItemSelect, #tOutAccItemSelect').empty().html(selOpts);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -92,54 +76,34 @@ function initData() {
 	
 	var transferId = $('#transferId').val();
 	
-	$.ajax({
-		url: '/transfer/one/' + transferId,
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
+	postSubmit('/transfer/one/' + transferId, {}, function(res) {
+		if(res.status) {
+			var transDate = res.oneDto.transDate;
+			var amount = res.oneDto.amount;
+			var outAccId = res.oneDto.outAccId;
+			var outside = res.oneDto.outside;
+			var inAccId = res.oneDto.inAccId;
+			var outsideAccName = res.oneDto.outsideAccName;
+			var createDateTime = res.oneDto.createDateTime;
+			var remark = res.oneDto.remark;
 			
-			if(res.status) {
-				
-				var transDate = res.oneDto.transDate;
-				var amount = res.oneDto.amount;
-				
-				var outAccId = res.oneDto.outAccId;
-				
-				var outside = res.oneDto.outside;
-				var inAccId = res.oneDto.inAccId;
-				var outsideAccName = res.oneDto.outsideAccName;
-				
-				var createDateTime = res.oneDto.createDateTime;
-				var remark = res.oneDto.remark;
-				
-				$('#transferDatePicker').val(moment(transDate).format('YYYY年MM月DD日'));
-				$('#tOutAmnt').val(amount);
-				
-				$('#tOutAccItemSelect').val(outAccId).change();
-				
-				if(outside) {
-					
-					$('#outSideAccCheck').prop('checked', true);
-					showOutside();
-					$('#tOutsideAccName').val(outsideAccName);
-					
-				} else {
-				
-					$('#tInAccItemSelect').val(inAccId).change();
-				}
-				
-				$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
-				$('#remark').val(remark);
-				
+			$('#transferDatePicker').val(moment(transDate).format('YYYY年MM月DD日'));
+			$('#tOutAmnt').val(amount);
+			
+			$('#tOutAccItemSelect').val(outAccId).change();
+			
+			if(outside) {
+				$('#outSideAccCheck').prop('checked', true);
+				showOutside();
+				$('#tOutsideAccName').val(outsideAccName);
 			} else {
-				
-				errMsg(res.msg);
+				$('#tInAccItemSelect').val(inAccId).change();
 			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+			
+			$('#createDateTime').val(moment.utc(createDateTime).format('YYYY年MM月DD日'));
+			$('#remark').val(remark);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -152,32 +116,15 @@ function cancelAct() {
 function deleteAct() {
 	
 	var deleteConfirm = confirm('確定要刪除嗎？');
-	
 	if(deleteConfirm) {
-	
 		var data = {};
 		data.transferId = $('#transferId').val();
-		
-		$.ajax({
-			url: '/transfer/delete/act',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function(res) {
-				
-				if(res.status) {
-					
-					showMsg('刪除成功');
-					location.href = '/transfer/records';
-					
-				} else {
-					
-					errMsg(res.msg);
-				}
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
+		postSubmit('/transfer/delete/act', data, function(res) {
+			if(res.status) {
+				showMsg('刪除成功');
+				location.href = '/transfer/records';
+			} else {
+				errMsg(res.msg);
 			}
 		});
 	}
@@ -211,26 +158,12 @@ function confirmAct() {
 	data.tOutsideAccName = tOutsideAccName;
 	data.remark = remark;
 	
-	$.ajax({
-		url: '/transfer/modify/act',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				showMsg('修改成功');
-				initData();
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/transfer/modify/act', data, function(res) {
+		if(res.status) {
+			showMsg('修改成功');
+			initData();
+		} else {
+			errMsg(res.msg);
 		}
-	})
+	});
 }
