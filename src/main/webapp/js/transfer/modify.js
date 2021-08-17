@@ -88,6 +88,7 @@ function initData() {
 			var remark = res.oneDto.remark;
 			
 			$('#transferDatePicker').val(moment(transDate).format('YYYY年MM月DD日'));
+			$('#transferDate').val(transDate);
 			$('#tOutAmnt').val(amount);
 			
 			$('#tOutAccItemSelect').val(outAccId).change();

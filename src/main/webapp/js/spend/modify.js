@@ -81,6 +81,7 @@ function initData() {
 			var remark = res.oneDto.remark;
 			
 			$('#spendDatePicker').val(moment(spendDate).format('YYYY年MM月DD日'));
+			$('#spendDate').val(spendDate);
 			$('#amount').val(amount);
 			$('#remark').val(remark);
 			

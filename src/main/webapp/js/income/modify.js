@@ -80,6 +80,7 @@ function initData() {
 			var remark = res.oneDto.remark;
 			
 			$('#incomeDatePicker').val(moment(incomeDate).format('YYYY年MM月DD日'));
+			$('#incomeDate').val(incomeDate);
 			$('#amount').val(amount);
 			$('#remark').val(remark);
 			
