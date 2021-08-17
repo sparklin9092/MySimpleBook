@@ -8,6 +8,7 @@ $(function() {
 	checkUserExist();
 	rememberAccVal();
 	checkLoginStatus();
+	checkDesktop();
 
 	$('#userAcc, #userPwd').on('keypress', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
@@ -74,5 +75,13 @@ function checkLoginStatus() {
 				location.href = '/main';
 			}
 		});
+	}
+}
+
+function checkDesktop() {
+	if(!isMobile()) {
+		$('#socialCard a').prop('target', '_blank');
+	} else {
+		$('#socialCard a').removeProp('target');
 	}
 }

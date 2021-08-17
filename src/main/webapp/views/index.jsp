@@ -37,7 +37,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid my-4">
+	<div class="container-fluid my-4" id="socialCard">
 		<div class="container-xl">
 			<div class="row social-bg py-3 mx-2 rounded">
 				<div class="col text-center">
@@ -46,7 +46,7 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 text-center mt-3">
-					<a href="https://page.line.me/richnote" target="_blank">
+					<a href="https://page.line.me/richnote">
 						<div class="card card-width mx-auto">
 							<div class="card-img-min-height">
 								<img src="https://resources.richnote.net/index/line_card.jpg" 
@@ -63,7 +63,7 @@
 					</a>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 text-center mt-3">
-					<a href="https://www.facebook.com/RichNote.net" target="_blank">
+					<a href="https://www.facebook.com/RichNote.net">
 						<div class="card card-width mx-auto">
 							<div class="card-img-min-height">
 								<img src="https://resources.richnote.net/index/fb_card.jpg" 
@@ -80,7 +80,7 @@
 					</a>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 text-center mt-3">
-					<a href="https://www.instagram.com/richnote_net" target="_blank">
+					<a href="https://www.instagram.com/richnote_net">
 						<div class="card card-width mx-auto">
 							<div class="card-img-min-height">
 								<img src="https://resources.richnote.net/index/ig_card.jpg" 
@@ -97,7 +97,7 @@
 					</a>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 text-center mt-3">
-					<a href="https://www.youtube.com/channel/UCRY2uJHJwFgCagB_xJy7K8A" target="_blank">
+					<a href="https://www.youtube.com/channel/UCRY2uJHJwFgCagB_xJy7K8A">
 						<div class="card card-width mx-auto">
 							<div class="card-img-min-height">
 								<img src="https://resources.richnote.net/index/yt_card.jpg" 
