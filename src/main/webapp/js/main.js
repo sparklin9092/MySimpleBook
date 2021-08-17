@@ -22,28 +22,14 @@ $(function() {
 function checkGuest() {
 
 	if (!$.cookie('checkGuest')) {
-		
 		$.cookie('checkGuest', true);
-		
-		$.ajax({
-			url: '/main/check/guest',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: {},
-			success: function(res) {
-				
-				if(res.status) {
-					
-					var goToBindAcc = confirm('推薦前往綁定帳號！避免目前的資料，在您離開後被系統刪除。');
-			
-					if (goToBindAcc) {
-			
-						location.href = '/user/info';
-					}
+		postSubmit('/main/check/guest', {}, function(res) {
+			if(res.status) {
+				var goToBindAcc = confirm('推薦前往綁定帳號！避免目前的資料，在您離開後被系統刪除。');
+				if (goToBindAcc) {
+					location.href = '/user/info';
 				}
-			},
-			error: function(err) {}
+			}
 		});
 	}
 }
@@ -90,212 +76,130 @@ function initRichCodeList() {
 	richCodeItems += '<div class="carousel-item p-2 active">' + defaultRichCode + '</div>';
 	
 	setTimeout(function() {
-		$.ajax({
-			url: '/main/richCode/list',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: {},
-			success: function(res) {
-				
-				if(res.status) {
-					
-					richCodeItems = '';
-					
-					$.each(res.listDtos, function(key, val) {
-						
-						var activeSign = '';
-						if(key == 1) activeSign = ' active';
-						else activeSign = '';
-						
-						richCodeItems += '<div class="carousel-item p-2 ' + activeSign + '">' + val.richCode + '</div>';
-					});
-					
-					$('#richCodeBox').empty().html(richCodeItems);
-				}
-			},
-			error: function(err) {}
+		postSubmit('/main/richCode/list', {}, function(res) {
+			if(res.status) {
+				richCodeItems = '';
+				$.each(res.listDtos, function(key, val) {
+					var activeSign = '';
+					if(key == 1) activeSign = ' active';
+					else activeSign = '';
+					richCodeItems += '<div class="carousel-item p-2 ' + activeSign + '">' + val.richCode + '</div>';
+				});
+				$('#richCodeBox').empty().html(richCodeItems);
+			}
 		});
-	}, 300)
-				
+	}, 300);
+	
 	$('#richCodeBox').empty().html(richCodeItems);
 }
 
 function queryTransferRecord() {
 	
 	setTimeout(function() {
-		$.ajax({
-			url: '/main/transfer/list',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: {},
-			success: function(res) {
-				
-				var records = "";
-				
-				if(res.status) {
-					
-					$.each(res.listDtos, function(key, val) {
-						records += '<div class="row">';
-						records += '<div class="col">' + val.accOutName + '</div>';
-						records += '<div class="col">' + val.accoInName + '</div>';
-						records += '<div class="col text-info">' + val.transAmnt + '</div>';
-						records += '</div>';
-						
-						if(key+1 == 5) {
-					
-							records += '<div class="row">';
-							records += '<div class="col">(這裡只顯示最近的5個轉帳紀錄喔～)</div>';
-							records += '</div>';
-							
-						}
-					});
-					
-				} else {
-					
+		postSubmit('/main/transfer/list', {}, function(res) {
+			var records = "";
+			if(res.status) {
+				$.each(res.listDtos, function(key, val) {
 					records += '<div class="row">';
-					records += '<div class="col">' + res.msg + '</div>';
+					records += '<div class="col">' + val.accOutName + '</div>';
+					records += '<div class="col">' + val.accoInName + '</div>';
+					records += '<div class="col text-info">' + val.transAmnt + '</div>';
 					records += '</div>';
-				}
-					
-				$('#transRecords').empty().html(records);
-			},
-			error: function(err) {}
+					if(key+1 == 5) {
+						records += '<div class="row">';
+						records += '<div class="col">(這裡只顯示最近的5個轉帳紀錄喔～)</div>';
+						records += '</div>';
+					}
+				});
+			} else {
+				records += '<div class="row">';
+				records += '<div class="col">' + res.msg + '</div>';
+				records += '</div>';
+			}	
+			$('#transRecords').empty().html(records);
 		});
-	}, 300)
+	}, 300);
 }
 
 function queryIncomeRecord() {
 	
 	setTimeout(function() {
-		$.ajax({
-			url: '/main/income/list',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: {},
-			success: function(res) {
-				
-				var records = "";
-				
-				if(res.status) {
-					
-					$.each(res.listDtos, function(key, val) {
-						records += '<div class="row">';
-						records += '<div class="col-8">' + val.itemName + '</div>';
-						records += '<div class="col-4 text-success">' + val.amnt + '</div>';
-						records += '</div>';
-						
-						if(key+1 == 5) {
-					
-							records += '<div class="row">';
-							records += '<div class="col">(這裡只顯示最新的5個收入紀錄喔～)</div>';
-							records += '</div>';
-							
-						}
-					});
-					
-				} else {
-					
+		postSubmit('/main/income/list', {}, function(res) {
+			var records = "";
+			if(res.status) {
+				$.each(res.listDtos, function(key, val) {
 					records += '<div class="row">';
-					records += '<div class="col">' + res.msg + '</div>';
+					records += '<div class="col-8">' + val.itemName + '</div>';
+					records += '<div class="col-4 text-success">' + val.amnt + '</div>';
 					records += '</div>';
-				}
-					
-				$('#incomeRecords').empty().html(records);
-			},
-			error: function(err) {}
+					if(key+1 == 5) {
+						records += '<div class="row">';
+						records += '<div class="col">(這裡只顯示最新的5個收入紀錄喔～)</div>';
+						records += '</div>';
+					}
+				});
+			} else {
+				records += '<div class="row">';
+				records += '<div class="col">' + res.msg + '</div>';
+				records += '</div>';
+			}	
+			$('#incomeRecords').empty().html(records);
 		});
-	}, 300)
+	}, 300);
 }
 
 function querySpendRecord() {
 	
 	setTimeout(function() {
-		$.ajax({
-			url: '/main/spend/list',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: {},
-			success: function(res) {
-				
-				var records = "";
-				
-				if(res.status) {
-					
-					$.each(res.listDtos, function(key, val) {
-						records += '<div class="row">';
-						records += '<div class="col-8">' + val.itemName + '</div>';
-						records += '<div class="col-4 text-danger">' + val.amnt + '</div>';
-						records += '</div>';
-						
-						if(key+1 == 5) {
-					
-							records += '<div class="row">';
-							records += '<div class="col">(這裡只顯示最新的5個支出紀錄喔～)</div>';
-							records += '</div>';
-							
-						}
-					});
-					
-				} else {
-					
+		postSubmit('/main/spend/list', data, function(res) {
+			var records = "";
+			if(res.status) {
+				$.each(res.listDtos, function(key, val) {
 					records += '<div class="row">';
-					records += '<div class="col">' + res.msg + '</div>';
+					records += '<div class="col-8">' + val.itemName + '</div>';
+					records += '<div class="col-4 text-danger">' + val.amnt + '</div>';
 					records += '</div>';
-				}
-					
-				$('#spendRecords').empty().html(records);
-			},
-			error: function(err) {}
+					if(key+1 == 5) {
+						records += '<div class="row">';
+						records += '<div class="col">(這裡只顯示最新的5個支出紀錄喔～)</div>';
+						records += '</div>';
+					}
+				});
+			} else {
+				records += '<div class="row">';
+				records += '<div class="col">' + res.msg + '</div>';
+				records += '</div>';
+			}	
+			$('#spendRecords').empty().html(records);
 		});
-	}, 300)
+	}, 300);
 }
 
 function queryAccoundRecord() {
 	
 	setTimeout(function() {
-		$.ajax({
-			url: '/main/account/list',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: {},
-			success: function(res) {
-				
-				var records = "";
-				
-				if(res.status) {
-					
-					$.each(res.listDtos, function(key, val) {
-						records += '<div class="row">';
-						records += '<div class="col-8">' + val.accName + '</div>';
-						records += '<div class="col-4 text-primary">' + val.amnt + '</div>';
-						records += '</div>';
-						
-						if(key+1 == 5) {
-					
-							records += '<div class="row">';
-							records += '<div class="col">(這裡只顯示餘額最高的5個帳戶喔～)</div>';
-							records += '</div>';
-							
-						}
-					});
-					
-				} else {
-					
+		postSubmit('/main/account/list', {}, function(res) {
+			var records = "";
+			if(res.status) {
+				$.each(res.listDtos, function(key, val) {
 					records += '<div class="row">';
-					records += '<div class="col">' + res.msg + '</div>';
+					records += '<div class="col-8">' + val.accName + '</div>';
+					records += '<div class="col-4 text-primary">' + val.amnt + '</div>';
 					records += '</div>';
-				}
-					
-				$('#accRecords').empty().html(records);
-			},
-			error: function(err) {}
+					if(key+1 == 5) {
+						records += '<div class="row">';
+						records += '<div class="col">(這裡只顯示餘額最高的5個帳戶喔～)</div>';
+						records += '</div>';
+					}
+				});
+			} else {
+				records += '<div class="row">';
+				records += '<div class="col">' + res.msg + '</div>';
+				records += '</div>';
+			}	
+			$('#accRecords').empty().html(records);
 		});
-	}, 500)
+	}, 500);
 }
 
 
