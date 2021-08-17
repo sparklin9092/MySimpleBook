@@ -35,7 +35,7 @@
 <link rel="icon" type="image/x-icon" href="https://resources.richnote.net/icon/favicon.ico">
 <link rel="manifest" href="https://resources.richnote.net/icon/manifest.json">
 
-<link rel="stylesheet" href="/css/plugins/jquery-ui.min.css">
+<link rel="stylesheet" href="https://www.spark9092.com/css/jquery-ui.min.css">
 <link rel="stylesheet" href="https://www.spark9092.com/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://www.spark9092.com/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="/css/common/menuBar.css">
