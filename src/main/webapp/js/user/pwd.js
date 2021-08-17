@@ -18,26 +18,12 @@ function confirmAct() {
 	data.oldPwd = oldPwd;
 	data.newPwd = newPwd;
 	
-	$.ajax({
-		url: '/user/info/pwd/change',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				showMsg("密碼修改成功！請重新登入。");
-				location.href = '/logout';
-				
-			} else {
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/user/info/pwd/change', data, function(res) {
+		if(res.status) {
+			showMsg("密碼修改成功！請重新登入。");
+			location.href = '/logout';
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }

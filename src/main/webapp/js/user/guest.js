@@ -45,30 +45,14 @@ function checkUserAccAct() {
 	
 	var data = {};
 	data.userAcc = $('#userAcc').val();
-	
-	$.ajax({
-		url: '/guest/check/account',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(data),
-		success: function(res) {
-			
-			if(res.status) {
-				
-				$('#checkAcc').removeClass('btn-warning').addClass('btn-success');
-				$('#checkAcc').prop('disabled', true).text('通過');
-				
-			} else {
-				
-				$('#checkAcc').removeClass('btn-success').addClass('btn-warning');
-				$('#checkAcc').prop('disabled', false).text('檢查');
-				
-				errMsg(res.msg);
-			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+	postSubmit('/guest/check/account', data, function(res) {
+		if(res.status) {
+			$('#checkAcc').removeClass('btn-warning').addClass('btn-success');
+			$('#checkAcc').prop('disabled', true).text('通過');
+		} else {
+			$('#checkAcc').removeClass('btn-success').addClass('btn-warning');
+			$('#checkAcc').prop('disabled', false).text('檢查');
+			errMsg(res.msg);
 		}
 	});
 }
@@ -84,35 +68,18 @@ function bindAccPwdAct() {
 		data.userAcc = $('#userAcc').val();
 		data.userpwd = $('#userPwd').val();
 		
-		$.ajax({
-			url: '/guest/bind/accpwd',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function(res) {
-				
-				if(res.status) {
-					
-					$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
-					$('#bindBtn').prop('disabled', true).text('已綁定');
-					
-					showMsg("帳號綁定成功！請重新登入。");
-					location.href = '/';
-					
-				} else {
-					
-					$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
-					$('#bindBtn').prop('disabled', false).text('綁定');
-					
-					$('#checkAcc').removeClass('btn-success').addClass('btn-warning');
-					$('#checkAcc').prop('disabled', false).text('檢查');
-					
-					errMsg(res.msg);
-				}
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
+		postSubmit('/guest/bind/accpwd', data, function(res) {
+			if(res.status) {
+				$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
+				$('#bindBtn').prop('disabled', true).text('已綁定');
+				showMsg("帳號綁定成功！請重新登入。");
+				location.href = '/';
+			} else {
+				$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
+				$('#bindBtn').prop('disabled', false).text('綁定');
+				$('#checkAcc').removeClass('btn-success').addClass('btn-warning');
+				$('#checkAcc').prop('disabled', false).text('檢查');
+				errMsg(res.msg);
 			}
 		});
 	}, 1000)
@@ -135,32 +102,16 @@ function bindEmailAct() {
 		var data = {};
 		data.userEmail = $('#userEmail').val();
 		
-		$.ajax({
-			url: '/guest/bind/email',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function(res) {
-				
-				if(res.status) {
-					
-					$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
-					$('#bindBtn').prop('disabled', true).text('已寄發');
-					
-					showMsg("已寄發認證碼到您的信箱！請到您的信箱確認郵件。");
-					location.href = '/logout';
-					
-				} else {
-					
-					$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
-					$('#bindBtn').prop('disabled', false).text('綁定');
-					
-					errMsg(res.msg);
-				}
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
+		postSubmit('/guest/bind/email', data, function(res) {
+			if(res.status) {
+				$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
+				$('#bindBtn').prop('disabled', true).text('已寄發');
+				showMsg("已寄發認證碼到您的信箱！請到您的信箱確認郵件。");
+				location.href = '/logout';
+			} else {
+				$('#bindBtn').addClass('btn-success').removeClass('btn-warning');
+				$('#bindBtn').prop('disabled', false).text('綁定');
+				errMsg(res.msg);
 			}
 		});
 	}, 1000);

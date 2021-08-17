@@ -15,62 +15,39 @@ var emailStatus = 2;
 
 function initData() {
 	
-	$.ajax({
-		url: '/user/info',
-		method: 'POST',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: {},
-		success: function(res) {
+	postSubmit('/user/info', {}, function(res) {
+		if(res.status) {
+			var userName = res.dto.userName;
+			var userAcc = res.dto.userAcc;
+			var maskPwd = res.dto.maskPwd;
+			userEmail = res.dto.userEmail;
+			emailStatus = res.dto.emailStatus;
+			var createDate = res.dto.createDate;
+			var userBtnTxt = userName.substring(0,1);
 			
-			if(res.status) {
-				
-				var userName = res.dto.userName;
-				var userAcc = res.dto.userAcc;
-				var maskPwd = res.dto.maskPwd;
-				userEmail = res.dto.userEmail;
-				emailStatus = res.dto.emailStatus;
-				var createDate = res.dto.createDate;
-				var userBtnTxt = userName.substring(0,1);
-				
-				$('#userName').val(userName);
-				$('#userAcc').val(userAcc);
-				$('#userPwd').val(maskPwd);
-				$('#userEmail').val(userEmail);
-				$('#createDate').val(createDate);
-				
-				if(emailStatus == 1) {
-					
-					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
-					$('#bindEmail').prop('disabled', true).text('已寄發');
-					
-				} else if(emailStatus == 2) {
-					
-					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
-					$('#bindEmail').prop('disabled', false).text('綁定');
-					
-				} else if(emailStatus == 3) {
-					
-					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
-					$('#bindEmail').prop('disabled', true).text('已認證');
-					
-				} else {
-					
-					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
-					$('#bindEmail').prop('disabled', false).text('綁定');
-					
-				}
-				
-				$('#menuUserTitle').text(userName + '的致富寶典');
-				$('#userInfo').text(userBtnTxt);
-				
+			$('#userName').val(userName);
+			$('#userAcc').val(userAcc);
+			$('#userPwd').val(maskPwd);
+			$('#userEmail').val(userEmail);
+			$('#createDate').val(createDate);
+			
+			if(emailStatus == 1) {
+				$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+				$('#bindEmail').prop('disabled', true).text('已寄發');
+			} else if(emailStatus == 2) {
+				$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+				$('#bindEmail').prop('disabled', false).text('綁定');
+			} else if(emailStatus == 3) {
+				$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+				$('#bindEmail').prop('disabled', true).text('已認證');
 			} else {
-				
-				errMsg(res.msg);
+				$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+				$('#bindEmail').prop('disabled', false).text('綁定');
 			}
-		},
-		error: function(err) {
-			sysMsg('無法連接伺服器');
+			$('#menuUserTitle').text(userName + '的致富寶典');
+			$('#userInfo').text(userBtnTxt);
+		} else {
+			errMsg(res.msg);
 		}
 	});
 }
@@ -105,30 +82,14 @@ function bindEmailAct() {
 		var data = {};
 		data.userEmail = $('#userEmail').val();
 		
-		$.ajax({
-			url: '/user/info/bind/email',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function(res) {
-				
-				if(res.status) {
-					
-					showMsg("已經寄發認證碼到您的信箱，輸入認證碼確認後，綁定就完成了！");
-				
-					initData();
-					
-				} else {
-					
-					$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
-					$('#bindEmail').prop('disabled', false).text('綁定');
-					
-					errMsg(res.msg);
-				}
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
+		postSubmit('/user/info/bind/email', data, function(res) {
+			if(res.status) {
+				showMsg("已經寄發認證碼到您的信箱，輸入認證碼確認後，綁定就完成了！");
+				initData();
+			} else {
+				$('#bindEmail').addClass('btn-success').removeClass('btn-warning');
+				$('#bindEmail').prop('disabled', false).text('綁定');
+				errMsg(res.msg);
 			}
 		});
 	}, 1000);
@@ -137,29 +98,13 @@ function bindEmailAct() {
 function deleteAct() {
 	
 	var deleteConfirm = confirm('警告：您確定要刪除帳號嗎？系統將會徹底刪除您的所有資料，而且無法復原！！！');
-	
 	if(deleteConfirm) {
-	
-		$.ajax({
-			url: '/user/info/delete',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: {},
-			success: function(res) {
-				
-				if(res.status) {
-					
-					showMsg("您的帳號資料已全數刪除！謝謝您使用「致富寶典」！");
-					location.href = '/logout';
-					
-				} else {
-					
-					errMsg(res.msg);
-				}
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
+		postSubmit('/user/info/delete', {}, function(res) {
+			if(res.status) {
+				showMsg("您的帳號資料已全數刪除！謝謝您使用「致富寶典」！");
+				location.href = '/logout';
+			} else {
+				errMsg(res.msg);
 			}
 		});
 	}
@@ -180,27 +125,12 @@ function confirmAct() {
 		data.userName = $('#userName').val();
 		data.userEmail = $('#userEmail').val();
 		
-		$.ajax({
-			url: '/user/info/modify',
-			method: 'POST',
-			dataType: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(data),
-			success: function(res) {
-				
-				if(res.status) {
-					
-					showMsg("基本資料修改成功！");
-					
-					initData();
-					
-				} else {
-					
-					errMsg(res.msg);
-				}
-			},
-			error: function(err) {
-				sysMsg('無法連接伺服器');
+		postSubmit('/user/info/modify', data, function(res) {
+			if(res.status) {
+				showMsg("基本資料修改成功！");
+				initData();
+			} else {
+				errMsg(res.msg);
 			}
 		});
 	}
