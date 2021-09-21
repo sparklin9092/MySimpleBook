@@ -325,48 +325,6 @@ public class PageViewController {
 	}
 
 	/**
-	 * 帳戶類型項目管理-列表
-	 */
-	@GetMapping("/account/types")
-	public ModelAndView accountTypes() {
-
-		ModelAndView mv = new ModelAndView();
-		String pageName = "views/account/types/list";
-		mv.setViewName(pageName);
-
-		return mv;
-	}
-
-	/**
-	 * 帳戶類型項目管理-新增
-	 * @return
-	 */
-	@GetMapping("/account/types/create")
-	public ModelAndView accountTypesCreate() {
-
-		ModelAndView mv = new ModelAndView();
-		String pageName = "views/account/types/create";
-		mv.setViewName(pageName);
-
-		return mv;
-	}
-
-	/**
-	 * 帳戶類型項目管理-修改
-	 * @return
-	 */
-	@GetMapping("/account/types/modify/{typeId}")
-	public ModelAndView accountTypesModify(@PathVariable("typeId") int typeId) {
-
-		ModelAndView mv = new ModelAndView();
-		String pageName = "views/account/types/modify";
-		mv.setViewName(pageName);
-		mv.addObject("typeId", typeId);
-
-		return mv;
-	}
-
-	/**
 	 * 使用者基本資料
 	 * @return
 	 */

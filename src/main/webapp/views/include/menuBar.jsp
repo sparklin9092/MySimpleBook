@@ -65,16 +65,8 @@ if(null != user) {
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item dropdown px-3">
-					<a class="nav-link menu-item dropdown-toggle" href="#" id="accountMenage" role="button" data-bs-toggle="dropdown" aria-expanded="false">帳戶</a>
-					<ul class="dropdown-menu" aria-labelledby="accountMenage">
-						<li>
-							<a class="dropdown-item menu-sub-item" href="/account">帳戶管理</a>
-						</li>
-						<li>
-							<a class="dropdown-item menu-sub-item" href="/account/types">帳戶類型管理</a>
-						</li>
-					</ul>
+				<li class="nav-item px-3">
+					<a class="nav-link menu-item" href="/account">帳戶管理</a>
 				</li>
 			</ul>
 			<div class="text-end">
