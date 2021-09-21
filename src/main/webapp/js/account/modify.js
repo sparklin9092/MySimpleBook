@@ -26,7 +26,6 @@ function initData() {
 		if(res.status) {
 			var accTypeName = res.accTypeName;
 			var accName = res.accName;
-			var initAmnt = res.initAmnt;
 			var accAmnt = res.accAmnt;
 			var accDefault = res.accDefault;
 			var accActive = res.accActive;
@@ -37,7 +36,6 @@ function initData() {
 			
 			$('#accountTypeName').val(accTypeName);
 			$('#accountName').val(accName);
-			$('#initAmnt').val(initAmnt);
 			$('#accountAmnt').val(accAmnt);
 			
 			if(accDefault) {

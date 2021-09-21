@@ -116,7 +116,6 @@ public class AccountService {
 			oneMsgDto.setMsg("");
 			oneMsgDto.setAccTypeName(oneDto.getAccountTypeName());
 			oneMsgDto.setAccName(oneDto.getAccountName());
-			oneMsgDto.setInitAmnt(oneDto.getInitAmnt());
 			oneMsgDto.setAccAmnt(oneDto.getAccountAmnt());
 			oneMsgDto.setAccDefault(oneDto.isAccountDefault());
 			oneMsgDto.setAccActive(oneDto.isAccountActive());

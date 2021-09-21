@@ -55,7 +55,7 @@ public interface IAccountMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select b.name as typeName, a.name, a.init_amount, amount, a.is_default, a.is_active, "
+	@Select("select b.name as typeName, a.name, a.amount, a.is_default, a.is_active, "
 			+ " if(a.limit_date regexp '[0-9]{4}-[0-9]{2}-[0-9]{2}', true, false) as enableLimitDate, "
 			+ " date_format(a.limit_date, '%Y') as limitYear, date_format(a.limit_date, '%m') as limitMonth, "
 			+ " a.create_datetime "
@@ -65,7 +65,6 @@ public interface IAccountMapper {
 	@Results({
 		@Result(column="typeName", property="accountTypeName"),
 		@Result(column="name", property="accountName"),
-		@Result(column="init_amount", property="initAmnt"),
 		@Result(column="amount", property="accountAmnt"),
 		@Result(column="is_default", property="accountDefault"),
 		@Result(column="is_active", property="accountActive"),

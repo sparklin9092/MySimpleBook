@@ -9,8 +9,6 @@ public class OneDto {
 
 	private String accountName;
 
-	private BigDecimal initAmnt;
-
 	private BigDecimal accountAmnt;
 
 	private boolean accountDefault;
@@ -39,14 +37,6 @@ public class OneDto {
 
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
-	}
-
-	public BigDecimal getInitAmnt() {
-		return initAmnt;
-	}
-
-	public void setInitAmnt(BigDecimal initAmnt) {
-		this.initAmnt = initAmnt;
 	}
 
 	public BigDecimal getAccountAmnt() {

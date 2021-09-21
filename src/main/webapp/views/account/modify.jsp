@@ -27,14 +27,6 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">初始額度（只能檢視，不能修改）</div>
-			</div>
-			<div class="row mb-2">
-				<div class="col">
-					<input type="text" class="form-control" id="initAmnt" name="initAmnt" readonly>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col">目前額度（只能檢視，不能修改）</div>
 			</div>
 			<div class="row mb-2">

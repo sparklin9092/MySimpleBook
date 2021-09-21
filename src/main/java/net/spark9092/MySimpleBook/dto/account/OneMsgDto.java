@@ -10,8 +10,6 @@ public class OneMsgDto extends BaseMsgDto {
 
 	private String accName;
 
-	private BigDecimal initAmnt;
-
 	private BigDecimal accAmnt;
 
 	private boolean accDefault;
@@ -40,14 +38,6 @@ public class OneMsgDto extends BaseMsgDto {
 
 	public void setAccName(String accName) {
 		this.accName = accName;
-	}
-
-	public BigDecimal getInitAmnt() {
-		return initAmnt;
-	}
-
-	public void setInitAmnt(BigDecimal initAmnt) {
-		this.initAmnt = initAmnt;
 	}
 
 	public BigDecimal getAccAmnt() {
