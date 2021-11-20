@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.spark9092.MySimpleBook.dto.account.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.account.DeleteMsgDto;
+import net.spark9092.MySimpleBook.dto.account.DetailMsgDto;
 import net.spark9092.MySimpleBook.dto.account.ModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.account.OneMsgDto;
 import net.spark9092.MySimpleBook.dto.account.TypeListMsgDto;
@@ -152,6 +153,21 @@ public class AccountController {
 		}
 
 		return deleteMsgDto;
+	}
+
+	@PostMapping("/detail/list/{accountId}")
+	public DetailMsgDto detailList(HttpSession session, @PathVariable("accountId") int accountId) {
+
+		DetailMsgDto detailMsgDto = new DetailMsgDto();
+
+		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
+
+		if(null != userInfoEntity) {
+
+			detailMsgDto = accountService.getDetailListByUserId(userInfoEntity.getId(), accountId);
+		}
+		
+		return detailMsgDto;
 	}
 
 }

@@ -11,6 +11,8 @@ import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.dto.account.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.account.DeleteMsgDto;
+import net.spark9092.MySimpleBook.dto.account.DetailListDto;
+import net.spark9092.MySimpleBook.dto.account.DetailMsgDto;
 import net.spark9092.MySimpleBook.dto.account.ListDto;
 import net.spark9092.MySimpleBook.dto.account.ModifyMsgDto;
 import net.spark9092.MySimpleBook.dto.account.OneDto;
@@ -349,6 +351,47 @@ public class AccountService {
 		}
 
 		return deleteMsgDto;
+	}
+
+	/**
+	 * 查詢帳戶的收支轉明細
+	 * @param userId
+	 * @param accountId
+	 * @return
+	 */
+	public DetailMsgDto getDetailListByUserId(int userId, int accountId) {
+		DetailMsgDto msgDto = new DetailMsgDto();
+
+		OneMsgDto oneMsgDto = getOneByIds(userId, accountId);
+		if(oneMsgDto.isStatus()) {
+			msgDto.setStatus(true);
+			msgDto.setMsg("");
+			
+			msgDto.setAccName(oneMsgDto.getAccName());
+			msgDto.setTypeName(oneMsgDto.getAccTypeName());
+			msgDto.setAccAmnt(oneMsgDto.getAccAmnt().toString());
+			
+			List<List<String>> dataList = new ArrayList<>();
+			List<DetailListDto> listDtos = iAccountMapper.selectDetailListByIds(userId, accountId);
+			if(listDtos.size() != 0) {
+				listDtos.stream().forEach(dto -> {
+					List<String> datail = new ArrayList<>();
+					datail.add(dto.getItemId()); //明細 ID，可能是收支轉任一個的索引
+					datail.add(""); //功能按鈕
+					datail.add(dto.getDate()); //發生日期
+					datail.add(dto.getItemName()); //項目名稱
+					datail.add(dto.getAmnt()); //金額
+					datail.add(dto.getRemark()); //備註
+					datail.add(dto.getType()); //項目類型，s: 支出，i: 收入，t: 轉帳，用於顯示金額顏色
+					dataList.add(datail);
+				});
+			}
+			msgDto.setDetails(dataList);
+		} else {
+			msgDto.setStatus(false);
+			msgDto.setMsg(oneMsgDto.getMsg());
+		}
+		return msgDto;
 	}
 
 }

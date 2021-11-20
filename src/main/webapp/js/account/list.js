@@ -22,7 +22,7 @@ function initAccountDataTable() {
 				{title: '額度'},
 				{title: '功能'}
 			],
-			order: [[0, 'desc']],
+			order: [[2, 'desc']],
 			columnDefs: [
 				{
 					targets: 0,
@@ -33,11 +33,12 @@ function initAccountDataTable() {
 					targets: 3,
 					orderable: false,
 					render: function(data, type, row) {
-						return '<button type="button" class="btn btn-outline-warning" onclick="modifyView('+row[0]+')">修改</button>';
+						return '<button type="button" class="btn btn-outline-info" onclick="detailView('+row[0]+')">明細</button>'
+								+ '<button type="button" class="btn btn-outline-warning ms-2" onclick="modifyView('+row[0]+')">修改</button>';
 					}
 				}
 			],
-			pageLength: 5,
+			pageLength: 10,
 			language: {
 				search: '搜尋：',
 				zeroRecords: '找不到資料',
@@ -55,4 +56,9 @@ function initAccountDataTable() {
 function modifyView(itemId) {
 	
 	location.href = '/account/modify/' + itemId;
+}
+
+function detailView(itemId) {
+	
+	location.href = '/account/detail/' + itemId;
 }

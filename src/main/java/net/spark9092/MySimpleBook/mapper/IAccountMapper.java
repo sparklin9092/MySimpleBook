@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Update;
 
 import net.spark9092.MySimpleBook.dto.account.TypeListDto;
 import net.spark9092.MySimpleBook.dto.main.AccountListDto;
+import net.spark9092.MySimpleBook.dto.account.DetailListDto;
 import net.spark9092.MySimpleBook.dto.account.ListDto;
 import net.spark9092.MySimpleBook.dto.account.OneDto;
 
@@ -164,4 +165,35 @@ public interface IAccountMapper {
 			+ " amount = amount + #{amount} "
 			+ " where id=#{accountId} and user_id=#{userId}")
 	boolean increaseAmnt(@Param("userId") int userId, @Param("accountId") int accountId, @Param("amount") BigDecimal amount);
+
+	/**
+	 * 查詢帳戶的收支轉明細
+	 * @param userId
+	 * @param accountId
+	 * @return
+	 */
+	@Select("select s.id, s.spend_date as dDate, si.name as itemName, s.amount as amnt, s.remark as remark, 's' as dType "
+			+ " from spend s left join spend_items si on si.id = s.item_id "
+			+ " where s.is_delete='0' and s.user_id=#{userId} and s.account_id=#{accountId} "
+			+ " UNION ALL "
+			+ " select i.id, i.income_date as dDate, ii.name as itemName, i.amount as amnt, i.remark as remark, 'i' as dType "
+			+ " from income i left join income_items ii on ii.id = i.item_id "
+			+ " where i.is_delete='0' and i.user_id=#{userId} and i.account_id=#{accountId} "
+			+ " UNION ALL "
+			+ " select t.id, t.trans_date as dDate, '轉出' as itemName, t.amount as amnt, t.remark as remark, 't' as dType "
+			+ " from transfer t "
+			+ " where t.is_delete='0' and t.user_id=#{userId} and t.out_acc_id=#{accountId} "
+			+ " UNION ALL "
+			+ " select t.id, t.trans_date as dDate, '轉入' as itemName, t.amount as amnt, t.remark as remark, 't' as dType "
+			+ " from transfer t "
+			+ " where t.is_delete='0' and t.user_id=#{userId} and t.in_acc_id=#{accountId}")
+	@Results({
+		@Result(column="id", property="itemId"),
+		@Result(column="dDate", property="date"),
+		@Result(column="itemName", property="itemName"),
+		@Result(column="amnt", property="amnt"),
+		@Result(column="remark", property="remark"),
+		@Result(column="dType", property="type")
+	})
+	List<DetailListDto> selectDetailListByIds(@Param("userId") int userId, @Param("accountId") int accountId);
 }

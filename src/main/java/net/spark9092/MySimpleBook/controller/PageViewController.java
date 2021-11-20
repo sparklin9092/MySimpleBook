@@ -323,6 +323,20 @@ public class PageViewController {
 
 		return mv;
 	}
+	
+	/**
+	 * 帳戶管理-明細
+	 */
+	@GetMapping("/account/detail/{accountId}")
+	public ModelAndView accountDetail(@PathVariable("accountId") int accountId) {
+
+		ModelAndView mv = new ModelAndView();
+		String pageName = "views/account/detail";
+		mv.setViewName(pageName);
+		mv.addObject("accountId", accountId);
+
+		return mv;
+	}
 
 	/**
 	 * 使用者基本資料
