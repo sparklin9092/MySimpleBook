@@ -1,39 +1,67 @@
-$(function() {
+var specifyDateModalActSign = false;
 
+$(function() {
 	initTodayRecords();
+	initSpecifyDateModal();
 	
 	$('button[name=changeDateRangeBtn]').on('click', changeDataRange);
+	$('#specifyDateModalBtn').on('click', specifyDateModalAct);
 });
 
 function initTodayRecords() {
+	$.each($('button[name=changeDateRangeBtn]'), function(key, val) {
+		if($(val).hasClass('btn-info')) {
+			$(val).removeClass('btn-info').addClass('btn-outline-info');
+		}
+	});
+	$('#todayBtn').removeClass('btn-outline-info').addClass('btn-info');
 	
 	var todayDate = moment().format('YYYY-MM-DD');
-	
 	var startDate = todayDate;
 	var endDate = todayDate;
 	
-	initIncomeDataTable(startDate, endDate);
+	reloadTable(startDate, endDate);
 }
 
-function initIncomeDataTable(startDate, endDate) {
+function initSpecifyDateModal() {
+	$('#specifyDateModal').on('show.bs.modal', function(e) {
+		specifyDateModalActSign = false;
+	});
+	$('#specifyDateModal').on('hide.bs.modal', function(e) {
+		if(!specifyDateModalActSign)
+			initTodayRecords();
+	});
+	initSpecifyDatePicker();
+}
+
+function initSpecifyDatePicker() {
+	$('#datePicker').datepicker({
+		dateFormat: 'yy年mm月dd日',
+		showWeek: true,
+		altField: '#specifyDate',
+		altFormat: 'yy-mm-dd'
+	});
 	
+	$('#datePicker').val(moment().format('YYYY年MM月DD日'));
+	$('#specifyDate').val(moment().format('YYYY-MM-DD'));
+}
+
+function reloadTable(startDate, endDate) {
 	var data = {};
 	data.startDate = startDate;
 	data.endDate = endDate;
 	
-	setTimeout(function() {
-		if($.fn.DataTable.isDataTable('#incomeRecTable')) {
-			$('#incomeRecTable').dataTable().fnDestroy();
-			$('#incomeRecTable').empty();
-		}
-	}, 100);
+	if($.fn.DataTable.isDataTable('#table')) {
+		$('#table').dataTable().fnDestroy();
+		$('#table').empty();
+	}
 	
 	setTimeout(function() {
 		postSubmit('/income/records', data, function(res) {
 			var data = [];
 			if(res.status) data = res.list
 			
-			$('#incomeRecTable').DataTable({
+			$('#table').DataTable({
 				dom: '<"float-start"f>tp',
 				data: data,
 				columns: [
@@ -58,7 +86,7 @@ function initIncomeDataTable(startDate, endDate) {
 						}
 					}
 				],
-				pageLength: 5,
+				pageLength: 10,
 				language: {
 					search: '搜尋：',
 					zeroRecords: '找不到資料',
@@ -71,70 +99,59 @@ function initIncomeDataTable(startDate, endDate) {
 				}
 			});
 		});
-	}, 100);
+	}, 200);
 }
 
 function modifyView(transId) {
-	
 	location.href = '/income/modify/' + transId;
 }
 
 function changeDataRange() {
-	
 	var thisBtnId = $(this).prop('id');
+	var startDate = moment().format('YYYY-MM-DD');
+	var endDate = moment().format('YYYY-MM-DD');
 	
 	$.each($('button[name=changeDateRangeBtn]'), function(key, val) {
-		
 		if($(val).prop('id') == thisBtnId) {
-			
 			if($(val).hasClass('btn-outline-info')) {
-				
 				$(val).removeClass('btn-outline-info').addClass('btn-info');
-				
 				var dateRange = $(this).data('range');
 				
 				if(dateRange == 1) {
-					
-					initTodayRecords();
-					
+					reloadTable(startDate, endDate);
+				} else if(dateRange == 2) {
+					startDate = moment().day(-1).format('YYYY-MM-DD');
+					endDate = moment().day(-1).format('YYYY-MM-DD');
+					reloadTable(startDate, endDate);
 				} else if(dateRange == 7) {
-					
-					var startDate = moment().day(1).format('YYYY-MM-DD');
-					var endDate = moment().day(7).format('YYYY-MM-DD');
-					
-					setTimeout(function() {
-						initIncomeDataTable(startDate, endDate);
-					}, 100);
-					
+					startDate = moment().day(-1).startOf('week').day(1).format('YYYY-MM-DD');
+					endDate = moment().day(-1).endOf('week').add(1, 'days').format('YYYY-MM-DD');
+					reloadTable(startDate, endDate);
 				} else if(dateRange == 30) {
-					
-					var startDate = moment().startOf('month').format('YYYY-MM-DD');
-					var endDate = moment().endOf('month').format('YYYY-MM-DD');
-					
-					setTimeout(function() {
-						initIncomeDataTable(startDate, endDate);
-					}, 300);
-					
+					startDate = moment().startOf('month').format('YYYY-MM-DD');
+					endDate = moment().endOf('month').format('YYYY-MM-DD');
+					reloadTable(startDate, endDate);
 				} else if(dateRange == 90) {
-					
-					var startDate = moment().subtract(2, 'months').startOf('month').format('YYYY-MM-DD');
-					var endDate = moment().endOf('month').format('YYYY-MM-DD');
-					
-					setTimeout(function() {
-						initIncomeDataTable(startDate, endDate);
-					}, 500);
-					
+					startDate = moment().subtract(2, 'months').startOf('month').format('YYYY-MM-DD');
+					endDate = moment().endOf('month').format('YYYY-MM-DD');
+					reloadTable(startDate, endDate);
+				} else if(dateRange == -1) {
+					//catch this condition, and don't do anything
 				} else {
-					
-					initTodayRecords();
+					reloadTable(startDate, endDate);
 				}
 			}
 		} else {
-			
 			if($(val).hasClass('btn-info')) {
-				
 				$(val).removeClass('btn-info').addClass('btn-outline-info');
 			}
 		}
 	});
+}
+
+function specifyDateModalAct() {
+	var specifyDate = $('#specifyDate').val();
+	reloadTable(specifyDate, specifyDate);
+	specifyDateModalActSign = true;
+	$('#specifyDateModal').modal('hide');
 }
