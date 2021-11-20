@@ -14,6 +14,8 @@ $(function() {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if (code == 13) $('#loginBtn').trigger('click');
 	});
+	
+	$('#userAcc').focus();
 });
 
 function loginAct() {
