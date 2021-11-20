@@ -11,7 +11,7 @@
 		<div class="container-xl">
 			<h3 class="text-center">修改帳戶</h3>
 			<div class="row">
-				<div class="col">帳戶類型（只能檢視，不能修改）</div>
+				<div class="col">帳戶類型</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col">
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">目前額度（只能檢視，不能修改）</div>
+				<div class="col">目前額度</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col">
