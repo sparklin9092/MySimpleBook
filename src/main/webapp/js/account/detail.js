@@ -37,7 +37,7 @@ function initDetailDataTable() {
 			else
 				errMsg(res.msg);
 		});
-	});
+	}, 200);
 }
 
 function initSpecifyDateModal() {
@@ -109,7 +109,7 @@ function changeDataRange() {
 					endDate = moment().endOf('month').format('YYYY-MM-DD');
 					reloadTable(startDate, endDate);
 				} else if(dateRange == -1) {
-					console.log('指定日期');
+					//catch this condition, and don't do anything
 				} else {
 					reloadTable(startDate, endDate);
 				}
