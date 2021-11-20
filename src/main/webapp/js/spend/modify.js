@@ -94,8 +94,7 @@ function initData() {
 }
 
 function cancelAct() {
-	
-	location.href = '/spend/records';
+	history.back();
 }
 	
 function deleteAct() {

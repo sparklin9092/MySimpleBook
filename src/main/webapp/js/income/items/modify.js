@@ -39,8 +39,7 @@ function initData() {
 }
 
 function cancelAct() {
-	
-	location.href = '/income/items';
+	history.back();
 }
 	
 function deleteAct() {

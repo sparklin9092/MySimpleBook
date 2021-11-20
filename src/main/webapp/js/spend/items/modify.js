@@ -39,8 +39,7 @@ function initData() {
 }
 
 function cancelAct() {
-	
-	location.href = '/spend/items';
+	history.back();
 }
 	
 function deleteAct() {

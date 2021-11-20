@@ -108,8 +108,7 @@ function initData() {
 }
 
 function cancelAct() {
-	
-	location.href = '/transfer/records';
+	history.back();
 }
 	
 function deleteAct() {

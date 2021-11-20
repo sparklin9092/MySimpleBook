@@ -93,8 +93,7 @@ function initData() {
 }
 
 function cancelAct() {
-	
-	location.href = '/income/records';
+	history.back();
 }
 	
 function deleteAct() {
