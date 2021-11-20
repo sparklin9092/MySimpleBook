@@ -24,6 +24,7 @@ import net.spark9092.MySimpleBook.dto.main.AccountListMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.pojo.account.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.account.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.account.DetailPojo;
 import net.spark9092.MySimpleBook.pojo.account.ModifyPojo;
 
 @Service
@@ -355,14 +356,13 @@ public class AccountService {
 
 	/**
 	 * 查詢帳戶的收支轉明細
-	 * @param userId
-	 * @param accountId
+	 * @param detailPojo
 	 * @return
 	 */
-	public DetailMsgDto getDetailListByUserId(int userId, int accountId) {
+	public DetailMsgDto getDetailListByUserId(DetailPojo detailPojo) {
 		DetailMsgDto msgDto = new DetailMsgDto();
 
-		OneMsgDto oneMsgDto = getOneByIds(userId, accountId);
+		OneMsgDto oneMsgDto = getOneByIds(detailPojo.getUserId(), detailPojo.getAccountId());
 		if(oneMsgDto.isStatus()) {
 			msgDto.setStatus(true);
 			msgDto.setMsg("");
@@ -372,7 +372,7 @@ public class AccountService {
 			msgDto.setAccAmnt(oneMsgDto.getAccAmnt().toString());
 			
 			List<List<String>> dataList = new ArrayList<>();
-			List<DetailListDto> listDtos = iAccountMapper.selectDetailListByIds(userId, accountId);
+			List<DetailListDto> listDtos = iAccountMapper.selectDetailListByIds(detailPojo.getUserId(), detailPojo.getAccountId(), detailPojo.getStartDate(), detailPojo.getEndDate());
 			if(listDtos.size() != 0) {
 				listDtos.stream().forEach(dto -> {
 					List<String> datail = new ArrayList<>();

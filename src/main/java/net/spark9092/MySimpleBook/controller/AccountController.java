@@ -22,6 +22,7 @@ import net.spark9092.MySimpleBook.entity.UserInfoEntity;
 import net.spark9092.MySimpleBook.enums.SessinNameEnum;
 import net.spark9092.MySimpleBook.pojo.account.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.account.DeletePojo;
+import net.spark9092.MySimpleBook.pojo.account.DetailPojo;
 import net.spark9092.MySimpleBook.pojo.account.ModifyPojo;
 import net.spark9092.MySimpleBook.service.AccountService;
 
@@ -156,17 +157,14 @@ public class AccountController {
 	}
 
 	@PostMapping("/detail/list/{accountId}")
-	public DetailMsgDto detailList(HttpSession session, @PathVariable("accountId") int accountId) {
-
+	public DetailMsgDto detailList(HttpSession session, @PathVariable("accountId") int accountId, @RequestBody DetailPojo detailPojo) {
 		DetailMsgDto detailMsgDto = new DetailMsgDto();
-
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
-
 		if(null != userInfoEntity) {
-
-			detailMsgDto = accountService.getDetailListByUserId(userInfoEntity.getId(), accountId);
+			detailPojo.setUserId(userInfoEntity.getId());
+			detailPojo.setAccountId(accountId);
+			detailMsgDto = accountService.getDetailListByUserId(detailPojo);
 		}
-		
 		return detailMsgDto;
 	}
 

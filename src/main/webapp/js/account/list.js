@@ -34,7 +34,7 @@ function initAccountDataTable() {
 					orderable: false,
 					render: function(data, type, row) {
 						return '<button type="button" class="btn btn-outline-info" onclick="detailView('+row[0]+')">明細</button>'
-								+ '<button type="button" class="btn btn-outline-warning ms-2" onclick="modifyView('+row[0]+')">修改</button>';
+								+ '<button type="button" class="btn btn-outline-warning" onclick="modifyView('+row[0]+')">修改</button>';
 					}
 				}
 			],
