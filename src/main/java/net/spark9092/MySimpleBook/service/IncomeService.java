@@ -31,7 +31,7 @@ import net.spark9092.MySimpleBook.pojo.income.ModifyPojo;
 import net.spark9092.MySimpleBook.pojo.income.RecordPojo;
 
 @Service
-public class IncomeService {
+public class IncomeService extends BaseService {
 
 //	private static final Logger logger = LoggerFactory.getLogger(IncomeService.class);
 

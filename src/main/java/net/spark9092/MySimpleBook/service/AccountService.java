@@ -28,7 +28,7 @@ import net.spark9092.MySimpleBook.pojo.account.DetailPojo;
 import net.spark9092.MySimpleBook.pojo.account.ModifyPojo;
 
 @Service
-public class AccountService {
+public class AccountService extends BaseService {
 
 //	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 

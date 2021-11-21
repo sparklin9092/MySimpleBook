@@ -19,7 +19,7 @@ import net.spark9092.MySimpleBook.pojo.items.income.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.income.ModifyPojo;
 
 @Service
-public class IncomeItemsService {
+public class IncomeItemsService extends BaseService {
 
 //	private static final Logger logger = LoggerFactory.getLogger(IncomeItemsService.class);
 

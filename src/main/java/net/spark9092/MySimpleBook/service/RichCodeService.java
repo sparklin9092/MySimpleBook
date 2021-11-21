@@ -17,7 +17,7 @@ import net.spark9092.MySimpleBook.dto.richCode.ListMsgDto;
 import net.spark9092.MySimpleBook.mapper.IRichCodeMapper;
 
 @Service
-public class RichCodeService {
+public class RichCodeService extends BaseService {
 
 	private static final Logger logger = LoggerFactory.getLogger(RichCodeService.class);
 

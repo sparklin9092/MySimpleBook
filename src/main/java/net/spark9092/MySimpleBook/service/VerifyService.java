@@ -22,7 +22,7 @@ import net.spark9092.MySimpleBook.mapper.IUserVerifyMapper;
 import net.spark9092.MySimpleBook.pojo.verify.BindMailPojo;
 
 @Service
-public class VerifyService {
+public class VerifyService extends BaseService {
 
 	private static final Logger logger = LoggerFactory.getLogger(VerifyService.class);
 

@@ -43,7 +43,7 @@ import net.spark9092.MySimpleBook.pojo.user.LoginPojo;
 import net.spark9092.MySimpleBook.pojo.user.ModifyPojo;
 
 @Service
-public class UserInfoService {
+public class UserInfoService extends BaseService {
 
 //	private static final Logger logger = LoggerFactory.getLogger(UserInfoService.class);
 

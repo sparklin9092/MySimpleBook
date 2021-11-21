@@ -28,7 +28,7 @@ import net.spark9092.MySimpleBook.pojo.guest.BindAccPwdPojo;
 import net.spark9092.MySimpleBook.pojo.guest.BindMailPojo;
 
 @Service
-public class GuestService {
+public class GuestService extends BaseService {
 
 	private static final Logger logger = LoggerFactory.getLogger(GuestService.class);
 

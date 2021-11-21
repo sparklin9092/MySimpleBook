@@ -19,7 +19,7 @@ import net.spark9092.MySimpleBook.pojo.items.accountType.DeletePojo;
 import net.spark9092.MySimpleBook.pojo.items.accountType.ModifyPojo;
 
 @Service
-public class AccountTypesService {
+public class AccountTypesService extends BaseService {
 
 //	private static final Logger logger = LoggerFactory.getLogger(AccountTypesService.class);
 

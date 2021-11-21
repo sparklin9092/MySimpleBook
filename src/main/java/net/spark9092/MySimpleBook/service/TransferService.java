@@ -29,7 +29,7 @@ import net.spark9092.MySimpleBook.pojo.transfer.ModifyPojo;
 import net.spark9092.MySimpleBook.pojo.transfer.RecordPojo;
 
 @Service
-public class TransferService {
+public class TransferService extends BaseService {
 
 //	private static final Logger logger = LoggerFactory.getLogger(TransferService.class);
 

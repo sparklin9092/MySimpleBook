@@ -31,7 +31,7 @@ import net.spark9092.MySimpleBook.pojo.spend.ModifyPojo;
 import net.spark9092.MySimpleBook.pojo.spend.RecordPojo;
 
 @Service
-public class SpendService {
+public class SpendService extends BaseService {
 
 //	private static final Logger logger = LoggerFactory.getLogger(SpendService.class);
 
