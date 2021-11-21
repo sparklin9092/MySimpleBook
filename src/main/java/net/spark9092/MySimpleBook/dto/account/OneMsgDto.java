@@ -1,7 +1,5 @@
 package net.spark9092.MySimpleBook.dto.account;
 
-import java.math.BigDecimal;
-
 import net.spark9092.MySimpleBook.dto.BaseMsgDto;
 
 public class OneMsgDto extends BaseMsgDto {
@@ -10,7 +8,7 @@ public class OneMsgDto extends BaseMsgDto {
 
 	private String accName;
 
-	private BigDecimal accAmnt;
+	private String accAmnt;
 
 	private boolean accDefault;
 
@@ -40,11 +38,11 @@ public class OneMsgDto extends BaseMsgDto {
 		this.accName = accName;
 	}
 
-	public BigDecimal getAccAmnt() {
+	public String getAccAmnt() {
 		return accAmnt;
 	}
 
-	public void setAccAmnt(BigDecimal accAmnt) {
+	public void setAccAmnt(String accAmnt) {
 		this.accAmnt = accAmnt;
 	}
 

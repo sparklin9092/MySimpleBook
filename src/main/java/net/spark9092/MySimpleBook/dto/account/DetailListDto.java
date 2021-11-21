@@ -1,5 +1,7 @@
 package net.spark9092.MySimpleBook.dto.account;
 
+import java.math.BigDecimal;
+
 public class DetailListDto {
 	
 	private String itemId;
@@ -8,7 +10,7 @@ public class DetailListDto {
 
 	private String itemName;
 
-	private String amnt;
+	private BigDecimal amnt;
 
 	private String remark;
 	
@@ -38,11 +40,11 @@ public class DetailListDto {
 		this.itemName = itemName;
 	}
 
-	public String getAmnt() {
+	public BigDecimal getAmnt() {
 		return amnt;
 	}
 
-	public void setAmnt(String amnt) {
+	public void setAmnt(BigDecimal amnt) {
 		this.amnt = amnt;
 	}
 

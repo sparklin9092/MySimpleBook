@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,7 @@ import net.spark9092.MySimpleBook.pojo.account.ModifyPojo;
 @Service
 public class AccountService extends BaseService {
 
-//	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
 	@Autowired
 	private IAccountMapper iAccountMapper;
@@ -41,6 +43,10 @@ public class AccountService extends BaseService {
 	@Autowired
 	private GetCommon getCommon;
 
+	public AccountService() {
+		logger.info("");
+	}
+	
 	/**
 	 * 根據使用者ID，取得帳戶的清單
 	 * @param userId
@@ -59,7 +65,7 @@ public class AccountService extends BaseService {
 				List<String> itemList = new ArrayList<>();
 				itemList.add(String.valueOf(dto.getAccountId()));
 				itemList.add(dto.getAccountName());
-				itemList.add(dto.getAccountAmnt().toString());
+				itemList.add(getCommon.getNoZeroAmnt(decimalFormat.format(dto.getAccountAmnt())));
 				itemList.add("");
 
 				dataList.add(itemList);
@@ -119,7 +125,7 @@ public class AccountService extends BaseService {
 			oneMsgDto.setMsg("");
 			oneMsgDto.setAccTypeName(oneDto.getAccountTypeName());
 			oneMsgDto.setAccName(oneDto.getAccountName());
-			oneMsgDto.setAccAmnt(oneDto.getAccountAmnt());
+			oneMsgDto.setAccAmnt(getCommon.getNoZeroAmnt(decimalFormat.format(oneDto.getAccountAmnt())));
 			oneMsgDto.setAccDefault(oneDto.isAccountDefault());
 			oneMsgDto.setAccActive(oneDto.isAccountActive());
 			oneMsgDto.setEnableLimitDate(oneDto.isEnableLimitDate());
@@ -362,14 +368,17 @@ public class AccountService extends BaseService {
 	public DetailMsgDto getDetailListByUserId(DetailPojo detailPojo) {
 		DetailMsgDto msgDto = new DetailMsgDto();
 
-		OneMsgDto oneMsgDto = getOneByIds(detailPojo.getUserId(), detailPojo.getAccountId());
-		if(oneMsgDto.isStatus()) {
+//		OneMsgDto oneMsgDto = getOneByIds(, );
+		OneDto oneDto = iAccountMapper.selectOneByIds(detailPojo.getAccountId(), detailPojo.getUserId());
+		if(null == oneDto) {
+			msgDto.setStatus(false);
+			msgDto.setMsg("找不到帳戶");
+		} else {
 			msgDto.setStatus(true);
 			msgDto.setMsg("");
-			
-			msgDto.setAccName(oneMsgDto.getAccName());
-			msgDto.setTypeName(oneMsgDto.getAccTypeName());
-			msgDto.setAccAmnt(oneMsgDto.getAccAmnt().toString());
+			msgDto.setAccName(oneDto.getAccountName());
+			msgDto.setTypeName(oneDto.getAccountTypeName());
+			msgDto.setAccAmnt(getCommon.getNoZeroAmnt(decimalFormat.format(oneDto.getAccountAmnt())));
 			
 			List<List<String>> dataList = new ArrayList<>();
 			List<DetailListDto> listDtos = iAccountMapper.selectDetailListByIds(detailPojo.getUserId(), detailPojo.getAccountId(), detailPojo.getStartDate(), detailPojo.getEndDate());
@@ -380,16 +389,13 @@ public class AccountService extends BaseService {
 					datail.add(""); //功能按鈕
 					datail.add(dto.getDate()); //發生日期
 					datail.add(dto.getItemName()); //項目名稱
-					datail.add(dto.getAmnt()); //金額
+					datail.add(getCommon.getNoZeroAmnt(decimalFormat.format(dto.getAmnt()))); //金額
 					datail.add(dto.getRemark()); //備註
 					datail.add(dto.getType()); //項目類型，s: 支出，i: 收入，t: 轉帳，用於顯示金額顏色
 					dataList.add(datail);
 				});
 			}
 			msgDto.setDetails(dataList);
-		} else {
-			msgDto.setStatus(false);
-			msgDto.setMsg(oneMsgDto.getMsg());
 		}
 		return msgDto;
 	}
