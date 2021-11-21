@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 各種Get(取得)的共用類
  * @author spark.9092
@@ -72,6 +74,8 @@ public class GetCommon {
 	 * @return 去除小數為0的金額字串
 	 */
 	public String getNoZeroAmnt(String amnt) {
-		return (amnt.indexOf(".00") == -1) ? amnt : amnt.replace(".00", "");
+		amnt = (amnt.indexOf(".00") == -1) ? amnt : amnt.replace(".00", "");
+		amnt = (StringUtils.isBlank(amnt)) ? "0" : amnt;
+		return amnt;
 	}
 }
