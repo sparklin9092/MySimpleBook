@@ -12,12 +12,16 @@
 			<h3 class="text-center">帳戶明細</h3>
 			<div class="row">
 				<div class="col">帳戶名稱</div>
-				<div class="col">帳戶類型</div>
 			</div>
 			<div class="row mb-2">
 				<div class="col">
 					<input type="text" class="form-control" id="accountName" name="accountName" readonly>
 				</div>
+			</div>
+			<div class="row">
+				<div class="col">帳戶類型</div>
+			</div>
+			<div class="row mb-2">
 				<div class="col">
 					<input type="text" class="form-control" id="accountTypeName" name="accountTypeName" readonly>
 				</div>
