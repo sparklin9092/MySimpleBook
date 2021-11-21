@@ -51,7 +51,7 @@ public interface IIncomeMapper {
 	 * @param endDate
 	 * @return
 	 */
-	@Select("select id, date_format(income_date, '%Y年%m月%d日') as incomeDate, amount, "
+	@Select("select id, date_format(income_date, '%m月%d日') as incomeDate, amount, "
 			+ " (select name from income_items where id=item_id) as incomeItemName "
 			+ " from income "
 			+ " where user_id=#{userId} and is_delete=0 and income_date >= #{startDate} and income_date <= #{endDate}")
