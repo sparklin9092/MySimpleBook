@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
+import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.dto.main.TransferListDto;
 import net.spark9092.MySimpleBook.dto.main.TransferListMsgDto;
 import net.spark9092.MySimpleBook.dto.transfer.CreateMsgDto;
@@ -31,16 +34,23 @@ import net.spark9092.MySimpleBook.pojo.transfer.RecordPojo;
 @Service
 public class TransferService extends BaseService {
 
-//	private static final Logger logger = LoggerFactory.getLogger(TransferService.class);
+	private static final Logger logger = LoggerFactory.getLogger(TransferService.class);
 
 	@Autowired
 	private CheckCommon checkCommon;
+
+	@Autowired
+	private GetCommon getCommon;
 
 	@Autowired
 	private ITransferMapper iTransferMapper;
 
 	@Autowired
 	private IAccountMapper iAccountMapper;
+	
+	public TransferService() {
+		logger.info("");
+	}
 
 	/**
 	 * 取得帳戶清單，用於下拉選單
@@ -99,7 +109,7 @@ public class TransferService extends BaseService {
 				record.add(dto.getTransDate());
 				record.add(dto.getTransOutAccName());
 				record.add(dto.getTransInAccName());
-				record.add(dto.getTransAmnt().toString());
+				record.add(getCommon.getNoZeroAmnt(decimalFormat.format(dto.getTransAmnt())));
 				record.add("");
 
 				dataList.add(record);

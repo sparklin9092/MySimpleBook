@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
+import net.spark9092.MySimpleBook.common.GetCommon;
 import net.spark9092.MySimpleBook.dto.main.SpendListDto;
 import net.spark9092.MySimpleBook.dto.main.SpendListMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.CreateMsgDto;
@@ -33,16 +36,23 @@ import net.spark9092.MySimpleBook.pojo.spend.RecordPojo;
 @Service
 public class SpendService extends BaseService {
 
-//	private static final Logger logger = LoggerFactory.getLogger(SpendService.class);
+	private static final Logger logger = LoggerFactory.getLogger(SpendService.class);
 
 	@Autowired
 	private CheckCommon checkCommon;
+
+	@Autowired
+	private GetCommon getCommon;
 
 	@Autowired
 	private ISpendMapper iSpendMapper;
 
 	@Autowired
 	private IAccountMapper iAccountMapper;
+	
+	public SpendService() {
+		logger.info("");
+	}
 
 	/**
 	 * 取得支出項目清單，用於下拉選單
@@ -126,7 +136,7 @@ public class SpendService extends BaseService {
 				record.add(String.valueOf(dto.getSpendId()));
 				record.add(dto.getSpendDate());
 				record.add(dto.getSpendItmeName());
-				record.add(dto.getAmount().toString());
+				record.add(getCommon.getNoZeroAmnt(decimalFormat.format(dto.getAmount())));
 				record.add("");
 
 				dataList.add(record);
