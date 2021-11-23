@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import net.spark9092.MySimpleBook.dto.main.TransferListDto;
+import net.spark9092.MySimpleBook.dto.main.TransRecordDto;
 import net.spark9092.MySimpleBook.dto.transfer.OneDto;
 import net.spark9092.MySimpleBook.dto.transfer.RecListDto;
 import net.spark9092.MySimpleBook.dto.transfer.SelectAccountListDto;
@@ -92,7 +92,7 @@ public interface ITransferMapper {
 		@Result(column="transInAccName", property="accoInName"),
 		@Result(column="transAmnt", property="transAmnt")
 	})
-	List<TransferListDto> selectTodayListForMain(@Param("userId") int userId);
+	List<TransRecordDto> selectTodayListForMain(@Param("userId") int userId);
 
 	/**
 	 * 新增一般轉帳

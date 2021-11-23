@@ -1,6 +1,6 @@
 package net.spark9092.MySimpleBook.dto.main;
 
-public class AccountListDto {
+public class AccRecordDto {
 	
 	private String accName;
 	

@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import net.spark9092.MySimpleBook.dto.account.TypeListDto;
-import net.spark9092.MySimpleBook.dto.main.AccountListDto;
+import net.spark9092.MySimpleBook.dto.main.AccRecordDto;
 import net.spark9092.MySimpleBook.dto.account.DetailListDto;
 import net.spark9092.MySimpleBook.dto.account.ListDto;
 import net.spark9092.MySimpleBook.dto.account.OneDto;
@@ -86,7 +86,7 @@ public interface IAccountMapper {
 		@Result(column="name", property="accName"),
 		@Result(column="amount", property="amnt")
 	})
-	List<AccountListDto> selectTodayListForMain(@Param("userId") int userId);
+	List<AccRecordDto> selectTodayListForMain(@Param("userId") int userId);
 
 	/**
 	 * 根據 User ID，新增一個帳戶

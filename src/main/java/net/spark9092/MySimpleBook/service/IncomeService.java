@@ -24,8 +24,8 @@ import net.spark9092.MySimpleBook.dto.income.SelectAccountListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectAccountMsgDto;
 import net.spark9092.MySimpleBook.dto.income.SelectItemListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectItemMsgDto;
-import net.spark9092.MySimpleBook.dto.main.IncomeListDto;
-import net.spark9092.MySimpleBook.dto.main.IncomeListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.IncomeRecordDto;
+import net.spark9092.MySimpleBook.dto.main.IncomeRecMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.mapper.IIncomeMapper;
 import net.spark9092.MySimpleBook.pojo.income.CreatePojo;
@@ -183,11 +183,11 @@ public class IncomeService extends BaseService {
 	 * @param userId
 	 * @return
 	 */
-	public IncomeListMsgDto getTodayListForMain(int userId) {
+	public IncomeRecMsgDto getTodayListForMain(int userId) {
 
-		IncomeListMsgDto incomeListMsgDto = new IncomeListMsgDto();
+		IncomeRecMsgDto incomeListMsgDto = new IncomeRecMsgDto();
 
-		List<IncomeListDto> listDtos = iIncomeMapper.selectTodayListForMain(userId);
+		List<IncomeRecordDto> listDtos = iIncomeMapper.selectTodayListForMain(userId);
 
 		if(listDtos.size() == 0) {
 

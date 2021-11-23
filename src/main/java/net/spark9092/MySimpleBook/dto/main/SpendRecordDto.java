@@ -1,6 +1,6 @@
 package net.spark9092.MySimpleBook.dto.main;
 
-public class SpendListDto {
+public class SpendRecordDto {
 	
 	private String itemName;
 	

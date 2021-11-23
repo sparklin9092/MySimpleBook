@@ -15,7 +15,7 @@ import net.spark9092.MySimpleBook.dto.income.OneDto;
 import net.spark9092.MySimpleBook.dto.income.RecListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectAccountListDto;
 import net.spark9092.MySimpleBook.dto.income.SelectItemListDto;
-import net.spark9092.MySimpleBook.dto.main.IncomeListDto;
+import net.spark9092.MySimpleBook.dto.main.IncomeRecordDto;
 
 @Mapper
 public interface IIncomeMapper {
@@ -94,7 +94,7 @@ public interface IIncomeMapper {
 		@Result(column="itemName", property="itemName"),
 		@Result(column="amnt", property="amnt")
 	})
-	List<IncomeListDto> selectTodayListForMain(@Param("userId") int userId);
+	List<IncomeRecordDto> selectTodayListForMain(@Param("userId") int userId);
 
 	/**
 	 * 新增一筆收入資料

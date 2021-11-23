@@ -1,6 +1,6 @@
 package net.spark9092.MySimpleBook.dto.main;
 
-public class IncomeListDto {
+public class IncomeRecordDto {
 	
 	private String itemName;
 	

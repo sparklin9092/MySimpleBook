@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import net.spark9092.MySimpleBook.dto.main.SpendListDto;
+import net.spark9092.MySimpleBook.dto.main.SpendRecordDto;
 import net.spark9092.MySimpleBook.dto.spend.OneDto;
 import net.spark9092.MySimpleBook.dto.spend.RecListDto;
 import net.spark9092.MySimpleBook.dto.spend.SelectAccountListDto;
@@ -94,7 +94,7 @@ public interface ISpendMapper {
 		@Result(column="itemName", property="itemName"),
 		@Result(column="amnt", property="amnt")
 	})
-	List<SpendListDto> selectTodayListForMain(@Param("userId") int userId);
+	List<SpendRecordDto> selectTodayListForMain(@Param("userId") int userId);
 
 	/**
 	 * 新增一筆支出

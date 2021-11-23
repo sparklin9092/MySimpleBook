@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.GetCommon;
-import net.spark9092.MySimpleBook.dto.main.SpendListDto;
-import net.spark9092.MySimpleBook.dto.main.SpendListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.SpendRecordDto;
+import net.spark9092.MySimpleBook.dto.main.SpendRecMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.DeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.spend.ModifyMsgDto;
@@ -183,11 +183,11 @@ public class SpendService extends BaseService {
 	 * @param userId
 	 * @return
 	 */
-	public SpendListMsgDto getTodayListForMain(int userId) {
+	public SpendRecMsgDto getTodayListForMain(int userId) {
 
-		SpendListMsgDto spendListMsgDto = new SpendListMsgDto();
+		SpendRecMsgDto spendListMsgDto = new SpendRecMsgDto();
 
-		List<SpendListDto> listDtos = iSpendMapper.selectTodayListForMain(userId);
+		List<SpendRecordDto> listDtos = iSpendMapper.selectTodayListForMain(userId);
 
 		if(listDtos.size() == 0) {
 

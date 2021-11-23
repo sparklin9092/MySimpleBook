@@ -1,11 +1,11 @@
 package net.spark9092.MySimpleBook.dto.main;
 
-public class TransferListDto {
-	
+public class TransRecordDto {
+
 	private String accOutName;
-	
+
 	private String accoInName;
-	
+
 	private String transAmnt;
 
 	public String getAccOutName() {

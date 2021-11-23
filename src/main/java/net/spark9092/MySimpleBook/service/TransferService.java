@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.spark9092.MySimpleBook.common.CheckCommon;
 import net.spark9092.MySimpleBook.common.GetCommon;
-import net.spark9092.MySimpleBook.dto.main.TransferListDto;
-import net.spark9092.MySimpleBook.dto.main.TransferListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.TransRecordDto;
+import net.spark9092.MySimpleBook.dto.main.TransRecMsgDto;
 import net.spark9092.MySimpleBook.dto.transfer.CreateMsgDto;
 import net.spark9092.MySimpleBook.dto.transfer.DeleteMsgDto;
 import net.spark9092.MySimpleBook.dto.transfer.ModifyMsgDto;
@@ -156,11 +156,11 @@ public class TransferService extends BaseService {
 	 * @param userId
 	 * @return
 	 */
-	public TransferListMsgDto getTodayListForMain(int userId) {
+	public TransRecMsgDto getTodayListForMain(int userId) {
 
-		TransferListMsgDto transferListMsgDto = new TransferListMsgDto();
+		TransRecMsgDto transferListMsgDto = new TransRecMsgDto();
 
-		List<TransferListDto> listDtos = iTransferMapper.selectTodayListForMain(userId);
+		List<TransRecordDto> listDtos = iTransferMapper.selectTodayListForMain(userId);
 
 		if(listDtos.size() == 0) {
 

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.spark9092.MySimpleBook.dto.main.AccountListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.AccRecMsgDto;
 import net.spark9092.MySimpleBook.dto.main.CheckGuestMsgDto;
-import net.spark9092.MySimpleBook.dto.main.IncomeListMsgDto;
-import net.spark9092.MySimpleBook.dto.main.SpendListMsgDto;
-import net.spark9092.MySimpleBook.dto.main.TransferListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.IncomeRecMsgDto;
+import net.spark9092.MySimpleBook.dto.main.SpendRecMsgDto;
+import net.spark9092.MySimpleBook.dto.main.TransRecMsgDto;
 import net.spark9092.MySimpleBook.dto.richCode.ListDto;
 import net.spark9092.MySimpleBook.dto.richCode.ListMsgDto;
 import net.spark9092.MySimpleBook.entity.UserInfoEntity;
@@ -108,7 +108,7 @@ public class MainController {
 	}
 
 	@PostMapping("/transfer/list")
-    public TransferListMsgDto getTransferList(HttpSession session) {
+    public TransRecMsgDto getTransferList(HttpSession session) {
 		
 		try {
 			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
@@ -117,7 +117,7 @@ public class MainController {
 			//如果延遲出錯也沒關係
 		}
 
-		TransferListMsgDto transferListMsgDto = new TransferListMsgDto();
+		TransRecMsgDto transferListMsgDto = new TransRecMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
@@ -136,7 +136,7 @@ public class MainController {
 	}
 
 	@PostMapping("/income/list")
-    public IncomeListMsgDto getIncomeList(HttpSession session) {
+    public IncomeRecMsgDto getIncomeList(HttpSession session) {
 		
 		try {
 			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
@@ -145,7 +145,7 @@ public class MainController {
 			//如果延遲出錯也沒關係
 		}
 
-		IncomeListMsgDto incomeListMsgDto = new IncomeListMsgDto();
+		IncomeRecMsgDto incomeListMsgDto = new IncomeRecMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
@@ -164,7 +164,7 @@ public class MainController {
 	}
 
 	@PostMapping("/spend/list")
-    public SpendListMsgDto getSpendList(HttpSession session) {
+    public SpendRecMsgDto getSpendList(HttpSession session) {
 		
 		try {
 			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
@@ -173,7 +173,7 @@ public class MainController {
 			//如果延遲出錯也沒關係
 		}
 
-		SpendListMsgDto spendListMsgDto = new SpendListMsgDto();
+		SpendRecMsgDto spendListMsgDto = new SpendRecMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 
@@ -192,7 +192,7 @@ public class MainController {
 	}
 
 	@PostMapping("/account/list")
-    public AccountListMsgDto getAccountList(HttpSession session) {
+    public AccRecMsgDto getAccountList(HttpSession session) {
 		
 		try {
 			//對前端請求進行延遲處理，避免過度刷新，導致IO量太大
@@ -201,7 +201,7 @@ public class MainController {
 			//如果延遲出錯也沒關係
 		}
 
-		AccountListMsgDto accountListMsgDto = new AccountListMsgDto();
+		AccRecMsgDto accountListMsgDto = new AccRecMsgDto();
 
 		UserInfoEntity userInfoEntity = (UserInfoEntity) session.getAttribute(SessinNameEnum.USER_INFO.getName());
 

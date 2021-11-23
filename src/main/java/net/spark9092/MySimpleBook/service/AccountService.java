@@ -21,8 +21,8 @@ import net.spark9092.MySimpleBook.dto.account.OneDto;
 import net.spark9092.MySimpleBook.dto.account.OneMsgDto;
 import net.spark9092.MySimpleBook.dto.account.TypeListDto;
 import net.spark9092.MySimpleBook.dto.account.TypeListMsgDto;
-import net.spark9092.MySimpleBook.dto.main.AccountListDto;
-import net.spark9092.MySimpleBook.dto.main.AccountListMsgDto;
+import net.spark9092.MySimpleBook.dto.main.AccRecordDto;
+import net.spark9092.MySimpleBook.dto.main.AccRecMsgDto;
 import net.spark9092.MySimpleBook.mapper.IAccountMapper;
 import net.spark9092.MySimpleBook.pojo.account.CreatePojo;
 import net.spark9092.MySimpleBook.pojo.account.DeletePojo;
@@ -143,11 +143,11 @@ public class AccountService extends BaseService {
 	 * @param userId
 	 * @return
 	 */
-	public AccountListMsgDto getTodayListForMain(int userId) {
+	public AccRecMsgDto getTodayListForMain(int userId) {
 
-		AccountListMsgDto accountListMsgDto = new AccountListMsgDto();
+		AccRecMsgDto accountListMsgDto = new AccRecMsgDto();
 
-		List<AccountListDto> listDtos = iAccountMapper.selectTodayListForMain(userId);
+		List<AccRecordDto> listDtos = iAccountMapper.selectTodayListForMain(userId);
 
 		if(listDtos.size() == 0) {
 
