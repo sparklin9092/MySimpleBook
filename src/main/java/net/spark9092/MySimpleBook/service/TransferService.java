@@ -168,6 +168,10 @@ public class TransferService extends BaseService {
 			transferListMsgDto.setMsg("今天沒有轉帳紀錄。");
 
 		} else {
+			//處理金額格式化
+			listDtos.stream().forEach(dto -> {
+				dto.setTransAmnt(getCommon.getNoZeroAmnt(decimalFormat.format(new BigDecimal(dto.getTransAmnt()))));
+			});
 
 			transferListMsgDto.setListDtos(listDtos);
 			transferListMsgDto.setStatus(true);

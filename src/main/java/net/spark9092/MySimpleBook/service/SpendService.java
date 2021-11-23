@@ -195,6 +195,10 @@ public class SpendService extends BaseService {
 			spendListMsgDto.setMsg("水喔！今天還沒有支出，但還是要記得吃飯喔。");
 
 		} else {
+			//處理金額格式化
+			listDtos.stream().forEach(dto -> {
+				dto.setAmnt(getCommon.getNoZeroAmnt(decimalFormat.format(new BigDecimal(dto.getAmnt()))));
+			});
 
 			spendListMsgDto.setListDtos(listDtos);
 			spendListMsgDto.setStatus(true);

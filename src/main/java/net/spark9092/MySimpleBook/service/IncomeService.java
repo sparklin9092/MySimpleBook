@@ -195,6 +195,10 @@ public class IncomeService extends BaseService {
 			incomeListMsgDto.setMsg("沒關係，今天還沒有收入，明天再加把勁！");
 
 		} else {
+			//處理金額格式化
+			listDtos.stream().forEach(dto -> {
+				dto.setAmnt(getCommon.getNoZeroAmnt(decimalFormat.format(new BigDecimal(dto.getAmnt()))));
+			});
 
 			incomeListMsgDto.setListDtos(listDtos);
 			incomeListMsgDto.setStatus(true);

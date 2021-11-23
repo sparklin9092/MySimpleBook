@@ -155,6 +155,10 @@ public class AccountService extends BaseService {
 			accountListMsgDto.setMsg("還沒有帳戶嗎？去新增一個吧！");
 
 		} else {
+			//處理金額格式化
+			listDtos.stream().forEach(dto -> {
+				dto.setAmnt(getCommon.getNoZeroAmnt(decimalFormat.format(new BigDecimal(dto.getAmnt()))));
+			});
 
 			accountListMsgDto.setListDtos(listDtos);
 			accountListMsgDto.setStatus(true);
