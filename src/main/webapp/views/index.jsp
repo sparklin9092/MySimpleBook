@@ -37,6 +37,7 @@
 			</div>
 		</div>
 	</div>
+	<!--
 	<div class="container-fluid my-4" id="socialCard">
 		<div class="container-xl">
 			<div class="row social-bg py-3 mx-2 rounded">
@@ -116,6 +117,7 @@
 			</div>
 		</div>
 	</div>
+	-->
 	<input type="hidden" id="user" name="user" value="${user}">
 	<jsp:include page="/views/include/footer.jsp"></jsp:include>
 	<script type="text/javascript" src="/js/index.js"></script>
