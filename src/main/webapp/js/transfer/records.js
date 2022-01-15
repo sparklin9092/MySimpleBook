@@ -133,7 +133,7 @@ function changeDataRange() {
 					endDate = moment().endOf('month').format('YYYY-MM-DD');
 					reloadTable(startDate, endDate);
 				} else if(dateRange == 180) {
-					startDate = moment().subtract(6, 'months').startOf('month').format('YYYY-MM-DD');
+					startDate = moment().subtract(5, 'months').startOf('month').format('YYYY-MM-DD');
 					endDate = moment().endOf('month').format('YYYY-MM-DD');
 					reloadTable(startDate, endDate);
 				} else if(dateRange == -1) {
