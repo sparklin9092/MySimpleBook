@@ -11,7 +11,7 @@ $(function() {
 	$('#moreSpendRecords').on('click', spendRecView);
 	$('#moreAccRecords').on('click', accountView);
 	
-	initRichCodeList();
+	//initRichCodeList();
 	
 	queryTransferRecord();
 	queryIncomeRecord();
