@@ -10,9 +10,6 @@
 	<div class="container-fluid pb-5 mb-5">
 		<div class="container-xl">
 			<h3 class="text-center">轉帳紀錄</h3>
-			<div class="row">
-				<div class="col">查詢日期</div>
-			</div>
 			<div class="row mb-3 pb-2 border-bottom">
 				<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 d-grid gap-2">
 					<button type="button" class="btn btn-info range-btn" id="todayBtn" name="changeDateRangeBtn" data-range="1">今天</button>
@@ -21,13 +18,13 @@
 					<button type="button" class="btn btn-outline-info range-btn" id="yesterdayBtn" name="changeDateRangeBtn" data-range="2">昨天</button>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 d-grid gap-2">
-					<button type="button" class="btn btn-outline-info range-btn" id="thisWeekBtn" name="changeDateRangeBtn" data-range="7">這個星期</button>
-				</div>
-				<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 d-grid gap-2">
 					<button type="button" class="btn btn-outline-info range-btn" id="thisMonthBtn" name="changeDateRangeBtn" data-range="30">這個月</button>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 d-grid gap-2">
 					<button type="button" class="btn btn-outline-info range-btn" id="beforeThreeMonthBtn" name="changeDateRangeBtn" data-range="90">前三個月</button>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 d-grid gap-2">
+					<button type="button" class="btn btn-outline-info range-btn" id="beforeSixMonthBtn" name="changeDateRangeBtn" data-range="180">前六個月</button>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 d-grid gap-2">
 					<button type="button" class="btn btn-outline-info range-btn" id="specifyDateBtn" name="changeDateRangeBtn" data-range="-1" data-bs-toggle="modal" data-bs-target="#specifyDateModal">指定日期</button>

@@ -36,7 +36,7 @@ public interface ITransferMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select id, date_format(trans_date, '%m月%d日') as transDate, "
+	@Select("select id, date_format(trans_date, '%Y/%m/%d') as transDate, "
 			+ " (select name from account where id = out_acc_id) transOutAccName, "
 			+ "	if(is_outside = 1, "
 			+ "    if(outside_acc_name is null or outside_acc_name = '', '(外部帳戶)', concat('(外部帳戶) ', outside_acc_name)), "

@@ -121,12 +121,8 @@ function changeDataRange() {
 				if(dateRange == 1) {
 					reloadTable(startDate, endDate);
 				} else if(dateRange == 2) {
-					startDate = moment().day(-1).format('YYYY-MM-DD');
-					endDate = moment().day(-1).format('YYYY-MM-DD');
-					reloadTable(startDate, endDate);
-				} else if(dateRange == 7) {
-					startDate = moment().day(-1).startOf('week').day(1).format('YYYY-MM-DD');
-					endDate = moment().day(-1).endOf('week').add(1, 'days').format('YYYY-MM-DD');
+					startDate = moment().subtract(1, 'day').format('YYYY-MM-DD');
+					endDate = moment().subtract(1, 'day').format('YYYY-MM-DD');
 					reloadTable(startDate, endDate);
 				} else if(dateRange == 30) {
 					startDate = moment().startOf('month').format('YYYY-MM-DD');
@@ -134,6 +130,10 @@ function changeDataRange() {
 					reloadTable(startDate, endDate);
 				} else if(dateRange == 90) {
 					startDate = moment().subtract(2, 'months').startOf('month').format('YYYY-MM-DD');
+					endDate = moment().endOf('month').format('YYYY-MM-DD');
+					reloadTable(startDate, endDate);
+				} else if(dateRange == 180) {
+					startDate = moment().subtract(6, 'months').startOf('month').format('YYYY-MM-DD');
 					endDate = moment().endOf('month').format('YYYY-MM-DD');
 					reloadTable(startDate, endDate);
 				} else if(dateRange == -1) {

@@ -51,7 +51,7 @@ public interface ISpendMapper {
 	 * @param endDate
 	 * @return
 	 */
-	@Select("select id, date_format(spend_date, '%m月%d日') as spendDate, amount, "
+	@Select("select id, date_format(spend_date, '%Y/%m/%d') as spendDate, amount, "
 			+ " (select name from spend_items where id=item_id) as spendItmeName "
 			+ " from spend "
 			+ " where user_id=#{userId} and is_delete=0 and spend_date >= #{startDate} and spend_date <= #{endDate}")
