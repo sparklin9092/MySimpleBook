@@ -10,7 +10,9 @@
 				-->
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-end">
+				<!--
 				<a href="https://www.spark9092.com" target="_blank">LIN JIA WEI</a> © 2021
+				-->
 			</div>
 		</div>
 	</div>
