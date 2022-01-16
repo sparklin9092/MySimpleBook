@@ -11,3 +11,14 @@
 6. 回到最上面的按鈕，點擊「Save changes」按鈕，保存剛才修改的時區。
 7. 找個適合的時間，重啟 DB Server。
 8. 之後寫入資料庫的時間，就會自動 UTC+8 了。
+
+---
+
+# 如何修改Local端的Root密碼
+
+> on Windows 10, and version is 8
+
+1. 打開 MySQL Command Line Cliend
+2. 輸入 use mysql;
+3. 輸入 alter user 'root'@'localhost' identified by 'Spark9092';
+4. 輸入 flush privileges; --讓設定立即生效
