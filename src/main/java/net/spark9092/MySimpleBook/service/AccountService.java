@@ -371,8 +371,6 @@ public class AccountService extends BaseService {
 	 */
 	public DetailMsgDto getDetailListByUserId(DetailPojo detailPojo) {
 		DetailMsgDto msgDto = new DetailMsgDto();
-
-//		OneMsgDto oneMsgDto = getOneByIds(, );
 		OneDto oneDto = iAccountMapper.selectOneByIds(detailPojo.getAccountId(), detailPojo.getUserId());
 		if(null == oneDto) {
 			msgDto.setStatus(false);

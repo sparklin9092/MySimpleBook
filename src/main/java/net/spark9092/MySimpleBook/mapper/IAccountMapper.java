@@ -174,19 +174,19 @@ public interface IAccountMapper {
 	 * @param endDate
 	 * @return
 	 */
-	@Select("select s.id, date_format(s.spend_date, '%m月%d日') as dDate, si.name as itemName, s.amount as amnt, s.remark as remark, 's' as dType "
+	@Select("select s.id, date_format(s.spend_date, '%Y/%m/%d') as dDate, si.name as itemName, s.amount as amnt, s.remark as remark, 's' as dType "
 			+ " from spend s left join spend_items si on si.id = s.item_id "
 			+ " where s.is_delete='0' and s.user_id=#{userId} and s.account_id=#{accountId} and s.spend_date >= #{startDate} and s.spend_date <= #{endDate} "
 			+ " UNION ALL "
-			+ " select i.id, date_format(i.income_date, '%m月%d日') as dDate, ii.name as itemName, i.amount as amnt, i.remark as remark, 'i' as dType "
+			+ " select i.id, date_format(i.income_date, '%Y/%m/%d') as dDate, ii.name as itemName, i.amount as amnt, i.remark as remark, 'i' as dType "
 			+ " from income i left join income_items ii on ii.id = i.item_id "
 			+ " where i.is_delete='0' and i.user_id=#{userId} and i.account_id=#{accountId} and i.income_date >= #{startDate} and i.income_date <= #{endDate} "
 			+ " UNION ALL "
-			+ " select t.id, date_format(t.trans_date, '%m月%d日') as dDate, '轉出' as itemName, t.amount as amnt, t.remark as remark, 't' as dType "
+			+ " select t.id, date_format(t.trans_date, '%Y/%m/%d') as dDate, '轉出' as itemName, t.amount as amnt, t.remark as remark, 't' as dType "
 			+ " from transfer t "
 			+ " where t.is_delete='0' and t.user_id=#{userId} and t.out_acc_id=#{accountId} and t.trans_date >= #{startDate} and t.trans_date <= #{endDate} "
 			+ " UNION ALL "
-			+ " select t.id, date_format(t.trans_date, '%m月%d日') as dDate, '轉入' as itemName, t.amount as amnt, t.remark as remark, 't' as dType "
+			+ " select t.id, date_format(t.trans_date, '%Y/%m/%d') as dDate, '轉入' as itemName, t.amount as amnt, t.remark as remark, 't' as dType "
 			+ " from transfer t "
 			+ " where t.is_delete='0' and t.user_id=#{userId} and t.in_acc_id=#{accountId} and t.trans_date >= #{startDate} and t.trans_date <= #{endDate}")
 	@Results({
